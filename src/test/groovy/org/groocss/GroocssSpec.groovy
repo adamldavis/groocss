@@ -42,4 +42,24 @@ class GroocssSpec extends Specification {
         "$css" == ".a{color: black;\n\tbackground: white;\n\ttransition: 500ms;}"
     }
 
+    def should_create_keyframes() {
+        when:
+        def css = GrooCSS.runBlock {
+            keyframes('bounce') {
+                frame(40) {
+                    transform 'translateY(-30px)'
+                }
+                frame([0,20,50,80,100]) {
+                    transform 'translateY(0)'
+                }
+            }
+        }
+        then:
+        "$css" == """@keyframes bounce {
+40%{transform: translateY(-30px);}
+0%, 20%, 50%, 80%, 100%{transform: translateY(0);}
+}"""
+    }
+
+
 }
