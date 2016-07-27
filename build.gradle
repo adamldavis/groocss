@@ -1,8 +1,9 @@
 apply plugin: "groovy"
 apply plugin: "application"
+apply plugin: 'maven'
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -14,3 +15,35 @@ applicationName = "groocss"
 mainClassName= 'org.groocss.GrooCSS'
 version="0.1.0"
 
+task pom << {
+    pom {
+        project {
+            packaging 'jar'
+            groupId 'org.groocss'
+            inceptionYear '2016'
+            url 'http://groocss.org/'
+            name 'GrooCSS'
+            description 'the missing piece for full-stack Groovy; write compile-time checked CSS in Groovy'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            developers {
+                developer {
+                    name 'Adam L. Davis'
+                    email 'adamd@adamldavis.com'
+                    organization 'The Solution Design Group, Inc.'
+                    organizationUrl 'http://thesdg.com/'
+                }
+            }
+            scm {
+                connection 'scm:git:git://github.com/adamldavis/groocss.git'
+                developerConnection 'scm:git:ssh://git@github.com:adamldavis/groocss.git'
+                url 'https://github.com/adamldavis/groocss'
+            }
+        }
+    }.writeTo("$buildDir/pom.xml")
+}
