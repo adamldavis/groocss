@@ -7,10 +7,28 @@ import groovy.transform.*
 @CompileStatic
 class GrooCSS extends Script {
     
-    static class CSS {
-        List groups = []
-        def leftShift(StyleGroup sg) { groups << sg }
-        String toString() { groups.join('\n') }
+    static class Wrapper {
+        String name
+        List<StyleGroup> groups = []
+        List<Wrapper> children = []
+        void leftShift(StyleGroup sg) { groups << sg }
+        void leftShift(Wrapper w) { children << w }
+        String toString() {
+            if (name) "$name {\n ${groups.join('\n')} \n}"
+            else groups.join('\n')
+        }
+
+        Wrapper sel(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+            StyleGroup sg = new StyleGroup(selector: selector)
+            clos.delegate = sg
+            clos()
+            this << sg
+            this
+        }
+
+        Wrapper sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+            sel(selector, clos)
+        }
     }
 
     static void convert(String inFilename, String outFilename) {
@@ -23,7 +41,7 @@ class GrooCSS extends Script {
         config.scriptBaseClass = 'org.groocss.GrooCSS'
         def shell = new GroovyShell(this.class.classLoader, binding, config)
         
-        CSS css = (CSS) shell.evaluate(inf)
+        Wrapper css = (Wrapper) shell.evaluate(inf)
         
         out.withPrintWriter { pw ->
             css.groups.each { pw.println it }
@@ -35,24 +53,32 @@ class GrooCSS extends Script {
             convert(args[0], args[0].replace('.groocss', '.css'))
     }
     
-    CSS css = new CSS()
+    Wrapper css = new Wrapper()
 
     public String toString() { css.toString() }
 
-    CSS sel(String selector, @DelegatesTo(StyleGroup) Closure clos) {
-        StyleGroup sg = new StyleGroup(selector: selector)
-        clos.delegate = sg
+    Wrapper media(String spec, @DelegatesTo(Wrapper) Closure clos) {
+        wrap("@media $spec", clos)
+    }
+
+    Wrapper keyframes(String name, @DelegatesTo(Wrapper) Closure clos) {
+        wrap("@keyframes $name", clos)
+    }
+
+    Wrapper wrap(String spec, @DelegatesTo(Wrapper) Closure clos) {
+        Wrapper wrapper = new Wrapper()
+        clos.delegate = wrapper
         clos()
-        css << sg
-        css
+        css << wrapper
+        wrapper
     }
-    
-    CSS sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
-        sel(selector, clos)
+
+    Wrapper sel(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+        css.sel(selector, clos)
     }
-    
-    CSS css(String selector, @DelegatesTo(StyleGroup) Closure clos) {
-        sel(selector, clos)
+
+    Wrapper sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+        css.sel(selector, clos)
     }
     
     Style style(@DelegatesTo(Style) Closure clos) {

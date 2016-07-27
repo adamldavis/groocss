@@ -21,7 +21,7 @@ class GroocssSpec extends Specification {
         def css = GrooCSS.runBlock {
             sel('.a') {}
             sel('.b') {}
-            css('.c') {}
+            sg('.c') {}
         }.css
         then:
         css.groups.size() == 3
