@@ -9,7 +9,7 @@ class GroocssSpec extends Specification {
 
     def should_create_a_css() {
         when:
-        def css = GrooCSS.runBlock {
+        def css = GrooCSS.process {
             sg('.class') {}
         }
         then:
@@ -18,7 +18,7 @@ class GroocssSpec extends Specification {
 
     def should_create_rules() {
         when:
-        def css = GrooCSS.runBlock {
+        def css = GrooCSS.process {
             sel('.a') {}
             sel('.b') {}
             sg('.c') {}
@@ -30,7 +30,7 @@ class GroocssSpec extends Specification {
 
     def should_set_styles() {
         when:
-        def css = GrooCSS.runBlock {
+        def css = GrooCSS.process {
             sg('.a') {
                 color('black')
                 background('white')
@@ -44,7 +44,7 @@ class GroocssSpec extends Specification {
 
     def should_create_keyframes() {
         when:
-        def css = GrooCSS.runBlock {
+        def css = GrooCSS.process {
             keyframes('bounce') {
                 frame(40) {
                     transform 'translateY(-30px)'

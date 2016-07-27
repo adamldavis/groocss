@@ -103,6 +103,10 @@ class GrooCSS extends Script {
     
     def run() {}
 
+    static GrooCSS process(@DelegatesTo(GrooCSS) Closure clos) {
+        runBlock(clos)
+    }
+
     static GrooCSS runBlock(@DelegatesTo(GrooCSS) Closure clos) {
         GrooCSS gcss = new GrooCSS()
         clos.delegate = gcss
