@@ -5,6 +5,7 @@ The missing piece for full-stack Groovy. Like [Less](http://lesscss.org/) but wi
 
 - Write compile-time checked CSS in Groovy
 - Use a natural Groovy DSL for CSS with code completion if your IDE supports it
+- keyframes support!
 - _(coming) Automatically supports WebKit, MS, etc... extensions_
 
 ## Examples
@@ -19,12 +20,12 @@ The missing piece for full-stack Groovy. Like [Less](http://lesscss.org/) but wi
 
     import org.groocss.GrooCSS
     
-    def css = GrooCSS.runBlock {
+    def css = GrooCSS.process {
         sg('.class') { borderColor '#123456' }
     }
     new File('out.css').text = "$css"
 
-### DSL
+### Styles DSL
 
     def myColor = '#fe33ac'
 
@@ -39,3 +40,27 @@ The missing piece for full-stack Groovy. Like [Less](http://lesscss.org/) but wi
         color myColor
     }
 
+### Keyframes DSL
+
+    def css = GrooCSS.process {
+        keyframes('bounce') {
+            frame(40) {
+                transform 'translateY(-30px)'
+            }
+            frame(60) {
+                transform 'translateY(-15px)'
+            }
+            frame([0,20,50,80,100]) {
+                transform 'translateY(0)'
+            }
+        }
+    }
+    
+Produces:
+
+    @keyframes bounce {
+    40%{transform: translateY(-30px);}
+    60%{transform: translateY(-15px);}
+    0%, 20%, 50%, 80%, 100%{transform: translateY(0);}
+    }
+    
