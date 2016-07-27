@@ -1,0 +1,16 @@
+apply plugin: "groovy"
+apply plugin: "application"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.5'
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+}
+
+applicationName = "groocss"
+mainClassName= 'org.groocss.GrooCSS'
+version="0.1.0"
+
