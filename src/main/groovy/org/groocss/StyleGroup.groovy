@@ -867,18 +867,21 @@ class StyleGroup {
     StyleGroup transform (value) {
         styles << new Style(name: 'transform', value: "$value")
         cloneTrio(styles[-1])
+        if (config.addMs) styles << cloneMs(styles[-1])
         this
     }
     /* Sets or returns the position of transformed elements */
     StyleGroup transformOrigin (value) {
         styles << new Style(name: 'transformOrigin', value: "$value")
         cloneTrio(styles[-1])
+        if (config.addMs) styles << cloneMs(styles[-1])
         this
     }
     /* Sets or returns how nested elements are rendered in 3D space */
     StyleGroup transformStyle (value) {
         styles << new Style(name: 'transformStyle', value: "$value")
         cloneTrio(styles[-1])
+        if (config.addMs) styles << cloneMs(styles[-1])
         this
     }
     /* A shorthand property for setting or returning the four transition properties */

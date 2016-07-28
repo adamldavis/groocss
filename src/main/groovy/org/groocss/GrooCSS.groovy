@@ -39,7 +39,7 @@ class GrooCSS extends Script {
         }
 
         KeyFrames frame(List<Integer> percents, @DelegatesTo(StyleGroup) Closure clos) {
-            StyleGroup sg = new StyleGroup(selector: percents.collect{"${it}%"}.join(", "))
+            StyleGroup sg = new StyleGroup(selector: percents.collect{"${it}%"}.join(", "), config: config)
             clos.delegate = sg
             clos()
             this << sg

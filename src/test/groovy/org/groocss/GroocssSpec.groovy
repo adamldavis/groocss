@@ -59,7 +59,7 @@ class GroocssSpec extends Specification {
 
     def should_create_keyframes() {
         when:
-        def css = GrooCSS.process(new Config(addWebkit: false)) {
+        def css = GrooCSS.process(new Config(addWebkit: false, addMoz: false, addOpera: false)) {
             keyframes('bounce') {
                 frame(40) {
                     transform 'translateY(-30px)'
@@ -71,8 +71,8 @@ class GroocssSpec extends Specification {
         }
         then:
         "$css" == """@keyframes bounce {
-40%{transform: translateY(-30px);}
-0%, 20%, 50%, 80%, 100%{transform: translateY(0);}
+40%{transform: translateY(-30px);\n\t-ms-transform: translateY(-30px);}
+0%, 20%, 50%, 80%, 100%{transform: translateY(0);\n\t-ms-transform: translateY(0);}
 }"""
     }
 
