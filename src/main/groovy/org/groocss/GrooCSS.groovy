@@ -25,9 +25,12 @@ class GrooCSS extends Script {
     static class KeyFrames {
         String name
         List<StyleGroup> groups = []
+        Config config
+
         void leftShift(StyleGroup sg) { groups << sg }
         String toString() {
-            if (name) "$name {\n${groups.join('\n')}\n}"
+            if (name) "@keyframes $name {\n${groups.join('\n')}\n}" +
+                    (config.addWebkit ? "@-webkit-keyframes $name {\n${groups.join('\n')}\n}" : '')
             else groups.join('\n')
         }
 
@@ -67,6 +70,7 @@ class GrooCSS extends Script {
     }
     
     Wrapper css = new Wrapper()
+    Config config
 
     public String toString() { css.toString() }
 
@@ -75,7 +79,7 @@ class GrooCSS extends Script {
     }
 
     Wrapper kf(String name, @DelegatesTo(KeyFrames) Closure clos) {
-        KeyFrames frames = new KeyFrames(name: "@keyframes $name")
+        KeyFrames frames = new KeyFrames(name: name, config: config)
         clos.delegate = frames
         clos()
         css << frames
@@ -83,7 +87,7 @@ class GrooCSS extends Script {
     }
 
     Wrapper sel(String selector, @DelegatesTo(StyleGroup) Closure clos) {
-        StyleGroup sg = new StyleGroup(selector: selector)
+        StyleGroup sg = new StyleGroup(selector: selector, config: config)
         clos.delegate = sg
         clos()
         css << sg
@@ -112,12 +116,12 @@ class GrooCSS extends Script {
     
     def run() {}
 
-    static GrooCSS process(@DelegatesTo(GrooCSS) Closure clos) {
-        runBlock(clos)
+    static GrooCSS process(Config config = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
+        runBlock(config, clos)
     }
 
-    static GrooCSS runBlock(@DelegatesTo(GrooCSS) Closure clos) {
-        GrooCSS gcss = new GrooCSS()
+    static GrooCSS runBlock(Config config = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
+        GrooCSS gcss = new GrooCSS(config: config)
         clos.delegate = gcss
         clos()
         gcss

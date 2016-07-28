@@ -39,7 +39,8 @@ class GroocssSpec extends Specification {
         }.css
         then:
         css.groups.size() == 1
-        "$css" == ".a{color: black;\n\tbackground: white;\n\ttransition: 500ms;}"
+        "$css" == ".a{color: black;\n\tbackground: white;\n\ttransition: 500ms;" +
+                "\n\t-webkit-transition: 500ms;\n\t-moz-transition: 500ms;\n\t-o-transition: 500ms;}"
     }
 
     def should_set_colors() {
@@ -58,7 +59,7 @@ class GroocssSpec extends Specification {
 
     def should_create_keyframes() {
         when:
-        def css = GrooCSS.process {
+        def css = GrooCSS.process(new Config(addWebkit: false)) {
             keyframes('bounce') {
                 frame(40) {
                     transform 'translateY(-30px)'

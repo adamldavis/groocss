@@ -8,6 +8,8 @@ class StyleGroup {
     String selector
 
     List<Style> styles = []
+
+    Config config
     
     public void leftShift(Style style) { styles << style }
 
@@ -18,6 +20,15 @@ class StyleGroup {
     
     String toString() {
         selector + '{' + styles.join('\n\t') + '}'
+    }
+    Style cloneWebkit(Style s) { new Style(name: '-webkit-' + s.name, value: s.value) }
+    Style cloneMoz(Style s) { new Style(name: '-moz-' + s.name, value: s.value) }
+    Style cloneMs(Style s) { new Style(name: '-ms-' + s.name, value: s.value) }
+    Style cloneOpera(Style s) { new Style(name: '-o-' + s.name, value: s.value) }
+    void cloneTrio(Style style) {
+        if (config.addWebkit) styles << cloneWebkit(style)
+        if (config.addMoz) styles << cloneMoz(style)
+        if (config.addOpera) styles << cloneOpera(style)
     }
     
     /* Sets or returns the alignment between the lines inside a flexible container when the items do not use all available space */
@@ -38,46 +49,55 @@ class StyleGroup {
     /* A shorthand property for all the animation properties below, except the animationPlayState property */
     StyleGroup animation (value) {
         styles << new Style(name: 'animation', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns when the animation will start */
     StyleGroup animationDelay (value) {
         styles << new Style(name: 'animationDelay', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns whether or not the animation should play in reverse on alternate cycles */
     StyleGroup animationDirection (value) {
         styles << new Style(name: 'animationDirection', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns how many seconds or milliseconds an animation takes to complete one cycle */
     StyleGroup animationDuration (value) {
         styles << new Style(name: 'animationDuration', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns what values are applied by the animation outside the time it is executing */
     StyleGroup animationFillMode (value) {
         styles << new Style(name: 'animationFillMode', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns the number of times an animation should be played */
     StyleGroup animationIterationCount (value) {
         styles << new Style(name: 'animationIterationCount', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns a name for the @keyframes animation */
     StyleGroup animationName (value) {
         styles << new Style(name: 'animationName', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns the speed curve of the animation */
     StyleGroup animationTimingFunction (value) {
         styles << new Style(name: 'animationTimingFunction', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns whether the animation is running or paused */
     StyleGroup animationPlayState (value) {
         styles << new Style(name: 'animationPlayState', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns all the background properties in one declaration */
@@ -423,41 +443,49 @@ class StyleGroup {
     /* Sets or returns image filters (visual effects, like blur and saturation) */
     StyleGroup filter (value) {
         styles << new Style(name: 'filter', value: "$value")
+        if (config.addMs) styles << cloneMs(styles[-1])
         this
     }
     /* Sets or returns the length of the item, relative to the rest */
     StyleGroup flex (value) {
         styles << new Style(name: 'flex', value: "$value")
+        if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /* Sets or returns the initial length of a flexible item */
     StyleGroup flexBasis (value) {
         styles << new Style(name: 'flexBasis', value: "$value")
+        if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /* Sets or returns the direction of the flexible items */
     StyleGroup flexDirection (value) {
         styles << new Style(name: 'flexDirection', value: "$value")
+        if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /* A shorthand property for the flexDirection and the flexWrap properties */
     StyleGroup flexFlow (value) {
         styles << new Style(name: 'flexFlow', value: "$value")
+        if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /* Sets or returns how much the item will grow relative to the rest */
     StyleGroup flexGrow (value) {
         styles << new Style(name: 'flexGrow', value: "$value")
+        if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /* Sets or returns how the item will shrink relative to the rest */
     StyleGroup flexShrink (value) {
         styles << new Style(name: 'flexShrink', value: "$value")
+        if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /* Sets or returns whether the flexible items should wrap or not */
     StyleGroup flexWrap (value) {
         styles << new Style(name: 'flexWrap', value: "$value")
+        if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /* Sets or returns the horizontal alignment of an element */
@@ -838,41 +866,49 @@ class StyleGroup {
     /* Applies a 2D or 3D transformation to an element */
     StyleGroup transform (value) {
         styles << new Style(name: 'transform', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns the position of transformed elements */
     StyleGroup transformOrigin (value) {
         styles << new Style(name: 'transformOrigin', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns how nested elements are rendered in 3D space */
     StyleGroup transformStyle (value) {
         styles << new Style(name: 'transformStyle', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* A shorthand property for setting or returning the four transition properties */
     StyleGroup transition (value) {
         styles << new Style(name: 'transition', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns the CSS property that the transition effect is for */
     StyleGroup transitionProperty (value) {
         styles << new Style(name: 'transitionProperty', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns how many seconds or milliseconds a transition effect takes to complete */
     StyleGroup transitionDuration (value) {
         styles << new Style(name: 'transitionDuration', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns the speed curve of the transition effect */
     StyleGroup transitionTimingFunction (value) {
         styles << new Style(name: 'transitionTimingFunction', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns when the transition effect will start */
     StyleGroup transitionDelay (value) {
         styles << new Style(name: 'transitionDelay', value: "$value")
+        cloneTrio(styles[-1])
         this
     }
     /* Sets or returns whether the text should be overridden to support multiple languages in the same document */
