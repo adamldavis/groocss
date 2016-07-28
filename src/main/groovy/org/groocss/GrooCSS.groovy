@@ -100,6 +100,15 @@ class GrooCSS extends Script {
         clos()
         s
     }
+
+    /**
+     * Creates a new org.groocss.Color object.
+     * @param colorStr e.g. "#123456"
+     * @return A Color object.
+     */
+    Color c(String colorStr) {
+        new Color(colorStr)
+    }
     
     def run() {}
 

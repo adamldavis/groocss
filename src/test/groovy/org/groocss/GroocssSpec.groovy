@@ -42,6 +42,20 @@ class GroocssSpec extends Specification {
         "$css" == ".a{color: black;\n\tbackground: white;\n\ttransition: 500ms;}"
     }
 
+    def should_set_colors() {
+        when:
+        def css = GrooCSS.process {
+            def sea = c('5512ab')
+            sg('.sea') {
+                color(sea.darker())
+                background(sea.brighter())
+            }
+        }.css
+        then:
+        css.groups.size() == 1
+        "$css" == ".sea{color: #3b0c77;\n\tbackground: #7919f4;}"
+    }
+
     def should_create_keyframes() {
         when:
         def css = GrooCSS.process {
