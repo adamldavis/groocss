@@ -15,6 +15,19 @@ applicationName = "groocss"
 mainClassName= 'org.groocss.GrooCSS'
 version="0.2.1"
 
+task zipDocs(type: Jar) {
+    dependsOn 'groovydoc'
+    archiveName "$applicationName-${version}-javadocs.jar"
+    from "$buildDir/docs/groovydoc/"
+}
+task zipSrc(type: Jar) {
+    archiveName "$applicationName-${version}-sources.jar"
+    from "src/main/groovy/"
+}
+task jars {
+    dependsOn('zipDocs', 'zipSrc')
+}
+
 task pom << {
     pom {
         project {
@@ -45,5 +58,5 @@ task pom << {
                 url 'https://github.com/adamldavis/groocss'
             }
         }
-    }.writeTo("$buildDir/pom.xml")
+    }.writeTo("$buildDir/$applicationName-${version}.pom")
 }
