@@ -13,7 +13,7 @@ dependencies {
 
 applicationName = "groocss"
 mainClassName= 'org.groocss.GrooCSS'
-version="0.2.1"
+version="0.3"
 
 task zipDocs(type: Jar) {
     dependsOn 'groovydoc'
@@ -36,7 +36,7 @@ task pom << {
             inceptionYear '2016'
             url 'http://groocss.org/'
             name 'GrooCSS'
-            description 'the missing piece for full-stack Groovy; write compile-time checked CSS in Groovy'
+            description 'Write compile-time checked CSS in Groovy'
             licenses {
                 license {
                     name 'The Apache Software License, Version 2.0'
