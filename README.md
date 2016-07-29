@@ -3,10 +3,11 @@
 
 The missing piece for full-stack Groovy. Like [Less](http://lesscss.org/) but without inventing a new language.
 
-- Write compile-time checked CSS in Groovy
+- Write CSS in Groovy, compile-time checked optionally
 - Use a natural Groovy DSL for CSS with code completion if your IDE supports it
 - keyframes support!
-- _(coming) Automatically supports WebKit, MS, etc... extensions_
+- Automatically supports WebKit, MS, etc... extensions
+- Color support
 
 ## Examples
 
@@ -62,5 +63,17 @@ Produces:
     40%{transform: translateY(-30px);}
     60%{transform: translateY(-15px);}
     0%, 20%, 50%, 80%, 100%{transform: translateY(0);}
+    }
+
+### Colors
+
+Use the "c" method to create a color. For example:
+
+    def css = GrooCSS.process {
+        def sea = c('5512ab')
+        sg('.sea') {
+            color(sea.darker())
+            background(sea.brighter())
+        }
     }
     
