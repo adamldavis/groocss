@@ -3,7 +3,7 @@ package org.groocss
 import groovy.transform.Canonical
 
 /**
- * Created by adavis on 7/28/16.
+ * Configuration for GrooCSS conversions.
  */
 @Canonical
 class Config {

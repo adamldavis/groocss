@@ -1,7 +1,7 @@
 package org.groocss
 
 /**
- * Created by adavis on 7/28/16.
+ * Controls Color for CSS styles and has methods for brighter, darker, etc.
  */
 class Color {
 
@@ -47,14 +47,17 @@ class Color {
         str.length() == 2  ? str : ('0' + str)
     }
 
+    /** A new color with brighter lumosity. */
     Color brighter() {
         new Color(color.brighter())
     }
 
+    /** A new color with darker lumosity. */
     Color darker() {
         new Color(color.darker())
     }
 
+    /** Returns a copy of this color but with given 0-1 alpha value. */
     Color alpha(double alpha) {
         int r = color.red, g = color.green, b = color.blue, a = 256*alpha;
         new Color(r, g, b, a)

@@ -4,6 +4,9 @@ import org.codehaus.groovy.control.CompilerConfiguration
 
 import groovy.transform.*
 
+/**
+ * Entrance to DSL for converting code into CSS.
+ */
 @CompileStatic
 class GrooCSS extends Script {
     
@@ -88,10 +91,12 @@ class GrooCSS extends Script {
 
     public String toString() { css.toString() }
 
+    /** Calls {@link #kf(java.lang.String, groovy.lang.Closure)}. */
     Wrapper keyframes(String name, @DelegatesTo(KeyFrames) Closure clos) {
         kf(name, clos)
     }
 
+    /** Creates a new KeyFrames element and runs given closure on it. */
     Wrapper kf(String name, @DelegatesTo(KeyFrames) Closure clos) {
         KeyFrames frames = new KeyFrames(name: name, config: config)
         clos.delegate = frames
@@ -100,6 +105,7 @@ class GrooCSS extends Script {
         css
     }
 
+    /** Creates a new StyleGroup element and runs given closure on it. */
     Wrapper sel(String selector, @DelegatesTo(StyleGroup) Closure clos) {
         StyleGroup sg = new StyleGroup(selector: selector, config: config)
         clos.delegate = sg
@@ -108,6 +114,7 @@ class GrooCSS extends Script {
         css
     }
 
+    /** Creates a new StyleGroup element and runs given closure on it. */
     Wrapper sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
         sel(selector, clos)
     }
@@ -120,7 +127,7 @@ class GrooCSS extends Script {
     }
 
     /**
-     * Creates a new org.groocss.Color object.
+     * Creates a new {@link org.groocss.Color} object.
      * @param colorStr e.g. "#123456"
      * @return A Color object.
      */
@@ -130,10 +137,12 @@ class GrooCSS extends Script {
     
     def run() {}
 
+    /** Processes the given closure with given optional config. */
     static GrooCSS process(Config config = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
         runBlock(config, clos)
     }
 
+    /** Processes the given closure with given optional config. */
     static GrooCSS runBlock(Config config = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
         GrooCSS gcss = new GrooCSS(config: config)
         clos.delegate = gcss
