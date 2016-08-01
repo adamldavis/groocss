@@ -76,5 +76,21 @@ class GroocssSpec extends Specification {
 }"""
     }
 
+    def should_create_keyframe_from_to() {
+        when:
+        def css = GrooCSS.process(new Config(addMoz: false, addOpera: false)) {
+            keyframes('mymove') {
+                from {
+                    top 0
+                }
+                to {
+                    top '100px'
+                }
+            }
+        }
+        then:
+        "$css" == "@keyframes mymove {\nfrom{top: 0;}\nto{top: 100px;}\n}@-webkit-keyframes mymove {\nfrom{top: 0;}\nto{top: 100px;}\n}"
+    }
+
 
 }

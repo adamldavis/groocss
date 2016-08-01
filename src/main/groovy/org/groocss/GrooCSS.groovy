@@ -45,6 +45,20 @@ class GrooCSS extends Script {
             this << sg
             this
         }
+        KeyFrames from(@DelegatesTo(StyleGroup) Closure clos) {
+            StyleGroup sg = new StyleGroup(selector: "from", config: config)
+            clos.delegate = sg
+            clos()
+            this << sg
+            this
+        }
+        KeyFrames to(@DelegatesTo(StyleGroup) Closure clos) {
+            StyleGroup sg = new StyleGroup(selector: "to", config: config)
+            clos.delegate = sg
+            clos()
+            this << sg
+            this
+        }
     }
 
     static void convert(String inFilename, String outFilename) {
