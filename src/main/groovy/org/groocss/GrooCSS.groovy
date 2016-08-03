@@ -25,45 +25,6 @@ class GrooCSS extends Script {
         }
     }
 
-    static class KeyFrames {
-        String name
-        List<StyleGroup> groups = []
-        Config config
-
-        void leftShift(StyleGroup sg) { groups << sg }
-        String toString() {
-            if (name) "@keyframes $name {\n${groups.join('\n')}\n}" +
-                    (config.addWebkit ? "@-webkit-keyframes $name {\n${groups.join('\n')}\n}" : '')
-            else groups.join('\n')
-        }
-
-        KeyFrames frame(int percent, @DelegatesTo(StyleGroup) Closure clos) {
-            frame([percent], clos)
-        }
-
-        KeyFrames frame(List<Integer> percents, @DelegatesTo(StyleGroup) Closure clos) {
-            StyleGroup sg = new StyleGroup(selector: percents.collect{"${it}%"}.join(", "), config: config)
-            clos.delegate = sg
-            clos()
-            this << sg
-            this
-        }
-        KeyFrames from(@DelegatesTo(StyleGroup) Closure clos) {
-            StyleGroup sg = new StyleGroup(selector: "from", config: config)
-            clos.delegate = sg
-            clos()
-            this << sg
-            this
-        }
-        KeyFrames to(@DelegatesTo(StyleGroup) Closure clos) {
-            StyleGroup sg = new StyleGroup(selector: "to", config: config)
-            clos.delegate = sg
-            clos()
-            this << sg
-            this
-        }
-    }
-
     static void convert(String inFilename, String outFilename) {
         convert(new File(inFilename), new File(outFilename))
     }
