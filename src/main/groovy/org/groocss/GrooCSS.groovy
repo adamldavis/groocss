@@ -40,14 +40,15 @@ class GrooCSS extends Script {
         }
     }
 
-    static void convert(String inFilename, String outFilename) {
-        convert(new File(inFilename), new File(outFilename))
+    static void convert(Config conf = new Config(), String inFilename, String outFilename) {
+        convert(conf, new File(inFilename), new File(outFilename))
     }
     
-    static void convert(File inf, File out) {
+    static void convert(Config conf = new Config(), File inf, File out) {
         def binding = new Binding()
         def config = new CompilerConfiguration()
         config.scriptBaseClass = 'org.groocss.GrooCSS'
+        GrooCSS.config = conf
         def shell = new GroovyShell(this.class.classLoader, binding, config)
         
         Wrapper css = (Wrapper) shell.evaluate(inf)
@@ -61,7 +62,7 @@ class GrooCSS extends Script {
     }
     
     Wrapper css = new Wrapper()
-    Config config
+    static Config config
 
     public String toString() { css.toString() }
 
@@ -133,8 +134,9 @@ class GrooCSS extends Script {
     }
 
     /** Processes the given closure with given optional config. */
-    static GrooCSS runBlock(Config config = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
-        GrooCSS gcss = new GrooCSS(config: config)
+    static GrooCSS runBlock(Config conf = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
+        GrooCSS gcss = new GrooCSS()
+        GrooCSS.config = conf
         clos.delegate = gcss
         clos()
         gcss
