@@ -92,5 +92,18 @@ class GroocssSpec extends Specification {
         "$css" == "@keyframes mymove {\nfrom{top: 0;}\nto{top: 100px;}\n}@-webkit-keyframes mymove {\nfrom{top: 0;}\nto{top: 100px;}\n}"
     }
 
+    def should_create_font_face() {
+        when:
+        def css = GrooCSS.process {
+            fontFace {
+                fontFamily 'myFirstFont'
+                fontWeight 'normal'
+                src 'url(sensational.woff)'
+            }
+        }
+        then:
+        "$css" == "@font-face { font-family: myFirstFont; font-weight: normal; src: url(sensational.woff); }\n"
+    }
+
 
 }

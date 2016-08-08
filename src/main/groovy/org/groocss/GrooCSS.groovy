@@ -12,6 +12,7 @@ class GrooCSS extends Script {
     
     static class Wrapper {
         String name
+        List<FontFace> fonts = []
         List<StyleGroup> groups = []
         List<KeyFrames> kfs = []
 
@@ -19,9 +20,12 @@ class GrooCSS extends Script {
         void leftShift(KeyFrames kf) { add kf }
         void add(StyleGroup sg) { groups << sg }
         void add(KeyFrames kf) { kfs << kf }
+        void leftShift(FontFace ff) { add ff }
+        void add(FontFace ff) { fonts << ff }
 
         String toString() {
             String str = ''
+            if (fonts) str += fonts.join('\n') + '\n'
             if (name) str += "$name {\n${groups.join('\n')}\n}"
             else str += groups.join('\n')
             if (kfs) str += kfs.join('\n')
@@ -76,6 +80,15 @@ class GrooCSS extends Script {
         clos.delegate = sg
         clos()
         css << sg
+        css
+    }
+
+    /** Creates a new @font-face element and runs given closure on it. */
+    Wrapper fontFace(@DelegatesTo(FontFace) Closure clos) {
+        FontFace ff = new FontFace()
+        clos.delegate = ff
+        clos()
+        css.add ff
         css
     }
 
