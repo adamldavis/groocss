@@ -93,7 +93,7 @@ class GrooCSS extends Script {
 
     /** Creates a Style with given name and value. */
     Style style(String name, Object value) {
-        new Style(name: name, value: value)
+        new Style(name: name, value: "$value")
     }
 
     /**
