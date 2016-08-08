@@ -5,9 +5,10 @@ The missing piece for full-stack Groovy. Like [Less](http://lesscss.org/) but wi
 
 - Write CSS in Groovy, compile-time checked optionally
 - Use a natural Groovy DSL for CSS with code completion if your IDE supports it
-- keyframes support!
+- Keyframes support!
 - Automatically supports WebKit, MS, etc... extensions
 - Color support
+- Font-face support
 
 ## Examples
 
@@ -22,9 +23,11 @@ The missing piece for full-stack Groovy. Like [Less](http://lesscss.org/) but wi
     import org.groocss.GrooCSS
     
     def css = GrooCSS.process {
-        sg('.class') { borderColor '#123456' }
-    }
-    new File('out.css').text = "$css"
+        sg ('.class') { borderColor '#123456' }
+        //OR
+        sg '.class', { borderColor '#123456' }
+        
+    }.writeToFile('out.css')
 
 ### Styles DSL
 
@@ -44,6 +47,7 @@ The missing piece for full-stack Groovy. Like [Less](http://lesscss.org/) but wi
 ### Keyframes DSL
 
     def css = GrooCSS.process {
+    
         keyframes('bounce') {
             frame(40) {
                 transform 'translateY(-30px)'
@@ -72,8 +76,17 @@ Use the "c" method to create a color. For example:
     def css = GrooCSS.process {
         def sea = c('5512ab')
         sg('.sea') {
-            color(sea.darker())
-            background(sea.brighter())
+            color( sea.darker() )
+            background( sea.brighter() )
         }
     }
+    
+### Font-face
+
+    fontFace {
+        fontFamily 'myFirstFont'
+        fontWeight 'normal'
+        src 'url(sensational.woff)'
+    }
+    
     
