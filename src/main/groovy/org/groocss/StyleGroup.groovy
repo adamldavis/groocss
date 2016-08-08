@@ -491,7 +491,7 @@ class StyleGroup {
     }
     /** Sets or returns the horizontal alignment of an element */
     StyleGroup cssFloat (value) {
-        styles << new Style(name: 'cssFloat', value: "$value")
+        styles << new Style(name: 'float', value: "$value")
         this
     }
     /** Sets or returns fontStyle, fontVariant, fontWeight, fontSize, lineHeight, and fontFamily in one declaration */

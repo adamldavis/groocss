@@ -31,7 +31,7 @@ class GroocssSpec extends Specification {
     def should_set_styles() {
         when:
         def css = GrooCSS.process {
-            sg('.a') {
+            sg '.a', {
                 color('black')
                 background('white')
                 transition('500ms')
@@ -47,7 +47,7 @@ class GroocssSpec extends Specification {
         when:
         def css = GrooCSS.process {
             def sea = c('5512ab')
-            sg('.sea') {
+            sg '.sea', {
                 color(sea.darker())
                 background(sea.brighter())
             }
