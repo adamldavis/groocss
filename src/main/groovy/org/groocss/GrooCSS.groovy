@@ -31,6 +31,13 @@ class GrooCSS extends Script {
             if (kfs) str += kfs.join('\n')
             str
         }
+
+        void writeTo(PrintWriter writer) {
+            if (fonts) writer.write (fonts.join('\n') + '\n')
+            if (name) writer.write "$name {\n${groups.join('\n')}\n}"
+            else writer.write (groups.join('\n'))
+            if (kfs) writer.write (kfs.join('\n'))
+        }
     }
 
     static void convert(String inFilename, String outFilename) {
@@ -44,10 +51,8 @@ class GrooCSS extends Script {
         def shell = new GroovyShell(this.class.classLoader, binding, config)
         
         Wrapper css = (Wrapper) shell.evaluate(inf)
-        
-        out.withPrintWriter { pw ->
-            css.groups.each { pw.println it }
-        }
+
+        out.withPrintWriter { pw -> css.writeTo(pw) }
     }
     
     static void main(String ... args) {
@@ -133,6 +138,16 @@ class GrooCSS extends Script {
         clos.delegate = gcss
         clos()
         gcss
+    }
+
+    /** Writes the CSS to the given file. */
+    void writeTo(File f) {
+        f.withPrintWriter { pw -> css.writeTo pw }
+    }
+
+    /** Writes the CSS to the given file. */
+    void writeToFile(String filename) {
+        writeTo(new File(filename))
     }
    
 }
