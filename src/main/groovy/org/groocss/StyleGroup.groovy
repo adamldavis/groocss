@@ -12,7 +12,8 @@ class StyleGroup {
 
     Config config
     
-    public void leftShift(Style style) { styles << style }
+    public void add(Style style) { styles << style }
+    public void leftShift(Style style) { add style }
 
     StyleGroup selector(String sel) {
         selector = sel

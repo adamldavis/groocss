@@ -14,8 +14,12 @@ class GrooCSS extends Script {
         String name
         List<StyleGroup> groups = []
         List<KeyFrames> kfs = []
-        void leftShift(StyleGroup sg) { groups << sg }
-        void leftShift(KeyFrames kf) { kfs << kf }
+
+        void leftShift(StyleGroup sg) { add sg }
+        void leftShift(KeyFrames kf) { add kf }
+        void add(StyleGroup sg) { groups << sg }
+        void add(KeyFrames kf) { kfs << kf }
+
         String toString() {
             String str = ''
             if (name) str += "$name {\n${groups.join('\n')}\n}"
@@ -79,12 +83,17 @@ class GrooCSS extends Script {
     Wrapper sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
         sel(selector, clos)
     }
-    
+
     Style style(@DelegatesTo(Style) Closure clos) {
         Style s = new Style()
         clos.delegate = s
         clos()
         s
+    }
+
+    /** Creates a Style with given name and value. */
+    Style style(String name, Object value) {
+        new Style(name: name, value: value)
     }
 
     /**
@@ -95,6 +104,8 @@ class GrooCSS extends Script {
     Color c(String colorStr) {
         new Color(colorStr)
     }
+
+    Color clr(String colorStr) { c(colorStr) }
     
     def run() {}
 

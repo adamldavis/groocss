@@ -10,6 +10,7 @@ class KeyFrames {
 
     /** Adds a StyleGroup to this keyframes. */
     void leftShift(StyleGroup sg) { groups << sg }
+    void add(StyleGroup sg) { groups << sg }
 
     String toString() {
         if (name) "@keyframes $name {\n${groups.join('\n')}\n}" +
