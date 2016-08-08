@@ -1,10 +1,16 @@
 package org.groocss
 
+import java.math.MathContext
+
 /**
  * Controls Color for CSS styles and has methods for brighter, darker, etc.
  */
 class Color {
 
+    Color(String name, String colorStr) {
+        this.name = name
+        setColor(colorStr)
+    }
     Color(String colorStr) {
         setColor(colorStr)
     }
@@ -14,11 +20,14 @@ class Color {
     Color(int r, int g, int b) {
         color = new java.awt.Color(r, g, b)
     }
-    Color(int r, int g, int b, int a) {
-        color = new java.awt.Color(r, g, b, a)
+    Color(int r, int g, int b, double a) {
+        color = new java.awt.Color(r, g, b, (int) (a * 255))
     }
 
+    /** Actual color. */
     java.awt.Color color
+    /** Optional Color name. */
+    String name
 
     void setColor(String colorStr) {
         if (colorStr.length() == 6 || colorStr.length() == 3)
@@ -40,7 +49,12 @@ class Color {
     String toHex() { toString() }
 
     String toString() {
-        '#' + hex2(color.red) + hex2(color.green) + hex2(color.blue)
+        if (name) name
+        else if (color.alpha < 255) {
+            def alpha = (color.alpha / 255.0).round(new MathContext(2))
+            "rgba(${color.red}, ${color.green}, ${color.blue}, $alpha)"
+        } else
+            '#' + hex2(color.red) + hex2(color.green) + hex2(color.blue)
     }
     private String hex2(int n) {
         String str = Integer.toHexString(n)
@@ -59,7 +73,7 @@ class Color {
 
     /** Returns a copy of this color but with given 0-1 alpha value. */
     Color alpha(double alpha) {
-        int r = color.red, g = color.green, b = color.blue, a = 256*alpha;
-        new Color(r, g, b, a)
+        int r = color.red, g = color.green, b = color.blue
+        new Color(r, g, b, alpha)
     }
 }

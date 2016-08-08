@@ -105,5 +105,38 @@ class GroocssSpec extends Specification {
         "$css" == "@font-face { font-family: myFirstFont; font-weight: normal; src: url(sensational.woff); }\n"
     }
 
+    def should_create_colors_rgb() {
+        when:
+        def css = GrooCSS.process {
+            sg '.colors', {
+                color rgb(1, 2, 3)
+                background rgba(250, 250, 250, 0.9)
+            }
+        }
+        then:
+        "$css" == ".colors{color: #010203;\n\tbackground: rgba(250, 250, 250, 0.90);}"
+    }
+
+    def should_create_named_colors() {
+        when:
+        def css = GrooCSS.process {
+            sg '.colors', {
+                color aliceBlue
+            }
+        }
+        then:
+        "$css" == ".colors{color: AliceBlue;}"
+    }
+
+    def should_convert_named_color_to_rgba() {
+        when:
+        def css = GrooCSS.process {
+            sg '.colors', {
+                color violet.alpha(0.5)
+            }
+        }
+        then:
+        "$css" == ".colors{color: rgba(238, 130, 238, 0.50);}"
+    }
 
 }
