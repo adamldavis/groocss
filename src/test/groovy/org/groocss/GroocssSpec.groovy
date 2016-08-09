@@ -147,9 +147,20 @@ class GroocssSpec extends Specification {
                 background('white')
                 transition('500ms')
             }
+            sg '.b', {}
         }
         then:
-        "$css" == ".a{color: black;background: white;transition: 500ms;-webkit-transition: 500ms;}"
+        "$css" == ".a{color: black;background: white;transition: 500ms;-webkit-transition: 500ms;}.b{}"
+    }
+
+    def should_charset() {
+        when:
+        def css = GrooCSS.process {
+            charset utf8
+            sg '.a', {}
+        }
+        then:
+        "$css" == "@charset \"UTF-8\";\n.a{}"
     }
 
 }

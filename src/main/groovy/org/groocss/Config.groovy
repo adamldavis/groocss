@@ -14,4 +14,5 @@ class Config {
             addMoz = true,
             compress = false
 
+    String charset = null
 }

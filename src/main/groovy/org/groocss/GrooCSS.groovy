@@ -31,6 +31,9 @@ class GrooCSS extends Script {
 
         void writeTo(Appendable writer) {
             def sn = GrooCSS.config.compress ? '' : '\n'
+            def charset = GrooCSS.config.charset
+
+            if (charset) writer.append "@charset \"$charset\";$sn"
             if (fonts) writer.append (fonts.join(sn) + sn)
             if (name) writer.append "$name {$sn${groups.join(sn)}$sn}"
             else writer.append (groups.join(sn))
@@ -164,6 +167,13 @@ class GrooCSS extends Script {
     void writeToFile(String filename) {
         writeTo(new File(filename))
     }
+
+    void charset(String charset) {
+        config.charset = charset
+    }
+    String getUtf8() { 'UTF-8' }
+    String getUtf16() { 'UTF-16' }
+    String getIso8859() { 'ISO-8859-1' }
 
     Color getAliceBlue() { c('AliceBlue', '#F0F8FF') }
     Color getAntiqueWhite() { c('AntiqueWhite', '#FAEBD7') }
