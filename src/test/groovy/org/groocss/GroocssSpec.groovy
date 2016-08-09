@@ -139,4 +139,17 @@ class GroocssSpec extends Specification {
         "$css" == ".colors{color: rgba(238, 130, 238, 0.50);}"
     }
 
+    def should_compress() {
+        when:
+        def css = GrooCSS.process(new Config(compress: true, addMoz: false, addOpera: false)) {
+            sg '.a', {
+                color('black')
+                background('white')
+                transition('500ms')
+            }
+        }
+        then:
+        "$css" == ".a{color: black;background: white;transition: 500ms;-webkit-transition: 500ms;}"
+    }
+
 }

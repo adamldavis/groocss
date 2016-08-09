@@ -24,19 +24,17 @@ class GrooCSS extends Script {
         void add(FontFace ff) { fonts << ff }
 
         String toString() {
-            String str = ''
-            if (fonts) str += fonts.join('\n') + '\n'
-            if (name) str += "$name {\n${groups.join('\n')}\n}"
-            else str += groups.join('\n')
-            if (kfs) str += kfs.join('\n')
-            str
+            StringBuilder sb = new StringBuilder()
+            writeTo sb
+            sb.toString()
         }
 
-        void writeTo(PrintWriter writer) {
-            if (fonts) writer.write (fonts.join('\n') + '\n')
-            if (name) writer.write "$name {\n${groups.join('\n')}\n}"
-            else writer.write (groups.join('\n'))
-            if (kfs) writer.write (kfs.join('\n'))
+        void writeTo(Appendable writer) {
+            def sn = GrooCSS.config.compress ? '' : '\n'
+            if (fonts) writer.append (fonts.join(sn) + sn)
+            if (name) writer.append "$name {$sn${groups.join(sn)}$sn}"
+            else writer.append (groups.join(sn))
+            if (kfs) writer.append (kfs.join(sn))
         }
     }
 

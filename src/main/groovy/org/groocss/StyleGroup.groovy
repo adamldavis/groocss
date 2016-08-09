@@ -21,7 +21,8 @@ class StyleGroup {
     }
     
     String toString() {
-        selector + '{' + styles.join('\n\t') + '}'
+        def delim = config.compress ? '' : '\n\t'
+        selector + '{' + styles.join(delim) + '}'
     }
     Style cloneWebkit(Style s) { new Style(name: '-webkit-' + s.name, value: s.value) }
     Style cloneMoz(Style s) { new Style(name: '-moz-' + s.name, value: s.value) }

@@ -11,6 +11,7 @@ class Config {
     boolean addWebkit = true,
             addMs = true,
             addOpera = true,
-            addMoz = true
+            addMoz = true,
+            compress = false
 
 }
