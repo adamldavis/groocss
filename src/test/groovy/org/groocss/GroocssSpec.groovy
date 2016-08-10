@@ -163,4 +163,46 @@ class GroocssSpec extends Specification {
         "$css" == "@charset \"UTF-8\";\n.a{}"
     }
 
+    def should_create_media() {
+        when:
+        def css = GrooCSS.process {
+            media 'print', {
+                sg 'body', {
+                    display 'none'
+                }
+            }
+        }
+        then:
+        "$css" == "@media print {\nbody{display: none;}\n}\n"
+    }
+
+    def should_create_medias() {
+        when:
+        def css = GrooCSS.process {
+            media 'print', {
+                sg 'body', {
+                    display 'none'
+                }
+            }
+            media 'screen', {
+                sg 'body', {
+                    color black
+                }
+            }
+        }
+        then:
+        "$css" == "@media print {\nbody{display: none;}\n}\n@media screen {\nbody{color: Black;}\n}\n"
+    }
+
+    def should_be_fluent() {
+        when:
+        def css = GrooCSS.process {
+            sg '.a', {
+                add(style('-webkit-touch-callout', 'none')) << style('-webkit-text-size-adjust', 'none')
+            }
+        }
+        then:
+        "$css" == ".a{-webkit-touch-callout: none;\n\t-webkit-text-size-adjust: none;}"
+    }
+
 }

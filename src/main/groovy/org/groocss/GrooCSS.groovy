@@ -9,37 +9,7 @@ import groovy.transform.*
  */
 @CompileStatic
 class GrooCSS extends Script {
-    
-    static class Wrapper {
-        String name
-        List<FontFace> fonts = []
-        List<StyleGroup> groups = []
-        List<KeyFrames> kfs = []
 
-        void leftShift(StyleGroup sg) { add sg }
-        void leftShift(KeyFrames kf) { add kf }
-        void add(StyleGroup sg) { groups << sg }
-        void add(KeyFrames kf) { kfs << kf }
-        void leftShift(FontFace ff) { add ff }
-        void add(FontFace ff) { fonts << ff }
-
-        String toString() {
-            StringBuilder sb = new StringBuilder()
-            writeTo sb
-            sb.toString()
-        }
-
-        void writeTo(Appendable writer) {
-            def sn = GrooCSS.config.compress ? '' : '\n'
-            def charset = GrooCSS.config.charset
-
-            if (charset) writer.append "@charset \"$charset\";$sn"
-            if (fonts) writer.append (fonts.join(sn) + sn)
-            if (name) writer.append "$name {$sn${groups.join(sn)}$sn}"
-            else writer.append (groups.join(sn))
-            if (kfs) writer.append (kfs.join(sn))
-        }
-    }
 
     static void convert(Config conf = new Config(), String inFilename, String outFilename) {
         convert(conf, new File(inFilename), new File(outFilename))
@@ -52,7 +22,7 @@ class GrooCSS extends Script {
         GrooCSS.config = conf
         def shell = new GroovyShell(this.class.classLoader, binding, config)
         
-        Wrapper css = (Wrapper) shell.evaluate(inf)
+        MediaCSS css = (MediaCSS) shell.evaluate(inf)
 
         out.withPrintWriter { pw -> css.writeTo(pw) }
     }
@@ -61,46 +31,59 @@ class GrooCSS extends Script {
         if (args.length == 1)
             convert(args[0], args[0].replace('.groocss', '.css'))
     }
-    
-    Wrapper css = new Wrapper()
+
+    /** Main MediaCSS root.*/
+    MediaCSS css = new MediaCSS()
+    MediaCSS currentCss = css
     static Config config
 
     public String toString() { css.toString() }
 
+    MediaCSS media(String mediaRule, @DelegatesTo(GrooCSS) Closure clos) {
+        MediaCSS mcss = new MediaCSS(mediaRule)
+        MediaCSS oldCss = currentCss
+        currentCss = mcss
+        clos.delegate = this
+        clos()
+        oldCss.add mcss
+        currentCss = oldCss
+        css
+    }
+
     /** Calls {@link #kf(java.lang.String, groovy.lang.Closure)}. */
-    Wrapper keyframes(String name, @DelegatesTo(KeyFrames) Closure clos) {
+    MediaCSS keyframes(String name, @DelegatesTo(KeyFrames) Closure clos) {
         kf(name, clos)
     }
 
     /** Creates a new KeyFrames element and runs given closure on it. */
-    Wrapper kf(String name, @DelegatesTo(KeyFrames) Closure clos) {
+    MediaCSS kf(String name, @DelegatesTo(KeyFrames) Closure clos) {
         KeyFrames frames = new KeyFrames(name: name, config: config)
         clos.delegate = frames
         clos()
-        css << frames
+        currentCss << frames
         css
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    Wrapper sel(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+    MediaCSS sel(String selector, @DelegatesTo(StyleGroup) Closure clos) {
         StyleGroup sg = new StyleGroup(selector: selector, config: config)
         clos.delegate = sg
         clos()
-        css << sg
+        currentCss << sg
         css
     }
 
     /** Creates a new @font-face element and runs given closure on it. */
-    Wrapper fontFace(@DelegatesTo(FontFace) Closure clos) {
+    MediaCSS fontFace(@DelegatesTo(FontFace) Closure clos) {
         FontFace ff = new FontFace()
         clos.delegate = ff
         clos()
-        css.add ff
+        currentCss.add ff
         css
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    Wrapper sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+    MediaCSS sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
         sel(selector, clos)
     }
 
