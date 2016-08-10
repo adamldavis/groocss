@@ -6,10 +6,10 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 - Write CSS in Groovy, compile-time checked optionally
 - Use a natural Groovy DSL for CSS with code completion if your IDE supports it
 - Keyframes support!
-- Automatically supports -webkit, -ms, -moz, -o extensions! (configurable)
+- Automatically adds -webkit, -ms, -moz, -o extensions! (configurable)
 - Color support with rgb, rgba, hex, and named colors
 - Font-face support
-- Minization (compress: true)
+- Minimization (compress: true)
 - @charset support
 
 ## Coming in 0.5
@@ -81,10 +81,10 @@ Produces:
 
 ### Colors
 
-Use the "c" method to create a color. For example:
+Use the "c", "clr", "rgb" or "rgba" methods to create a color. For example:
 
     def css = GrooCSS.process {
-        def sea = c('5512ab')
+        def sea = c('5512ab') //OR rgb(85, 18, 171)
         sg('.sea') {
             color( sea.darker() )
             background( sea.brighter() )
@@ -115,7 +115,7 @@ You can also use named colors:
 		add style('-webkit-user-select', 'none')
 	}
 	
-## Compressing (Minization)
+## Compressing (Minimization)
 
 To "compress" the output (no new-lines), just pass in a Config object:
 
