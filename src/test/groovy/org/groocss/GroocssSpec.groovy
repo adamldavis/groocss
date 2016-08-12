@@ -233,18 +233,34 @@ class GroocssSpec extends Specification {
         "${t2.text}" == ".a{}.b{}.c{}"
     }
 
-    def should_extend_StyleGroup() {
+    def should_add_StyleGroup() {
         when:
         def css = GrooCSS.process {
             sg '.a', {
                 color black
                 background white
-                extend('a:hover') {
+                add('a:hover') {
                     color blue
                 }
             }
         }
         then:
         "$css" == ".a a:hover{color: Blue;}\n.a{color: Black;\n\tbackground: White;}"
+    }
+
+    def should_extend_StyleGroup() {
+        when:
+        def css = GrooCSS.process {
+            sg '.a', {
+                color black
+                background white
+            }
+            sg '.b', {
+                extend '.a'
+                color blue
+            }
+        }
+        then:
+        "$css" == ".a,.b{color: Black;\n\tbackground: White;}\n.b{color: Blue;}"
     }
 }

@@ -28,8 +28,8 @@ class StyleGroup {
         this
     }
 
-    /** Extends this StyleGroup with additional selector, adds a new StyleGroup element and runs given closure on it.*/
-    StyleGroup extend(String subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
+    /** Adds to selector with additional subselector, adds a new StyleGroup element, and runs given closure on it.*/
+    StyleGroup add(String subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
         boolean mod = subselector.startsWith(':')
         StyleGroup sg = new StyleGroup(selector: selector + (mod?'':' ') + subselector, config: config, owner: owner)
         StyleGroup old = this
@@ -39,6 +39,13 @@ class StyleGroup {
         owner << sg
         current = old
         sg
+    }
+
+    /** Finds an existing StyleGroup with given selector and appends [comma selector] to its selector.*/
+    StyleGroup extend(String otherSelector) {
+        StyleGroup other = owner.groups.find {it.selector == otherSelector}
+        if (other) other.selector += ",$selector"
+        other
     }
 
     String toString() {
