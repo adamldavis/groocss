@@ -8,9 +8,17 @@ class StyleGroup {
 
     String selector
 
-    List<Style> styles = []
+    List<Style> styleList = []
+    class Styles {
+        Styles leftShift(Style s) { current.styleList.add s ; this }
+        Style getAt(int i) { current.styleList[i] }
+    }
+    Styles styles = new Styles()
 
     Config config
+
+    MediaCSS owner
+    StyleGroup current = this
     
     StyleGroup add(Style style) { styles << style; this }
     StyleGroup leftShift(Style style) { add style }
@@ -19,10 +27,23 @@ class StyleGroup {
         selector = sel
         this
     }
-    
+
+    /** Extends this StyleGroup with additional selector, adds a new StyleGroup element and runs given closure on it.*/
+    StyleGroup extend(String subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
+        boolean mod = subselector.startsWith(':')
+        StyleGroup sg = new StyleGroup(selector: selector + (mod?'':' ') + subselector, config: config, owner: owner)
+        StyleGroup old = this
+        current = sg
+        closure.delegate = sg
+        closure(sg)
+        owner << sg
+        current = old
+        sg
+    }
+
     String toString() {
         def delim = config.compress ? '' : '\n\t'
-        selector + '{' + styles.join(delim) + '}'
+        selector + '{' + styleList.join(delim) + '}'
     }
     Style cloneWebkit(Style s) { new Style(name: '-webkit-' + s.name, value: s.value) }
     Style cloneMoz(Style s) { new Style(name: '-moz-' + s.name, value: s.value) }

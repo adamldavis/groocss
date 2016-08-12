@@ -233,4 +233,18 @@ class GroocssSpec extends Specification {
         "${t2.text}" == ".a{}.b{}.c{}"
     }
 
+    def should_extend_StyleGroup() {
+        when:
+        def css = GrooCSS.process {
+            sg '.a', {
+                color black
+                background white
+                extend('a:hover') {
+                    color blue
+                }
+            }
+        }
+        then:
+        "$css" == ".a a:hover{color: Blue;}\n.a{color: Black;\n\tbackground: White;}"
+    }
 }
