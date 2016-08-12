@@ -250,7 +250,10 @@ class StyleGroup {
     }
     /** A shorthand property for setting or returning all the four border*Radius properties */
     StyleGroup borderRadius (value) {
-        styles << new Style(name: 'borderRadius', value: "$value")
+        Style style = new Style(name: 'borderRadius', value: "$value")
+        styles << style
+        if (config.addWebkit) styles << cloneWebkit(style)
+        if (config.addMoz) styles << cloneMoz(style)
         this
     }
     /** Sets or returns all the borderRight* properties in one declaration */
@@ -330,7 +333,10 @@ class StyleGroup {
     }
     /** Attaches one or more drop-shadows to the box */
     StyleGroup boxShadow (value) {
-        styles << new Style(name: 'boxShadow', value: "$value")
+        def style = new Style(name: 'boxShadow', value: "$value")
+        styles << style
+        if (config.addWebkit) styles << cloneWebkit(style)
+        if (config.addMoz) styles << cloneMoz(style)
         this
     }
     /** Allows you to define certain elements to fit an area in a certain way */
