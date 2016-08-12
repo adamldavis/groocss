@@ -205,4 +205,32 @@ class GroocssSpec extends Specification {
         "$css" == ".a{-webkit-touch-callout: none;\n\t-webkit-text-size-adjust: none;}"
     }
 
+    def should_convert_file() {
+        File temp, t1, t2
+        given:
+        temp = new File('build/temp')
+        temp.mkdirs()
+        t1 = new File(temp, "t1.groocss")
+        t2 = new File(temp, "t2.css")
+        t1.text = "sg('.a') {}\nsg('.b') {}\nsg('.c') {}\n"
+        when:
+        GrooCSS.convert t1, t2
+        then:
+        "${t2.text}" == ".a{}\n.b{}\n.c{}"
+    }
+
+    def should_convert_file_compress() {
+        File temp, t1, t2
+        given:
+        temp = new File('build/temp')
+        temp.mkdirs()
+        t1 = new File(temp, "t1.groocss")
+        t2 = new File(temp, "t2.css")
+        t1.text = "sg('.a') {}\nsg('.b') {}\nsg('.c') {}\n"
+        when:
+        GrooCSS.convert new Config(compress: true), t1, t2
+        then:
+        "${t2.text}" == ".a{}.b{}.c{}"
+    }
+
 }

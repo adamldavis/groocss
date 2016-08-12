@@ -17,12 +17,16 @@ class GrooCSS extends Script {
     
     static void convert(Config conf = new Config(), File inf, File out) {
         def binding = new Binding()
-        def config = new CompilerConfiguration()
-        config.scriptBaseClass = 'org.groocss.GrooCSS'
-        GrooCSS.config = conf
-        def shell = new GroovyShell(this.class.classLoader, binding, config)
-        
-        MediaCSS css = (MediaCSS) shell.evaluate(inf)
+        binding.setProperty('_config', conf)
+        binding.setProperty('root', null)
+        def compilerConfig = new CompilerConfiguration()
+        compilerConfig.scriptBaseClass = 'org.groocss.GrooCSS'
+
+        def shell = new GroovyShell(this.class.classLoader, binding, compilerConfig)
+
+        shell.evaluate("config = css.config = _config;\nroot = css;\n${inf.text}")
+
+        MediaCSS css = (MediaCSS) binding.getProperty('root')
 
         out.withPrintWriter { pw -> css.writeTo(pw) }
     }
@@ -33,14 +37,14 @@ class GrooCSS extends Script {
     }
 
     /** Main MediaCSS root.*/
-    MediaCSS css = new MediaCSS()
+    Config config = new Config()
+    MediaCSS css = new MediaCSS(config: config)
     MediaCSS currentCss = css
-    static Config config
 
     public String toString() { css.toString() }
 
     MediaCSS media(String mediaRule, @DelegatesTo(GrooCSS) Closure clos) {
-        MediaCSS mcss = new MediaCSS(mediaRule)
+        MediaCSS mcss = new MediaCSS(mediaRule, config)
         MediaCSS oldCss = currentCss
         currentCss = mcss
         clos.delegate = this
@@ -134,8 +138,8 @@ class GrooCSS extends Script {
 
     /** Processes the given closure with given optional config. */
     static GrooCSS runBlock(Config conf = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
-        GrooCSS gcss = new GrooCSS()
-        GrooCSS.config = conf
+        GrooCSS gcss = new GrooCSS(config: conf)
+        gcss.css.config = conf
         clos.delegate = gcss
         clos()
         gcss

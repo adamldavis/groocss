@@ -20,9 +20,12 @@ class MediaCSS {
     /** Other @media branches if they exist. */
     List<MediaCSS> otherCss = []
 
+    Config config
+
     MediaCSS() { this.mediaRule = null }
-    MediaCSS(String mediaRule) {
+    MediaCSS(String mediaRule, Config config1) {
         this.mediaRule = mediaRule
+        this.config = config1
     }
 
     MediaCSS leftShift(StyleGroup sg) { add sg; this }
@@ -54,8 +57,8 @@ class MediaCSS {
     }
 
     void writeTo(Appendable writer) {
-        def sn = GrooCSS.config.compress ? '' : '\n'
-        def charset = GrooCSS.config.charset
+        def sn = config.compress ? '' : '\n'
+        def charset = config.charset
 
         if (!mediaRule && charset) writer.append "@charset \"$charset\";$sn"
         if (fonts) writer.append (fonts.join(sn) + sn)
