@@ -51,43 +51,43 @@ class GrooCSS extends Script {
         clos()
         oldCss.add mcss
         currentCss = oldCss
-        css
+        mcss
     }
 
     /** Calls {@link #kf(java.lang.String, groovy.lang.Closure)}. */
-    MediaCSS keyframes(String name, @DelegatesTo(KeyFrames) Closure clos) {
+    KeyFrames keyframes(String name, @DelegatesTo(KeyFrames) Closure clos) {
         kf(name, clos)
     }
 
     /** Creates a new KeyFrames element and runs given closure on it. */
-    MediaCSS kf(String name, @DelegatesTo(KeyFrames) Closure clos) {
+    KeyFrames kf(String name, @DelegatesTo(KeyFrames) Closure clos) {
         KeyFrames frames = new KeyFrames(name: name, config: config)
         clos.delegate = frames
         clos()
         currentCss << frames
-        css
+        frames
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    MediaCSS sel(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup sel(String selector, @DelegatesTo(StyleGroup) Closure clos) {
         StyleGroup sg = new StyleGroup(selector: selector, config: config)
         clos.delegate = sg
         clos()
         currentCss << sg
-        css
+        sg
     }
 
     /** Creates a new @font-face element and runs given closure on it. */
-    MediaCSS fontFace(@DelegatesTo(FontFace) Closure clos) {
+    FontFace fontFace(@DelegatesTo(FontFace) Closure clos) {
         FontFace ff = new FontFace()
         clos.delegate = ff
         clos()
         currentCss.add ff
-        css
+        ff
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    MediaCSS sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
         sel(selector, clos)
     }
 
