@@ -12,6 +12,7 @@ class StyleGroup {
     class Styles {
         Styles leftShift(Style s) { current.styleList.add s ; this }
         Style getAt(int i) { current.styleList[i] }
+        void addAll(Collection<Style> list) { current.styleList.addAll(list) }
     }
     Styles styles = new Styles()
 
@@ -50,18 +51,29 @@ class StyleGroup {
 
     String toString() {
         def delim = config.compress ? '' : '\n\t'
-        selector + '{' + styleList.join(delim) + '}'
+        Style tranStyle = transform ? new Style('transform', transform.join(' ')) : null
+        List<Style> tss = tranStyle ? [tranStyle] : new ArrayList<Style>()
+        if (tranStyle) {
+            tss.addAll(createWebkitMozOpera(tranStyle))
+            if (config.addMs) tss << cloneMs(tranStyle)
+        }
+        selector + '{' + (styleList + tss).join(delim) +'}'
     }
     Style cloneWebkit(Style s) { new Style(name: '-webkit-' + s.name, value: s.value) }
     Style cloneMoz(Style s) { new Style(name: '-moz-' + s.name, value: s.value) }
     Style cloneMs(Style s) { new Style(name: '-ms-' + s.name, value: s.value) }
     Style cloneOpera(Style s) { new Style(name: '-o-' + s.name, value: s.value) }
     void cloneTrio(Style style) {
+        styles.addAll createWebkitMozOpera(style)
+    }
+    List<Style> createWebkitMozOpera(Style style) {
+        List<Style> styles = []
         if (config.addWebkit) styles << cloneWebkit(style)
         if (config.addMoz) styles << cloneMoz(style)
         if (config.addOpera) styles << cloneOpera(style)
+        styles
     }
-    
+
     /** Sets or returns the alignment between the lines inside a flexible container when the items do not use all available space */
     StyleGroup alignContent (value) {
         styles << new Style(name: 'alignContent', value: "$value")
@@ -1004,5 +1016,110 @@ class StyleGroup {
         styles << new Style(name: 'zIndex', value: "$value")
         this
     }
+
+    List transform = []
+
+    /** Defines a 2D transformation, using a matrix of six values. */
+    StyleGroup matrix(n0, n1, n2, n3, n4, n5) {
+        transform << "matrix($n0,$n1,$n2,$n3,$n4,$n5)"
+        this
+    }
+    /** Defines a 3D transformation, using a 4x4 matrix of 16 values. */
+    StyleGroup matrix3d(n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, a, b, c, d, e, f) {
+        transform << "matrix3d($n0,$n1,$n2,$n3,$n4,$n5,$n6,$n7,$n8,$n9,$a,$b,$c,$d,$e,$f)"
+        this
+    }
+    /** Defines a 2D translation. */
+    StyleGroup translate(x,y) {
+        transform << "translate($x,$y)"
+        this
+    }
+    /** Defines a 3D translation. */
+    StyleGroup translate3d(x,y,z) {
+        transform << "translate3d($x,$y,$z)"
+        this
+    }
+    /** Defines a translation, using only the value for the X-axis. */
+    StyleGroup translateX(x) {
+        transform << "translateX($x)"
+        this
+    }
+    /** Defines a translation, using only the value for the Y-axis. */
+    StyleGroup translateY(y) {
+        transform << "translateY($y)"
+        this
+    }
+    /** Defines a 3D translation, using only the value for the Z-axis. */
+    StyleGroup translateZ(z) {
+        transform << "translateZ($z)"
+        this
+    }
+    /** Defines a 2D scale transformation. */
+    StyleGroup scale(x,y) {
+        transform << "scale($x,$y)"
+        this
+    }
+    /** Defines a 3D scale transformation. */
+    StyleGroup scale3d(x,y,z) {
+        transform << "scale3d($x,$y,$z)"
+        this
+    }
+    /** Defines a scale transformation by giving a value for the X-axis. */
+    StyleGroup scaleX(x) {
+        transform << "scaleX($x)"
+        this
+    }
+    /** Defines a scale transformation by giving a value for the Y-axis. */
+    StyleGroup scaleY(y) {
+        transform << "scaleY($y)"
+        this
+    }
+    /** Defines a 3D scale transformation by giving a value for the Z-axis. */
+    StyleGroup scaleZ(z) {
+        transform << "scaleZ($z)"
+        this
+    }
+    /** Defines a 2D rotation, the angle is specified in the parameter. */
+    StyleGroup rotate(angle) {
+        transform << "rotate($angle)"
+        this
+    }
+    /** Defines a 3D rotation. */
+    StyleGroup rotate3d(x,y,z,angle) {
+        transform << "rotate3d($x,$y,$z,$angle)"
+        this
+    }
+    /** Defines a 3D rotation along the X-axis. */
+    StyleGroup rotateX(angle) {
+        transform << "rotateX($angle)"
+        this
+    }
+    /** Defines a 3D rotation along the Y-axis. */
+    StyleGroup rotateY(angle) {
+        transform << "rotateY($angle)"
+        this
+    }
+    /** Defines a 3D rotation along the Z-axis. */
+    StyleGroup rotateZ(angle) {
+        transform << "rotateZ($angle)"
+        this
+    }
+    /** Defines a 2D skew transformation along the X- and the Y-axis. */
+    StyleGroup skew(xangle,yangle) {
+        transform << "skew($xangle,$yangle)"
+        this
+    }
+    /** Defines a 2D skew transformation along the X-axis. */
+    StyleGroup skewX(angle) {
+        transform << "skewX($angle)"
+        this
+    }
+    /** Defines a 2D skew transformation along the Y-axis. */
+    StyleGroup skewY(angle) {
+        transform << "skewY($angle)"
+        this
+    }
+
+
 }
 

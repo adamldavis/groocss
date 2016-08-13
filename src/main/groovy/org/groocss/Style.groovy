@@ -5,6 +5,7 @@ import java.util.regex.*
 
 /** Represents a CSS style. */
 @CompileStatic
+@TupleConstructor
 class Style {
 
 

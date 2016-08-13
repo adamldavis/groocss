@@ -263,4 +263,16 @@ class GroocssSpec extends Specification {
         then:
         "$css" == ".a,.b{color: Black;\n\tbackground: White;}\n.b{color: Blue;}"
     }
+
+    def should_do_multiple_transforms() {
+        when:
+        def css = GrooCSS.process(new Config(addMoz: false, addWebkit: false, addOpera: false, addMs: false)) {
+            sg '.a', {
+                translateX '1px'
+                translateY '1px'
+            }
+        }
+        then:
+        "$css" == ".a{transform: translateX(1px) translateY(1px);}"
+    }
 }
