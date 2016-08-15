@@ -341,4 +341,14 @@ class GroocssSpec extends Specification {
         then:
         "$css" == "a:nth-child(odd){color: #abc;}"
     }
+
+    def should_have_math_functions() {
+        when:
+        def css = GrooCSS.process {
+            body { left "${sqrt(16)}em"; top sin(0) as int }
+            div { left "${floor(10.123)}px" }
+        }
+        then:
+        "$css" == "body{left: 4.0em;\n\ttop: 0;}\ndiv{left: 10px;}"
+    }
 }

@@ -188,6 +188,7 @@ class GrooCSS extends Script {
     String getUtf16() { 'UTF-16' }
     String getIso8859() { 'ISO-8859-1' }
 
+    //------------------------------------------------------------------> Colors
     Color getAliceBlue() { c('AliceBlue', '#F0F8FF') }
     Color getAntiqueWhite() { c('AntiqueWhite', '#FAEBD7') }
     Color getAqua() { c('Aqua', '#00FFFF') }
@@ -336,6 +337,7 @@ class GrooCSS extends Script {
     Color getYellow() { c('Yellow', '#FFFF00') }
     Color getYellowGreen() { c('YellowGreen', '#9ACD32') }
 
+    //------------------------------------------------------------------> HTML5 elements
     /** Math element. */
     StyleGroup math(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('math' + sel, clos) }
 
@@ -775,6 +777,60 @@ class GrooCSS extends Script {
 
     /** Line-break opportunity. */
     StyleGroup wbr(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('wbr' + sel, clos) }
+
+    //------------------------------------------------------------------> Math
+    /** Returns the absolute value of a value.*/
+    double abs(Number n) { (n instanceof Integer) ? n.abs() : Math.abs(n.doubleValue()) }
+
+    /** Returns the arc tangent of a value; the returned angle is in the range -pi/2 through pi/2.*/
+    double atan(Number n) { Math.atan(n.doubleValue()) }
+
+    /** Returns the angle theta from the conversion of rectangular coordinates (x, y) to polar coordinates (r, theta).*/
+    double atan2(Number y, Number x) { Math.atan2(y.doubleValue(), x.doubleValue()) }
+
+    /** Returns the arc cosine of a value; the returned angle is in the range 0.0 through pi.*/
+    double acos(Number n) { Math.acos(n.doubleValue()) }
+
+    /** Returns the arc sine of a value; the returned angle is in the range -pi/2 through pi/2. */
+    double asin(Number n) { Math.asin(n.doubleValue()) }
+
+    /** Returns the trigonometric cosine of an angle (in radians).*/
+    double cos(Number angle) { Math.cos(angle.doubleValue()) }
+
+    /** Returns the trigonometric sine of an angle (in radians).*/
+    double sin(Number angle) { Math.sin(angle.doubleValue()) }
+
+    /** Returns the natural logarithm (base e) of a double value.*/
+    double log(Number n) { Math.log(n.doubleValue()) }
+
+    /** Returns the base 10 logarithm of a double value.*/
+    double log10(Number n) { Math.log10(n.doubleValue()) }
+
+    /** Returns the smallest (closest to negative infinity) double value that is greater than or equal to the argument
+     * and is equal to a mathematical integer.*/
+    int ceiling(Number n) { Math.ceil(n.doubleValue()) as int }
+
+    /** Returns the largest (closest to positive infinity) double value that is less than or equal to the argument and
+     * is equal to a mathematical integer.*/
+    int floor(Number n) { Math.floor(n.doubleValue()) as int }
+
+    /** Returns the value of the first argument raised to the power of the second argument.*/
+    double pow(Number n, Number pow) { Math.pow(n.doubleValue(), pow.doubleValue()) }
+
+    /** Returns the correctly rounded positive square root of a double value.*/
+    double sqrt(Number n) { Math.sqrt(n.doubleValue()) }
+
+    /** Returns the cube root of a double value.*/
+    double cbrt(Number n) { Math.cbrt(n.doubleValue()) }
+
+    /** Returns the trigonometric tangent of an angle (in radians).*/
+    double tan(Number angle) { Math.tan(angle.doubleValue()) }
+
+    /** Converts an angle measured in radians to an approximately equivalent angle measured in degrees.*/
+    double toDegrees(Number angrad) { Math.toDegrees(angrad.doubleValue()) }
+
+    /**Converts an angle measured in degrees to an approximately equivalent angle measured in radians.*/
+    double toRadians(Number angdeg) { Math.toRadians(angdeg.doubleValue()) }
 
 }
 
