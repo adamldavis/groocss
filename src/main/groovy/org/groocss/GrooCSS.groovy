@@ -36,6 +36,32 @@ class GrooCSS extends Script {
             convert(args[0], args[0].replace('.groocss', '.css'))
     }
 
+    static class Configurer extends Config {
+
+        Configurer convert(File inf, File out) {
+            GrooCSS.convert(this, inf, out)
+            this
+        }
+
+        Configurer convert(String inFilename, String outFilename) {
+            GrooCSS.convert(this, inFilename, outFilename)
+            this
+        }
+
+        /** Processes the given closure with built config. */
+        GrooCSS process(@DelegatesTo(GrooCSS) Closure clos) { GrooCSS.runBlock(this, clos) }
+
+        /** Processes the given closure with built config. */
+        GrooCSS runBlock(@DelegatesTo(GrooCSS) Closure clos) { GrooCSS.runBlock(this, clos) }
+    }
+
+    static Configurer withConfig(@DelegatesTo(Configurer) Closure<Configurer> closure) {
+        Configurer c = new Configurer()
+        closure.delegate = c
+        closure(c)
+        c
+    }
+
     /** Main MediaCSS root.*/
     Config config = new Config()
     MediaCSS css = new MediaCSS(config: config)

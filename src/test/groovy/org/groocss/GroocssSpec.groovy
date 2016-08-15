@@ -275,4 +275,24 @@ class GroocssSpec extends Specification {
         then:
         "$css" == ".a{transform: translateX(1px) translateY(1px);}"
     }
+
+    def should_use_Config_builder() {
+        when:
+        def css = GrooCSS.process(Config.builder().addMs(false).addOpera(false).compress(true).build()) {
+            sg '.a', {}
+            sg '.b', {}
+        }
+        then:
+        "$css" == ".a{}.b{}"
+    }
+
+    def should_use_withConfig_closure() {
+        when:
+        def css = GrooCSS.withConfig { noExts().compress().utf8() }.process {
+            sg '.a', {boxShadow('0 0 5px')}
+            sg '.b', {boxShadow('0 0 5px')}
+        }
+        then:
+        "$css" == "@charset \"UTF-8\";.a{box-shadow: 0 0 5px;}.b{box-shadow: 0 0 5px;}"
+    }
 }
