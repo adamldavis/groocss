@@ -335,5 +335,446 @@ class GrooCSS extends Script {
     Color getWhiteSmoke() { c('WhiteSmoke', '#F5F5F5') }
     Color getYellow() { c('Yellow', '#FFFF00') }
     Color getYellowGreen() { c('YellowGreen', '#9ACD32') }
+
+    /** Math element. */
+    StyleGroup math(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('math' + sel, clos) }
+
+    /** Scalable vector graphics. */
+    StyleGroup svg(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('svg' + sel, clos) }
+
+    /** Hyperlink. */
+    StyleGroup a(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('a' + sel, clos) }
+
+    /** Hyperlink a:hover. */
+    StyleGroup a_hover(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('a:hover' + sel, clos) }
+
+    /** Hyperlink a:focus. */
+    StyleGroup a_focus(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('a:focus' + sel, clos) }
+
+    /** Hyperlink a:active. */
+    StyleGroup a_active(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('a:active' + sel, clos) }
+
+    /** Hyperlink a:visited. */
+    StyleGroup a_visited(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('a:visited' + sel, clos) }
+    
+    /** Abbreviation. */
+    StyleGroup abbr(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('abbr' + sel, clos) }
+
+    /** Contact information. */
+    StyleGroup address(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('address' + sel, clos) }
+
+    /** Image-map hyperlink. */
+    StyleGroup area(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('area' + sel, clos) }
+
+    /** Article. */
+    StyleGroup article(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('article' + sel, clos) }
+
+    /** Tangential content. */
+    StyleGroup aside(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('aside' + sel, clos) }
+
+    /** Audio stream. */
+    StyleGroup audio(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('audio' + sel, clos) }
+
+    /** Offset text conventionally styled in bold. */
+    StyleGroup b(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('b' + sel, clos) }
+
+    /** Base URL. */
+    StyleGroup base(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('base' + sel, clos) }
+
+    /** BiDi isolate. */
+    StyleGroup bdi(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('bdi' + sel, clos) }
+
+    /** BiDi override. */
+    StyleGroup bdo(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('bdo' + sel, clos) }
+
+    /** Block quotation. */
+    StyleGroup blockquote(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('blockquote' + sel, clos) }
+
+    /** Document body. */
+    StyleGroup body(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('body' + sel, clos) }
+
+    /** Line break. */
+    StyleGroup br(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('br' + sel, clos) }
+
+    /** Button. */
+    StyleGroup button(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('button' + sel, clos) }
+
+    /** Submit button. */
+    StyleGroup buttonSubmit(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('button [type="submit"]' + sel, clos) }
+
+    /** Reset button. */
+    StyleGroup buttonReset(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('button [type="reset"]' + sel, clos) }
+
+    /** Button with no additional semantics. */
+    StyleGroup buttonButton(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('button [type="button"]' + sel, clos) }
+
+    /** Canvas for dynamic graphics. */
+    StyleGroup canvas(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('canvas' + sel, clos) }
+
+    /** Table title. */
+    StyleGroup caption(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('caption' + sel, clos) }
+
+    /** Cited title of a work. */
+    StyleGroup cite(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('cite' + sel, clos) }
+
+    /** Code fragment. */
+    StyleGroup code(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('code' + sel, clos) }
+
+    /** Table column. */
+    StyleGroup col(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('col' + sel, clos) }
+
+    /** Table column group. */
+    StyleGroup colgroup(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('colgroup' + sel, clos) }
+
+    /** Command. */
+    StyleGroup command(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('command' + sel, clos) }
+
+    /** Command with an associated action. */
+    StyleGroup commandCommand(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('command [type="command"]' + sel, clos) }
+
+    /** Selection of one item from a list of items. */
+    StyleGroup commandRadio(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('command [type="radio"]' + sel, clos) }
+
+    /** State or option that can be toggled. */
+    StyleGroup commandCheckbox(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('command [type="checkbox"]' + sel, clos) }
+
+    /** Predefined options for other controls. */
+    StyleGroup datalist(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('datalist' + sel, clos) }
+
+    /** Description or value. */
+    StyleGroup dd(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('dd' + sel, clos) }
+
+    /** Deleted text. */
+    StyleGroup del(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('del' + sel, clos) }
+
+    /** Control for additional on-demand information. */
+    StyleGroup details(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('details' + sel, clos) }
+
+    /** Defining instance. */
+    StyleGroup dfn(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('dfn' + sel, clos) }
+
+    /** Generic flow container. */
+    StyleGroup div(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('div' + sel, clos) }
+
+    /** Description list. */
+    StyleGroup dl(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('dl' + sel, clos) }
+
+    /** Term or name. */
+    StyleGroup dt(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('dt' + sel, clos) }
+
+    /** Emphatic stress. */
+    StyleGroup em(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('em' + sel, clos) }
+
+    /** Integration point for plugins. */
+    StyleGroup embed(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('embed' + sel, clos) }
+
+    /** Set of related form controls. */
+    StyleGroup fieldset(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('fieldset' + sel, clos) }
+
+    /** Figure caption. */
+    StyleGroup figcaption(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('figcaption' + sel, clos) }
+
+    /** Figure with optional caption. */
+    StyleGroup figure(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('figure' + sel, clos) }
+
+    /** Footer. */
+    StyleGroup footer(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('footer' + sel, clos) }
+
+    /** User-submittable form. */
+    StyleGroup form(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('form' + sel, clos) }
+
+    /** Heading. */
+    StyleGroup h1(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('h1' + sel, clos) }
+
+    /** Heading. */
+    StyleGroup h2(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('h2' + sel, clos) }
+
+    /** Heading. */
+    StyleGroup h3(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('h3' + sel, clos) }
+
+    /** Heading. */
+    StyleGroup h4(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('h4' + sel, clos) }
+
+    /** Heading. */
+    StyleGroup h5(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('h5' + sel, clos) }
+
+    /** Heading. */
+    StyleGroup h6(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('h6' + sel, clos) }
+
+    /** Document metadata container. */
+    StyleGroup head(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('head' + sel, clos) }
+
+    /** Header. */
+    StyleGroup header(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('header' + sel, clos) }
+
+    /** Heading group. */
+    StyleGroup hgroup(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('hgroup' + sel, clos) }
+
+    /** Thematic break. */
+    StyleGroup hr(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('hr' + sel, clos) }
+
+    /** Root element. */
+    StyleGroup html(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('html' + sel, clos) }
+
+    /** Offset text conventionally styled in italic. */
+    StyleGroup i(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('i' + sel, clos) }
+
+    /** Nested browsing context (inline frame). */
+    StyleGroup iframe(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('iframe' + sel, clos) }
+
+    /** Image. */
+    StyleGroup img(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('img' + sel, clos) }
+
+    /** Input control. */
+    StyleGroup input(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('input' + sel, clos) }
+
+    /** Text-input field. */
+    StyleGroup inputText(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('input [type="text"]' + sel, clos) }
+
+    /** Password-input field. */
+    StyleGroup inputPassword(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="password"]' + sel, clos) }
+
+    /** Checkbox. */
+    StyleGroup inputCheckbox(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="checkbox"]' + sel, clos) }
+
+    /** Radio button. */
+    StyleGroup inputRadio(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="radio"]' + sel, clos) }
+
+    /** Button. */
+    StyleGroup inputButton(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="button"]' + sel, clos) }
+
+    /** Submit button. */
+    StyleGroup inputSubmit(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="submit"]' + sel, clos) }
+
+    /** Reset button. */
+    StyleGroup inputReset(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="reset"]' + sel, clos) }
+
+    /** File upload control. */
+    StyleGroup inputFile(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="file"]' + sel, clos) }
+
+    /** Hidden input control. */
+    StyleGroup inputHidden(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="hidden"]' + sel, clos) }
+
+    /** Image-coordinates input control. */
+    StyleGroup inputImage(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="image"]' + sel, clos) }
+
+    /** Global date-and-time input control. */
+    StyleGroup inputDatetime(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="datetime"]' + sel, clos) }
+
+    /** Local date-and-time input control. */
+    StyleGroup inputDatetimeLocal(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="datetime-local"]' + sel, clos) }
+
+    /** Date input control. */
+    StyleGroup inputDate(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="date"]' + sel, clos) }
+
+    /** Year-and-month input control. */
+    StyleGroup inputMonth(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="month"]' + sel, clos) }
+
+    /** Time input control. */
+    StyleGroup inputTime(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="time"]' + sel, clos) }
+
+    /** Year-and-week input control. */
+    StyleGroup inputWeek(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="week"]' + sel, clos) }
+
+    /** Number input control. */
+    StyleGroup inputNumber(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="number"]' + sel, clos) }
+
+    /** Imprecise number-input control. */
+    StyleGroup inputRange(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="range"]' + sel, clos) }
+
+    /** E-mail address input control. */
+    StyleGroup inputEmail(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="email"]' + sel, clos) }
+
+    /** URL input control. */
+    StyleGroup inputUrl(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="url"]' + sel, clos) }
+
+    /** Search field. */
+    StyleGroup inputSearch(@DelegatesTo(StyleGroup) Closure clos, String sel='') {
+        sg('input [type="search"]' + sel, clos) }
+
+    /** Telephone-number-input field. */
+    StyleGroup inputTel(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('input [type="tel"]' + sel, clos) }
+
+    /** Color-well control. */
+    StyleGroup inputColor(@DelegatesTo(StyleGroup) Closure clos, String sel=''){ sg('input [type="color"]' + sel, clos)}
+
+    /** Inserted text. */
+    StyleGroup ins(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('ins' + sel, clos) }
+
+    /** User input. */
+    StyleGroup kbd(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('kbd' + sel, clos) }
+
+    /** Key-pair generator/input control. */
+    StyleGroup keygen(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('keygen' + sel, clos) }
+
+    /** Caption for a form control. */
+    StyleGroup label(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('label' + sel, clos) }
+
+    /** Title or explanatory caption. */
+    StyleGroup legend(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('legend' + sel, clos) }
+
+    /** List item. */
+    StyleGroup li(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('li' + sel, clos) }
+
+    /** Inter-document relationship metadata. */
+    StyleGroup link(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('link' + sel, clos) }
+
+    /** Image-map definition. */
+    StyleGroup map(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('map' + sel, clos) }
+
+    /** Marked (highlighted) text. */
+    StyleGroup mark(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('mark' + sel, clos) }
+
+    /** List of commands. */
+    StyleGroup menu(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('menu' + sel, clos) }
+
+    /** Scalar gauge. */
+    StyleGroup meter(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('meter' + sel, clos) }
+
+    /** Group of navigational links. */
+    StyleGroup nav(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('nav' + sel, clos) }
+
+    /** Fallback content for script. */
+    StyleGroup noscript(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('noscript' + sel, clos) }
+
+    /** Generic external content. */
+    StyleGroup object(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('object' + sel, clos) }
+
+    /** Ordered list. */
+    StyleGroup ol(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('ol' + sel, clos) }
+
+    /** Group of options. */
+    StyleGroup optgroup(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('optgroup' + sel, clos) }
+
+    /** Option. */
+    StyleGroup option(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('option' + sel, clos) }
+
+    /** Result of a calculation in a form. */
+    StyleGroup output(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('output' + sel, clos) }
+
+    /** Paragraph. */
+    StyleGroup p(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('p' + sel, clos) }
+
+    /** Initialization parameters for plugins. */
+    StyleGroup param(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('param' + sel, clos) }
+
+    /** Preformatted text. */
+    StyleGroup pre(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('pre' + sel, clos) }
+
+    /** Progress indicator. */
+    StyleGroup progress(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('progress' + sel, clos) }
+
+    /** Quoted text. */
+    StyleGroup q(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('q' + sel, clos) }
+
+    /** Ruby parenthesis. */
+    StyleGroup rp(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('rp' + sel, clos) }
+
+    /** Ruby text. */
+    StyleGroup rt(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('rt' + sel, clos) }
+
+    /** Ruby annotation. */
+    StyleGroup ruby(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('ruby' + sel, clos) }
+
+    /** Struck text. */
+    StyleGroup s(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('s' + sel, clos) }
+
+    /** (sample) output. */
+    StyleGroup samp(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('samp' + sel, clos) }
+
+    /** Section. */
+    StyleGroup section(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('section' + sel, clos) }
+
+    /** Option-selection form control. */
+    StyleGroup select(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('select' + sel, clos) }
+
+    /** Small print. */
+    StyleGroup small(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('small' + sel, clos) }
+
+    /** Media source. */
+    StyleGroup source(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('source' + sel, clos) }
+
+    /** Generic span. */
+    StyleGroup span(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('span' + sel, clos) }
+
+    /** Strong importance. */
+    StyleGroup strong(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('strong' + sel, clos) }
+
+    /** Subscript. */
+    StyleGroup sub(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('sub' + sel, clos) }
+
+    /** Summary, caption, or legend for a details control. */
+    StyleGroup summary(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('summary' + sel, clos) }
+
+    /** Superscript. */
+    StyleGroup sup(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('sup' + sel, clos) }
+
+    /** Table. */
+    StyleGroup table(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('table' + sel, clos) }
+
+    /** Table row group. */
+    StyleGroup tbody(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('tbody' + sel, clos) }
+
+    /** Table cell. */
+    StyleGroup td(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('td' + sel, clos) }
+
+    /** Text input area. */
+    StyleGroup textarea(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('textarea' + sel, clos) }
+
+    /** Table footer row group. */
+    StyleGroup tfoot(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('tfoot' + sel, clos) }
+
+    /** Table header cell. */
+    StyleGroup th(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('th' + sel, clos) }
+
+    /** Table heading group. */
+    StyleGroup thead(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('thead' + sel, clos) }
+
+    /** Date and/or time. */
+    StyleGroup time(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('time' + sel, clos) }
+
+    /** Document title. */
+    StyleGroup title(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('title' + sel, clos) }
+
+    /** Table row. */
+    StyleGroup tr(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('tr' + sel, clos) }
+
+    /** Supplementary media track. */
+    StyleGroup track(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('track' + sel, clos) }
+
+    /** Offset text conventionally styled with an underline. */
+    StyleGroup u(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('u' + sel, clos) }
+
+    /** Unordered list. */
+    StyleGroup ul(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('ul' + sel, clos) }
+
+    /** Variable or placeholder text. */
+    StyleGroup var(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('var' + sel, clos) }
+
+    /** Video. */
+    StyleGroup video(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('video' + sel, clos) }
+
+    /** Line-break opportunity. */
+    StyleGroup wbr(@DelegatesTo(StyleGroup) Closure clos, String sel='') { sg('wbr' + sel, clos) }
+
 }
 

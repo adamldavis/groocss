@@ -295,4 +295,22 @@ class GroocssSpec extends Specification {
         then:
         "$css" == "@charset \"UTF-8\";.a{box-shadow: 0 0 5px;}.b{box-shadow: 0 0 5px;}"
     }
+
+    def should_use_html_elements() {
+        when:
+        def css = GrooCSS.withConfig { noExts() }.process {
+            a { color blue }
+            input { borderRadius '1em' }
+            inputButton { borderRadius 0 }
+        }
+        then:
+        "$css" == "a{color: Blue;}\ninput{border-radius: 1em;}\ninput [type=\"button\"]{border-radius: 0;}"
+    }
+
+    def should_use_a_hover() {
+        when:
+        def css = GrooCSS.process { a_hover {}; a_focus {} }
+        then:
+        "$css" == "a:hover{}\na:focus{}"
+    }
 }
