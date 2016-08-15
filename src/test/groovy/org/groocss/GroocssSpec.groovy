@@ -313,4 +313,32 @@ class GroocssSpec extends Specification {
         then:
         "$css" == "a:hover{}\na:focus{}"
     }
+
+    def should_use_subselect_to_add_classes() {
+        when:
+        def css = GrooCSS.process { a {subselect '.me'} }
+        then:
+        "$css" == "a.me{}"
+    }
+
+    def should_use_psuedo_classes() {
+        when:
+        def css = GrooCSS.process {
+            a {
+                not('.button').firstChild()
+                color black
+            }
+        }
+        then:
+        "$css" == "a:not(.button):first-child{color: Black;}"
+    }
+
+    def should_use_nth_child() {
+        when:
+        def css = GrooCSS.process {
+            a { nthChild('odd'); color '#abc' }
+        }
+        then:
+        "$css" == "a:nth-child(odd){color: #abc;}"
+    }
 }

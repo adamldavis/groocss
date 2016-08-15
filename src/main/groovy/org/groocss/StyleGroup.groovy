@@ -24,10 +24,110 @@ class StyleGroup {
     StyleGroup add(Style style) { styles << style; this }
     StyleGroup leftShift(Style style) { add style }
 
-    StyleGroup selector(String sel) {
-        selector = sel
+    /** Appends the given text to the selector. */
+    StyleGroup subselect(String sel) {
+        selector += sel
         this
     }
+
+    /** Pseudo-class: :active. */
+    StyleGroup active() { selector += ':active'; this }
+
+    /** Pseudo-class: :checked. */
+    StyleGroup checked() { selector += ':checked'; this }
+
+    /** Pseudo-class: :default. */
+    StyleGroup defaultPseudoClass() { selector += ':default'; this }
+
+    /** Pseudo-class: :disabled. */
+    StyleGroup disabled() { selector += ':disabled'; this }
+
+    /** Pseudo-class: :empty. */
+    StyleGroup empty() { selector += ':empty'; this }
+
+    /** Pseudo-class: :enabled. */
+    StyleGroup enabled() { selector += ':enabled'; this }
+
+    /** Pseudo-class: :first-child. */
+    StyleGroup firstChild() { selector += ':first-child'; this }
+
+    /** Pseudo-class: :first-of-type. */
+    StyleGroup firstOfType() { selector += ':first-of-type'; this }
+
+    /** Pseudo-class: :focus. */
+    StyleGroup focus() { selector += ':focus'; this }
+
+    /** Pseudo-class: :hover. */
+    StyleGroup hover() { selector += ':hover'; this }
+
+    /** Pseudo-class: :indeterminate. */
+    StyleGroup indeterminate() { selector += ':indeterminate'; this }
+
+    /** Pseudo-class: :in-range. */
+    StyleGroup inRange() { selector += ':in-range'; this }
+
+    /** Pseudo-class: :invalid. */
+    StyleGroup invalid() { selector += ':invalid'; this }
+
+    /** Pseudo-class: :lang. */
+    StyleGroup lang(languageCode) { selector += ":lang($languageCode)"; this }
+
+    /** Pseudo-class: :last-child. */
+    StyleGroup lastChild() { selector += ':last-child'; this }
+
+    /** Pseudo-class: :last-of-type. */
+    StyleGroup lastOfType() { selector += ':last-of-type'; this }
+
+    /** Pseudo-class: :link. */
+    StyleGroup link() { selector += ':link'; this }
+
+    /** Pseudo-class: :not(). */
+    StyleGroup not(notSelector) { selector += ":not($notSelector)"; this }
+
+    /** Pseudo-class: :nth-child. */
+    StyleGroup nthChild(n) { selector += ":nth-child($n)"; this }
+
+    /** Pseudo-class: :nth-last-child. */
+    StyleGroup nthLastChild(n) { selector += ":nth-last-child($n)"; this }
+
+    /** Pseudo-class: :nth-last-of-type. */
+    StyleGroup nthLastOfType(n) { selector += ":nth-last-of-type($n)"; this }
+
+    /** Pseudo-class: :nth-of-type. */
+    StyleGroup nthOfType(n) { selector += ":nth-of-type($n)"; this }
+
+    /** Pseudo-class: :only-child. */
+    StyleGroup onlyChild() { selector += ':only-child'; this }
+
+    /** Pseudo-class: :only-of-type. */
+    StyleGroup onlyOfType() { selector += ':only-of-type'; this }
+
+    /** Pseudo-class: :optional. */
+    StyleGroup optional() { selector += ':optional'; this }
+
+    /** Pseudo-class: :out-of-range. */
+    StyleGroup outOfRange() { selector += ':out-of-range'; this }
+
+    /** Pseudo-class: :read-only. */
+    StyleGroup readOnly() { selector += ':read-only'; this }
+
+    /** Pseudo-class: :read-write. */
+    StyleGroup readWrite() { selector += ':read-write'; this }
+
+    /** Pseudo-class: :required. */
+    StyleGroup required() { selector += ':required'; this }
+
+    /** Pseudo-class: :root. */
+    StyleGroup root() { selector += ':root'; this }
+
+    /** Pseudo-class: :target. */
+    StyleGroup target() { selector += ':target'; this }
+
+    /** Pseudo-class: :valid. */
+    StyleGroup valid() { selector += ':valid'; this }
+
+    /** Pseudo-class: :visited. */
+    StyleGroup visited() { selector += ':visited'; this }
 
     /** Adds to selector with additional subselector, adds a new StyleGroup element, and runs given closure on it.*/
     StyleGroup add(String subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
