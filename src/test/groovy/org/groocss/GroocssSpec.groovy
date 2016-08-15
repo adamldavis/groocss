@@ -299,12 +299,12 @@ class GroocssSpec extends Specification {
     def should_use_html_elements() {
         when:
         def css = GrooCSS.withConfig { noExts() }.process {
-            a { color blue }
+            a '.blue', { color blue }
             input { borderRadius '1em' }
             inputButton { borderRadius 0 }
         }
         then:
-        "$css" == "a{color: Blue;}\ninput{border-radius: 1em;}\ninput [type=\"button\"]{border-radius: 0;}"
+        "$css" == "a.blue{color: Blue;}\ninput{border-radius: 1em;}\ninput [type=\"button\"]{border-radius: 0;}"
     }
 
     def should_use_a_hover() {
