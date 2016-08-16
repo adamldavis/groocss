@@ -13,7 +13,7 @@ dependencies {
 
 applicationName = "groocss"
 mainClassName= 'org.groocss.GrooCSS'
-version="0.5-beta"
+version="0.5"
 
 task zipDocs(type: Jar) {
     dependsOn 'groovydoc'
@@ -25,7 +25,7 @@ task zipSrc(type: Jar) {
     from "src/main/groovy/"
 }
 task jars {
-    dependsOn('zipDocs', 'zipSrc', 'jar')
+    dependsOn 'zipDocs', 'zipSrc', 'jar'
 }
 
 task pom << {
