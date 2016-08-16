@@ -408,4 +408,13 @@ class GroocssSpec extends Specification {
         expect:
         css.getImageSize('black.png') == '640px 480px'
     }
+
+    def should_add_units_to_integer() {
+        when:
+        def css = GrooCSS.process {
+            a { fontSize 11.px }
+        }
+        then:
+        "$css" == "a{font-size: 11px;}"
+    }
 }

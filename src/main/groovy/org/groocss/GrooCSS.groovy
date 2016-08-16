@@ -8,9 +8,7 @@ import javax.imageio.ImageIO
 /**
  * Entrance to DSL for converting code into CSS.
  */
-@CompileStatic
 class GrooCSS extends Script {
-
 
     static void convert(Config conf, String inFilename, String outFilename) {
         convert(conf, new File(inFilename), new File(outFilename))
@@ -27,8 +25,9 @@ class GrooCSS extends Script {
         compilerConfig.scriptBaseClass = 'org.groocss.GrooCSS'
 
         def shell = new GroovyShell(this.class.classLoader, binding, compilerConfig)
+        def meta = 'Integer.metaClass.propertyMissing = { "$delegate$it" };'
 
-        shell.evaluate("config = css.config = _config;\nroot = css;\n${inf.text}")
+        shell.evaluate("$meta config = css.config = _config;\nroot = css;\n${inf.text}")
 
         MediaCSS css = (MediaCSS) binding.getProperty('root')
 
@@ -37,7 +36,7 @@ class GrooCSS extends Script {
     
     static void main(String ... args) {
         if (args.length == 1)
-            convert(args[0], args[0].replace('.groocss', '.css'))
+            convertFile(args[0], args[0].replace('.groocss', '.css'))
     }
 
     static class Configurer extends Config {
@@ -168,6 +167,7 @@ class GrooCSS extends Script {
 
     /** Processes the given closure with given optional config. */
     static GrooCSS runBlock(Config conf = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
+        Integer.metaClass.propertyMissing = { "$delegate$it" }
         GrooCSS gcss = new GrooCSS(config: conf)
         gcss.css.config = conf
         clos.delegate = gcss
@@ -866,7 +866,8 @@ class GrooCSS extends Script {
         if (converted.toString().contains("E")) "${converted as Double}$units"
         else "$converted$units"
     }
-    
+
+    @TypeChecked
     Number convertNum(Number num, String conversion) {
         switch (conversion) {
             case 'ms-s': return num / 1000 as BigDecimal
@@ -909,17 +910,17 @@ class GrooCSS extends Script {
 
     //------------------------------------------------------------------> Images
     String getImageWidth(String filename) {
-        def img = ImageIO.read( new File(filename) )
+        def img = ImageIO.read new File(filename)
         "${img.width}px"
     }
 
     String getImageHeight(String filename) {
-        def img = ImageIO.read( new File(filename) )
+        def img = ImageIO.read new File(filename)
         "${img.height}px"
     }
 
     String getImageSize(String filename) {
-        def img = ImageIO.read( new File(filename) )
+        def img = ImageIO.read new File(filename)
         "${img.width}px ${img.height}px"
     }
 }
