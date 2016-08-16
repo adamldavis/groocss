@@ -351,4 +351,61 @@ class GroocssSpec extends Specification {
         then:
         "$css" == "body{left: 4.0em;\n\ttop: 0;}\ndiv{left: 10px;}"
     }
+
+    def getUnit_should_get_unit() {
+        given:
+        def css = new GrooCSS()
+        expect:
+        css.getUnit(value) == unit
+        where:
+        value | unit
+        '11in'| 'in'
+        '12px'| 'px'
+        '1.1em'| 'em'
+    }
+
+    def should_extract_value_with_unit() {
+        given:
+        def css = new GrooCSS()
+        expect:
+        css.unit(value) == unit
+        where:
+        value | unit
+        '11in'| 11
+        '12px'| 12
+        '1.1em'| 1.1
+    }
+
+    def should_add_unit() {
+        given:
+        def css = new GrooCSS()
+        expect:
+        css.unit(11, 'px') == '11px'
+    }
+
+    def should_convert_values() {
+        given:
+        def css = new GrooCSS()
+        expect:
+        css.convert("${val}", unit) == value
+        where:
+        val     | unit | value
+        '254mm' | 'in' | '10.0in'
+        '2.54cm'| 'in' | '1in'
+        '1s'    | 'ms' | '1000ms'
+        '1cm'   | 'mm' | '10mm'
+        '66pt'  | 'pc' | '5.5pc'
+        '1pc'   | 'pt' | '12pt'
+        '1in'   | 'pt' | '72pt'
+        '1in'   | 'pc' | '6pc'
+        '333pt' | 'cm' | '11.74750cm'
+        '6.284rad'|'deg'| '360.0466784602093deg'
+    }
+
+    def getImageSize_should_get_image_size() {
+        given:
+        def css = new GrooCSS()
+        expect:
+        css.getImageSize('black.png') == '640px 480px'
+    }
 }
