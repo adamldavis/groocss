@@ -147,20 +147,21 @@ class GroocssSpec extends Specification {
                 background('white')
                 transition('500ms')
             }
-            sg '.b', {}
+            sg '.b', {
+                margin 0
+            }
         }
         then:
-        "$css" == ".a{color: black;background: white;transition: 500ms;-webkit-transition: 500ms;}.b{}"
+        "$css" == ".a{color: black;background: white;transition: 500ms;-webkit-transition: 500ms;}.b{margin: 0;}"
     }
 
     def should_charset() {
         when:
         def css = GrooCSS.process {
             charset utf8
-            sg '.a', {}
         }
         then:
-        "$css" == "@charset \"UTF-8\";\n.a{}"
+        "$css" == "@charset \"UTF-8\";\n"
     }
 
     def should_create_media() {
@@ -212,11 +213,11 @@ class GroocssSpec extends Specification {
         temp.mkdirs()
         t1 = new File(temp, "t1.groocss")
         t2 = new File(temp, "t2.css")
-        t1.text = "sg('.a') {}\nsg('.b') {}\nsg('.c') {}\n"
+        t1.text = "sg('.a') {left 0}\nsg('.b') {left 0}\nsg('.c') {left 0}\n"
         when:
         GrooCSS.convert t1, t2
         then:
-        "${t2.text}" == ".a{}\n.b{}\n.c{}"
+        "${t2.text}" == ".a{left: 0;}\n.b{left: 0;}\n.c{left: 0;}"
     }
 
     def should_convert_file_compress() {
@@ -226,11 +227,11 @@ class GroocssSpec extends Specification {
         temp.mkdirs()
         t1 = new File(temp, "t1.groocss")
         t2 = new File(temp, "t2.css")
-        t1.text = "sg('.a') {}\nsg('.b') {}\nsg('.c') {}\n"
+        t1.text = "sg('.a') {left 0}\nsg('.b') {left 0}\nsg('.c') {left 0}\n"
         when:
         GrooCSS.convert new Config(compress: true), t1, t2
         then:
-        "${t2.text}" == ".a{}.b{}.c{}"
+        "${t2.text}" == ".a{left: 0;}.b{left: 0;}.c{left: 0;}"
     }
 
     def should_add_StyleGroup() {
@@ -264,6 +265,19 @@ class GroocssSpec extends Specification {
         "$css" == ".a,.b{color: Black;\n\tbackground: White;}\n.b{color: Blue;}"
     }
 
+    def should_extend_StyleGroup_twice() {
+        when:
+        def css = GrooCSS.process {
+            sg '.a', {
+                color black
+            }
+            sg '.b', { extend '.a' }
+            sg '.c', { extend '.a' }
+        }
+        then:
+        "$css" == ".a,.b,.c{color: Black;}"
+    }
+
     def should_do_multiple_transforms() {
         when:
         def css = GrooCSS.process(new Config(addMoz: false, addWebkit: false, addOpera: false, addMs: false)) {
@@ -279,11 +293,11 @@ class GroocssSpec extends Specification {
     def should_use_Config_builder() {
         when:
         def css = GrooCSS.process(Config.builder().addMs(false).addOpera(false).compress(true).build()) {
-            sg '.a', {}
-            sg '.b', {}
+            sg '.a', {left 0}
+            sg '.b', {left 0}
         }
         then:
-        "$css" == ".a{}.b{}"
+        "$css" == ".a{left: 0;}.b{left: 0;}"
     }
 
     def should_use_withConfig_closure() {
@@ -309,16 +323,16 @@ class GroocssSpec extends Specification {
 
     def should_use_a_hover() {
         when:
-        def css = GrooCSS.process { a_hover {}; a_focus {} }
+        def css = GrooCSS.process { a_hover {color 'red'}; a_focus {color 'red'} }
         then:
-        "$css" == "a:hover{}\na:focus{}"
+        "$css" == "a:hover{color: red;}\na:focus{color: red;}"
     }
 
     def should_use_subselect_to_add_classes() {
         when:
-        def css = GrooCSS.process { a {subselect '.me'} }
+        def css = GrooCSS.process { a {subselect '.me'; top 0} }
         then:
-        "$css" == "a.me{}"
+        "$css" == "a.me{top: 0;}"
     }
 
     def should_use_psuedo_classes() {

@@ -6,7 +6,10 @@ import groovy.transform.*
 @CompileStatic
 class StyleGroup {
 
+    /** Complete selector used by this style group. */
     String selector
+    /** Original selector as first defined. */
+    String originalSelector
 
     List<Style> styleList = []
     class Styles {
@@ -23,6 +26,12 @@ class StyleGroup {
     
     StyleGroup add(Style style) { styles << style; this }
     StyleGroup leftShift(Style style) { add style }
+
+    StyleGroup(String selector1, Config config1, MediaCSS owner1) {
+        selector = originalSelector = selector1
+        config = config1
+        owner = owner1
+    }
 
     /** Appends the given text to the selector. */
     StyleGroup subselect(String sel) {
@@ -132,7 +141,7 @@ class StyleGroup {
     /** Adds to selector with additional subselector, adds a new StyleGroup element, and runs given closure on it.*/
     StyleGroup add(String subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
         boolean mod = subselector.startsWith(':')
-        StyleGroup sg = new StyleGroup(selector: selector + (mod?'':' ') + subselector, config: config, owner: owner)
+        StyleGroup sg = new StyleGroup(selector + (mod?'':' ') + subselector, config, owner)
         StyleGroup old = this
         current = sg
         closure.delegate = sg
@@ -144,7 +153,7 @@ class StyleGroup {
 
     /** Finds an existing StyleGroup with given selector and appends [comma selector] to its selector.*/
     StyleGroup extend(String otherSelector) {
-        StyleGroup other = owner.groups.find {it.selector == otherSelector}
+        StyleGroup other = owner.groups.find {it.originalSelector == otherSelector}
         if (other) other.selector += ",$selector"
         other
     }
@@ -157,8 +166,14 @@ class StyleGroup {
             tss.addAll(createWebkitMozOpera(tranStyle))
             if (config.addMs) tss << cloneMs(tranStyle)
         }
-        selector + '{' + (styleList + tss).join(delim) +'}'
+        !isEmpty() ? selector + '{' + (styleList + tss).join(delim) +'}' : ''
     }
+
+    /** Reports true if both styleList and transform are empty. */
+    boolean isEmpty() {
+        styleList.empty && transform.empty
+    }
+
     Style cloneWebkit(Style s) { new Style(name: '-webkit-' + s.name, value: s.value) }
     Style cloneMoz(Style s) { new Style(name: '-moz-' + s.name, value: s.value) }
     Style cloneMs(Style s) { new Style(name: '-ms-' + s.name, value: s.value) }

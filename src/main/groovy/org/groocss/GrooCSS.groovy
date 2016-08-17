@@ -109,7 +109,7 @@ class GrooCSS extends Script {
 
     /** Creates a new StyleGroup element and runs given closure on it. */
     StyleGroup sel(String selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
-        StyleGroup sg = new StyleGroup(selector: selector, config: config, owner: currentCss)
+        StyleGroup sg = new StyleGroup(selector, config, currentCss)
         clos.delegate = sg
         clos(sg)
         currentCss << sg

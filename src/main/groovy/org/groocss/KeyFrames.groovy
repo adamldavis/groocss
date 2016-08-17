@@ -25,7 +25,7 @@ class KeyFrames {
 
     /** Adds a "frame" block for given percents. */
     KeyFrames frame(List<Integer> percents, @DelegatesTo(StyleGroup) Closure clos) {
-        StyleGroup sg = new StyleGroup(selector: percents.collect{"${it}%"}.join(", "), config: config)
+        StyleGroup sg = new StyleGroup(percents.collect{"${it}%"}.join(", "), config, null)
         clos.delegate = sg
         clos()
         this << sg
@@ -34,7 +34,7 @@ class KeyFrames {
 
     /** Adds a "from" block. */
     KeyFrames from(@DelegatesTo(StyleGroup) Closure clos) {
-        StyleGroup sg = new StyleGroup(selector: "from", config: config)
+        StyleGroup sg = new StyleGroup("from", config, null)
         clos.delegate = sg
         clos()
         this << sg
@@ -43,7 +43,7 @@ class KeyFrames {
 
     /** Adds a "to" block. */
     KeyFrames to(@DelegatesTo(StyleGroup) Closure clos) {
-        StyleGroup sg = new StyleGroup(selector: "to", config: config)
+        StyleGroup sg = new StyleGroup("to", config, null)
         clos.delegate = sg
         clos()
         this << sg
