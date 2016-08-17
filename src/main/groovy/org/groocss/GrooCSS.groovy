@@ -3,6 +3,8 @@ package org.groocss
 import org.codehaus.groovy.control.CompilerConfiguration
 
 import groovy.transform.*
+import org.codehaus.groovy.control.customizers.ImportCustomizer
+
 import javax.imageio.ImageIO
 
 /**
@@ -22,7 +24,11 @@ class GrooCSS extends Script {
         binding.setProperty('_config', conf)
         binding.setProperty('root', null)
         def compilerConfig = new CompilerConfiguration()
-        compilerConfig.scriptBaseClass = 'org.groocss.GrooCSS'
+        def imports = new ImportCustomizer()
+        def packg = 'org.groocss'
+        imports.addStarImports(packg)
+        compilerConfig.addCompilationCustomizers(imports)
+        compilerConfig.scriptBaseClass = "${packg}.GrooCSS"
 
         def shell = new GroovyShell(this.class.classLoader, binding, compilerConfig)
         def meta = 'Integer.metaClass.propertyMissing = { "$delegate$it" };'
@@ -65,9 +71,13 @@ class GrooCSS extends Script {
         c
     }
 
-    /** Main MediaCSS root.*/
+    /** Main config. */
     Config config = new Config()
+
+    /** Main MediaCSS root.*/
     MediaCSS css = new MediaCSS(config: config)
+
+    /** Current MediaCSS object used for processing. */
     MediaCSS currentCss = css
 
     public String toString() { css.toString() }
