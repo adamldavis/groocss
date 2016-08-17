@@ -52,7 +52,7 @@ class Color {
         if (name) name
         else if (color.alpha < 255) {
             def alpha = (color.alpha / 255.0).round(new MathContext(2))
-            "rgba(${color.red}, ${color.green}, ${color.blue}, $alpha)"
+            "rgba(${color.red}, ${color.green}, ${color.blue}, ${GrooCSS.stringify alpha})"
         } else
             '#' + hex2(color.red) + hex2(color.green) + hex2(color.blue)
     }

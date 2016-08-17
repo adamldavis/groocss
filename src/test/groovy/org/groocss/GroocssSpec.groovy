@@ -117,6 +117,17 @@ class GroocssSpec extends Specification {
         "$css" == ".colors{color: #010203;\n\tbackground: rgba(250, 250, 250, 0.90);}"
     }
 
+    def should_create_colors_rgba_alpha0() {
+        when:
+        def css = GrooCSS.process {
+            sg '.colors', {
+                background rgba(0,0,0,0)
+            }
+        }
+        then:
+        "$css" == ".colors{background: rgba(0, 0, 0, 0.0);}"
+    }
+
     def should_create_named_colors() {
         when:
         def css = GrooCSS.process {

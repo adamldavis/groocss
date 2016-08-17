@@ -873,8 +873,13 @@ class GrooCSS extends Script {
         Number num = unit(value) as BigDecimal
         def conversion = getUnit(value) + "-$units"
         def converted = convertNum num, conversion
-        if (converted.toString().contains("E")) "${converted as Double}$units"
-        else "$converted$units"
+
+        "${stringify converted}$units"
+    }
+
+    /** Converts number to string in a sensible format. */
+    static String stringify(Number converted) {
+        converted.toString().contains("E") ? "${converted as Double}" : "$converted"
     }
 
     @TypeChecked
