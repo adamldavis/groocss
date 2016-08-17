@@ -13,7 +13,7 @@ dependencies {
 
 applicationName = "groocss"
 mainClassName= 'org.groocss.GrooCSS'
-version="0.5"
+version="0.5.1"
 
 task zipDocs(type: Jar) {
     dependsOn 'groovydoc'
