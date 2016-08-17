@@ -138,9 +138,10 @@ class StyleGroup {
     /** Pseudo-class: :visited. */
     StyleGroup visited() { selector += ':visited'; this }
 
-    /** Adds to selector with additional subselector, adds a new StyleGroup element, and runs given closure on it.*/
+    /** Appends to selector with additional subselector, adds a new StyleGroup element, and runs given closure on it.
+     * If subselector is a psuedo-class of style-class (starts with : or .) it is appended without space. */
     StyleGroup add(String subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
-        boolean mod = subselector.startsWith(':')
+        boolean mod = subselector.startsWith(':') || subselector.startsWith('.')
         StyleGroup sg = new StyleGroup(selector + (mod?'':' ') + subselector, config, owner)
         StyleGroup old = this
         current = sg

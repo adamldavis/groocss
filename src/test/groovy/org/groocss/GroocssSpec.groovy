@@ -431,4 +431,21 @@ class GroocssSpec extends Specification {
         then:
         "$css" == "a{font-size: 11px;}"
     }
+
+    def should_add_sub_styles() {
+        when:
+        def css = GrooCSS.process {
+            a {
+                color 'blue'
+                add ':hover', {
+                    background '#eee'
+                }
+                add '.btn', {
+                    border '1px solid white'
+                }
+            }
+        }
+        then:
+        "$css" == "a:hover{background: #eee;}\na.btn{border: 1px solid white;}\na{color: blue;}"
+    }
 }
