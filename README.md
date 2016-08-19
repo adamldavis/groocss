@@ -1,4 +1,6 @@
 
+[ ![Download](https://api.bintray.com/packages/adamldavis/maven/GrooCSS/images/download.svg) ](https://bintray.com/adamldavis/maven/GrooCSS/_latestVersion)
+
 # GrooCSS
 
 Like [Less](http://lesscss.org/) but without inventing a new language. The missing piece for full-stack Groovy. 
@@ -12,13 +14,20 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 - Minimization (compress: true)
 - @charset support
 
-## Coming in 0.5
+## New in 0.5
 
 - Support for transforms directly (transformX, etc), 
-- Support for @media, math functions, 
-- element names (div, a, input, etc.), 
-- More methods (unit, getUnit, convert, etc.), 
-- Ability to extend style-groups
+- Support for @media, 
+- Math functions (sqrt, sin, cos, toRadians, etc.)
+- Element names (div, a, input, span, etc.)
+- Unit methods (unit, getUnit, convert, etc.)
+- Ability to extend style-groups and add internal
+- Pseudo-classes in DSL (nthChild, etc.)
+
+## Coming soon in 0.6
+
+- Mimic CSS syntax using underscore, methodMissing, and propertyMissing
+- Translator to convert from existing CSS
 
 ## Examples
 
@@ -50,7 +59,7 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
     sg '.box div', {
       boxShadow '0 0 5px rgba(0, 0, 0, 0.3)'
     }
-    sg 'table', {
+    table {
         color myColor
     }
 
@@ -109,7 +118,7 @@ You can also use named colors:
     
 ### Custom styles
 
-	sg 'body', {
+	body {
 		add style('-webkit-touch-callout', 'none')
 		add style('-webkit-textSize-adjust', 'none')
 		add style('-webkit-user-select', 'none')
@@ -123,5 +132,25 @@ To "compress" the output (no new-lines), just pass in a Config object:
     //OR
     GrooCSS.convert(new Config(compress: true), infile, outfile)
 
+## Media
 
+    media 'screen', {
+        body { width '100%' }
+    }
     
+Produces:
+
+    @media screen {
+        body { width: 100%; }
+    }
+
+## Pseudo-classes
+
+    input { hover()
+        color blue}
+
+Produces:
+
+    input:hover { color: Blue; }
+
+
