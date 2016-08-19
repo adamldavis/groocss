@@ -459,4 +459,63 @@ class GroocssSpec extends Specification {
         then:
         "$css" == "a:hover{background: #eee;}\na.btn{border: 1px solid white;}\na{color: blue;}"
     }
+
+    def should_use_underscore_method_missing() {
+        when:
+        def result = GrooCSS.process {
+            get_().blue { color 'blue' }
+        }
+        then:
+        "$result" == ".blue{color: blue;}"
+    }
+
+    def should_use_element_withClass() {
+        when:
+        def result = GrooCSS.process {
+            table.withClass('blue') { color 'blue' }
+        }
+        then:
+        "$result" == "table.blue{color: blue;}"
+    }
+
+    def should_use_element_method_missing() {
+        when:
+        def result = GrooCSS.process {
+            table.blue { color 'blue' }
+        }
+        then:
+        "$result" == "table.blue{color: blue;}"
+    }
+
+    def should_use_element_sel() {
+        when:
+        def result = GrooCSS.process {
+            input.sel '[class$="test"]', { color 'blue' }
+        }
+        then:
+        "$result" == 'input[class$="test"]{color: blue;}'
+    }
+
+    def should_use_element_putAt() {
+        when:
+        def result = GrooCSS.process {
+            input['class$="test"'] = { color 'blue' }
+        }
+        then:
+        "$result" == 'input[class$="test"]{color: blue;}'
+    }
+
+    def should_convert_file_with_underscore() {
+        File temp, u1in, u1out
+        given:
+        temp = new File('build/temp')
+        temp.mkdirs()
+        u1in = new File(temp, "u1.groocss")
+        u1out = new File(temp, "u1.css")
+        u1in.text = "_.a {left 0}\n_.b {left 0}\n_.c {left 0}\n"
+        when:
+        GrooCSS.convert u1in, u1out
+        then:
+        "${u1out.text}" == ".a{left: 0;}\n.b{left: 0;}\n.c{left: 0;}"
+    }
 }

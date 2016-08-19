@@ -72,4 +72,22 @@ class MediaCSS {
                 writer.append(sn)
             }
     }
+
+    /** Creates a new StyleGroup element and runs given closure on it. */
+    StyleGroup sel(String selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
+        StyleGroup sg = new StyleGroup(selector, config, this)
+        closure.delegate = sg
+        closure(sg)
+        add sg
+        sg
+    }
+
+    /** Creates a new StyleGroup element and runs given closure on it. */
+    StyleGroup sg(String selector, @DelegatesTo(StyleGroup) Closure closure) {
+        sel(selector, closure)
+    }
+
+    def methodMissing(String name, args) {
+        if (args[0] instanceof Closure) sg(".$name", (Closure) args[0])
+    }
 }

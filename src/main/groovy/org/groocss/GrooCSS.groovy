@@ -109,11 +109,7 @@ class GrooCSS extends Script {
 
     /** Creates a new StyleGroup element and runs given closure on it. */
     StyleGroup sel(String selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
-        StyleGroup sg = new StyleGroup(selector, config, currentCss)
-        clos.delegate = sg
-        clos(sg)
-        currentCss << sg
-        sg
+        currentCss.sel(selector, clos)
     }
 
     /** Creates a new @font-face element and runs given closure on it. */
@@ -938,4 +934,121 @@ class GrooCSS extends Script {
         def img = ImageIO.read new File(filename)
         "${img.width}px ${img.height}px"
     }
+
+    //------------------------------------------------------------------> Elements
+    Element getMath() { newElement('math') }
+    Element getSvg() { newElement('svg') }
+    Element getA() { newElement('a') }
+    Element getAbbr() { newElement('abbr') }
+    Element getAddress() { newElement('address') }
+    Element getArea() { newElement('area') }
+    Element getArticle() { newElement('article') }
+    Element getAside() { newElement('aside') }
+    Element getAudio() { newElement('audio') }
+    Element getB() { newElement('b') }
+    Element getBase() { newElement('base') }
+    Element getBdi() { newElement('bdi') }
+    Element getBdo() { newElement('bdo') }
+    Element getBlockquote() { newElement('blockquote') }
+    Element getBody() { newElement('body') }
+    Element getBr() { newElement('br') }
+    Element getButton() { newElement('button') }
+    Element getCanvas() { newElement('canvas') }
+    Element getCaption() { newElement('caption') }
+    Element getCite() { newElement('cite') }
+    Element getCode() { newElement('code') }
+    Element getCol() { newElement('col') }
+    Element getColgroup() { newElement('colgroup') }
+    Element getCommand() { newElement('command') }
+    Element getDatalist() { newElement('datalist') }
+    Element getDd() { newElement('dd') }
+    Element getDel() { newElement('del') }
+    Element getDetails() { newElement('details') }
+    Element getDfn() { newElement('dfn') }
+    Element getDiv() { newElement('div') }
+    Element getDl() { newElement('dl') }
+    Element getDt() { newElement('dt') }
+    Element getEm() { newElement('em') }
+    Element getEmbed() { newElement('embed') }
+    Element getFieldset() { newElement('fieldset') }
+    Element getFigcaption() { newElement('figcaption') }
+    Element getFigure() { newElement('figure') }
+    Element getFooter() { newElement('footer') }
+    Element getForm() { newElement('form') }
+    Element getH1() { newElement('h1') }
+    Element getH2() { newElement('h2') }
+    Element getH3() { newElement('h3') }
+    Element getH4() { newElement('h4') }
+    Element getH5() { newElement('h5') }
+    Element getH6() { newElement('h6') }
+    Element getHeader() { newElement('header') }
+    Element getHgroup() { newElement('hgroup') }
+    Element getHr() { newElement('hr') }
+    Element getHtml() { newElement('html') }
+    Element getI() { newElement('i') }
+    Element getIframe() { newElement('iframe') }
+    Element getImg() { newElement('img') }
+    Element getInput() { newElement('input') }
+    Element getIns() { newElement('ins') }
+    Element getKbd() { newElement('kbd') }
+    Element getKeygen() { newElement('keygen') }
+    Element getLabel() { newElement('label') }
+    Element getLegend() { newElement('legend') }
+    Element getLi() { newElement('li') }
+    Element getMap() { newElement('map') }
+    Element getMark() { newElement('mark') }
+    Element getMenu() { newElement('menu') }
+    Element getMeter() { newElement('meter') }
+    Element getNav() { newElement('nav') }
+    Element getNoscript() { newElement('noscript') }
+    Element getObject() { newElement('object') }
+    Element getOl() { newElement('ol') }
+    Element getOptgroup() { newElement('optgroup') }
+    Element getOption() { newElement('option') }
+    Element getOutput() { newElement('output') }
+    Element getP() { newElement('p') }
+    Element getParam() { newElement('param') }
+    Element getPre() { newElement('pre') }
+    Element getProgress() { newElement('progress') }
+    Element getQ() { newElement('q') }
+    Element getRp() { newElement('rp') }
+    Element getRt() { newElement('rt') }
+    Element getRuby() { newElement('ruby') }
+    Element getS() { newElement('s') }
+    Element getSamp() { newElement('samp') }
+    Element getScript() { newElement('script') }
+    Element getSection() { newElement('section') }
+    Element getSelect() { newElement('select') }
+    Element getSmall() { newElement('small') }
+    Element getSource() { newElement('source') }
+    Element getSpan() { newElement('span') }
+    Element getStrong() { newElement('strong') }
+    Element getStyle() { newElement('style') }
+    Element getSub() { newElement('sub') }
+    Element getSummary() { newElement('summary') }
+    Element getSup() { newElement('sup') }
+    Element getTable() { newElement('table') }
+    Element getTbody() { newElement('tbody') }
+    Element getTd() { newElement('td') }
+    Element getTextarea() { newElement('textarea') }
+    Element getTfoot() { newElement('tfoot') }
+    Element getTh() { newElement('th') }
+    Element getThead() { newElement('thead') }
+    Element getTime() { newElement('time') }
+    Element getTitle() { newElement('title') }
+    Element getTr() { newElement('tr') }
+    Element getTrack() { newElement('track') }
+    Element getU() { newElement('u') }
+    Element getUl() { newElement('ul') }
+    Element getVar() { newElement('var') }
+    Element getVideo() { newElement('video') }
+    Element getWbr() { newElement('wbr') }
+
+    Element newElement(String name) {
+        new Element(name, currentCss)
+    }
+
+    //------------------------------------------------------------------> Underscore
+    MediaCSS get_() { currentCss }
+
 }
