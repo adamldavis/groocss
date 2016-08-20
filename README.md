@@ -23,11 +23,13 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 - Unit methods (unit, getUnit, convert, etc.)
 - Ability to extend style-groups and add internal
 - Pseudo-classes in DSL (nthChild, etc.)
+- New ways to configure: Config.builder() or using withConfig
 
 ## Coming soon in 0.6
 
 - Mimic CSS syntax using underscore, methodMissing, and propertyMissing
 - Translator to convert from existing CSS
+- Available pretty print (using Config)
 
 ## Examples
 
@@ -152,5 +154,20 @@ Produces:
 Produces:
 
     input:hover { color: Blue; }
+
+## Config
+
+There are three different ways to configure GrooCSS:
+
+- Using the groovy constructor: new Config(compress: true)
+- Using the builder syntax: Config.builder().compress(true).build()
+- Using the DSL: GrooCSS.withConfig { noExts().compress().utf8() }.process {}
+
+Of these options, the third is most recommended.
+With the DSL there are several chainable methods available to easily configure your CSS:
+- noExts() - sets all extension flags to false (addOpera, etc.)
+- onlyMs(), onlyWebkit(), etc. - sets all extensions flags to false except one.
+- utf8() - sets the charset to UTF-8.
+- compress() - sets compress flag to true.
 
 
