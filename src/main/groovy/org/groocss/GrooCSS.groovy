@@ -6,6 +6,7 @@ import groovy.transform.*
 import org.codehaus.groovy.control.customizers.ImportCustomizer
 
 import javax.imageio.ImageIO
+import java.util.regex.Matcher
 
 /**
  * Entrance to DSL for converting code into CSS.
@@ -18,6 +19,10 @@ class GrooCSS extends Script {
 
     static void convertFile(Config conf = new Config(), String inf, String outf) { convert conf, inf, outf }
     static void convertFile(Config conf = new Config(), File inf, File out) { convert conf, inf, out }
+
+    static void convertFromCSS(File inf, File out) {
+        Translator.convertFromCSS inf, out
+    }
     
     static void convert(Config conf = new Config(), File inf, File out) {
         def binding = new Binding()
