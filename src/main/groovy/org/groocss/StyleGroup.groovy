@@ -167,7 +167,12 @@ class StyleGroup {
             tss.addAll(createWebkitMozOpera(tranStyle))
             if (config.addMs) tss << cloneMs(tranStyle)
         }
-        !isEmpty() ? selector + '{' + (styleList + tss).join(delim) +'}' : ''
+        if (isEmpty()) ''
+        else if (config.prettyPrint) {
+            delim = '\n    '
+            selector + ' {' + delim + (styleList + tss).join(delim) + '\n}'
+        }
+        else selector + '{' + (styleList + tss).join(delim) +'}'
     }
 
     /** Reports true if both styleList and transform are empty. */

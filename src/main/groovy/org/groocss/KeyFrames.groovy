@@ -13,8 +13,13 @@ class KeyFrames {
     void add(StyleGroup sg) { groups << sg }
 
     String toString() {
-        if (name) "@keyframes $name {\n${groups.join('\n')}\n}" +
-                (config.addWebkit ? "@-webkit-keyframes $name {\n${groups.join('\n')}\n}" : '')
+        def delim = config.compress ? '' : (config.prettyPrint ? '\n    ' : '\n')
+        def joined = config.prettyPrint ?
+                groups.collect{ "$it".replace(' '*4,' '*8).replace('}','    }') }.join(delim) :
+                groups.join(delim)
+
+        if (name) "@keyframes $name {$delim$joined\n}" +
+                (config.addWebkit ? "@-webkit-keyframes $name {$delim$joined\n}" : '')
         else groups.join('\n')
     }
 

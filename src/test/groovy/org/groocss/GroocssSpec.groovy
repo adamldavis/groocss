@@ -518,4 +518,59 @@ class GroocssSpec extends Specification {
         then:
         "${u1out.text}" == ".a{left: 0;}\n.b{left: 0;}\n.c{left: 0;}"
     }
+    
+    def should_prettyPrint_styles() {
+        when:
+        def css = GrooCSS.withConfig { prettyPrint().noExts() }.process {
+            sg '.a', {
+                color('black')
+                background('white')
+                transition('500ms')
+            }
+        }
+        then:
+        "$css" ==
+'''.a {
+    color: black;
+    background: white;
+    transition: 500ms;
+}'''
+    }
+
+    def should_prettyPrint_colors() {
+        when:
+        def css = GrooCSS.withConfig { prettyPrint().noExts() }.process {
+            def sea = c('5512ab')
+            sg '.sea', {
+                color(sea.darker())
+                background(sea.brighter())
+            }
+        }
+        then:
+        "$css" == ".sea {\n    color: #3b0c77;\n    background: #7919f4;\n}"
+    }
+
+    def should_prettyPrint_keyframes() {
+        when:
+        def css = GrooCSS.withConfig { prettyPrint().noExts() }.process {
+            keyframes('bounce') {
+                frame(40) {
+                    transform 'translateY(-30px)'
+                }
+                frame([0,20,50,80,100]) {
+                    transform 'translateY(0)'
+                }
+            }
+        }
+        then:
+        "$css" == """@keyframes bounce {
+    40% {
+        transform: translateY(-30px);
+    }
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+}"""
+    }
+
 }

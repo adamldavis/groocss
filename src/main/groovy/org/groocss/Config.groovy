@@ -14,6 +14,7 @@ class Config {
             addMs = true,
             addOpera = true,
             addMoz = true,
+            prettyPrint = false,
             compress = false
 
     String charset = null
@@ -21,6 +22,12 @@ class Config {
     /** Sets the compress flag to true. */
     Config compress() {
         compress = true
+        this
+    }
+
+    /** Sets the prettyPrint flag to true. */
+    Config prettyPrint() {
+        prettyPrint = true
         this
     }
 
