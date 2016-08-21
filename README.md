@@ -25,9 +25,9 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 - Pseudo-classes in DSL (nthChild, etc.)
 - New ways to configure: Config.builder() or using withConfig
 
-## Coming soon in 0.6
+## New in 0.6
 
-- Mimic CSS syntax using underscore, methodMissing, and propertyMissing
+- Moved closer to CSS syntax using underscore, methodMissing, and propertyMissing
 - Translator to convert from existing CSS
 - Available pretty print (using Config)
 
@@ -44,7 +44,7 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
     import org.groocss.GrooCSS
     
     def css = GrooCSS.process {
-        sg ('.class') { borderColor '#123456' }
+        _.class { borderColor '#123456' }
         //OR
         sg '.class', { borderColor '#123456' }
         
@@ -54,7 +54,7 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 
     def myColor = '#fe33ac'
 
-    sg '.box', {
+    _.box {
       color myColor
       borderColor '#fdcdea'
     }
@@ -70,10 +70,10 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
     def css = GrooCSS.process(new Config(addWebkit: false, addMoz: false, addOpera: false)) {
     
         keyframes('bounce') {
-            frame(40) {
+            frame 40, {
                 transform 'translateY(-30px)'
             }
-            frame(60) {
+            frame 60, {
                 transform 'translateY(-15px)'
             }
             frame([0,20,50,80,100]) {
@@ -96,16 +96,16 @@ Use the "c", "clr", "rgb" or "rgba" methods to create a color. For example:
 
     def css = GrooCSS.process {
         def sea = c('5512ab') //OR rgb(85, 18, 171)
-        sg('.sea') {
-            color( sea.darker() )
-            background( sea.brighter() )
+        _.sea {
+            color sea.darker()
+            background sea.brighter()
             border "5px solid ${sea.alpha(0.5)}"
         }
     }
     
 You can also use named colors:
 
-    sg '.blue', {
+    _.blue {
         color darkBlue
         background aliceBlue
     }
@@ -170,4 +170,10 @@ With the DSL there are several chainable methods available to easily configure y
 - utf8() - sets the charset to UTF-8.
 - compress() - sets compress flag to true.
 
+## Converting from CSS
 
+You can use the Translator to convert existing CSS into GrooCSS syntax:
+
+    GrooCSS.convertFromCSS(File inFile, File outFile)
+
+This allows you to get started quickly with GrooCSS in existing projects.
