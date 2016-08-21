@@ -519,7 +519,7 @@ class GroocssSpec extends Specification {
         "${u1out.text}" == ".a{left: 0;}\n.b{left: 0;}\n.c{left: 0;}"
     }
     
-    def should_prettyPrint_styles() {
+    def "should prettyPrint styles"() {
         when:
         def css = GrooCSS.withConfig { prettyPrint().noExts() }.process {
             sg '.a', {
@@ -537,7 +537,7 @@ class GroocssSpec extends Specification {
 }'''
     }
 
-    def should_prettyPrint_colors() {
+    def "should prettyPrint colors"() {
         when:
         def css = GrooCSS.withConfig { prettyPrint().noExts() }.process {
             def sea = c('5512ab')
@@ -550,7 +550,7 @@ class GroocssSpec extends Specification {
         "$css" == ".sea {\n    color: #3b0c77;\n    background: #7919f4;\n}"
     }
 
-    def should_prettyPrint_keyframes() {
+    def "should prettyPrint keyframes"() {
         when:
         def css = GrooCSS.withConfig { prettyPrint().noExts() }.process {
             keyframes('bounce') {
