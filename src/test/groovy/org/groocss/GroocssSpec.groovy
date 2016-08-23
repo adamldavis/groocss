@@ -573,4 +573,22 @@ class GroocssSpec extends Specification {
 }"""
     }
 
+    def "should use operators"() {
+        expect:
+        "$groo" == css
+        where:
+        groo | css
+        GrooCSS.process {div + a { color blue }} | 'div + a{color: Blue;}'
+        GrooCSS.process {div - a { color blue }} | 'div ~ a{color: Blue;}'
+        GrooCSS.process {div >> a { color blue }} | 'div > a{color: Blue;}'
+        GrooCSS.process {div ^ a { color blue }} | 'div a{color: Blue;}'
+        GrooCSS.process {div.multiply a { color blue }} | 'div * a{color: Blue;}'
+        GrooCSS.process {input | a { color blue }} | 'input,a{color: Blue;}'
+        GrooCSS.process {select | input | a { color blue }} | 'select,input,a{color: Blue;}'
+        GrooCSS.process {div + span + a { color blue }} | 'div + span + a{color: Blue;}'
+        GrooCSS.process {div - span - a { color blue }} | 'div ~ span ~ a{color: Blue;}'
+        GrooCSS.process {div >> p >> a { color blue }} | 'div > p > a{color: Blue;}'
+        GrooCSS.process {div ^ p ^ a { color blue }} | 'div p a{color: Blue;}'
+    }
+
 }

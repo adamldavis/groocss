@@ -33,6 +33,11 @@ class StyleGroup {
         owner = owner1
     }
 
+    /** Completely resets the selector of this style-Group, including the originalSelector. */
+    void resetSelector(String sel) {
+        originalSelector = selector = sel
+    }
+
     /** Appends the given text to the selector. */
     StyleGroup subselect(String sel) {
         selector += sel
