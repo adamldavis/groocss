@@ -589,6 +589,9 @@ class GroocssSpec extends Specification {
         GrooCSS.process {div - span - a { color blue }} | 'div ~ span ~ a{color: Blue;}'
         GrooCSS.process {div >> p >> a { color blue }} | 'div > p > a{color: Blue;}'
         GrooCSS.process {div ^ p ^ a { color blue }} | 'div p a{color: Blue;}'
+        GrooCSS.process {div['class$="test"'] | svg { color blue }} | 'div[class$="test"],svg{color: Blue;}'
+        GrooCSS.process {div + a.blue { color blue }} | 'div + a.blue{color: Blue;}'
+        GrooCSS.process {a.blue + div { color blue }} | 'a.blue + div{color: Blue;}'
     }
 
 }
