@@ -13,9 +13,6 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 - Font-face support
 - Minimization (compress: true)
 - @charset support
-
-## New in 0.5
-
 - Support for transforms directly (transformX, etc), 
 - Support for @media, 
 - Math functions (sqrt, sin, cos, toRadians, etc.)
@@ -27,28 +24,34 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 
 ## New in 0.6
 
-- Moved closer to CSS syntax using underscore, methodMissing, and propertyMissing
+- Moved closer to CSS syntax using putAt, underscore, methodMissing, and propertyMissing
 - Translator to convert from existing CSS
 - Available pretty print (using Config)
 
+## Using Gradle
+
+    import org.groocss.GrooCSS
+
+    buildscript {
+        repositories { jcenter() }
+        dependencies { classpath 'org.groocss:groocss:0.6'}
+    }
+    task css << {
+        def file = file('css/out.css')
+        def css = GrooCSS.process {
+            // DSL goes here
+        }.writeTo(file)
+    }
+
 ## Examples
 
-### Convert files
+### Using convert methods
 
     import org.groocss.GrooCSS
 
-    GrooCSS.convert('infile.groocss', 'outfile.css')
-
-### Plain old Groovy
-
-    import org.groocss.GrooCSS
-    
-    def css = GrooCSS.process {
-        _.class { borderColor '#123456' }
-        //OR
-        sg '.class', { borderColor '#123456' }
-        
-    }.writeToFile('out.css')
+    GrooCSS.convertFile('infile.groocss', 'outfile.css')
+    //or
+    GrooCSS.convert(new File('in'), new File('out'))
 
 ### Styles DSL
 
@@ -64,6 +67,25 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
     table {
         color myColor
     }
+    table.myClass {
+        color myColor.darker()
+    }
+    input['class$="test"'] = {
+        background yellow
+    }
+
+### Extending
+
+    _.warn { color red }
+    _.error {
+        extend '.warn'
+        background black
+    }
+    
+Produces:
+
+    .warn,.error {color: Red;}
+    .error {background: Black;}
 
 ### Keyframes DSL
 
@@ -177,3 +199,4 @@ You can use the Translator to convert existing CSS into GrooCSS syntax:
     GrooCSS.convertFromCSS(File inFile, File outFile)
 
 This allows you to get started quickly with GrooCSS in existing projects.
+
