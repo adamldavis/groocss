@@ -24,7 +24,7 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 
 ## New in 0.6
 
-- Moved closer to CSS syntax using putAt, underscore, methodMissing, and propertyMissing
+- Closer to CSS syntax using getAt, putAt, operator-overloading, underscore, methodMissing, and propertyMissing
 - Translator to convert from existing CSS
 - Available pretty print (using Config)
 
@@ -34,11 +34,11 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 
     buildscript {
         repositories { jcenter() }
-        dependencies { classpath 'org.groocss:groocss:0.6'}
+        dependencies { classpath 'org.groocss:groocss:0.6.1' }
     }
     task css << {
         def file = file('css/out.css')
-        def css = GrooCSS.process {
+        GrooCSS.process {
             // DSL goes here
         }.writeTo(file)
     }
@@ -72,6 +72,9 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
     }
     input['class$="test"'] = {
         background yellow
+    }
+    p + div {
+        border '1px solid black'
     }
 
 ### Extending
