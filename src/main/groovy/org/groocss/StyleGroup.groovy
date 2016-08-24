@@ -157,6 +157,16 @@ class StyleGroup {
         sg
     }
 
+    /** See #add(String, Closure). */
+    StyleGroup add(Element subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
+        add("$subselector", closure)
+    }
+
+    /** See #extend(String). */
+    StyleGroup extend(Element other) {
+        extend("$other")
+    }
+
     /** Finds an existing StyleGroup with given selector and appends [comma selector] to its selector.*/
     StyleGroup extend(String otherSelector) {
         StyleGroup other = owner.groups.find {it.originalSelector == otherSelector}

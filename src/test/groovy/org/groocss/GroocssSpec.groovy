@@ -594,4 +594,34 @@ class GroocssSpec extends Specification {
         GrooCSS.process {a.blue + div { color blue }} | 'a.blue + div{color: Blue;}'
     }
 
+    def "should extend using dsl"() {
+        when:
+        def css = GrooCSS.process {
+            input {
+                color black
+                background white
+            }
+            sg '.b', {
+                extend input
+                color blue
+            }
+        }
+        then:
+        "$css" == "input,.b{color: Black;\n\tbackground: White;}\n.b{color: Blue;}"
+    }
+
+    def "should add using dsl"() {
+        when:
+        def css = GrooCSS.process {
+            div {
+                color black
+                add(span['id="123"']) {
+                    background white
+                }
+            }
+        }
+        then:
+        "$css" == 'div span[id="123"]{background: White;}\ndiv{color: Black;}'
+    }
+
 }

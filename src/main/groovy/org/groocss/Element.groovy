@@ -83,4 +83,6 @@ class Element {
     def xor(e) { if (e instanceof Element) xor((Element) e); if (e instanceof StyleGroup) xor((StyleGroup) e)}
     def or(e) { if (e instanceof Element) or((Element) e); if (e instanceof StyleGroup) or((StyleGroup) e)}
     def and(e) { if (e instanceof Element) and((Element) e); if (e instanceof StyleGroup) and((StyleGroup) e)}
+
+    String toString() { elementName }
 }
