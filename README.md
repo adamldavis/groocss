@@ -76,6 +76,11 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
     p + div {
         border '1px solid black'
     }
+    p.red | a.red { color red } // | => ,
+    p >> a { color blue }       //>> => >
+    p * a { color blue }        // * => *
+    p - a { color blue }        // - => ~(tilde)
+    p ^ a { color blue }        // ^ =>  (space)
 
 ### Extending
 
@@ -89,6 +94,22 @@ Produces:
 
     .warn,.error {color: Red;}
     .error {background: Black;}
+
+### Nesting
+
+    a {
+        color '#000'
+        add ':hover', { color blue }
+    }
+    div {
+        add '> p', { color '#eee' }
+    }
+
+Produces:
+
+    a { color: #000; }
+    a:hover { color: Blue; }
+    div > p { color: #eee; }
 
 ### Keyframes DSL
 
