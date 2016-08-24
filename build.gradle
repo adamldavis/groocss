@@ -1,6 +1,9 @@
-apply plugin: "groovy"
-apply plugin: "application"
-apply plugin: 'maven'
+plugins {
+    id "groovy"
+    id "application"
+    id 'maven'
+    id "com.jfrog.bintray" version "1.7"
+}
 
 repositories {
     jcenter()
@@ -27,10 +30,48 @@ task jars {
     dependsOn 'zipDocs', 'zipSrc', 'jar'
 }
 
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    pkg {
+        repo = 'maven'
+        name = 'GrooCSS'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/adamldavis/groocss.git'
+        version {
+            name = project.version
+            released  = new Date()
+        }
+        filesSpec {
+            from "$project.buildDir/libs", {
+                include '*.jar'
+            }
+            from "$project.buildDir/", {
+                include '*.pom'
+            }
+            into "org/groocss/groocss/$project.version"
+        }
+    }
+}
+
+task buildRelease(dependsOn: ['test', 'jars', 'pom']) {}
+
+task release(dependsOn: ['bintrayUpload']) << {
+    println "Uploaded $project.version to bintray"
+    def props = file('gradle.properties')
+    def text = props.text
+    props.text = "${text.trim()}-SNAPSHOT\n"
+}
+
+task prepareRelease(dependsOn: ['clean']) << {
+    def props = file('gradle.properties')
+    def text = props.text
+    props.text = text.replace('-SNAPSHOT','')
+}
+
 task pom << {
     pom {
         project {
-            packaging 'jar'
             groupId 'org.groocss'
             inceptionYear '2016'
             url 'http://groocss.org/'
@@ -47,8 +88,6 @@ task pom << {
                 developer {
                     name 'Adam L. Davis'
                     email 'adamd@adamldavis.com'
-                    organization 'The Solution Design Group, Inc.'
-                    organizationUrl 'http://thesdg.com/'
                 }
             }
             scm {
