@@ -58,15 +58,24 @@ task buildRelease(dependsOn: ['test', 'jars', 'pom']) {}
 
 task release(dependsOn: ['bintrayUpload']) << {
     println "Uploaded $project.version to bintray"
-    def props = file('gradle.properties')
-    def text = props.text
-    props.text = "${text.trim()}-SNAPSHOT\n"
+    incrementVersion()
 }
+
+task inc << { incrementVersion() }
 
 task prepareRelease(dependsOn: ['clean']) << {
     def props = file('gradle.properties')
     def text = props.text
     props.text = text.replace('-SNAPSHOT','')
+}
+
+def incrementVersion() {
+    def props = file('gradle.properties')
+    def text = props.text
+    def i = text.indexOf('=')
+    def nums = text[(i+1)..-1].trim().split(/\./)
+    nums[-1] = (nums[-1] as int) + 1
+    props.text = "${text[0..i]}${nums.join('.')}-SNAPSHOT\n"
 }
 
 task pom << {
