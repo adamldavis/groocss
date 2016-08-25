@@ -158,12 +158,12 @@ class StyleGroup {
     }
 
     /** See #add(String, Closure). */
-    StyleGroup add(Element subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
+    StyleGroup add(Selector subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
         add("$subselector", closure)
     }
 
     /** See #extend(String). */
-    StyleGroup extend(Element other) {
+    StyleGroup extend(Selector other) {
         extend("$other")
     }
 
