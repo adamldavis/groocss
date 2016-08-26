@@ -35,9 +35,8 @@ class GrooCSS extends Script {
         compilerConfig.scriptBaseClass = "${packg}.GrooCSS"
 
         def shell = new GroovyShell(this.class.classLoader, binding, compilerConfig)
-        def meta = 'Integer.metaClass.propertyMissing = { "$delegate$it" };'
 
-        shell.evaluate("$meta config = css.config = _config;\nroot = css;\n${inf.text}")
+        shell.evaluate("config = css.config = _config;\nroot = css;\n${inf.text}")
 
         MediaCSS css = (MediaCSS) binding.getProperty('root')
 
@@ -84,6 +83,14 @@ class GrooCSS extends Script {
     /** Current MediaCSS object used for processing. */
     MediaCSS currentCss = css
 
+    /** Used by mod method added to Integer class. */
+    KeyFrames currentKf
+
+    public GrooCSS() {
+        Integer.metaClass.propertyMissing = { "$delegate$it" }
+        Integer.metaClass.mod = { Closure frameCl -> currentKf.frame(delegate, frameCl) }
+    }
+
     public String toString() { css.toString() }
 
     MediaCSS media(String mediaRule, @DelegatesTo(GrooCSS) Closure clos) {
@@ -104,9 +111,10 @@ class GrooCSS extends Script {
 
     /** Creates a new KeyFrames element and runs given closure on it. */
     KeyFrames kf(String name, @DelegatesTo(KeyFrames) Closure clos) {
-        KeyFrames frames = new KeyFrames(name: name, config: config)
+        KeyFrames frames = currentKf = new KeyFrames(name: name, config: config)
         clos.delegate = frames
         clos()
+        currentKf = null
         currentCss << frames
         frames
     }
@@ -177,7 +185,6 @@ class GrooCSS extends Script {
 
     /** Processes the given closure with given optional config. */
     static GrooCSS runBlock(Config conf = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
-        Integer.metaClass.propertyMissing = { "$delegate$it" }
         GrooCSS gcss = new GrooCSS(config: conf)
         gcss.css.config = conf
         clos.delegate = gcss

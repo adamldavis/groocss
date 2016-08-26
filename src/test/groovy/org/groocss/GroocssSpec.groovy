@@ -644,4 +644,22 @@ class GroocssSpec extends Specification {
         "$css" == "td:nth-child(odd),td:first-child{color: #abc;}"
     }
 
+    def "should use Integer mod to create keyframe"() {
+        when:
+        def css = GrooCSS.withConfig { noExts() }.process {
+            keyframes('bounce') {
+                40% {
+                    translateY('-30px')
+                }
+            }
+        }
+        then:
+        "$css" == """
+        @keyframes bounce {
+        40%{transform: translateY(-30px);}
+        }
+        """.stripIndent().trim()
+    }
+
+
 }
