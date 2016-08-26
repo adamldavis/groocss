@@ -85,4 +85,16 @@ class Selector {
     def and(e) { if (e instanceof Selector) and((Selector) e); if (e instanceof StyleGroup) and((StyleGroup) e)}
 
     String toString() { value }
+
+    /** Adds the given PseudoClass's value to this selector. Allows syntax: input % hover. */
+    def mod(PseudoClass pc) {
+        new Selector("$value$pc", owner)
+    }
+
+    /** Prepends the value of this selector to the given styleGroup's selector. Allows syntax: input % hover {...}. */
+    def mod(PseudoClass.StyleGroup styleGroup) {
+        styleGroup.resetSelector(value + styleGroup.selector)
+        styleGroup
+    }
+
 }

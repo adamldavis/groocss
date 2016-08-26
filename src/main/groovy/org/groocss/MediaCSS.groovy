@@ -90,4 +90,9 @@ class MediaCSS {
     def methodMissing(String name, args) {
         if (args[0] instanceof Closure) sg(".$name", (Closure) args[0])
     }
+
+    /** Allows _.styleClass syntax to be used anywhere selectors are used. */
+    def propertyMissing(String name) {
+        new Selector(".$name")
+    }
 }

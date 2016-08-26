@@ -346,11 +346,10 @@ class GroocssSpec extends Specification {
         "$css" == "a.me{top: 0;}"
     }
 
-    def should_use_psuedo_classes() {
+    def "should use pseudo classes"() {
         when:
         def css = GrooCSS.process {
-            a {
-                not('.button').firstChild()
+            a%not(get_().button)%firstChild() {
                 color black
             }
         }
@@ -358,10 +357,10 @@ class GroocssSpec extends Specification {
         "$css" == "a:not(.button):first-child{color: Black;}"
     }
 
-    def should_use_nth_child() {
+    def "should use nth-child"() {
         when:
         def css = GrooCSS.process {
-            a { nthChild('odd'); color '#abc' }
+            a % nthChild('odd') { color '#abc' }
         }
         then:
         "$css" == "a:nth-child(odd){color: #abc;}"
@@ -622,6 +621,27 @@ class GroocssSpec extends Specification {
         }
         then:
         "$css" == 'div span[id="123"]{background: White;}\ndiv{color: Black;}'
+    }
+
+    def "should use DSL for pseudo-classes"() {
+        when:
+        def css = GrooCSS.process {
+            div % hover | p % hover {
+                background('#000')
+            }
+            li % nthChild('2n') { marginTop 2.px }
+        }
+        then:
+        "$css" == 'div:hover,p:hover{background: #000;}\nli:nth-child(2n){margin-top: 2px;}'
+    }
+
+    def "should use odd pseudo-class shortcut for nth-child"() {
+        when:
+        def css = GrooCSS.process {
+            td % odd | td % firstChild { color '#abc' }
+        }
+        then:
+        "$css" == "td:nth-child(odd),td:first-child{color: #abc;}"
     }
 
 }

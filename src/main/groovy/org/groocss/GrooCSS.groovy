@@ -1055,4 +1055,223 @@ class GrooCSS extends Script {
     //------------------------------------------------------------------> Underscore
     MediaCSS get_() { currentCss }
 
+    //---> Pseudo-classes
+
+    /** Pseudo-class: :active. */
+    PseudoClass.StyleGroup active(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('active', closure) }
+
+    /** Pseudo-class: :checked. */
+    PseudoClass.StyleGroup checked(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('checked', closure) }
+
+    /** Pseudo-class: :default. */
+    PseudoClass.StyleGroup defaultPC(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('default', closure) }
+
+    /** Pseudo-class: :disabled. */
+    PseudoClass.StyleGroup disabled(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('disabled', closure) }
+
+    /** Pseudo-class: :empty. */
+    PseudoClass.StyleGroup empty(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('empty', closure) }
+
+    /** Pseudo-class: :enabled. */
+    PseudoClass.StyleGroup enabled(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('enabled', closure) }
+
+    /** Pseudo-class: :first-child. */
+    PseudoClass.StyleGroup firstChild(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('first-child', closure) }
+
+    /** Pseudo-class: :first-of-type. */
+    PseudoClass.StyleGroup firstOfType(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('first-of-type', closure) }
+
+    /** Pseudo-class: :focus. */
+    PseudoClass.StyleGroup focus(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('focus', closure) }
+
+    /** Pseudo-class: :hover. */
+    PseudoClass.StyleGroup hover(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('hover', closure) }
+
+    /** Pseudo-class: :indeterminate. */
+    PseudoClass.StyleGroup indeterminate(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('indeterminate', closure) }
+
+    /** Pseudo-class: :in-range. */
+    PseudoClass.StyleGroup inRange(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('in-range', closure) }
+
+    /** Pseudo-class: :invalid. */
+    PseudoClass.StyleGroup invalid(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('invalid', closure) }
+
+    /** Pseudo-class: :lang. */
+    PseudoClass.StyleGroup lang(languageCode, @DelegatesTo(StyleGroup) Closure clos) { withPseudoClass "lang($languageCode)", clos }
+
+    /** Pseudo-class: :last-child. */
+    PseudoClass.StyleGroup lastChild(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('last-child', closure) }
+
+    /** Pseudo-class: :last-of-type. */
+    PseudoClass.StyleGroup lastOfType(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('last-of-type', closure) }
+
+    /** Pseudo-class: :link. */
+    PseudoClass.StyleGroup linkPseudoClass(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('link', closure) }
+
+    /** Pseudo-class: :not(@DelegatesTo(StyleGroup) Closure closure). */
+    PseudoClass.StyleGroup not(notStyleGroup, @DelegatesTo(StyleGroup) Closure clos) { withPseudoClass "not($notStyleGroup)", clos }
+
+    /** Pseudo-class: :nth-child. */
+    PseudoClass.StyleGroup nthChild(n, @DelegatesTo(StyleGroup) Closure closure) { withPseudoClass "nth-child($n)", closure }
+
+    /** Pseudo-class: :nth-last-child. */
+    PseudoClass.StyleGroup nthLastChild(n, @DelegatesTo(StyleGroup) Closure clos) { withPseudoClass "nth-last-child($n)", clos }
+
+    /** Pseudo-class: :nth-last-of-type. */
+    PseudoClass.StyleGroup nthLastOfType(n, @DelegatesTo(StyleGroup) Closure clos) { withPseudoClass "nth-last-of-type($n)", clos }
+
+    /** Pseudo-class: :nth-of-type. */
+    PseudoClass.StyleGroup nthOfType(n, @DelegatesTo(StyleGroup) Closure closure) { withPseudoClass "nth-of-type($n)", closure }
+
+    /** Pseudo-class: :only-child. */
+    PseudoClass.StyleGroup onlyChild(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('only-child', closure) }
+
+    /** Pseudo-class: :only-of-type. */
+    PseudoClass.StyleGroup onlyOfType(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('only-of-type', closure) }
+
+    /** Pseudo-class: :optional. */
+    PseudoClass.StyleGroup optional(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('optional', closure) }
+
+    /** Pseudo-class: :out-of-range. */
+    PseudoClass.StyleGroup outOfRange(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('out-of-range', closure) }
+
+    /** Pseudo-class: :read-only. */
+    PseudoClass.StyleGroup readOnly(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('read-only', closure) }
+
+    /** Pseudo-class: :read-write. */
+    PseudoClass.StyleGroup readWrite(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('read-write', closure) }
+
+    /** Pseudo-class: :required. */
+    PseudoClass.StyleGroup required(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('required', closure) }
+
+    /** Pseudo-class: :root. */
+    PseudoClass.StyleGroup root(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('root', closure) }
+
+    /** Pseudo-class: :target. */
+    PseudoClass.StyleGroup target(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('target', closure) }
+
+    /** Pseudo-class: :valid. */
+    PseudoClass.StyleGroup valid(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('valid', closure) }
+
+    /** Pseudo-class: :visited. */
+    PseudoClass.StyleGroup visited(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('visited', closure) }
+
+    @TypeChecked
+    PseudoClass.StyleGroup withPseudoClass(String pseudoClass, @DelegatesTo(StyleGroup) Closure closure) {
+        def sg = new PseudoClass.StyleGroup(":$pseudoClass", config, currentCss)
+        closure.delegate = sg
+        closure(sg)
+        currentCss.add sg
+        sg
+    }
+    
+    /** Pseudo-class: :active. */
+    PseudoClass getActive() { newPseudoClass('active') }
+
+    /** Pseudo-class: :checked. */
+    PseudoClass getChecked() { newPseudoClass('checked') }
+
+    /** Pseudo-class: :default. */
+    PseudoClass getDefault() { newPseudoClass('default') }
+
+    /** Pseudo-class: :disabled. */
+    PseudoClass getDisabled() { newPseudoClass('disabled') }
+
+    /** Pseudo-class: :empty. */
+    PseudoClass getEmpty() { newPseudoClass('empty') }
+
+    /** Pseudo-class: :enabled. */
+    PseudoClass getEnabled() { newPseudoClass('enabled') }
+
+    /** Pseudo-class: :first-child. */
+    PseudoClass getFirstChild() { newPseudoClass('first-child') }
+
+    /** Pseudo-class: :first-of-type. */
+    PseudoClass getFirstOfType() { newPseudoClass('first-of-type') }
+
+    /** Pseudo-class: :focus. */
+    PseudoClass getFocus() { newPseudoClass('focus') }
+
+    /** Pseudo-class: :hover. */
+    PseudoClass getHover() { newPseudoClass('hover') }
+
+    /** Pseudo-class: :indeterminate. */
+    PseudoClass getIndeterminate() { newPseudoClass('indeterminate') }
+
+    /** Pseudo-class: :in-range. */
+    PseudoClass getInRange() { newPseudoClass('in-range') }
+
+    /** Pseudo-class: :invalid. */
+    PseudoClass getInvalid() { newPseudoClass('invalid') }
+
+    /** Pseudo-class: :lang. */
+    PseudoClass lang(languageCode) { newPseudoClass "lang($languageCode)" }
+
+    /** Pseudo-class: :last-child. */
+    PseudoClass getLastChild() { newPseudoClass('last-child') }
+
+    /** Pseudo-class: :last-of-type. */
+    PseudoClass getLastOfType() { newPseudoClass('last-of-type') }
+
+    /** Pseudo-class: :link. */
+    PseudoClass getLink() { newPseudoClass('link') }
+
+    /** Pseudo-class: :not(). */
+    PseudoClass not(notStyleGroup) { newPseudoClass "not($notStyleGroup)" }
+
+    /** Pseudo-class: :nth-child. */
+    PseudoClass nthChild(n) { newPseudoClass "nth-child($n)" }
+
+    /** Pseudo-class: :nth-child(odd). */
+    PseudoClass getOdd() { newPseudoClass "nth-child(odd)" }
+
+    /** Pseudo-class: :nth-child(even). */
+    PseudoClass getEven() { newPseudoClass "nth-child(even)" }
+
+    /** Pseudo-class: :nth-last-child. */
+    PseudoClass nthLastChild(n) { newPseudoClass "nth-last-child($n)" }
+
+    /** Pseudo-class: :nth-last-of-type. */
+    PseudoClass nthLastOfType(n) { newPseudoClass "nth-last-of-type($n)" }
+
+    /** Pseudo-class: :nth-of-type. */
+    PseudoClass nthOfType(n) { newPseudoClass "nth-of-type($n)" }
+
+    /** Pseudo-class: :only-child. */
+    PseudoClass getOnlyChild() { newPseudoClass('only-child') }
+
+    /** Pseudo-class: :only-of-type. */
+    PseudoClass getOnlyOfType() { newPseudoClass('only-of-type') }
+
+    /** Pseudo-class: :optional. */
+    PseudoClass getOptional() { newPseudoClass('optional') }
+
+    /** Pseudo-class: :out-of-range. */
+    PseudoClass getOutOfRange() { newPseudoClass('out-of-range') }
+
+    /** Pseudo-class: :read-only. */
+    PseudoClass getReadOnly() { newPseudoClass('read-only') }
+
+    /** Pseudo-class: :read-write. */
+    PseudoClass getReadWrite() { newPseudoClass('read-write') }
+
+    /** Pseudo-class: :required. */
+    PseudoClass getRequired() { newPseudoClass('required') }
+
+    /** Pseudo-class: :root. */
+    PseudoClass getRoot() { newPseudoClass('root') }
+
+    /** Pseudo-class: :target. */
+    PseudoClass getTarget() { newPseudoClass('target') }
+
+    /** Pseudo-class: :valid. */
+    PseudoClass getValid() { newPseudoClass('valid') }
+
+    /** Pseudo-class: :visited. */
+    PseudoClass getVisited() { newPseudoClass('visited') }
+
+    PseudoClass newPseudoClass(String value) {
+        new PseudoClass(value)
+    }
+
 }

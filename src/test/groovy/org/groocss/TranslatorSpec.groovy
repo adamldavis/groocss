@@ -25,7 +25,7 @@ class TranslatorSpec extends Specification {
         'a{\n  color aliceBlue'                 | 'a{ color: aliceblue'
         'a{\n  color whiteSmoke'                | 'a{ color: WHITESMOKE'
         'a{\n  color white'                     | 'a{ color: white'
-        'a { hover()\n  color blue'             | 'a:hover { color: blue'
+        'a%hover {\n  color blue'               | 'a:hover { color: blue'
         'p.red | a.red {\n  color red\n}'       | 'p.red, a.red { color : red }'
         'p >> a {\n  color blue\n}'      | 'p > a {\n\tcolor: blue }' //>> => >
         'p * a {\n  color blue\n}'       | 'p * a {\ncolor: blue; }' // * => *
@@ -33,6 +33,8 @@ class TranslatorSpec extends Specification {
         'p ^ a {\n  color blue\n}'       | 'p a { \ncolor: blue; }'   // ^ =>  (space)
         'a.clazz {'                      | 'a.clazz {'
         'p ^ a.clazz {\n  color blue\n}' | 'p a.clazz { \ncolor: blue; }'   // ^ =>  (space)
+        'a%nthChild(\'odd\') {'                 | 'a:nth-child(odd) {'
+        'a%not(\'a.blue\') {'                   | 'a:not(a.blue) {'
     }
 
     def should_translate_file() {

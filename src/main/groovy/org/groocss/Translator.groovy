@@ -51,10 +51,8 @@ class Translator {
         else if (line ==~ /\w+\.\w+\s*\{/) pw.println line //just element.class
         else if (line ==~ /\w*\.[-\w]+\s*\{/) // class with dashes
             pw.println "sg '${line[0..-2].trim()}', {"
-        else if (line ==~ /\w+:\w+\s*\{/) { //pseudo-class
-            Matcher m = line =~ /(\w+):(\w+)\s*\{/
-            m.find()
-            pw.println "${m.group(1)} { ${m.group(2)}()"
+        else if (line ==~ /\w+:[-+\w\.\(\)]+\s*\{/) { //pseudo-class
+            processPseudo(originalLine, pw)
         }
         else if (line ==~ /(-webkit-|-ms-|-o-|-moz-)/ + styleRegex) {
             println "warning: skipping: $originalLine"
@@ -99,6 +97,21 @@ class Translator {
             pw.println line.replace('>', '>>').replace('~', '-').replace(',', ' |') + " {"
         else
             pw.println "sg '${line[0..-2].trim()}', {"
+    }
+
+    static void processPseudo(String line, Printer pw) {
+        String result = line
+        Matcher pseudo = line =~ /:([-\w]+)/
+        Matcher parens = line =~ /\(([-+\w\.]+)\)/
+        boolean hasParens = parens.find()
+
+        if (pseudo.find())
+            result = result.replace( ':'+ pseudo.group(1), '%' + nameToCamel(pseudo.group(1)) )
+
+        if (hasParens)
+            result = result.replace(parens.group(1), '\'' + parens.group(1) + '\'')
+
+        pw.println result
     }
 
     private static String convertValue(String value) {
