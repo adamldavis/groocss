@@ -54,20 +54,20 @@ bintray {
     }
 }
 
-task buildRelease(dependsOn: ['test', 'jars', 'pom']) {}
-
-task release(dependsOn: ['bintrayUpload']) << {
-    println "Uploaded $project.version to bintray"
-    incrementVersion()
-}
-
-task inc << { incrementVersion() }
-
-task prepareRelease(dependsOn: ['clean']) << {
+task prepareRelease(dependsOn: clean, description: 'Cleans build and removes -SNAPSHOT') << {
     def props = file('gradle.properties')
     def text = props.text
     props.text = text.replace('-SNAPSHOT','')
 }
+
+task buildRelease(dependsOn: ['test', 'jars', 'pom'], description: 'Tests and builds artifacts') {}
+
+task release(dependsOn: bintrayUpload, description: 'Uploads artifacts to bintray maven repo (jcenter)') << {
+    println "Uploaded $project.version to bintray"
+    incrementVersion()
+}
+
+task inc(description: 'Increments the project version and appends -SNAPSHOT') << { incrementVersion() }
 
 def incrementVersion() {
     def props = file('gradle.properties')
@@ -85,7 +85,7 @@ task pom << {
             inceptionYear '2016'
             url 'http://groocss.org/'
             name 'GrooCSS'
-            description 'Write compile-time checked CSS in Groovy'
+            description 'Code CSS in Groovy'
             licenses {
                 license {
                     name 'The Apache Software License, Version 2.0'
