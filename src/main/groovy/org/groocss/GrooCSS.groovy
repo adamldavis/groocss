@@ -87,7 +87,10 @@ class GrooCSS extends Script {
     KeyFrames currentKf
 
     public GrooCSS() {
-        Integer.metaClass.propertyMissing = { "$delegate$it" }
+        Integer.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
+        Double.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
+        Float.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
+        BigDecimal.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
         Integer.metaClass.mod = { Closure frameCl -> currentKf.frame(delegate, frameCl) }
     }
 
@@ -848,10 +851,10 @@ class GrooCSS extends Script {
     double tan(Number angle) { Math.tan(angle.doubleValue()) }
 
     /** Converts an angle measured in radians to an approximately equivalent angle measured in degrees.*/
-    double toDegrees(Number angrad) { Math.toDegrees(angrad.doubleValue()) }
+    double toDegrees(Number angrad) { Measurement.toDegrees(angrad) }
 
     /**Converts an angle measured in degrees to an approximately equivalent angle measured in radians.*/
-    double toRadians(Number angdeg) { Math.toRadians(angdeg.doubleValue()) }
+    double toRadians(Number angdeg) { Measurement.toRadians(angdeg) }
 
     //------------------------------------------------------------------> Units
     /** Returns units of a number. For example: em,px,mm,cm,ms,s. */
@@ -891,43 +894,7 @@ class GrooCSS extends Script {
 
     @TypeChecked
     Number convertNum(Number num, String conversion) {
-        switch (conversion) {
-            case 'ms-s': return num / 1000 as BigDecimal
-            case 's-ms': return num * 1000 as Integer
-            case 'rad-deg': return toDegrees(num) as Double
-            case 'deg-rad': return toRadians(num) as Double
-            case 'mm-cm': return num / 10 as BigDecimal
-            case 'mm-m': return num / 1000 as BigDecimal
-            case 'cm-m': return num / 100 as BigDecimal
-            case 'cm-mm': return num * 10 as Integer
-            case 'm-mm': return num * 1000 as Integer
-            case 'm-cm': return num * 100 as Integer
-            case 'in-m': return 0.0254 * num
-            case 'in-cm': return 2.54 * num
-            case 'in-mm': return 25.4 * num
-            case 'm-in': return num / 0.0254
-            case 'cm-in': return num / 2.54
-            case 'mm-in': return num / 25.4
-            case 'pt-in': return num / 72.0
-            case 'pc-in': return num * 12 / 72.0
-            case 'pt-pc': return num / 12.0
-            case 'pc-pt': return num * 12 as Integer
-            case 'in-pt': return num * 72 as Integer
-            case 'in-pc': return num * 6 as Integer
-            case 'pt-m': return convertNum(convertNum(num, 'pt-in'), 'in-m')
-            case 'pc-m': return convertNum(convertNum(num, 'pc-in'), 'in-m')
-            case 'pt-cm': return convertNum(convertNum(num, 'pt-in'), 'in-cm')
-            case 'pc-cm': return convertNum(convertNum(num, 'pc-in'), 'in-cm')
-            case 'pt-mm': return convertNum(convertNum(num, 'pt-in'), 'in-mm')
-            case 'pc-mm': return convertNum(convertNum(num, 'pc-in'), 'in-mm')
-            case 'mm-pt': return convertNum(convertNum(num, 'mm-in'), 'in-pt')
-            case 'mm-pc': return convertNum(convertNum(num, 'mm-in'), 'in-pc')
-            case 'cm-pt': return convertNum(convertNum(num, 'cm-in'), 'in-pt')
-            case 'cm-pc': return convertNum(convertNum(num, 'cm-in'), 'in-pc')
-            case 'm-pt': return convertNum(convertNum(num, 'm-in'), 'in-pt')
-            case 'm-pc': return convertNum(convertNum(num, 'm-in'), 'in-pc')
-            default: throw new IllegalArgumentException("Unknown conversion: $conversion")
-        }
+        return Measurement.convertNum(num, conversion)
     }
 
     //------------------------------------------------------------------> Images

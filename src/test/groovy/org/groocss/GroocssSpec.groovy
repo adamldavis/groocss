@@ -661,5 +661,34 @@ class GroocssSpec extends Specification {
         """.stripIndent().trim()
     }
 
+    def "should use Measurement conversions math"() {
+        when:
+        def css = GrooCSS.withConfig { noExts() }.process {
+            sg '*', {
+                animationDelay(100.ms + 1.s)
+                margin 10.pt / 2
+                padding 10.px * 2
+                top 11.in % 2
+            }
+        }
+        then:
+        "$css" == '*{animation-delay: 1100ms;\n\tmargin: 5pt;\n\tpadding: 20px;\n\ttop: 1in;}'
+    }
+
+    def "should determine type of Measurement"() {
+        expect:
+        GrooCSS.process {
+            assert 10.in.distance
+            assert 10.mm.distance
+            assert 10.pt.distance
+            assert 10.ms.time
+            assert 10.s.time
+            assert 10.rad.trig
+            assert !10.s.distance
+            assert !10.mm.time
+            assert !10.rad.time
+            assert !10.cm.trig
+        }
+    }
 
 }
