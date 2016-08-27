@@ -898,14 +898,14 @@ class GrooCSS extends Script {
     }
 
     //------------------------------------------------------------------> Images
-    String getImageWidth(String filename) {
+    Measurement getImageWidth(String filename) {
         def img = ImageIO.read new File(filename)
-        "${img.width}px"
+        new Measurement(img.width, 'px')
     }
 
-    String getImageHeight(String filename) {
+    Measurement getImageHeight(String filename) {
         def img = ImageIO.read new File(filename)
-        "${img.height}px"
+        new Measurement(img.height, 'px')
     }
 
     String getImageSize(String filename) {
