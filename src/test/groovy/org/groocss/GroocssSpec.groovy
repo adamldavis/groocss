@@ -691,4 +691,16 @@ class GroocssSpec extends Specification {
         }
     }
 
+    def "should use Selector object as parameter to sg"() {
+        when:
+        def css = GrooCSS.process {
+            sg (div % hover | p % hover) {
+                background('#000')
+            }
+            sg (li % nthChild('2n')) { marginTop 2.px }
+        }
+        then:
+        "$css" == 'div:hover,p:hover{background: #000;}\nli:nth-child(2n){margin-top: 2px;}'
+    }
+
 }

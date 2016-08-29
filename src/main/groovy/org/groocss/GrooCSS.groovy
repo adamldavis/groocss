@@ -127,6 +127,11 @@ class GrooCSS extends Script {
         currentCss.sel(selector, clos)
     }
 
+    /** Creates a new StyleGroup element and runs given closure on it. */
+    StyleGroup sel(Selector selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
+        currentCss.sel("$selector", clos)
+    }
+
     /** Creates a new @font-face element and runs given closure on it. */
     FontFace fontFace(@DelegatesTo(FontFace) Closure clos) {
         FontFace ff = new FontFace()
@@ -138,6 +143,11 @@ class GrooCSS extends Script {
 
     /** Creates a new StyleGroup element and runs given closure on it. */
     StyleGroup sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+        sel(selector, clos)
+    }
+
+    /** Creates a new StyleGroup element and runs given closure on it. */
+    StyleGroup sg(Selector selector, @DelegatesTo(StyleGroup) Closure clos) {
         sel(selector, clos)
     }
 
