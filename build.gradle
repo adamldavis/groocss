@@ -1,8 +1,14 @@
 plugins {
+    id 'com.gradle.build-scan' version '1.0'
     id "groovy"
     id "application"
     id 'maven'
     id "com.jfrog.bintray" version "1.7.1"
+}
+
+buildScan {
+    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
+    licenseAgree = 'yes'
 }
 
 repositories {
