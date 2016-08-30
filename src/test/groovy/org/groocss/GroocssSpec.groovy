@@ -703,4 +703,39 @@ class GroocssSpec extends Specification {
         "$css" == 'div:hover,p:hover{background: #000;}\nli:nth-child(2n){margin-top: 2px;}'
     }
 
+    def "rotate should throw AssertionError for non-angle Measurements"() {
+        when:
+        GrooCSS.process {
+            p { rotate 12.px }
+        }
+        then:
+        thrown(AssertionError)
+    }
+
+    def "minWidth should throw AssertionError for non-length Measurements"() {
+        when:
+        GrooCSS.process {
+            p { minWidth 1.ms }
+        }
+        then:
+        thrown(AssertionError)
+    }
+
+    def "fontSize should throw AssertionError for non-length Measurements"() {
+        when:
+        GrooCSS.process {
+            p { fontSize 45.deg }
+        }
+        then:
+        thrown(AssertionError)
+    }
+
+    def "animationDelay should throw AssertionError for non-time Measurements"() {
+        when:
+        GrooCSS.process {
+            p { animationDelay 1.em }
+        }
+        then:
+        thrown(AssertionError)
+    }
 }

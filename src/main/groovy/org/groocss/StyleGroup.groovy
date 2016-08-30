@@ -134,7 +134,7 @@ class StyleGroup {
     }
     /** Sets or returns when the animation will start */
     StyleGroup animationDelay (value) {
-        styles << new Style(name: 'animationDelay', value: "$value")
+        styles << new Style(name: 'animationDelay', value: "${validateTime value}")
         cloneTrio(styles[-1])
         this
     }
@@ -146,7 +146,7 @@ class StyleGroup {
     }
     /** Sets or returns how many seconds or milliseconds an animation takes to complete one cycle */
     StyleGroup animationDuration (value) {
-        styles << new Style(name: 'animationDuration', value: "$value")
+        styles << new Style(name: 'animationDuration', value: "${validateTime value}")
         cloneTrio(styles[-1])
         this
     }
@@ -262,7 +262,7 @@ class StyleGroup {
     }
     /** Sets or returns the width of the bottom border */
     StyleGroup borderBottomWidth (value) {
-        styles << new Style(name: 'borderBottomWidth', value: "$value")
+        styles << new Style(name: 'borderBottomWidth', value: "${validateLength(value)}")
         this
     }
     /** Sets or returns whether the table border should be collapsed into a single border, or not */
@@ -322,12 +322,12 @@ class StyleGroup {
     }
     /** Sets or returns the width of the left border */
     StyleGroup borderLeftWidth (value) {
-        styles << new Style(name: 'borderLeftWidth', value: "$value")
+        styles << new Style(name: 'borderLeftWidth', value: "${validateLength(value)}")
         this
     }
     /** A shorthand property for setting or returning all the four border*Radius properties */
     StyleGroup borderRadius (value) {
-        Style style = new Style(name: 'borderRadius', value: "$value")
+        Style style = new Style(name: 'borderRadius', value: "${validateLength(value)}")
         styles << style
         if (config.addWebkit) styles << cloneWebkit(style)
         if (config.addMoz) styles << cloneMoz(style)
@@ -350,7 +350,7 @@ class StyleGroup {
     }
     /** Sets or returns the width of the right border */
     StyleGroup borderRightWidth (value) {
-        styles << new Style(name: 'borderRightWidth', value: "$value")
+        styles << new Style(name: 'borderRightWidth', value: "${validateLength(value)}")
         this
     }
     /** Sets or returns the space between cells in a table */
@@ -390,7 +390,7 @@ class StyleGroup {
     }
     /** Sets or returns the width of the top border */
     StyleGroup borderTopWidth (value) {
-        styles << new Style(name: 'borderTopWidth', value: "$value")
+        styles << new Style(name: 'borderTopWidth', value: "${validateLength(value)}")
         this
     }
     /** Sets or returns the width of an element's border (can have up to four values) */
@@ -591,7 +591,7 @@ class StyleGroup {
     }
     /** Sets or returns the font size of the text */
     StyleGroup fontSize (value) {
-        styles << new Style(name: 'fontSize', value: "$value")
+        styles << new Style(name: 'fontSize', value: "${validateLength value}")
         this
     }
     /** Sets or returns whether the style of the font is normal, italic or oblique */
@@ -691,42 +691,42 @@ class StyleGroup {
     }
     /** Sets or returns the bottom margin of an element */
     StyleGroup marginBottom (value) {
-        styles << new Style(name: 'marginBottom', value: "$value")
+        styles << new Style(name: 'marginBottom', value: "${validateLength value}")
         this
     }
     /** Sets or returns the left margin of an element */
     StyleGroup marginLeft (value) {
-        styles << new Style(name: 'marginLeft', value: "$value")
+        styles << new Style(name: 'marginLeft', value: "${validateLength value}")
         this
     }
     /** Sets or returns the right margin of an element */
     StyleGroup marginRight (value) {
-        styles << new Style(name: 'marginRight', value: "$value")
+        styles << new Style(name: 'marginRight', value: "${validateLength value}")
         this
     }
     /** Sets or returns the top margin of an element */
     StyleGroup marginTop (value) {
-        styles << new Style(name: 'marginTop', value: "$value")
+        styles << new Style(name: 'marginTop', value: "${validateLength value}")
         this
     }
     /** Sets or returns the maximum height of an element */
     StyleGroup maxHeight (value) {
-        styles << new Style(name: 'maxHeight', value: "$value")
+        styles << new Style(name: 'maxHeight', value: "${validateLength value}")
         this
     }
     /** Sets or returns the maximum width of an element */
     StyleGroup maxWidth (value) {
-        styles << new Style(name: 'maxWidth', value: "$value")
+        styles << new Style(name: 'maxWidth', value: "${validateLength value}")
         this
     }
     /** Sets or returns the minimum height of an element */
     StyleGroup minHeight (value) {
-        styles << new Style(name: 'minHeight', value: "$value")
+        styles << new Style(name: 'minHeight', value: "${validateLength value}")
         this
     }
     /** Sets or returns the minimum width of an element */
     StyleGroup minWidth (value) {
-        styles << new Style(name: 'minWidth', value: "$value")
+        styles << new Style(name: 'minWidth', value: "${validateLength value}")
         this
     }
     /** Sets or returns where to navigate when using the arrow-down navigation key */
@@ -1025,7 +1025,7 @@ class StyleGroup {
     }
     /** Sets or returns the width of an element */
     StyleGroup width (value) {
-        styles << new Style(name: 'width', value: "$value")
+        styles << new Style(name: 'width', value: "${validateLength value}")
         this
     }
     /** Sets or returns line breaking rules for non-CJK scripts */
@@ -1068,29 +1068,30 @@ class StyleGroup {
     }
     /** Defines a 2D translation. */
     StyleGroup translate(x,y) {
-        transform << "translate($x,$y)"
+        transform << "translate(${validateLength x},${validateLength y})"
         this
     }
     /** Defines a 3D translation. */
     StyleGroup translate3d(x,y,z) {
-        transform << "translate3d($x,$y,$z)"
+        transform << "translate3d(${validateLength x},${validateLength y},${validateLength z})"
         this
     }
     /** Defines a translation, using only the value for the X-axis. */
     StyleGroup translateX(x) {
-        transform << "translateX($x)"
+        transform << "translateX(${validateLength x})"
         this
     }
     /** Defines a translation, using only the value for the Y-axis. */
     StyleGroup translateY(y) {
-        transform << "translateY($y)"
+        transform << "translateY(${validateLength y})"
         this
     }
     /** Defines a 3D translation, using only the value for the Z-axis. */
     StyleGroup translateZ(z) {
-        transform << "translateZ($z)"
+        transform << "translateZ(${validateLength z})"
         this
     }
+
     /** Defines a 2D scale transformation. */
     StyleGroup scale(x,y) {
         transform << "scale($x,$y)"
@@ -1116,47 +1117,71 @@ class StyleGroup {
         transform << "scaleZ($z)"
         this
     }
+
     /** Defines a 2D rotation, the angle is specified in the parameter. */
     StyleGroup rotate(angle) {
+        validateAngle angle
         transform << "rotate($angle)"
         this
     }
     /** Defines a 3D rotation. */
     StyleGroup rotate3d(x,y,z,angle) {
+        validateAngle angle
         transform << "rotate3d($x,$y,$z,$angle)"
         this
     }
     /** Defines a 3D rotation along the X-axis. */
     StyleGroup rotateX(angle) {
+        validateAngle angle
         transform << "rotateX($angle)"
         this
     }
     /** Defines a 3D rotation along the Y-axis. */
     StyleGroup rotateY(angle) {
+        validateAngle angle
         transform << "rotateY($angle)"
         this
     }
     /** Defines a 3D rotation along the Z-axis. */
     StyleGroup rotateZ(angle) {
+        validateAngle angle
         transform << "rotateZ($angle)"
         this
     }
     /** Defines a 2D skew transformation along the X- and the Y-axis. */
     StyleGroup skew(xangle,yangle) {
+        validateAngle xangle
+        validateAngle yangle
         transform << "skew($xangle,$yangle)"
         this
     }
     /** Defines a 2D skew transformation along the X-axis. */
     StyleGroup skewX(angle) {
+        validateAngle angle
         transform << "skewX($angle)"
         this
     }
     /** Defines a 2D skew transformation along the Y-axis. */
     StyleGroup skewY(angle) {
+        validateAngle angle
         transform << "skewY($angle)"
         this
     }
 
+    def validateAngle(angle) {
+        if (angle instanceof  Measurement) assert angle.trig
+        angle
+    }
+
+    def validateLength(x) {
+        if (x instanceof Measurement) assert x.distance || x.relative || x.percent || x.pixel
+        x
+    }
+
+    def validateTime(x) {
+        if (x instanceof Measurement) assert x.time
+        x
+    }
 
 }
 
