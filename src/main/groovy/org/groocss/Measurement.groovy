@@ -84,6 +84,10 @@ class Measurement {
         new Measurement(value / number, unit)
     }
 
+    Measurement power(Number number) {
+        new Measurement(value ** number, unit)
+    }
+
     Number convertValue(Measurement other) {
         if (unit == other.unit) other.value
         else convertNum(other.value, "${other.unit}-$unit")

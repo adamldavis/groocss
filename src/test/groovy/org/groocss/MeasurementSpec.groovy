@@ -103,4 +103,9 @@ class MeasurementSpec extends Specification {
         new Measurement(0.000, 'in').zero
     }
 
+    def "power works"() {
+        expect:
+        new Measurement(4, 'px')**2 == new Measurement(16, 'px')
+    }
+
 }
