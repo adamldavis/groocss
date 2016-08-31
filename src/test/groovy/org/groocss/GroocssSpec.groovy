@@ -400,11 +400,11 @@ class GroocssSpec extends Specification {
         '1.1em'| 1.1
     }
 
-    def should_add_unit() {
+    def "should add unit"() {
         given:
         def css = new GrooCSS()
         expect:
-        css.unit(11, 'px') == '11px'
+        css.unit(11, 'px').toString() == '11px'
     }
 
     def should_convert_values() {

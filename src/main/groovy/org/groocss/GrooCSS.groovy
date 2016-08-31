@@ -869,6 +869,7 @@ class GrooCSS extends Script {
     //------------------------------------------------------------------> Units
     /** Returns units of a number. For example: em,px,mm,cm,ms,s. */
     String getUnit(value) {
+        if (value instanceof Measurement) return value.unit
         def match = (value =~ /\d*\.?\d*(\w+)/)
         if(match.matches()) match?.group(1)
         else ''
@@ -876,7 +877,10 @@ class GrooCSS extends Script {
 
     /** Remove or change the unit of a dimension. */
     def unit(value, units = null) {
-        if (units) "$value$units"
+        if (units) {
+            if (value instanceof Number) new Measurement(value, "$units")
+            else "$value$units"
+        }
         else {
             def match = (value =~ /(\d*\.?\d*)\w+/)
             if (match.matches()) {
