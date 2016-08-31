@@ -88,6 +88,10 @@ class Measurement {
         new Measurement(value ** number, unit)
     }
 
+    Measurement negative() {
+        new Measurement(-1 * value, unit)
+    }
+
     Number convertValue(Measurement other) {
         if (unit == other.unit) other.value
         else convertNum(other.value, "${other.unit}-$unit")
