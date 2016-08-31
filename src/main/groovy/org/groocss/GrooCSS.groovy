@@ -34,7 +34,7 @@ class GrooCSS extends Script {
         compilerConfig.addCompilationCustomizers(imports)
         compilerConfig.scriptBaseClass = "${packg}.GrooCSS"
 
-        def shell = new GroovyShell(this.class.classLoader, binding, compilerConfig)
+        def shell = new GroovyShell(Thread.currentThread().contextClassLoader, binding, compilerConfig)
 
         shell.evaluate("config = css.config = _config;\nroot = css;\n${inf.text}")
 
@@ -114,7 +114,7 @@ class GrooCSS extends Script {
 
     /** Creates a new KeyFrames element and runs given closure on it. */
     KeyFrames kf(String name, @DelegatesTo(KeyFrames) Closure clos) {
-        KeyFrames frames = currentKf = new KeyFrames(name: name, config: config)
+        KeyFrames frames = currentKf = new KeyFrames(name: name, config: currentCss.config)
         clos.delegate = frames
         clos()
         currentKf = null
