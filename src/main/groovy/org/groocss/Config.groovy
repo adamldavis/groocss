@@ -19,6 +19,12 @@ class Config {
 
     String charset = null
 
+    Config() {}
+
+    Config(Map map) {
+        this.properties.keySet().each { if (it != 'class' && map.containsKey(it)) this[it] = map[it] }
+    }
+
     /** Sets the compress flag to true. */
     Config compress() {
         compress = true

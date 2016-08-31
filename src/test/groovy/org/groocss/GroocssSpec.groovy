@@ -738,4 +738,9 @@ class GroocssSpec extends Specification {
         then:
         thrown(AssertionError)
     }
+
+    def "Config map constructor works" () {
+        expect:
+        new Config([compress: true]).compress
+    }
 }
