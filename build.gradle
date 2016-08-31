@@ -35,6 +35,7 @@ task zipSrc(type: Jar) {
 task jars {
     dependsOn 'zipDocs', 'zipSrc', 'jar'
 }
+tasks['jar'].archiveName = "${applicationName}-${project.version}.jar"
 
 bintray {
     user = System.getenv('BINTRAY_USER')
