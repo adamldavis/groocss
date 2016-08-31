@@ -62,9 +62,9 @@ class MediaCSS {
 
         if (!mediaRule && charset) writer.append "@charset \"$charset\";$sn"
         if (fonts) writer.append (fonts.join(sn) + sn)
-        if (mediaRule) writer.append "@media $mediaRule {$sn${groups.join(sn)}$sn}"
+        if (mediaRule) writer.append(fonts ? sn : '').append "@media $mediaRule {$sn${groups.join(sn)}$sn}"
         else writer.append (groups.findAll{ !it.isEmpty() }.join(sn))
-        if (kfs) writer.append (kfs.join(sn))
+        if (kfs) writer.append((groups || fonts) ? sn : '').append (kfs.join(sn))
 
         if (otherCss)
             otherCss.each {

@@ -14,13 +14,14 @@ class KeyFrames {
 
     String toString() {
         def delim = config.compress ? '' : (config.prettyPrint ? '\n    ' : '\n')
+        def newline = config.compress ? '' : '\n'
         def joined = config.prettyPrint ?
                 groups.collect{ "$it".replace(' '*4,' '*8).replace('}','    }') }.join(delim) :
                 groups.join(delim)
 
-        if (name) "@keyframes $name {$delim$joined\n}" +
-                (config.addWebkit ? "@-webkit-keyframes $name {$delim$joined\n}" : '')
-        else groups.join('\n')
+        if (name) "@keyframes $name {$delim$joined$newline}" +
+                (config.addWebkit ? "@-webkit-keyframes $name {$delim$joined$newline}" : '')
+        else groups.join(newline)
     }
 
     /** Adds a "frame" block for given percent. */
