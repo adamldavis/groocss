@@ -89,6 +89,7 @@ task pom << {
     pom {
         project {
             groupId 'org.groocss'
+            artifactId 'groocss'
             inceptionYear '2016'
             url 'http://groocss.org/'
             name 'GrooCSS'
