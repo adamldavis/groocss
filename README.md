@@ -1,8 +1,8 @@
 
 [![Build Status](https://snap-ci.com/adamldavis/groocss/branch/master/build_image)](https://snap-ci.com/adamldavis/groocss/branch/master)
 [ ![Download](https://api.bintray.com/packages/adamldavis/maven/GrooCSS/images/download.svg) ](https://bintray.com/adamldavis/maven/GrooCSS/_latestVersion)
-,[Gradle Plugin](https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin)
-,[Build Scan](https://scans.gradle.com/s/voi3o46bkjbcg)
+/ [Gradle Plugin](https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin)
+/ [Build Scan](https://scans.gradle.com/s/voi3o46bkjbcg)
 
 # GrooCSS
 
@@ -61,6 +61,13 @@ For example:
 
 If you have a lot of files, `inFile` and `outFile` can be directories (it will assume groocss files end in `.groocss`).
 
+There's also a `GroocssTask` available if you want to have finer-grained control. Here's an example using a task:
+
+    task css(type: org.groocss.GroocssTask, dependsOn: convertCss) {
+        conf = new org.groocss.Config(compress: true, addOpera: false)
+        inFile = file('index.groocss')
+        outFile = file("$cssDir/index.css.min")
+    }
 
 ## Using Gradle without Plugin
 
@@ -89,13 +96,13 @@ If you have a lot of files, `inFile` and `outFile` can be directories (it will a
 
 ### Styles DSL
 
-    def myColor = '#fe33ac'
+    def myColor = c('#fe33ac')
 
     _.box {
       color myColor
       borderColor '#fdcdea'
     }
-    sg '.box div', {
+    _.box ^ div {
       boxShadow '0 0 5px rgba(0, 0, 0, 0.3)'
     }
     table {
@@ -107,6 +114,9 @@ If you have a lot of files, `inFile` and `outFile` can be directories (it will a
     input['class$="test"'] = {
         background yellow
     }
+    sg '#formId', {     // sg useful for ID's
+        minWidth 100.px // resolves to 100px
+    }
     p + div {
         border '1px solid black'
     }
@@ -116,11 +126,18 @@ If you have a lot of files, `inFile` and `outFile` can be directories (it will a
     p - a { color blue }        // - => ~(tilde)
     p ^ a { color blue }        // ^ =>  (space)
 
+### Measurement Math
+
+    def myWidth = 100.pt + 1.in // converts to pt
+    def myDelay = 100.ms + 1.s     // converts to ms
+    def mySize = myWidth / 2    // you can multiply/divide with any number
+    def doubleSize = myWidth * 2
+
 ### Extending
 
     _.warn { color red }
     _.error {
-        extend '.warn'
+        extend(_.warn) // extend '.warn' also works
         background black
     }
     
@@ -145,19 +162,19 @@ Produces:
     a:hover { color: Blue; }
     div > p { color: #eee; }
 
-### Keyframes DSL
+### Keyframes and Transforms DSL
 
     def css = GrooCSS.process(new Config(addWebkit: false, addMoz: false, addOpera: false)) {
     
         keyframes('bounce') {
-            frame 40, {
-                transform 'translateY(-30px)'
+            40 % {
+                translateY(-30.px)
             }
-            frame 60, {
-                transform 'translateY(-15px)'
+            60 % {
+                translateY(-15.px)
             }
             frame([0,20,50,80,100]) {
-                transform 'translateY(0)'
+                translateY(0)
             }
         }
     }
@@ -198,6 +215,10 @@ You can also use named colors:
         src 'url(sensational.woff)'
     }
     
+Resolves to:
+
+    @font-face { font-family: myFirstFont; font-weight: normal; src:url(sensational.woff); }
+    
 ### Custom styles
 
 	body {
@@ -213,6 +234,8 @@ To "compress" the output (no new-lines), just pass in a Config object:
     GrooCSS.process(new Config(compress: true))
     //OR
     GrooCSS.convert(new Config(compress: true), infile, outfile)
+    //OR
+    groocss { compress = true } // using Gradle plugin
 
 ## Media
 
@@ -228,12 +251,13 @@ Produces:
 
 ## Pseudo-classes
 
-    input % hover {
-        color blue}
+    input % hover { color blue }
+    li % nthChild('3n') { color blue }
 
 Produces:
 
     input:hover { color: Blue; }
+    li:nth-child(3n) { color: Blue; }
 
 ## Config
 
