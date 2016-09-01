@@ -1,7 +1,8 @@
 
 [![Build Status](https://snap-ci.com/adamldavis/groocss/branch/master/build_image)](https://snap-ci.com/adamldavis/groocss/branch/master)
-
 [ ![Download](https://api.bintray.com/packages/adamldavis/maven/GrooCSS/images/download.svg) ](https://bintray.com/adamldavis/maven/GrooCSS/_latestVersion)
+,[Gradle Plugin](https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin)
+,[Build Scan](https://scans.gradle.com/s/voi3o46bkjbcg)
 
 # GrooCSS
 
@@ -30,13 +31,44 @@ Like [Less](http://lesscss.org/) but without inventing a new language. The missi
 - Translator to convert from existing CSS
 - Available pretty print (using Config)
 
-## Using Gradle
+## New in 0.7
+
+- Better pseudo-class support with %
+- Measurements are now fully supported including math between different compatible types.
+- Added [Gradle Plugin](https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin)
+
+## Using Gradle with Plugin
+
+Using Gradle 2.1 or later, you simply apply the plugin, provide any optional configuration, and provide a list of files to convert.
+The plugin adds a `convertCss` task for converting your groocss files into css. 
+For example:
+
+    plugins {
+      id "org.groocss.groocss-gradle-plugin" version "0.7.1"
+    }
+    def cssDir = "$parent.buildDir/../www/css"
+
+    groocss { // any config
+        addOpera = false
+        prettyPrint = true
+    }
+    groocssfiles { // a list of in/out files
+        index {
+            inFile = file('index.groocss')
+            outFile = file("$cssDir/index.css")
+        }
+    }
+
+If you have a lot of files, `inFile` and `outFile` can be directories (it will assume groocss files end in `.groocss`).
+
+
+## Using Gradle without Plugin
 
     import org.groocss.GrooCSS
 
     buildscript {
         repositories { jcenter() }
-        dependencies { classpath 'org.groocss:groocss:0.6.1' }
+        dependencies { classpath 'org.groocss:groocss:0.7' }
     }
     task css << {
         def file = file('css/out.css')
@@ -196,7 +228,7 @@ Produces:
 
 ## Pseudo-classes
 
-    input { hover()
+    input % hover {
         color blue}
 
 Produces:
