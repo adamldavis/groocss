@@ -20,6 +20,7 @@ dependencies {
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 }
 
+project.group = 'org.groocss'
 applicationName = "groocss"
 mainClassName= 'org.groocss.GrooCSS'
 
