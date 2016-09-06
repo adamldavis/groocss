@@ -45,7 +45,6 @@ dependencies {
 
 apply plugin: "com.gradle.plugin-publish"
 group = 'org.groocss'
-version = "${project.version}.1"
 
 pluginBundle {
     website = 'http://www.groocss.org/'

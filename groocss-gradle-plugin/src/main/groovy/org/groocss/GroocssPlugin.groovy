@@ -47,14 +47,20 @@ class GroocssPlugin implements Plugin<Project> {
                 if (cssFile.inFile.file) convertFile(cssFile.inFile, cssFile.outFile)
                 else if (cssFile.inFile.isDirectory()) {
                     cssFile.outFile.mkdirs()
-                    cssFile.inFile.listFiles().each { File f ->
-                        convertFile( f, new File(cssFile.outFile, f.name.replace('groo','')) )
+                    cssFile.inFile.listFiles(
+                        { File f -> f.name.endsWith('.groovy') || f.name.endsWith('.groocss') } as FileFilter
+                    ).each {
+                        File file -> convertFile file, new File(cssFile.outFile, toCssName(file.name))
                     }
                 }
             }
         }
         buildTask?.dependsOn convertCss
         processTask?.dependsOn convertCss
+    }
+
+    String toCssName(String name) {
+        name.replace('.css.groovy', '.css').replace('.groovy', '.css').replace('.groocss', '.css')
     }
 
 }
