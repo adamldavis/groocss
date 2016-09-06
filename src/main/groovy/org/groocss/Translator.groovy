@@ -15,7 +15,11 @@ class Translator {
 
     /** Converts from CSS to Groocss. */
     static void convertFromCSS(File inf, File out) {
-        out.withPrintWriter { pw -> convertFromCSS(inf as Reader, pw as Printer) }
+        out.withPrintWriter { pw -> convertFromCSS(new Reader() {
+            void eachLine(Closure closure) { inf.eachLine closure }
+        }, new Printer() {
+            void println(Object value) { pw.println value }
+        }) }
     }
 
     static String convertFromCSS(String text) {
