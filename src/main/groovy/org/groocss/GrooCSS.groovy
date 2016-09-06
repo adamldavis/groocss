@@ -1111,6 +1111,12 @@ class GrooCSS extends Script {
     /** Pseudo-class: :nth-of-type. */
     PseudoClass.StyleGroup nthOfType(n, @DelegatesTo(StyleGroup) Closure closure) { withPseudoClass "nth-of-type($n)", closure }
 
+    /** Pseudo-class: "nth-child(odd)". */
+    PseudoClass.StyleGroup odd(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass "nth-child(odd)", closure }
+
+    /** Pseudo-class: "nth-child(even)". */
+    PseudoClass.StyleGroup even(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass "nth-child(even)", closure }
+
     /** Pseudo-class: :only-child. */
     PseudoClass.StyleGroup onlyChild(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('only-child', closure) }
 

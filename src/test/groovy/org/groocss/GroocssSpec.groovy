@@ -743,4 +743,14 @@ class GroocssSpec extends Specification {
         expect:
         new Config([compress: true]).compress
     }
+
+    def "odd and even should become nth-child(odd even)"() {
+        when:
+        def css = GrooCSS.process {
+            odd { backgroundColor '#eee' }
+            even { backgroundColor '#fff' }
+        }
+        then:
+        "$css" == ':nth-child(odd){background-color: #eee;}\n:nth-child(even){background-color: #fff;}'
+    }
 }
