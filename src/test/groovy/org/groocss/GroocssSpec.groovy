@@ -753,4 +753,14 @@ class GroocssSpec extends Specification {
         then:
         "$css" == ':nth-child(odd){background-color: #eee;}\n:nth-child(even){background-color: #fff;}'
     }
+
+    def "you should be able to extend a pseudo-class lazily"() {
+        when:
+        def css = GrooCSS.process {
+            odd { backgroundColor '#eee' }
+            li % even { extend(odd) }
+        }
+        then:
+        "$css" == ':nth-child(odd),li:nth-child(even){background-color: #eee;}'
+    }
 }

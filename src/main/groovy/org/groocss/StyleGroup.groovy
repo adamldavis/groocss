@@ -11,6 +11,8 @@ class StyleGroup {
     /** Original selector as first defined. */
     String originalSelector
 
+    List<StyleGroup> extenders = []
+
     List<Style> styleList = []
     class Styles {
         Styles leftShift(Style s) { current.styleList.add s ; this }
@@ -68,11 +70,21 @@ class StyleGroup {
         extend("$other")
     }
 
+    /** See #extend(String). */
+    StyleGroup extend(PseudoClass other) {
+        extend("$other")
+    }
+
     /** Finds an existing StyleGroup with given selector and appends [comma selector] to its selector.*/
     StyleGroup extend(String otherSelector) {
         StyleGroup other = owner.groups.find {it.originalSelector == otherSelector}
-        if (other) other.selector += ",$selector"
+        if (other) other.extenders << this
         other
+    }
+
+    /** Gets the current selector plus the selectors of extenders, if any, separated by commas. */
+    private String getSelectorPlus() {
+        selector + (extenders ? (',' + extenders.collect{it.selector}.join(',')) : '')
     }
 
     String toString() {
@@ -86,9 +98,9 @@ class StyleGroup {
         if (isEmpty()) ''
         else if (config.prettyPrint) {
             delim = '\n    '
-            selector + ' {' + delim + (styleList + tss).join(delim) + '\n}'
+            selectorPlus + ' {' + delim + (styleList + tss).join(delim) + '\n}'
         }
-        else selector + '{' + (styleList + tss).join(delim) +'}'
+        else selectorPlus + '{' + (styleList + tss).join(delim) +'}'
     }
 
     /** Reports true if both styleList and transform are empty. */
