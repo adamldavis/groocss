@@ -8,20 +8,27 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+      <link rel="stylesheet" type="text/css" href="stylesheets/style.css" media="screen">
   </head>
   <body>
-    <section class="page-header">
+
+    <header class="page-header">
+        <img src="images/groocss2_256.png" width="128" height="128">
       <h1 class="project-name">GrooCSS</h1>
       <h2 class="project-tagline">GrooCSS - code CSS in Groovy</h2>
       <a href="https://github.com/adamldavis/groocss" class="btn">View on GitHub</a>
+      <a href="https://bintray.com/adamldavis/maven/GrooCSS" class="btn">View on Bintray</a>
       <a href="https://github.com/adamldavis/groocss/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/adamldavis/groocss/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+    </header>
 
     <section class="main-content">
+
+        <img src="images/code groocss small.png" alt="GrooCSS - code CSS in Groovy" style="float: left">
+
       <p><a href="https://snap-ci.com/adamldavis/groocss/branch/master"><img src="https://snap-ci.com/adamldavis/groocss/branch/master/build_image" alt="Build Status"></a>
 <a href="https://bintray.com/adamldavis/maven/GrooCSS/_latestVersion"> <img src="https://api.bintray.com/packages/adamldavis/maven/GrooCSS/images/download.svg" alt="Download"> </a>
-/ <a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin">Gradle Plugin</a>
+
 </p>
 
 <h1>
@@ -33,32 +40,20 @@
 
 <p>It was created by Adam L. Davis (<a href="https://github.com/adamldavis" class="user-mention">@adamldavis</a>) and inspired by the many other Groovy-based projects out there, like Gradle, Grails, Spock, Ratpack, and of course grooscript.</p>
 
-<p>It has the following features:</p>
-
 <ul>
 <li>DSL similar to CSS but with camel-case and some modifications to make it valid Groovy.</li>
-<li>Keyframes support.</li>
+<li><a href="#keyframes-and-transforms-dsl">Keyframes</a>, <a href="#media">media</a>, charset, and font-face support.</li>
 <li>Automatically adds -webkit, -ms, -moz, -o extensions! (configurable)</li>
 <li>Color support with rgb, rgba, hex, and named colors</li>
-<li>Font-face support</li>
-<li>Minimization (compress: true)</li>
-<li>charset support</li>
-<li>Support for transforms directly (transformX, etc), </li>
-<li>Support for media blocks </li>
-<li>Math functions (sqrt, sin, cos, toRadians, etc.)</li>
-<li>Element names (div, a, input, span, etc.)</li>
-<li>Unit methods (unit, getUnit, convert, etc.)</li>
-<li>Ability to extend style-groups and add internal</li>
-<li>Pseudo-classes in DSL (nthChild, etc.)</li>
-<li>New ways to configure: Config.builder() or using withConfig</li>
-</ul>
-
-<h2>
-<a id="new-in-06" class="anchor" href="#new-in-06" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.6</h2>
-
-<ul>
-<li>Closer to CSS syntax using getAt, putAt, operator-overloading, underscore, methodMissing, and propertyMissing</li>
-<li>Translator to convert from existing CSS</li>
+<li>Minimization (<a href="#compressing-minimization">compress</a>)</li>
+<li>Support for <a href="#keyframes-and-transforms-dsl">transforms</a> directly (transformX, etc), </li>
+<li>Math functions (sqrt, sin, cos, toRadians, etc.) and built-in <a href="#measurement-math">Measurement</a> math.</li>
+<li>Unit methods (unit, getUnit, convert)</li>
+<li>Ability to <a href="#extending">extend</a> style-groups and add internal groups.</li>
+<li><a href="#pseudo-classes">Pseudo-classes</a> in DSL (nthChild, etc.)</li>
+<li>Multiple ways to <a href="#config">configure</a>: Config.builder() or using withConfig</li>
+<li>Close to CSS syntax using getAt, putAt, operator-overloading, underscore, methodMissing, and propertyMissing</li>
+<li>Translator to convert <a href="#converting-from-css">from existing CSS</a>.</li>
 <li>Available pretty print (using Config)</li>
 </ul>
 
@@ -69,6 +64,7 @@
 <li>Better pseudo-class support with %</li>
 <li>Measurements are now fully supported including math between different compatible types.</li>
 <li>Added <a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin">Gradle Plugin</a>
+<li>Some measurement values are validated (for example, passing 10.deg to maxWidth will throw an AssertionError).</li>
 </li>
 </ul>
 
@@ -80,7 +76,7 @@ The plugin adds a <code>convertCss</code> task for converting your groocss files
 For example:</p>
 
 <pre><code>plugins {
-  id "org.groocss.groocss-gradle-plugin" version "0.7.1"
+  id "org.groocss.groocss-gradle-plugin" version "0.7.2"
 }
 def cssDir = "$parent.buildDir/../www/css"
 
@@ -96,7 +92,9 @@ groocssfiles { // a list of in/out files
 }
 </code></pre>
 
-<p>If you have a lot of files, <code>inFile</code> and <code>outFile</code> can be directories (it will assume groocss files end in <code>.groocss</code>).</p>
+<p>If you have a lot of files, <code>inFile</code> and <code>outFile</code> can be directories (it will assume groocss files end in <code>.groovy</code> or <code>.groocss</code>).
+For example, files ending in <code>.css.groovy</code> will be converted to files ending in <code>.css</code>.
+</p>
 
 <p>There's also a <code>GroocssTask</code> available if you want to have finer-grained control. Here's an example using a task:</p>
 
@@ -114,7 +112,7 @@ groocssfiles { // a list of in/out files
 
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath 'org.groocss:groocss:0.7' }
+    dependencies { classpath 'org.groocss:groocss:0.7.2' }
 }
 task css &lt;&lt; {
     def file = file('css/out.css')
@@ -124,18 +122,17 @@ task css &lt;&lt; {
 }
 </code></pre>
 
-<h2>
-<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
-
 <h3>
 <a id="using-convert-methods" class="anchor" href="#using-convert-methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using convert methods</h3>
 
-<pre><code>import org.groocss.GrooCSS
-
-GrooCSS.convertFile('infile.groocss', 'outfile.css')
+<pre><code>GrooCSS.convertFile('infile.groocss', 'outfile.css')
 //or
 GrooCSS.convert(new File('in'), new File('out'))
 </code></pre>
+
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
 
 <h3>
 <a id="styles-dsl" class="anchor" href="#styles-dsl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Styles DSL</h3>
@@ -364,8 +361,8 @@ With the DSL there are several chainable methods available to easily configure y
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/adamldavis/groocss">GrooCSS</a> is maintained by <a href="https://github.com/adamldavis">adamldavis</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+          <span class="site-footer-credits">The CSS files for this page are created using <a href="http://groocss.org">GrooCSS</a>.</span>
+        <span class="site-footer-credits">This page was originally generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
 
     </section>
