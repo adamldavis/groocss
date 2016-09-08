@@ -1,0 +1,8 @@
+*~
+*.bak
+build/
+groocss-gradle-plugin/
+.idea
+.eclipse
+.gradle
+
