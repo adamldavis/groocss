@@ -12,11 +12,9 @@ import javax.imageio.ImageIO
  */
 class GrooCSS extends Script {
 
-    static void convert(Config conf, String inFilename, String outFilename) {
-        convert(conf, new File(inFilename), new File(outFilename))
+    static void convertFile(Config conf = new Config(), String inf, String outf) {
+        convert conf, new File(inf), new File(outf)
     }
-
-    static void convertFile(Config conf = new Config(), String inf, String outf) { convert conf, inf, outf }
     static void convertFile(Config conf = new Config(), File inf, File out) { convert conf, inf, out }
 
     static void convertFromCSS(File inf, File out) {
@@ -24,9 +22,18 @@ class GrooCSS extends Script {
     }
     
     static void convert(Config conf = new Config(), File inf, File out) {
+        convert(conf, inf.newInputStream(), out.newOutputStream())
+    }
+
+    /** Processes a given groocss string and outputs as CSS string. */
+    static String convert(Config conf = new Config(), String groocss, String charset1 = "UTF-8") {
+        def out = new ByteArrayOutputStream()
+        convert conf, new ByteArrayInputStream(groocss.getBytes(charset1)), out
+        out.toString()
+    }
+
+    private static GroovyShell makeShell() {
         def binding = new Binding()
-        binding.setProperty('_config', conf)
-        binding.setProperty('root', null)
         def compilerConfig = new CompilerConfiguration()
         def imports = new ImportCustomizer()
         def packg = 'org.groocss'
@@ -34,18 +41,43 @@ class GrooCSS extends Script {
         compilerConfig.addCompilationCustomizers(imports)
         compilerConfig.scriptBaseClass = "${packg}.GrooCSS"
 
-        def shell = new GroovyShell(Thread.currentThread().contextClassLoader, binding, compilerConfig)
+        new GroovyShell(Thread.currentThread().contextClassLoader, binding, compilerConfig)
+    }
 
-        shell.evaluate("config = css.config = _config;\nroot = css;\n${inf.text}")
+    /** Processes a given InputStream and outputs to given OutputStream. */
+    static void convert(Config conf = new Config(), InputStream inf, OutputStream out, String charset1 = "UTF-8") {
+        out.withPrintWriter { pw ->
+            convert conf, new InputStreamReader(inf, charset1), pw
+        }
+    }
 
-        MediaCSS css = (MediaCSS) binding.getProperty('root')
+    /** Processes a given Reader and outputs to given PrintWriter. */
+    static void convert(Config conf = new Config(), Reader reader, PrintWriter writer) {
+        def shell = makeShell()
+        def script = shell.parse(reader)
+        script.invokeMethod('setConfig', conf)
+        script.run()
+        MediaCSS css = (MediaCSS) script.getProperty('css')
+        css.writeTo(writer)
+        writer.flush()
+        writer.close()
+        reader.close()
+    }
 
-        out.withPrintWriter { pw -> css.writeTo(pw) }
+    /** Processes a given InputStream and outputs to given OutputStream. */
+    static void process(Config conf = new Config(), InputStream ins, OutputStream out) { convert conf, ins, out }
+
+    /** Processes a given Reader and outputs to given PrintWriter. */
+    static void process(Config conf = new Config(), Reader reader, PrintWriter writer) { convert conf, reader, writer }
+
+    /** Processes a given groocss string and outputs as CSS string. */
+    static String process(Config conf = new Config(), String groocss, String charset1 = "UTF-8") {
+        convert conf, groocss, charset1
     }
     
     static void main(String ... args) {
         if (args.length == 1)
-            convertFile(args[0], args[0].replace('.groocss', '.css'))
+            convertFile(args[0], args[0].replace('.css.groovy', '.css').replace('.groocss', '.css'))
     }
 
     static class Configurer extends Config {
@@ -62,6 +94,15 @@ class GrooCSS extends Script {
 
         /** Processes the given closure with built config. */
         GrooCSS process(@DelegatesTo(GrooCSS) Closure clos) { GrooCSS.runBlock(this, clos) }
+
+        /** Processes a given InputStream and outputs to given OutputStream. */
+        GrooCSS process(InputStream ins, OutputStream out) { GrooCSS.convert(this, ins, out) }
+
+        /** Processes a given Reader and outputs to given PrintWriter. */
+        GrooCSS process(Reader reader, PrintWriter writer) { GrooCSS.convert(this, reader, writer) }
+
+        /** Processes a given groocss string and outputs as CSS string. */
+        String process(String groocss, String charset1 = "UTF-8") { GrooCSS.convert(this, groocss, charset1) }
 
         /** Processes the given closure with built config. */
         GrooCSS runBlock(@DelegatesTo(GrooCSS) Closure clos) { GrooCSS.runBlock(this, clos) }
@@ -80,6 +121,9 @@ class GrooCSS extends Script {
     /** Main MediaCSS root.*/
     MediaCSS css = new MediaCSS(config: config)
 
+    /** Makes sure that config passes through to root css. */
+    void setConfig(Config config1) { config = css.config = config1 }
+
     /** Current MediaCSS object used for processing. */
     MediaCSS currentCss = css
 
@@ -87,10 +131,7 @@ class GrooCSS extends Script {
     KeyFrames currentKf
 
     public GrooCSS() {
-        Integer.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
-        Double.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
-        Float.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
-        BigDecimal.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
+        Number.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
         Integer.metaClass.mod = { Closure frameCl -> currentKf.frame(delegate, frameCl) }
     }
 

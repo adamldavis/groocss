@@ -763,4 +763,22 @@ class GroocssSpec extends Specification {
         then:
         "$css" == ':nth-child(odd),li:nth-child(even){background-color: #eee;}'
     }
+
+    def "convert should accept groocss string"() {
+        expect:
+        css == GrooCSS.convert(groocss)
+        where:
+        css                                         | groocss
+        'a{color: #eee;}'                           | "a { color '#eee' }"
+        ':nth-child(odd){background-color: #eee;}'  | "odd { backgroundColor '#eee' }"
+    }
+
+    def "process should accept groocss string"() {
+        expect:
+        css == GrooCSS.process(groocss)
+        where:
+        css                                         | groocss
+        'a{color: #eee;}'                           | "a { color '#eee' }"
+        ':nth-child(odd){background-color: #eee;}'  | "odd { backgroundColor '#eee' }"
+    }
 }
