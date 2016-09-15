@@ -7,7 +7,7 @@ import spock.lang.Specification
  */
 class GroocssSpec extends Specification {
 
-    def should_create_a_css() {
+    def "should create a css"() {
         when:
         def css = GrooCSS.process {
             sg('.class') {}
@@ -16,7 +16,7 @@ class GroocssSpec extends Specification {
         css != null
     }
 
-    def should_create_rules() {
+    def "should create rules"() {
         when:
         def css = GrooCSS.process {
             sel('.a') {}
@@ -28,7 +28,7 @@ class GroocssSpec extends Specification {
     }
 
 
-    def should_set_styles() {
+    def "should set styles"() {
         when:
         def css = GrooCSS.process {
             sg '.a', {
@@ -43,7 +43,7 @@ class GroocssSpec extends Specification {
                 "\n\t-webkit-transition: 500ms;\n\t-moz-transition: 500ms;\n\t-o-transition: 500ms;}"
     }
 
-    def should_set_colors() {
+    def "should set colors"() {
         when:
         def css = GrooCSS.process {
             def sea = c('5512ab')
@@ -57,7 +57,7 @@ class GroocssSpec extends Specification {
         "$css" == ".sea{color: #3b0c77;\n\tbackground: #7919f4;}"
     }
 
-    def should_create_keyframes() {
+    def "should create keyframes"() {
         when:
         def css = GrooCSS.process(new Config(addWebkit: false, addMoz: false, addOpera: false)) {
             keyframes('bounce') {
@@ -76,7 +76,7 @@ class GroocssSpec extends Specification {
 }"""
     }
 
-    def should_create_keyframe_from_to() {
+    def "should create keyframe using from to"() {
         when:
         def css = GrooCSS.process(new Config(addMoz: false, addOpera: false)) {
             keyframes('mymove') {
@@ -92,7 +92,7 @@ class GroocssSpec extends Specification {
         "$css" == "@keyframes mymove {\nfrom{top: 0;}\nto{top: 100px;}\n}@-webkit-keyframes mymove {\nfrom{top: 0;}\nto{top: 100px;}\n}"
     }
 
-    def should_create_font_face() {
+    def "should create font face"() {
         when:
         def css = GrooCSS.process {
             fontFace {
@@ -105,7 +105,7 @@ class GroocssSpec extends Specification {
         "$css" == "@font-face { font-family: myFirstFont; font-weight: normal; src: url(sensational.woff); }\n"
     }
 
-    def should_create_colors_rgb() {
+    def "should create colors with rgb"() {
         when:
         def css = GrooCSS.process {
             sg '.colors', {
@@ -117,7 +117,7 @@ class GroocssSpec extends Specification {
         "$css" == ".colors{color: #010203;\n\tbackground: rgba(250, 250, 250, 0.90);}"
     }
 
-    def should_create_colors_rgba_alpha0() {
+    def "should create colors rgba using alpha0"() {
         when:
         def css = GrooCSS.process {
             sg '.colors', {
@@ -128,7 +128,7 @@ class GroocssSpec extends Specification {
         "$css" == ".colors{background: rgba(0, 0, 0, 0.0);}"
     }
 
-    def should_create_named_colors() {
+    def "should create named colors "() {
         when:
         def css = GrooCSS.process {
             sg '.colors', {
@@ -139,7 +139,7 @@ class GroocssSpec extends Specification {
         "$css" == ".colors{color: AliceBlue;}"
     }
 
-    def should_convert_named_color_to_rgba() {
+    def "should convert named color to rgba "() {
         when:
         def css = GrooCSS.process {
             sg '.colors', {
@@ -150,7 +150,7 @@ class GroocssSpec extends Specification {
         "$css" == ".colors{color: rgba(238, 130, 238, 0.50);}"
     }
 
-    def should_compress() {
+    def "should compress"() {
         when:
         def css = GrooCSS.process(new Config(compress: true, addMoz: false, addOpera: false)) {
             sg '.a', {
@@ -166,7 +166,7 @@ class GroocssSpec extends Specification {
         "$css" == ".a{color: black;background: white;transition: 500ms;-webkit-transition: 500ms;}.b{margin: 0;}"
     }
 
-    def should_charset() {
+    def "charset should be added"() {
         when:
         def css = GrooCSS.process {
             charset utf8
@@ -175,7 +175,7 @@ class GroocssSpec extends Specification {
         "$css" == "@charset \"UTF-8\";\n"
     }
 
-    def should_create_media() {
+    def "should create media"() {
         when:
         def css = GrooCSS.process {
             media 'print', {
@@ -188,7 +188,7 @@ class GroocssSpec extends Specification {
         "$css" == "@media print {\nbody{display: none;}\n}\n"
     }
 
-    def should_create_medias() {
+    def "should create medias"() {
         when:
         def css = GrooCSS.process {
             media 'print', {
@@ -206,7 +206,7 @@ class GroocssSpec extends Specification {
         "$css" == "@media print {\nbody{display: none;}\n}\n@media screen {\nbody{color: Black;}\n}\n"
     }
 
-    def should_be_fluent() {
+    def "should be fluent"() {
         when:
         def css = GrooCSS.process {
             sg '.a', {
@@ -217,7 +217,7 @@ class GroocssSpec extends Specification {
         "$css" == ".a{-webkit-touch-callout: none;\n\t-webkit-text-size-adjust: none;}"
     }
 
-    def should_convert_file() {
+    def "should convert file"() {
         File temp, t1, t2
         given:
         temp = new File('build/temp')
@@ -231,7 +231,7 @@ class GroocssSpec extends Specification {
         "${t2.text}" == ".a{left: 0;}\n.b{left: 0;}\n.c{left: 0;}"
     }
 
-    def should_convert_file_compress() {
+    def "should convert file compress "() {
         File temp, t1, t2
         given:
         temp = new File('build/temp')
@@ -245,7 +245,7 @@ class GroocssSpec extends Specification {
         "${t2.text}" == ".a{left: 0;}.b{left: 0;}.c{left: 0;}"
     }
 
-    def should_add_StyleGroup() {
+    def "should add StyleGroup"() {
         when:
         def css = GrooCSS.process {
             sg '.a', {
@@ -260,7 +260,7 @@ class GroocssSpec extends Specification {
         "$css" == ".a a:hover{color: Blue;}\n.a{color: Black;\n\tbackground: White;}"
     }
 
-    def should_extend_StyleGroup() {
+    def "should extend StyleGroup"() {
         when:
         def css = GrooCSS.process {
             sg '.a', {
@@ -276,7 +276,7 @@ class GroocssSpec extends Specification {
         "$css" == ".a,.b{color: Black;\n\tbackground: White;}\n.b{color: Blue;}"
     }
 
-    def should_extend_StyleGroup_twice() {
+    def "should extend StyleGroup twice "() {
         when:
         def css = GrooCSS.process {
             sg '.a', {
@@ -289,7 +289,7 @@ class GroocssSpec extends Specification {
         "$css" == ".a,.b,.c{color: Black;}"
     }
 
-    def should_do_multiple_transforms() {
+    def "should do multiple transforms "() {
         when:
         def css = GrooCSS.process(new Config(addMoz: false, addWebkit: false, addOpera: false, addMs: false)) {
             sg '.a', {
@@ -301,7 +301,7 @@ class GroocssSpec extends Specification {
         "$css" == ".a{transform: translateX(1px) translateY(1px);}"
     }
 
-    def should_use_Config_builder() {
+    def "should use Config builder "() {
         when:
         def css = GrooCSS.process(Config.builder().addMs(false).addOpera(false).compress(true).build()) {
             sg '.a', {left 0}
@@ -311,7 +311,7 @@ class GroocssSpec extends Specification {
         "$css" == ".a{left: 0;}.b{left: 0;}"
     }
 
-    def should_use_withConfig_closure() {
+    def "should use withConfig closure "() {
         when:
         def css = GrooCSS.withConfig { noExts().compress().utf8() }.process {
             sg '.a', {boxShadow('0 0 5px')}
@@ -321,7 +321,7 @@ class GroocssSpec extends Specification {
         "$css" == "@charset \"UTF-8\";.a{box-shadow: 0 0 5px;}.b{box-shadow: 0 0 5px;}"
     }
 
-    def should_use_html_elements() {
+    def "should use html elements "() {
         when:
         def css = GrooCSS.withConfig { noExts() }.process {
             a '.blue', { color blue }
@@ -332,14 +332,14 @@ class GroocssSpec extends Specification {
         "$css" == "a.blue{color: Blue;}\ninput{border-radius: 1em;}\ninput [type=\"button\"]{border-radius: 0;}"
     }
 
-    def should_use_a_hover() {
+    def "should use a_hover "() {
         when:
         def css = GrooCSS.process { a_hover {color 'red'}; a_focus {color 'red'} }
         then:
         "$css" == "a:hover{color: red;}\na:focus{color: red;}"
     }
 
-    def should_use_subselect_to_add_classes() {
+    def "should use subselect to add classes "() {
         when:
         def css = GrooCSS.process { a {subselect '.me'; top 0} }
         then:
@@ -366,7 +366,7 @@ class GroocssSpec extends Specification {
         "$css" == "a:nth-child(odd){color: #abc;}"
     }
 
-    def should_have_math_functions() {
+    def "should have math functions "() {
         when:
         def css = GrooCSS.process {
             body { left "${sqrt(16)}em"; top sin(0) as int }
@@ -376,7 +376,7 @@ class GroocssSpec extends Specification {
         "$css" == "body{left: 4.0em;\n\ttop: 0;}\ndiv{left: 10px;}"
     }
 
-    def getUnit_should_get_unit() {
+    def "getUnit should get unit"() {
         given:
         def css = new GrooCSS()
         expect:
@@ -388,7 +388,7 @@ class GroocssSpec extends Specification {
         '1.1em'| 'em'
     }
 
-    def should_extract_value_with_unit() {
+    def "should extract value with _unit"() {
         given:
         def css = new GrooCSS()
         expect:
@@ -407,7 +407,7 @@ class GroocssSpec extends Specification {
         css.unit(11, 'px').toString() == '11px'
     }
 
-    def should_convert_values() {
+    def "should convert values"() {
         given:
         def css = new GrooCSS()
         expect:
@@ -426,14 +426,14 @@ class GroocssSpec extends Specification {
         '6.284rad'|'deg'| '360.0466784602093deg'
     }
 
-    def getImageSize_should_get_image_size() {
+    def "getImageSize should get image size"() {
         given:
         def css = new GrooCSS()
         expect:
         css.getImageSize('black.png') == '640px 480px'
     }
 
-    def should_add_units_to_integer() {
+    def "should add units to integer"() {
         when:
         def css = GrooCSS.process {
             a { fontSize 11.px }
@@ -442,7 +442,7 @@ class GroocssSpec extends Specification {
         "$css" == "a{font-size: 11px;}"
     }
 
-    def should_add_sub_styles() {
+    def "should add sub styles "() {
         when:
         def css = GrooCSS.process {
             a {
@@ -459,7 +459,7 @@ class GroocssSpec extends Specification {
         "$css" == "a:hover{background: #eee;}\na.btn{border: 1px solid white;}\na{color: blue;}"
     }
 
-    def should_use_underscore_method_missing() {
+    def "should use underscore method missing"() {
         when:
         def result = GrooCSS.process {
             get_().blue { color 'blue' }
@@ -468,7 +468,7 @@ class GroocssSpec extends Specification {
         "$result" == ".blue{color: blue;}"
     }
 
-    def should_use_element_withClass() {
+    def "should use element withClass"() {
         when:
         def result = GrooCSS.process {
             table.withClass('blue') { color 'blue' }
@@ -477,7 +477,7 @@ class GroocssSpec extends Specification {
         "$result" == "table.blue{color: blue;}"
     }
 
-    def should_use_element_method_missing() {
+    def "should use element method missing "() {
         when:
         def result = GrooCSS.process {
             table.blue { color 'blue' }
@@ -486,7 +486,7 @@ class GroocssSpec extends Specification {
         "$result" == "table.blue{color: blue;}"
     }
 
-    def should_use_element_sel() {
+    def "should use element sel"() {
         when:
         def result = GrooCSS.process {
             input.sel '[class$="test"]', { color 'blue' }
@@ -495,7 +495,7 @@ class GroocssSpec extends Specification {
         "$result" == 'input[class$="test"]{color: blue;}'
     }
 
-    def should_use_element_putAt() {
+    def "should use element putAt"() {
         when:
         def result = GrooCSS.process {
             input['class$="test"'] = { color 'blue' }
@@ -504,7 +504,7 @@ class GroocssSpec extends Specification {
         "$result" == 'input[class$="test"]{color: blue;}'
     }
 
-    def should_convert_file_with_underscore() {
+    def "should convert file with _underscore"() {
         File temp, u1in, u1out
         given:
         temp = new File('build/temp')
