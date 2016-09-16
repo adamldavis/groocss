@@ -781,4 +781,20 @@ class GroocssSpec extends Specification {
         'a{color: #eee;}'                           | "a { color '#eee' }"
         ':nth-child(odd){background-color: #eee;}'  | "odd { backgroundColor '#eee' }"
     }
+
+    def "should compress using withConfig process String"() {
+        when:
+        def css = GrooCSS.withConfig { compress().onlyWebkit() }.process('''
+            sg '.a', {
+                color('black')
+                background('white')
+                transition('500ms')
+            }
+            sg '.b', {
+                margin 0
+            }''')
+        then:
+        "$css" == ".a{color: black;background: white;transition: 500ms;-webkit-transition: 500ms;}.b{margin: 0;}"
+    }
+
 }

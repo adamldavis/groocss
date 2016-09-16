@@ -87,22 +87,34 @@ class GrooCSS extends Script {
             this
         }
 
-        Configurer convert(String inFilename, String outFilename) {
-            GrooCSS.convert(this, inFilename, outFilename)
+        /** Processes a given InputStream and outputs to given OutputStream. */
+        Configurer convert(InputStream ins, OutputStream out, String charset1 = null) {
+            charset1 ? GrooCSS.convert(this, ins, out, charset1) : GrooCSS.convert(this, ins, out)
             this
+        }
+
+        /** Processes a given Reader and outputs to given PrintWriter. */
+        Configurer convert(Reader reader, PrintWriter writer) { GrooCSS.convert(this, reader, writer); this }
+
+        /** Processes a given groocss string and outputs as CSS string. */
+        String convert(String groocss, String charset1 = null) {
+            charset1 ? GrooCSS.convert(this, groocss, charset1) : GrooCSS.convert(this, groocss)
         }
 
         /** Processes the given closure with built config. */
         GrooCSS process(@DelegatesTo(GrooCSS) Closure clos) { GrooCSS.runBlock(this, clos) }
 
         /** Processes a given InputStream and outputs to given OutputStream. */
-        GrooCSS process(InputStream ins, OutputStream out) { GrooCSS.convert(this, ins, out) }
+        Configurer process(InputStream ins, OutputStream out, String charset1 = null) { convert ins, out, charset1 }
 
         /** Processes a given Reader and outputs to given PrintWriter. */
-        GrooCSS process(Reader reader, PrintWriter writer) { GrooCSS.convert(this, reader, writer) }
+        Configurer process(Reader reader, PrintWriter writer) { convert reader, writer }
+
+        /** Processes a given File and outputs to given out File. */
+        Configurer process(File inf, File out) { convert inf, out }
 
         /** Processes a given groocss string and outputs as CSS string. */
-        String process(String groocss, String charset1 = "UTF-8") { GrooCSS.convert(this, groocss, charset1) }
+        String process(String groocss, String charset1 = null) { convert groocss, charset1 }
 
         /** Processes the given closure with built config. */
         GrooCSS runBlock(@DelegatesTo(GrooCSS) Closure clos) { GrooCSS.runBlock(this, clos) }
