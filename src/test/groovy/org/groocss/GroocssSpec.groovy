@@ -805,4 +805,37 @@ class GroocssSpec extends Specification {
         }
     }
 
+    def "should use styles to create an unattached group of styles"() {
+        expect:
+        assert (GrooCSS.process {
+            styles {
+                color red
+            }
+        }.toString() == '')
+    }
+
+    def "should use styles to add styles to an existing StyleGroup"() {
+        when:
+        def css = GrooCSS.process {
+            def colorRed = styles {color red}
+            form {
+                if (true) add colorRed
+            }
+        }
+        then:
+        "$css" == 'form{color: Red;}'
+    }
+
+    def "should use styles to leftShift styles to an existing StyleGroup"() {
+        when:
+        def css = GrooCSS.process {
+            def colorRed = styles {color red}
+            form {
+                if (true) it << colorRed
+            }
+        }
+        then:
+        "$css" == 'form{color: Red;}'
+    }
+
 }

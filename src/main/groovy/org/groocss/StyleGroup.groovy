@@ -29,6 +29,12 @@ class StyleGroup {
     StyleGroup add(Style style) { styles << style; this }
     StyleGroup leftShift(Style style) { add style }
 
+    /** Adds all styles from given StyleGroup to this StyleGroup. Returns this StyleGroup. */
+    StyleGroup add(StyleGroup sg) { styles.addAll sg.styleList; this }
+
+    /** Synonymous to add. Adds all styles from given StyleGroup to this StyleGroup. */
+    StyleGroup leftShift(StyleGroup sg) { add sg }
+
     StyleGroup(String selector1, Config config1, MediaCSS owner1) {
         selector = originalSelector = selector1
         config = config1

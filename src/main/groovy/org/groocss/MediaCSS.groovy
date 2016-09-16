@@ -74,11 +74,11 @@ class MediaCSS {
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    StyleGroup sel(String selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
+    StyleGroup sel(String selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure, boolean addIt = true) {
         StyleGroup sg = new StyleGroup(selector, config, this)
         closure.delegate = sg
         closure(sg)
-        add sg
+        if (addIt) add sg
         sg
     }
 

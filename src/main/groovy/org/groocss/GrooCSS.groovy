@@ -154,7 +154,7 @@ class GrooCSS extends Script {
         MediaCSS oldCss = currentCss
         currentCss = mcss
         clos.delegate = this
-        clos()
+        clos(mcss)
         oldCss.add mcss
         currentCss = oldCss
         mcss
@@ -180,6 +180,7 @@ class GrooCSS extends Script {
         currentCss.sel(selector, clos)
     }
 
+    /** Creates a selector from any given argument. */
     Selector sel(selector) {
         new Selector("$selector", currentCss)
     }
@@ -187,6 +188,11 @@ class GrooCSS extends Script {
     /** Creates a new StyleGroup element and runs given closure on it. */
     StyleGroup sel(Selector selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
         currentCss.sel("$selector", clos)
+    }
+
+    /** Creates an unattached StyleGroup object, useful for adding Styles to a StyleGroup conditionally. */
+    StyleGroup styles(@DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
+        currentCss.sel('', clos, false)
     }
 
     /** Creates a new @font-face element and runs given closure on it. */
