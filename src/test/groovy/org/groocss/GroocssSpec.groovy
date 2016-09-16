@@ -797,4 +797,12 @@ class GroocssSpec extends Specification {
         "$css" == ".a{color: black;background: white;transition: 500ms;-webkit-transition: 500ms;}.b{margin: 0;}"
     }
 
+    def "sel with one parameter should create a Selector"() {
+        expect:
+        GrooCSS.process {
+            assert sel('#abc') instanceof Selector
+            assert sel(form % hover) instanceof Selector
+        }
+    }
+
 }

@@ -180,6 +180,10 @@ class GrooCSS extends Script {
         currentCss.sel(selector, clos)
     }
 
+    Selector sel(selector) {
+        new Selector("$selector", currentCss)
+    }
+
     /** Creates a new StyleGroup element and runs given closure on it. */
     StyleGroup sel(Selector selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
         currentCss.sel("$selector", clos)
