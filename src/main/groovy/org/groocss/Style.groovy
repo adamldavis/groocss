@@ -6,10 +6,14 @@ import java.util.regex.*
 /** Represents a CSS style. */
 @CompileStatic
 @TupleConstructor
+@EqualsAndHashCode
 class Style {
 
+    /** Name of the Style (in camel-case) .*/
+    String name
 
-    String name, value
+    /** Value for this style, as a String. */
+    String value
     
     String toString() { nameToDashed() + ": $value;" }
     

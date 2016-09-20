@@ -169,7 +169,7 @@ class GrooCSS extends Script {
     KeyFrames kf(String name, @DelegatesTo(KeyFrames) Closure clos) {
         KeyFrames frames = currentKf = new KeyFrames(name: name, config: currentCss.config)
         clos.delegate = frames
-        clos()
+        clos(frames)
         currentKf = null
         currentCss << frames
         frames
@@ -199,7 +199,7 @@ class GrooCSS extends Script {
     FontFace fontFace(@DelegatesTo(FontFace) Closure clos) {
         FontFace ff = new FontFace()
         clos.delegate = ff
-        clos()
+        clos(ff)
         currentCss.add ff
         ff
     }

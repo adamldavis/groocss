@@ -1,6 +1,7 @@
 package org.groocss
 
 import groovy.transform.TypeChecked
+import org.codehaus.groovy.util.HashCodeHelper
 
 /**
  * Represents some type of number value with a unit, such as 2 seconds or 20 pixels.
@@ -8,10 +9,10 @@ import groovy.transform.TypeChecked
 @TypeChecked
 class Measurement {
 
-    def times = ['ms', 's']
-    def distances = ['pt','pc','mm','cm','in','m']
-    def trigs = ['rad','deg']
-    def relatives = ['em','ex','ch','rem','vh','vw','vmin','vmax']
+    static times = ['ms', 's']
+    static distances = ['pt','pc','mm','cm','in','m']
+    static trigs = ['rad','deg']
+    static relatives = ['em','ex','ch','rem','vh','vw','vmin','vmax']
 
     final Number value
     final String unit
@@ -58,6 +59,14 @@ class Measurement {
             other == value
         } else
             false
+    }
+
+    @Override
+    int hashCode() {
+        int hash = HashCodeHelper.initHash()
+        hash = HashCodeHelper.updateHash(hash, value)
+        hash = HashCodeHelper.updateHash(hash, unit)
+        hash
     }
 
     Measurement plus(Measurement other) {

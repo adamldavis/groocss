@@ -18,6 +18,7 @@ class StyleGroup {
         Styles leftShift(Style s) { current.styleList.add s ; this }
         Style getAt(int i) { current.styleList[i] }
         void addAll(Collection<Style> list) { current.styleList.addAll(list) }
+        void removeAll(Collection<Style> list) { current.styleList.removeAll(list) }
     }
     Styles styles = new Styles()
 
@@ -41,9 +42,26 @@ class StyleGroup {
         owner = owner1
     }
 
+    /** Creates a new StyleGroup with all styles from given StyleGroup and this StyleGroup. */
+    StyleGroup plus(StyleGroup other) {
+        def sg = new StyleGroup(selector, config, owner)
+        sg.styles.addAll styleList
+        sg.styles.addAll other.styleList
+        sg
+    }
+
+    /** Creates a new StyleGroup with all styles from given StyleGroup removed. */
+    StyleGroup minus(StyleGroup other) {
+        def sg = new StyleGroup(selector, config, owner)
+        sg.styles.addAll styleList
+        sg.styles.removeAll other.styleList
+        sg
+    }
+
     /** Completely resets the selector of this style-Group, including the originalSelector. */
-    void resetSelector(String sel) {
+    StyleGroup resetSelector(String sel) {
         originalSelector = selector = sel
+        this
     }
 
     /** Appends the given text to the selector. */

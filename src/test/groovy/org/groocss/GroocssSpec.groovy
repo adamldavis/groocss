@@ -838,4 +838,83 @@ class GroocssSpec extends Specification {
         "$css" == 'form{color: Red;}'
     }
 
+    def "should use styles and plus to create a new StyleGroup and add it to media"() {
+        when:
+        def css = GrooCSS.process {
+            def mobileLineHeight = styles {lineHeight '1.1em'}
+            def form1 = form {
+                fontSize 2.em
+            }
+            media 'mobile', {
+                it << form1 + mobileLineHeight
+            }
+        }
+        then:
+        "$css" == 'form{font-size: 2em;}@media mobile {\nform{font-size: 2em;\n\tline-height: 1.1em;}\n}\n'
+    }
+
+    def "should use minus to remove styles"() {
+        when:
+        def css = GrooCSS.process {
+            def mobileLineHeight = styles {lineHeight '1.1em'}
+            def form1 = form {
+                fontSize 2.em
+            }
+            media 'mobile', {
+                it << form1 - styles {fontSize 2.em} + mobileLineHeight
+            }
+        }
+        then:
+        "$css" == 'form{font-size: 2em;}@media mobile {\nform{line-height: 1.1em;}\n}\n'
+    }
+
+    def "removing empty styles has no effect"() {
+        when:
+        def css = GrooCSS.process {
+            def mobileLineHeight = styles {lineHeight '1.1em'}
+            def form1 = form {
+                fontSize 2.em
+            }
+            media 'mobile', {
+                it << form1 + mobileLineHeight - styles {}
+            }
+        }
+        then:
+        "$css" == 'form{font-size: 2em;}@media mobile {\nform{font-size: 2em;\n\tline-height: 1.1em;}\n}\n'
+    }
+
+    def "removing non-matching styles has no effect"() {
+        when:
+        def css = GrooCSS.process {
+            def mobileLineHeight = styles {lineHeight '1.1em'}
+            def form1 = form {
+                fontSize 2.em
+            }
+            media 'mobile', {
+                it << form1 + mobileLineHeight - styles { fontSize 22.em }
+            }
+        }
+        then:
+        "$css" == 'form{font-size: 2em;}@media mobile {\nform{font-size: 2em;\n\tline-height: 1.1em;}\n}\n'
+    }
+
+    def "styles math is idempotent"() {
+        when:
+        def css = GrooCSS.process {
+            def form1 = form { fontSize 2.em }
+            media 'mobile', {
+                it << form1 - styles {fontSize 2.em} + styles {lineHeight '1.1em'}
+            }
+            media 'only screen and (max-width: 960px)', {
+                it << form1 + styles {lineHeight 12.pt}
+            }
+        }
+        then:
+        "$css" == 'form{font-size: 2em;}' +
+                '@media mobile {\nform{line-height: 1.1em;}\n}\n' +
+                '@media only screen and (max-width: 960px) {\n' +
+                'form{font-size: 2em;\n\tline-height: 12pt;}\n' +
+                '}\n'
+    }
+
 }
