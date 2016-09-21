@@ -24,6 +24,9 @@ project.group = 'org.groocss'
 applicationName = "groocss"
 mainClassName= 'org.groocss.GrooCSS'
 
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
 task zipDocs(type: Jar) {
     dependsOn 'groovydoc'
     archiveName "$applicationName-${version}-javadocs.jar"
