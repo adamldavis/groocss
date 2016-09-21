@@ -93,6 +93,6 @@ class MediaCSS {
 
     /** Allows _.styleClass syntax to be used anywhere selectors are used. */
     def propertyMissing(String name) {
-        new Selector(".$name")
+        new Selector(".$name", this)
     }
 }

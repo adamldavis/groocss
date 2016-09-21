@@ -917,4 +917,71 @@ class GroocssSpec extends Specification {
                 '}\n'
     }
 
+    def "should use space in selector definitions now"() {
+        when:
+        def css = GrooCSS.process {
+            div p { color black }
+        }
+        then:
+        "$css" == 'div p{color: Black;}'
+    }
+
+    def "should use bitwiseNegate to implement tilde"() {
+        when:
+        def css = GrooCSS.process {
+            div ~ img {
+                border '1px solid black'
+            }
+        }
+        then:
+        "$css" == 'div ~ img{border: 1px solid black;}'
+    }
+
+    def "should use space and xor in selector with 3 elements"() {
+        when:
+        def css = GrooCSS.process {
+            div p ^ ul { color black }
+        }
+        then:
+        "$css" == 'div p ul{color: Black;}'
+    }
+
+    def "should use bitwiseNegate and xor with 3 elements"() {
+        when:
+        def css = GrooCSS.process {
+            div ~ ul ^ img {
+                border '1px solid black'
+            }
+        }
+        then:
+        "$css" == 'div ~ ul img{border: 1px solid black;}'
+    }
+
+    def "should use xor and minus in selector with 3 elements"() {
+        when:
+        def css = GrooCSS.process {
+            div ^ p - ul { color black }
+        }
+        then:
+        "$css" == 'div p ~ ul{color: Black;}'
+    }
+
+    def "should use space to create Selector now"() {
+        expect:
+        GrooCSS.process { assert div (p) instanceof Selector }
+    }
+
+    def "should use bitwiseNegate to create Selector with tilde"() {
+        expect:
+        GrooCSS.process { assert div (~img) instanceof Selector }
+    }
+
+    def "should use .methodMissing and bitwiseNegate to create Selector with tilde"() {
+        expect:
+        GrooCSS.process {
+            def s1 = div.container (~img)
+            assert "$s1" == 'div.container ~ img'
+            assert  s1 instanceof Selector }
+    }
+
 }

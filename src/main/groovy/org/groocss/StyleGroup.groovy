@@ -4,12 +4,7 @@ import groovy.transform.*
 
 /** A group of styles as represented in a CSS file. */
 @CompileStatic
-class StyleGroup {
-
-    /** Complete selector used by this style group. */
-    String selector
-    /** Original selector as first defined. */
-    String originalSelector
+class StyleGroup extends Selectable {
 
     List<StyleGroup> extenders = []
 
@@ -37,7 +32,7 @@ class StyleGroup {
     StyleGroup leftShift(StyleGroup sg) { add sg }
 
     StyleGroup(String selector1, Config config1, MediaCSS owner1) {
-        selector = originalSelector = selector1
+        selector = selector1
         config = config1
         owner = owner1
     }
@@ -58,11 +53,7 @@ class StyleGroup {
         sg
     }
 
-    /** Completely resets the selector of this style-Group, including the originalSelector. */
-    StyleGroup resetSelector(String sel) {
-        originalSelector = selector = sel
-        this
-    }
+    StyleGroup bitwiseNegate() { (StyleGroup) resetSelector("~ $selector") }
 
     /** Appends the given text to the selector. */
     StyleGroup subselect(String sel) {
@@ -101,7 +92,7 @@ class StyleGroup {
 
     /** Finds an existing StyleGroup with given selector and appends [comma selector] to its selector.*/
     StyleGroup extend(String otherSelector) {
-        StyleGroup other = owner.groups.find {it.originalSelector == otherSelector}
+        StyleGroup other = owner.groups.find {it.selector == otherSelector}
         if (other) other.extenders << this
         other
     }

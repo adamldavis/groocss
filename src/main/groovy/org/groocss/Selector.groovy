@@ -1,18 +1,22 @@
 package org.groocss
 
-import groovy.transform.TupleConstructor
-
 /**
  * Class representing HTML5 element used by DSL. Used to allow syntax:
  * <PRE>
  *     div.styleClass { color blue }
  * </PRE>
  */
-@TupleConstructor
-class Selector {
+class Selector extends Selectable {
 
-    String value
     MediaCSS owner
+
+    Selector(String selector, MediaCSS owner) {
+        this.selector = selector
+        this.owner = owner
+    }
+
+    String getValue() {selector}
+    void setValue(String sel) {selector = sel}
 
     /** Creates a new StyleGroup element and runs given closure on it. */
     StyleGroup sg(String selector = '', @DelegatesTo(StyleGroup) Closure closure) {
@@ -38,11 +42,15 @@ class Selector {
     /** Creates a new StyleGroup using the missing methodName as the styleClass. */
     def methodMissing(String methodName, args) {
         if (args[0] instanceof Closure) return withClass(methodName, (Closure) args[0])
+        else if (args[0] instanceof Selectable) {
+            def sg = (Selectable) args[0]
+            return sg.resetSelector("${selector}.$methodName $sg.selector")
+        }
         else null
     }
 
     def propertyMissing(String name) {
-        new Selector(value: "${value}.$name", owner: owner)
+        new Selector("${value}.$name", owner)
     }
 
     // ---> Map syntax:
@@ -54,7 +62,7 @@ class Selector {
 
     /** Allows attribute selector to create a new Element. */
     def getAt(String key) {
-        new Selector(value: "$value[$key]", owner: owner)
+        new Selector("$value[$key]", owner)
     }
 
     // ---> Operators:
@@ -67,12 +75,12 @@ class Selector {
     def or(StyleGroup sg) { sg.resetSelector "$value,${sg.selector}" }
     def and(StyleGroup sg) { or(sg) }
 
-    def plus(Selector e) { new Selector(value: "$value + $e.value", owner: owner) }
-    def rightShift(Selector e) { new Selector(value: "$value > $e.value", owner: owner) }
-    def minus(Selector e) { new Selector(value: "$value ~ $e.value", owner: owner) }
-    def multiply(Selector e) { new Selector(value: "$value * $e.value", owner: owner) }
-    def xor(Selector e) { new Selector(value: "$value $e.value", owner: owner) }
-    def or(Selector e) { new Selector(value: "$value,$e.value", owner: owner) }
+    def plus(Selector e) { new Selector("$value + $e.value", owner) }
+    def rightShift(Selector e) { new Selector("$value > $e.value", owner) }
+    def minus(Selector e) { new Selector("$value ~ $e.value", owner) }
+    def multiply(Selector e) { new Selector("$value * $e.value", owner) }
+    def xor(Selector e) { new Selector("$value $e.value", owner) }
+    def or(Selector e) { new Selector("$value,$e.value", owner) }
     def and(Selector e) { or(e) }
 
     def plus(e) { if (e instanceof Selector) plus((Selector) e); if (e instanceof StyleGroup) plus((StyleGroup) e) }
@@ -96,5 +104,7 @@ class Selector {
         styleGroup.resetSelector(value + styleGroup.selector)
         styleGroup
     }
+
+    Selector bitwiseNegate() { new Selector("~ $value", owner) }
 
 }
