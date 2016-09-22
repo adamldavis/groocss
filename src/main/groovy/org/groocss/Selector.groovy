@@ -107,4 +107,8 @@ class Selector extends Selectable {
 
     Selector bitwiseNegate() { new Selector("~ $value", owner) }
 
+    Selector call(Selector other) { new Selector("$value $other.value", owner) }
+
+    StyleGroup call(StyleGroup sg) { sg.resetSelector "$value $sg.selector" }
+    
 }

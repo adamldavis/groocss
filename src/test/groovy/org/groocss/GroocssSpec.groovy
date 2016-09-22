@@ -979,9 +979,26 @@ class GroocssSpec extends Specification {
     def "should use .methodMissing and bitwiseNegate to create Selector with tilde"() {
         expect:
         GrooCSS.process {
-            def s1 = div.container (~img)
+            def s1 = div.container ~ img
             assert "$s1" == 'div.container ~ img'
             assert  s1 instanceof Selector }
+    }
+
+    def "should use getAt, call, and bitwiseNegate to create Selector with tilde"() {
+        expect:
+        GrooCSS.process {
+            def s1 = div['test'] ~ img.test
+            assert  s1 instanceof Selector
+            assert "$s1" == 'div[test] ~ img.test'
+        }
+    }
+    def "should use getAt, call, and bitwiseNegate to create StyleGroup with tilde"() {
+        expect:
+        GrooCSS.process {
+            def s1 = div['test'] ~ img.test { color darkRed }
+            assert  s1 instanceof StyleGroup
+            assert "$s1.selector" == 'div[test] ~ img.test'
+        }
     }
 
 }
