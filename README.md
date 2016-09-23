@@ -2,40 +2,38 @@
 [![Build Status](https://snap-ci.com/adamldavis/groocss/branch/master/build_image)](https://snap-ci.com/adamldavis/groocss/branch/master)
 [ ![Download](https://api.bintray.com/packages/adamldavis/maven/GrooCSS/images/download.svg) ](https://bintray.com/adamldavis/maven/GrooCSS/_latestVersion)
 / [Gradle Plugin](https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin)
-/ [Build Scan](https://scans.gradle.com/s/voi3o46bkjbcg)
 
 # GrooCSS
 
-Like [Less](http://lesscss.org/) but without inventing a new language. The missing piece for full-stack Groovy. 
+Like [Less](http://lesscss.org/) but without inventing a new language.
 
-- Write CSS in Groovy, compile-time checked optionally
-- Use a natural Groovy DSL for CSS with code completion if your IDE supports it
-- Keyframes support!
+GrooCSS lets you code your CSS in Groovy, using a natural Groovy DSL with code completion if your IDE supports it.
+
+It was created by Adam L. Davis (@adamldavis) and inspired by the many other Groovy-based projects out there, like 
+[Gradle](gradle.org), [Grails](https://grails.org/), 
+[Spock](https://github.com/spockframework/spock), [Ratpack](https://ratpack.io/), and [grooscript](http://grooscript.org/).
+
+- DSL similar to CSS but with camel-case and some modifications to make it valid Groovy.
+- Keyframes, media, charset, and font-face support.
 - Automatically adds -webkit, -ms, -moz, -o extensions! (configurable)
 - Color support with rgb, rgba, hex, and named colors
-- Font-face support
-- Minimization (compress: true)
-- @charset support
-- Support for transforms directly (transformX, etc), 
-- Support for @media, 
-- Math functions (sqrt, sin, cos, toRadians, etc.)
-- Element names (div, a, input, span, etc.)
-- Unit methods (unit, getUnit, convert, etc.)
-- Ability to extend style-groups and add internal
+- Minimization (compress)
+- Support for transforms directly (transformX, etc),
+- Math functions (sqrt, sin, cos, toRadians, etc.) and built-in Measurement math.
+- Unit methods (unit, getUnit, convert)
+- Ability to extend style-groups and add internal groups.
 - Pseudo-classes in DSL (nthChild, etc.)
-- New ways to configure: Config.builder() or using withConfig
-
-## New in 0.6
-
-- Closer to CSS syntax using getAt, putAt, operator-overloading, underscore, methodMissing, and propertyMissing
-- Translator to convert from existing CSS
+- Multiple ways to configure: Config.builder() or using withConfig
+- Close to CSS syntax using getAt, putAt, operator-overloading, underscore, methodMissing, and propertyMissing
+- Translator to convert from existing CSS.
 - Available pretty print (using Config)
 
-## New in 0.7
+## New in 0.7.x
 
 - Better pseudo-class support with %
 - Measurements are now fully supported including math between different compatible types.
 - Added [Gradle Plugin](https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin)
+- Some measurement values are validated (for example, passing 10.deg to maxWidth will throw an AssertionError).
 
 ## Using Gradle with Plugin
 
@@ -44,7 +42,7 @@ The plugin adds a `convertCss` task for converting your groocss files into css.
 For example:
 
     plugins {
-      id "org.groocss.groocss-gradle-plugin" version "0.7.1"
+      id "org.groocss.groocss-gradle-plugin" version "0.7.2"
     }
     def cssDir = "$parent.buildDir/../www/css"
 
@@ -75,7 +73,7 @@ There's also a `GroocssTask` available if you want to have finer-grained control
 
     buildscript {
         repositories { jcenter() }
-        dependencies { classpath 'org.groocss:groocss:0.7' }
+        dependencies { classpath 'org.groocss:groocss:0.7.2' }
     }
     task css << {
         def file = file('css/out.css')
