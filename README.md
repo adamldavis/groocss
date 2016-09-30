@@ -35,6 +35,13 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - Added [Gradle Plugin](https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin)
 - Some measurement values are validated (for example, passing 10.deg to maxWidth will throw an AssertionError).
 
+## New in 0.8.x
+
+- New "styles" method for created unattached styles (re: issue #3)
+- Added varieties of convert and process that take String, In/OutputStreams, and Reader/PrintWriter (re: issue #2)
+- Added limited support for using spaces and ~ syntax in Selector definition (limited to two elements)
+
+
 ## Using Gradle with Plugin
 
 Using Gradle 2.1 or later, you simply apply the plugin, provide any optional configuration, and provide a list of files to convert.
@@ -42,7 +49,7 @@ The plugin adds a `convertCss` task for converting your groocss files into css.
 For example:
 
     plugins {
-      id "org.groocss.groocss-gradle-plugin" version "0.7.2"
+      id "org.groocss.groocss-gradle-plugin" version "0.8"
     }
     def cssDir = "$parent.buildDir/../www/css"
 
@@ -73,7 +80,7 @@ There's also a `GroocssTask` available if you want to have finer-grained control
 
     buildscript {
         repositories { jcenter() }
-        dependencies { classpath 'org.groocss:groocss:0.7.2' }
+        dependencies { classpath 'org.groocss:groocss:0.8' }
     }
     task css << {
         def file = file('css/out.css')
