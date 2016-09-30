@@ -1001,4 +1001,16 @@ class GroocssSpec extends Specification {
         }
     }
 
+    def "should use a condition to add styles"() {
+        expect:
+        GrooCSS.process {
+            def mycolor = { alpha -> styles {
+                if (alpha == 0) color '#123'
+                else color rgba(0, 0, 0, alpha)
+            }}
+            assert mycolor(0).styleList[0] == new Style('color', '#123')
+            assert mycolor(0.5).styleList[0]==new Style('color', 'rgba(0, 0, 0, 0.50)')
+        }
+    }
+
 }
