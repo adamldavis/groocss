@@ -21,7 +21,7 @@
       <a href="https://bintray.com/adamldavis/maven/GrooCSS" class="btn" rel="me">View on Bintray</a>
       <a href="http://blag.groocss.org" class="btn">Blog</a>
       <a href="https://twitter.com/groocss" class="btn" rel="me">Twitter</a>
-        <a href="docs/0.7.2/index.html" class="btn">Docs</a>
+        <a href="docs/0.8/index.html" class="btn">Docs</a>
     </header>
 
     <section class="main-content">
@@ -73,6 +73,14 @@
 </li>
 </ul>
 
+<h2><a id="new-in-08" class="anchor" href="#new-in-08" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.8</h2>
+
+<ul>
+    <li>New "styles" method for creating unattached styles (re: <a href="https://github.com/adamldavis/groocss/issues/3">issue #3</a>)</li>
+    <li>Added varieties of convert and process that take String, In/OutputStreams, and Reader/PrintWriter (re: <a href="https://github.com/adamldavis/groocss/issues/2">issue #2</a>)</li>
+    <li>Added limited support for using spaces and ~ syntax in Selector definition (limited to two elements)</li>
+</ul>
+
 <h2>
 <a id="using-gradle-with-plugin" class="anchor" href="#using-gradle-with-plugin" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Gradle with Plugin</h2>
 
@@ -81,7 +89,7 @@ The plugin adds a <code>convertCss</code> task for converting your groocss files
 For example:</p>
 
 <pre><code>plugins {
-  id "org.groocss.groocss-gradle-plugin" version "0.7.2"
+  id "org.groocss.groocss-gradle-plugin" version "0.8"
 }
 def cssDir = "$parent.buildDir/../www/css"
 
@@ -117,7 +125,7 @@ For example, files ending in <code>.css.groovy</code> will be converted to files
 
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath 'org.groocss:groocss:0.7.2' }
+    dependencies { classpath 'org.groocss:groocss:0.8' }
 }
 task css &lt;&lt; {
     def file = file('css/out.css')
