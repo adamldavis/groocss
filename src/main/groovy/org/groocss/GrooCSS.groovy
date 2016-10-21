@@ -249,8 +249,33 @@ class GrooCSS extends Script {
     /** Creates a new {@link org.groocss.Color} object from red,green,blue (0-255) values. */
     Color rgb(int r, int g, int b) { new Color(r, g, b) }
 
-    /** Creates a new {@link org.groocss.Color} object from red,green,blue,alpha (0-255) values. */
+    /** Creates a new {@link org.groocss.Color} object from red,green,blue (0-255),alpha (0-1) values. */
     Color rgba(int r, int g, int b, double a) { new Color(r, g, b, a) }
+
+    /** Creates a new {@link org.groocss.Color} object from alpha (0-1),red,green,blue (0-255) values. */
+    Color argb(double a, int r, int g, int b) { new Color(r, g, b, a) }
+
+    /** Creates an opaque color object from hue (0-360), saturation(0-1), and lightness(0-1) (HSL) values. */
+    Color hsl(int hue, double saturation, double lightness) {
+        new Color(hue, saturation, lightness)
+    }
+
+    /** Creates an opaque color object from hue (0-360), saturation(0-1), and lightness(0-1) (HSL) values. */
+    Color hsla(int hue, double saturation, double lightness, double a) {
+        new Color(hue, saturation, lightness).alpha(a)
+    }
+
+    /** Gets the Red component (0-255). */
+    int red(Color c) { c.color.red }
+    /** Gets the Blue component (0-255). */
+    int blue(Color c) { c.color.blue }
+    /** Gets the Green component (0-255). */
+    int green(Color c) { c.color.green }
+    /** Gets the Alpha component (0-255). */
+    int alpha(Color c) { c.color.alpha }
+
+    Color lighten(Color c) { c.brighter() }
+    Color darken(Color c) { c.darker() }
 
     def run() {}
 

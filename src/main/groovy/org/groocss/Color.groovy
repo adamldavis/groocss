@@ -23,6 +23,12 @@ class Color {
     Color(int r, int g, int b, double a) {
         color = new java.awt.Color(r, g, b, (int) (a * 255))
     }
+    Color(int rgb) {
+        color = new java.awt.Color(rgb)
+    }
+    Color(int hue, double s, double b) {
+        color = java.awt.Color.getHSBColor(hue / 360.0f, s, b)
+    }
 
     /** Actual color. */
     java.awt.Color color
