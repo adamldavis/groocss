@@ -271,11 +271,30 @@ class GrooCSS extends Script {
     int blue(Color c) { c.color.blue }
     /** Gets the Green component (0-255). */
     int green(Color c) { c.color.green }
-    /** Gets the Alpha component (0-255). */
-    int alpha(Color c) { c.color.alpha }
+    /** Gets the Alpha component (0-1). */
+    double alpha(Color c) { c.alpha }
+
+    /** Gets the Hue component (0-1) of HSL. */
+    float hue(Color c) {c.hue}
+    /** Gets the Saturation component (0-1) of HSL. */
+    float saturation(Color c) {c.saturation}
+    /** Gets the Brightness/Lightness component (0-1) of HSL. */
+    float brightness(Color c) {c.brightness}
 
     Color lighten(Color c) { c.brighter() }
     Color darken(Color c) { c.darker() }
+
+    /** Increase the saturation of a color in the HSL color space by some amount (0-1). */
+    Color saturate(Color c, float amount) { c.saturate(amount) }
+    /** Decrease the saturation of a color in the HSL color space by some amount (0-1). */
+    Color desaturate(Color c, float amount) { c.desaturate(amount) }
+
+    /** Increase the saturation of a color by some amount (0-1). */
+    Color fadein(Color c, float amount) { c.alpha(c.alpha + amount) }
+    /** Decrease the saturation of a color by some amount (0-1). */
+    Color fadeout(Color c, float amount) { c.alpha(c.alpha - amount) }
+    /** Sets the opacity of a Color to some amount (0-1). */
+    Color fade(Color c, float amount) { c.alpha(amount) }
 
     def run() {}
 

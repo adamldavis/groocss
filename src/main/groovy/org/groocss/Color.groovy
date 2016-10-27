@@ -1,10 +1,13 @@
 package org.groocss
 
+import groovy.transform.EqualsAndHashCode
+
 import java.math.MathContext
 
 /**
  * Controls Color for CSS styles and has methods for brighter, darker, etc.
  */
+@EqualsAndHashCode
 class Color {
 
     Color(String name, String colorStr) {
@@ -27,7 +30,7 @@ class Color {
         color = new java.awt.Color(rgb)
     }
     Color(int hue, double s, double b) {
-        color = java.awt.Color.getHSBColor(hue / 360.0f, s, b)
+        color = java.awt.Color.getHSBColor((float) (hue / 360.0f), (float) s, (float) b)
     }
 
     /** Actual color. */
@@ -80,6 +83,31 @@ class Color {
     /** Returns a copy of this color but with given 0-1 alpha value. */
     Color alpha(double alpha) {
         int r = color.red, g = color.green, b = color.blue
-        new Color(r, g, b, alpha)
+        new Color(r, g, b, Math.max( 0d, Math.min(alpha, 1.0d) ))
     }
+
+    Color saturate(float percent) {
+        int alpha = color.alpha
+        float[] hsb = java.awt.Color.RGBtoHSB(color.red, color.green, color.blue, null)
+
+        new Color((int) (360 * hsb[0]), Math.min(1.0f, hsb[1] + percent), hsb[2]).alpha(alpha / 255d)
+    }
+
+    Color desaturate(float percent) {
+        int alpha = color.alpha
+        float[] hsb = java.awt.Color.RGBtoHSB(color.red, color.green, color.blue, null)
+
+        new Color((int) (360 * hsb[0]), Math.max(0f, hsb[1] - percent), hsb[2]).alpha(alpha / 255d)
+    }
+
+    /** Gets Hue component of color as a number 0-360. */
+    int getHue() { (int) (java.awt.Color.RGBtoHSB(color.red, color.green, color.blue, null)[0] * 360) }
+
+    float getSaturation() { java.awt.Color.RGBtoHSB(color.red, color.green, color.blue, null)[1] }
+
+    float getBrightness() { java.awt.Color.RGBtoHSB(color.red, color.green, color.blue, null)[2] }
+
+    /** Alpha of this color as a number between 0 and 1, inclusive. */
+    double getAlpha() { color.alpha / 255.0d }
+
 }
