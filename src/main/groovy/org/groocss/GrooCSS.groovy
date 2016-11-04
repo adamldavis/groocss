@@ -296,6 +296,22 @@ class GrooCSS extends Script {
     /** Sets the opacity of a Color to some amount (0-1). */
     Color fade(Color c, float amount) { c.alpha(amount) }
 
+    /** Mixes two colors.
+     * @param color1: A color object.
+     * @param color2: A color object.
+     * @param weight: Optional, a percentage balance point between the two colors, defaults to 0.5.
+     */
+    Color mix(Color color1, Color color2, double weight = 0.5d) { color1.mix(color2, 1d - weight) }
+
+    /** Mix color with white with optional weight (defaults to half). */
+    Color tint(Color c, double weight = 0.5d) { c.mix(new Color(255i, 255i, 255i), weight) }
+
+    /** Mix color with black with optional weight (defaults to half). */
+    Color shade(Color c, double weight = 0.5d) { c.mix(new Color(0i), weight) }
+
+    /** Remove all saturation from a color in the HSL color space; the same as calling desaturate(color, 1). */
+    Color greyscale(Color c) { desaturate(c, 1) }
+
     def run() {}
 
     /** Processes the given closure with given optional config. */

@@ -107,7 +107,25 @@ class Color {
 
     float getBrightness() { java.awt.Color.RGBtoHSB(color.red, color.green, color.blue, null)[2] }
 
+    /** Red channel 0-255. */
+    int getRed() {color.red}
+    /** Green channel 0-255. */
+    int getGreen() {color.green}
+    /** Blue channel 0-255. */
+    int getBlue() {color.blue}
+
     /** Alpha of this color as a number between 0 and 1, inclusive. */
     double getAlpha() { color.alpha / 255.0d }
+
+    /** Returns a copy of this color mixed with other Color with optional 0-1 weight value. */
+    Color mix(Color color2, double w = 0.5) {
+        int r1 = color.red, g1 = color.green, b1 = color.blue
+        int r2 = color2.red, g2 = color2.green, b2 = color2.blue
+
+        new Color(mix2(r1, r2, w), mix2(g1, g2, w), mix2(b1, b2, w), mixd(alpha, color2.alpha, w))
+    }
+
+    private int mix2(int n1, int n2, double w) {            (int)    ((n1 * (1d - w)) + (n2 * w)) }
+    private double mixd(double n1, double n2, double w) {   (double) ((n1 * (1d - w)) + (n2 * w)) }
 
 }

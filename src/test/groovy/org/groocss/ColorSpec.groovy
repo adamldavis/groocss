@@ -44,4 +44,18 @@ class ColorSpec extends Specification {
         new Color(100i, 0.2d, 1.0d).brightness == 1.0f
     }
 
+    def "mix should work"() {
+        expect:
+        new Color(25, 0, 50).mix(new Color(75, 100, 50)) == new Color(50, 50, 50)
+    }
+
+    def "shade should work"() {
+        expect:
+        new GrooCSS().shade(new Color(80, 100, 50)) == new Color(40, 50, 25)
+    }
+
+    def "tint should work"() {
+        expect:
+        new GrooCSS().tint(new Color(80, 100, 50)) == new Color(167, 177, 152)
+    }
 }
