@@ -1,0 +1,8 @@
+build:
+  - ./gradlew groovydoc
+  - ./gradlew jars pom
+
+test:
+  - ./gradlew test
+
+
