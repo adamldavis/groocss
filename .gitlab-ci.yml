@@ -1,5 +1,4 @@
-services:
-  - java
+image: openjdk:8
 
 stages:
   - build
