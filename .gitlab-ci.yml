@@ -1,8 +1,21 @@
-build:
-  - ./gradlew groovydoc
-  - ./gradlew jars pom
+services:
+  - java
 
-test:
-  - ./gradlew test
+stages:
+  - build
+  - test
+
+job1:
+  stage: build
+  script:
+    - ./gradlew groovydoc
+    - ./gradlew jars pom
+  only:
+    - master
+
+testjob:
+  stage: test
+  script:
+    - ./gradlew test
 
 
