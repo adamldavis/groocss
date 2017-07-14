@@ -17,11 +17,12 @@
         <img src="images/groocss2_256.png" width="128" height="128">
       <h1 class="project-name">GrooCSS</h1>
       <h2 class="project-tagline">Code CSS in Groovy</h2>
-      <a href="https://github.com/adamldavis/groocss" class="btn" rel="me">View on GitHub</a>
-      <a href="https://bintray.com/adamldavis/maven/GrooCSS" class="btn" rel="me">View on Bintray</a>
+      <a href="https://github.com/adamldavis/groocss" class="btn" rel="me">GitHub</a>
+      <a href="https://bintray.com/adamldavis/maven/GrooCSS" class="btn" rel="me">Bintray</a>
       <a href="http://blag.groocss.org" class="btn">Blog</a>
       <a href="https://twitter.com/groocss" class="btn" rel="me">Twitter</a>
         <a href="docs/0.8/index.html" class="btn">Docs</a>
+        <a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin" class="btn">Gradle Plugin</a>
     </header>
 
     <section class="main-content">
@@ -95,7 +96,7 @@ The plugin adds a <code>convertCss</code> task for converting your groocss files
 For example:</p>
 
 <pre><code>plugins {
-  id "org.groocss.groocss-gradle-plugin" version "0.8"
+  id "org.groocss.groocss-gradle-plugin" version "0.9"
 }
 def cssDir = "$parent.buildDir/../www/css"
 
