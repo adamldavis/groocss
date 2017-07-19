@@ -4,17 +4,22 @@ sg '*', {
   boxSizing 'border-box'
 }
 
+def defaultFont = '"open sans", "helvetica neue", helvetica, arial, sans-serif'
+def monoFont = 'consolas, "liberation mono", menlo, courier, monospace'
+def textColor = c('#606c71')
+def linkColor = c('#1e6bb8')
+
 body {
   padding 0
   margin 0
-  fontFamily '"open sans", "helvetica neue", helvetica, arial, sans-serif'
-  fontSize '16px'
+  fontFamily defaultFont
+  fontSize 16.px
   lineHeight 1.5
-  color '#606c71'
+  color textColor
 }
 
 a {
-  color '#1e6bb8'
+  color linkColor
   textDecoration 'none'
 }
 a%hover {
@@ -23,12 +28,12 @@ a%hover {
 
 _.btn {
   display 'inline-block'
-  marginBottom '1rem'
-  color rgba(255, 255, 255, 0.7)
-  backgroundColor rgba(255, 255, 255, 0.08)
-  borderColor rgba(255, 255, 255, 0.2)
+  marginBottom 1.rem
+  color white.alpha(0.7)
+  backgroundColor white.alpha(0.08)
+  borderColor white.alpha(0.2)
   borderStyle 'solid'
-  borderWidth '1px'
+  borderWidth 1.px
   borderRadius '0.3rem'
   transition 'color 0.2s, background-color 0.2s, border-color 0.2s'
 }
@@ -44,13 +49,14 @@ sg '.btn:hover', {
 }
 
 media 'screen and (min-width: 64em)', {
-_.btn {
-    padding '0.75rem 1rem'; } }
+  _.btn { padding '0.75rem 1rem' }
+}
 
 media 'screen and (min-width: 42em) and (max-width: 64em)', {
-_.btn {
-  padding '0.6rem 0.9rem'
-    fontSize 0.9.rem } }
+  _.btn {
+    padding '0.6rem 0.9rem'
+    fontSize 0.9.rem }
+}
 
 media 'screen and (max-width: 42em)', {
   _.btn {
@@ -61,7 +67,8 @@ media 'screen and (max-width: 42em)', {
   }
   _.btn + _.btn {
     marginTop '1rem'
-        marginLeft 0; } 
+    marginLeft 0
+  }
 }
 
 sg '.page-header', {
@@ -89,16 +96,16 @@ sg '.project-name', {
 }
 
 media 'screen and (min-width: 64em)', {
-  sg '.project-name', {
-    fontSize 3.25.rem } }
+  sg '.project-name', { fontSize 3.25.rem }
+}
 
 media 'screen and (min-width: 42em) and (max-width: 64em)', {
-  sg '.project-name', {
-    fontSize 2.25.rem } }
+  sg '.project-name', { fontSize 2.25.rem }
+}
 
 media 'screen and (max-width: 42em)', {
-  sg '.project-name', {
-    fontSize 1.75.rem } }
+  sg '.project-name', { fontSize 1.75.rem }
+}
 
 sg '.project-tagline', {
   marginBottom '2rem'
@@ -107,52 +114,53 @@ sg '.project-tagline', {
 }
 
 media 'screen and (min-width: 64em)', {
-  sg '.project-tagline', {
-    fontSize 1.25.rem } }
+  sg '.project-tagline', { fontSize 1.25.rem }
+}
 
 media 'screen and (min-width: 42em) and (max-width: 64em)', {
-  sg '.project-tagline', {
-    fontSize 1.15.rem } }
+  sg '.project-tagline', { fontSize 1.15.rem }
+}
 
 media 'screen and (max-width: 42em)', {
-  sg '.project-tagline', {
-    fontSize 1.rem } }
+  sg '.project-tagline', { fontSize 1.rem }
+}
 
-sg '.main-content :first-child', {
+def MC = sel('.main-content')
+MC %firstChild {
   marginTop 0
 }
-sg '.main-content img', {
+MC ^ img {
   maxWidth '100%'
 }
-sg '.main-content h1 ,.main-content h2 ,.main-content h3 ,.main-content h4 ,.main-content h5 ,.main-content h6',{
+MC ^h1 | MC ^h2 | MC ^h3 | MC ^h4 | MC ^h5 | MC ^h6 {
   marginTop '2rem'
   marginBottom '1rem'
   fontWeight 'normal'
   color '#159957'
 }
-sg '.main-content p', {
+MC ^p {
   marginBottom '1em'
 }
-sg '.main-content code', {
+MC ^code {
   padding '2px 4px'
-  fontFamily 'consolas, "liberation mono", menlo, courier, monospace'
+  fontFamily monoFont
   fontSize '0.9rem'
   color '#383e41'
   backgroundColor '#f3f6fa'
   borderRadius '0.3rem'
 }
-sg '.main-content pre', {
+MC ^pre {
   padding '0.8rem'
   marginTop 0
   marginBottom '1rem'
-  font '1rem consolas, "liberation mono", menlo, courier, monospace'
+  font "1rem $monoFont"
   color '#567482'
   wordWrap 'normal'
   backgroundColor '#f3f6fa'
   border 'solid 1px #dce6f0'
   borderRadius '0.3rem'
 }
-sg '.main-content pre > code', {
+MC ^pre >> code {
   padding 0
   margin 0
   fontSize '0.9rem'
@@ -162,21 +170,21 @@ sg '.main-content pre > code', {
   background 'transparent'
   border 0
 }
-sg '.main-content .highlight',{
+MC ^ _.highlight {
   marginBottom '1rem'
 }
-sg '.main-content .highlight pre',{
+MC ^ _.highlight ^ pre {
   marginBottom 0
   wordBreak 'normal'
 }
-sg '.main-content .highlight pre, .main-content pre',{
+sg (MC ^ _.highlight ^pre | MC ^pre) {
   padding '0.8rem'
   overflow 'auto'
   fontSize '0.9rem'
   lineHeight 1.45
   borderRadius '0.3rem'
 }
-sg '.main-content pre code, .main-content pre tt',{
+sg("$MC pre code, $MC pre tt") {
   display 'inline'
   maxWidth 'initial'
   padding 0
@@ -187,52 +195,52 @@ sg '.main-content pre code, .main-content pre tt',{
   backgroundColor 'transparent'
   border 0
 }
-sg '.main-content pre code:before,.main-content pre code:after,.main-content pre tt:before,.main-content pre tt:after',{
+sg "$MC pre code:before,$MC pre code:after,$MC pre tt:before,$MC pre tt:after",{
   content 'normal'
 }
-sg '.main-content ul | .main-content ol',{
+MC ^ ul | MC ^ ol {
   marginTop 0
 }
-sg '.main-content blockquote',{
+MC ^ blockquote {
   padding '0 1rem'
   marginLeft 0
   color '#819198'
   borderLeft '0.3rem solid #dce6f0'
 }
-sg '.main-content blockquote > :first-child', {
+MC ^ blockquote >> firstChild {
   marginTop 0
 }
-sg '.main-content blockquote > :last-child', {
+MC ^ blockquote >> lastChild {
   marginBottom 0
 }
-sg '.main-content table',{
+MC ^ table {
   display 'block'
   width '100%'
   overflow 'auto'
   wordBreak 'normal'
   wordBreak 'keep-all'
 }
-sg '.main-content table th',{
+MC ^table ^th {
   fontWeight 'bold'
 }
-sg '.main-content table th, .main-content table td', {
+MC ^table ^th | MC ^table ^td {
   padding '0.5rem 1rem'
   border '1px solid #e9ebec'
 }
-sg '.main-content dl',{
+MC ^dl {
   padding 0
 }
-sg '.main-content dl dt',{
+MC ^dl ^dt {
   padding 0
   marginTop '1rem'
   fontSize '1rem'
   fontWeight 'bold'
 }
-sg '.main-content dl dd',{
+MC ^dl ^dd {
   padding 0
   marginBottom '1rem'
 }
-sg '.main-content hr',{
+MC ^hr {
   height '2px'
   padding 0
   margin '1rem 0'
@@ -241,25 +249,32 @@ sg '.main-content hr',{
 }
 
 media 'screen and (min-width: 64em)', {
-sg '.main-content', {
-  maxWidth '64rem'
-  padding '2rem 6rem'
-  margin '0 auto'
-    fontSize 1.1.rem } }
+  sg '.main-content', {
+    maxWidth '64rem'
+    padding '2rem 6rem'
+    margin '0 auto'
+    fontSize 1.1.rem }
+}
 
 media 'screen and (min-width: 42em) and (max-width: 64em)', {
-sg '.main-content', {
-  padding '2rem 4rem'
-    fontSize 1.1.rem } }
+  sg '.main-content', {
+    padding '2rem 4rem'
+    fontSize 1.1.rem
+  }
+}
 
 media 'screen and (max-width: 42em)', {
-sg '.main-content', {
-  padding '2rem 1rem'
-    fontSize 1.rem } }
+  sg '.main-content', {
+    padding '2rem 1rem'
+    fontSize 1.rem
+  }
+}
 
-sg '.site-footer', {
-  paddingTop '2rem'
-  marginTop '2rem'
+def SF = '.site-footer'
+
+sg(SF) {
+  paddingTop 2.rem
+  marginTop 2.rem
   borderTop 'solid 1px #eff0f1'
 }
 
@@ -273,13 +288,19 @@ sg '.site-footer-credits', {
 }
 
 media 'screen and (min-width: 64em)', {
-sg '.site-footer', {
-    fontSize 1.rem } }
+  sg SF, {
+    fontSize 1.rem
+  }
+}
 
 media 'screen and (min-width: 42em) and (max-width: 64em)', {
-sg '.site-footer', {
-    fontSize 1.rem } }
+  sg SF, {
+    fontSize 1.rem
+  }
+}
 
 media 'screen and (max-width: 42em)', {
-sg '.site-footer', {
-    fontSize 0.9.rem } }
+  sg SF, {
+    fontSize 0.9.rem
+  }
+}

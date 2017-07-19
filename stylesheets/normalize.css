@@ -17,15 +17,19 @@ audio,canvas,progress,video {
     display: inline-block;
     vertical-align: baseline;
 }
-audio:not([controls]){display: none;
-	height: 0;}
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
 [hidden],template {
     display: none;
 }
 a {
     background-color: transparent;
 }
-a:active,a:hover{outline: 0;}
+a:active,a:hover {
+    outline: 0;
+}
 abbr[title] {
     border-bottom: 1px dotted;
 }
@@ -61,7 +65,9 @@ sub {
 img {
     border: 0;
 }
-svg:not(:root){overflow: hidden;}
+svg:not(:root) {
+    overflow: hidden;
+}
 figure {
     margin: 1em 40px;
 }
@@ -91,7 +97,9 @@ html input[button],input[reset],input[submit],button {
     -webkit-appearance: button;
     cursor: pointer;
 }
-button[disabled],html input[disabled],a:root{cursor: default;}
+button[disabled],html input[disabled],a:root {
+    cursor: default;
+}
 button:-moz-focus-inner,input::-moz-focus-inner {
     border: 0;
     padding: 0;

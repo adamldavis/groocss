@@ -14,7 +14,7 @@
    limitations under the License.
 */
 plugins {
-    id "org.groocss.groocss-gradle-plugin" version "0.7.2"
+    id "org.groocss.groocss-gradle-plugin" version "0.9"
 }
 def cssDir = "stylesheets/"
 

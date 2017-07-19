@@ -82,18 +82,20 @@ p {
     letter-spacing: 0.001em;
     font-feature-settings: "onum" 1;
 }
-p:last-child{margin-bottom: 0;}
+p:last-child {
+    margin-bottom: 0;
+}
 blockquote {
     margin: 5px 0 15px 60px;
     font-size: 1.1em;
     line-height: 1.3em;
     font-feature-settings: "onum" 1;
 }
-.post ol {
+.post ul,.post ol {
     padding: 0;
     margin: 5px 0 15px 60px;
 }
-.post ol li {
+.post ul li,.post ol li {
     margin: 5px 0;
 }
 strong {
@@ -159,10 +161,10 @@ header {
 .navigation .permalink-nav-previous {
     float: right;
 }
-.answer h3 a {
+.text h3 a,.chat h3 a,.answer h3 a {
     text-decoration: none;
 }
-.chat img {
+.text img,.photo img,.link img,.quote img,.chat img {
     max-width: 100%;
     position: relative;
     margin: 0 auto 30px auto;
@@ -173,7 +175,7 @@ header {
     -webkit-border-radius: 4px !important;
     -moz-border-radius: 4px !important;
 }
-.post .description {
+.post .caption,.post .description {
     margin-top: 30px;
 }
 .post .source {
@@ -213,7 +215,7 @@ header {
     font-weight: 700;
     margin-right: 3px;
 }
-.audio embed {
+.audio iframe,.audio object,.audio embed {
     width: 100% !important;
     height: inherit !important;
 }
@@ -435,7 +437,7 @@ header {
     filter: alpha(opacity=50);
     -ms-filter: alpha(opacity=50);
 }
-.copyright a {
+.copyright,.copyright a {
     font-size: 12px !important;
     line-height: 18px !important;
     font-weight: 400 !important;
@@ -593,11 +595,13 @@ pre {
     -webkit-box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
     -moz-box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
 }
-pre:hover{background: AntiqueWhite;
-	animation: phover 1s 1;
-	-webkit-animation: phover 1s 1;
-	-moz-animation: phover 1s 1;
-	-o-animation: phover 1s 1;}
+pre:hover {
+    background: AntiqueWhite;
+    animation: phover 1s 1;
+    -webkit-animation: phover 1s 1;
+    -moz-animation: phover 1s 1;
+    -o-animation: phover 1s 1;
+}
 a.github {
     position: absolute;
     z-index: 99;
@@ -614,25 +618,29 @@ a.bintray {
     text-decoration: none;
     font: georgia,arial;
 }
-header img:hover{animation: spin180 1s 1;
-	-webkit-animation: spin180 1s 1;
-	-moz-animation: spin180 1s 1;
-	-o-animation: spin180 1s 1;
-	transform: rotate(180deg);
-	-webkit-transform: rotate(180deg);
-	-moz-transform: rotate(180deg);
-	-o-transform: rotate(180deg);
-	-ms-transform: rotate(180deg);}
+header img:hover {
+    animation: spin180 1s 1;
+    -webkit-animation: spin180 1s 1;
+    -moz-animation: spin180 1s 1;
+    -o-animation: spin180 1s 1;
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+}
 header img {
     border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
 }
-a:hover{transform: translateX(2px);
-	-webkit-transform: translateX(2px);
-	-moz-transform: translateX(2px);
-	-o-transform: translateX(2px);
-	-ms-transform: translateX(2px);}
+a:hover {
+    transform: translateX(2px);
+    -webkit-transform: translateX(2px);
+    -moz-transform: translateX(2px);
+    -o-transform: translateX(2px);
+    -ms-transform: translateX(2px);
+}
 body {
     animation: colorfade 5s 1;
     -webkit-animation: colorfade 5s 1;
@@ -642,10 +650,12 @@ body {
 p,li {
     padding: 0.3em;
 }
-p:hover,li:hover{animation: hhover 1s 1;
-	-webkit-animation: hhover 1s 1;
-	-moz-animation: hhover 1s 1;
-	-o-animation: hhover 1s 1;}
+p:hover,li:hover {
+    animation: hhover 1s 1;
+    -webkit-animation: hhover 1s 1;
+    -moz-animation: hhover 1s 1;
+    -o-animation: hhover 1s 1;
+}
 @keyframes phover {
     from {
         background: White;
@@ -758,50 +768,106 @@ p:hover,li:hover{animation: hhover 1s 1;
         -ms-transform: rotate(180deg);
     }
 }@media only screen and (max-width: 1280px) {
-#tumblr_controls{display: none !important;}
+#tumblr_controls {
+    display: none !important;
+}
 }
 @media only screen and (max-width: 960px) {
-.post-date{display: none;}
-#posts footer .info .date{display: inline;}
+.post-date {
+    display: none;
+}
+#posts footer .info .date {
+    display: inline;
+}
 }
 @media only screen and (max-width: 720px) {
-body{font-size: 16px;}
-#posts,.menu .wrapper,#search input,#disqus,#notes,.page-title,#links{width: 90%;
-	margin: 0 auto;}
+body {
+    font-size: 16px;
+}
+#posts,.menu .wrapper,#search input,#disqus,#notes,.page-title,#links {
+    width: 90%;
+    margin: 0 auto;
+}
 }
 @media only screen and (max-width: 480px) {
-body{font-size: 14px;}
-.title{margin: 30px auto 40px auto !important;}
-.menu{padding: 5px 0;}
-.menu .menu-title{line-height: 1.714285em;
-	max-width: 84%;}
-#search{margin: 80px auto 10px auto;}
-#links li{margin: 5px auto;}
-#links li a{padding: 15px 0;}
-.navigation{top: 0;}
-.navigation a{padding: 20px 0;}
-h2{margin-bottom: 15px !important;}
-h2,#links li a,#search input{font-size: 2em;
-	line-height: 1.2222222em;}
-h3{font-size: 1.6666667em;
-	line-height: 1.2666667em;
-	margin-bottom: 15px !important;}
-h4{font-size: 1.3333333em;
-	line-height: 1.3333333em;
-	margin-bottom: 10px !important;}
-h5{margin-bottom: 10px !important;}
-.navigation a{font-size: 1em;
-	line-height: 1.4444444em;}
-blockquote{margin: 2px 0 15px 20px;}
-p{margin-bottom: 17px !important;}
-.chat ul li{margin: 0;
-	padding: 7px 0 7px 0;}
-.permalink-page{margin-top: 90px !important;}
-#posts footer{padding-bottom: 30px;
-	margin: 20px auto 40px auto;}
-#posts footer .info a{font-size: 0.857142em;
-	line-height: 1.5em;}
-#posts footer .tags .tag a{font-size: 0.7857142em;
-	line-height: 1.54545454em;}
-#disqus,#notes{margin-bottom: 50px !important;}
+body {
+    font-size: 14px;
+}
+.title {
+    margin: 30px auto 40px auto !important;
+}
+.menu {
+    padding: 5px 0;
+}
+.menu .menu-title {
+    line-height: 1.714285em;
+    max-width: 84%;
+}
+#search {
+    margin: 80px auto 10px auto;
+}
+#links li {
+    margin: 5px auto;
+}
+#links li a {
+    padding: 15px 0;
+}
+.navigation {
+    top: 0;
+}
+.navigation a {
+    padding: 20px 0;
+}
+h2 {
+    margin-bottom: 15px !important;
+}
+h2,#links li a,#search input {
+    font-size: 2em;
+    line-height: 1.2222222em;
+}
+h3 {
+    font-size: 1.6666667em;
+    line-height: 1.2666667em;
+    margin-bottom: 15px !important;
+}
+h4 {
+    font-size: 1.3333333em;
+    line-height: 1.3333333em;
+    margin-bottom: 10px !important;
+}
+h5 {
+    margin-bottom: 10px !important;
+}
+h5,.navigation a {
+    font-size: 1em;
+    line-height: 1.4444444em;
+}
+blockquote {
+    margin: 2px 0 15px 20px;
+}
+p {
+    margin-bottom: 17px !important;
+}
+.chat ul li {
+    margin: 0;
+    padding: 7px 0 7px 0;
+}
+.permalink-page {
+    margin-top: 90px !important;
+}
+#posts footer {
+    padding-bottom: 30px;
+    margin: 20px auto 40px auto;
+}
+#posts footer .info a {
+    font-size: 0.857142em;
+    line-height: 1.5em;
+}
+#posts footer .tags .tag a {
+    font-size: 0.7857142em;
+    line-height: 1.54545454em;
+}
+#disqus,#notes {
+    margin-bottom: 50px !important;
+}
 }
