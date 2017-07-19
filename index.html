@@ -50,23 +50,27 @@
 <li>DSL similar to CSS but with camel-case and some modifications to make it valid Groovy.</li>
 <li><a href="#keyframes-and-transforms-dsl">Keyframes</a>, <a href="#media">media</a>, charset, and font-face support.</li>
 <li>Automatically adds -webkit, -ms, -moz, -o extensions! (configurable)</li>
-<li>Color support with rgb, rgba, hex, and named colors</li>
+<li>Color support with rgb, rgba, hex, named colors, and several color changing methods (mix, tint, shade, saturate, etc.)</li>
 <li>Minimization (<a href="#compressing-minimization">compress</a>)</li>
 <li>Support for <a href="#keyframes-and-transforms-dsl">transforms</a> directly (transformX, etc), </li>
 <li>Math functions (sqrt, sin, cos, toRadians, etc.) and built-in <a href="#measurement-math">Measurement</a> math.</li>
-<li>Unit methods (unit, getUnit, convert)</li>
+<li>Unit methods (unit, getUnit, convert) and some validation of unit types.</li>
 <li>Ability to <a href="#extending">extend</a> style-groups and add internal groups.</li>
 <li><a href="#pseudo-classes">Pseudo-classes</a> in DSL (nthChild, etc.)</li>
 <li>Multiple ways to <a href="#config">configure</a>: Config.builder() or using withConfig</li>
 <li>Close to CSS syntax using getAt, putAt, operator-overloading, underscore, methodMissing, and propertyMissing</li>
 <li>Translator to convert <a href="#converting-from-css">from existing CSS</a>.</li>
 <li>Available pretty print (using Config)</li>
+    <li><a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin">Gradle Plugin</a> available.</li>
+    <li>Ability to create and reuse groups of styles using styles{} syntax.</li>
 </ul>
 
 <h2><a id="new-in-09" class="anchor" href="#new-in-09" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.9</h2>
 
 <ul>
     <li>Added mix, tint, shade, and greyscale methods.</li>
+    <li>Added saturate, desaturate, fadein, fadeout, fade, and hue, saturation and brightness methods.</li>
+    <li>Added many colors methods: rgba, hsl, hsla, lighten, darken, etc.</li>
 </ul>
 
 <h2><a id="new-in-08" class="anchor" href="#new-in-08" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.8</h2>
@@ -378,6 +382,15 @@ With the DSL there are several chainable methods available to easily configure y
 </code></pre>
 
 <p>This allows you to get started quickly with GrooCSS in existing projects.</p>
+
+        <h2>More Examples</h2>
+        <p>For more examples, see the code used to create this page's CSS:
+        <ol>
+        <li><a href="src/main/groovy/stylesheet.css.groovy">stylesheet.css.groovy</a></li>
+        <li><a href="src/main/groovy/style.css.groovy">style.css.groovy</a></li>
+        <li><a href="src/main/groovy/normalize.css.groovy">normalize.css.groovy</a></li>
+    </ol>
+        </p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/adamldavis/groocss">GrooCSS</a> is maintained by <a href="https://github.com/adamldavis">adamldavis</a>.</span>
