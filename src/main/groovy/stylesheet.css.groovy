@@ -71,10 +71,12 @@ media 'screen and (max-width: 42em)', {
   }
 }
 
+def headerColor = c('#159957')
+
 sg '.page-header', {
   color '#fff'
   textAlign 'center'
-  backgroundColor '#159957'
+  backgroundColor headerColor
   backgroundImage 'linear-gradient(120deg, #112233, #a5b9c7)'
 }
 
@@ -125,42 +127,52 @@ media 'screen and (max-width: 42em)', {
   sg '.project-tagline', { fontSize 1.rem }
 }
 
-def MC = sel('.main-content')
+def MC = sel('.main-content') //sel creates a Selector
+def main_content = { MC ^ it }// this simple closure allows for simpler syntax
+
 MC %firstChild {
   marginTop 0
 }
-MC ^ img {
+main_content img {
   maxWidth '100%'
 }
-MC ^h1 | MC ^h2 | MC ^h3 | MC ^h4 | MC ^h5 | MC ^h6 {
-  marginTop '2rem'
-  marginBottom '1rem'
+// the following closure takes in a list and bitwise-ors everything together
+// this is not necessary but just to demonstrate the type of Groovy code
+// possible here.
+def allOf = { it.tail().inject(it[0]) {a,b -> a|b} }
+List mainHeaders = [MC ^h1, MC ^h2, MC ^h3, MC ^h4, MC ^h5, MC ^h6]
+
+sg allOf(mainHeaders), {
+  marginTop 2.rem
+  marginBottom 1.rem
   fontWeight 'normal'
-  color '#159957'
+  color headerColor
 }
-MC ^p {
-  marginBottom '1em'
+main_content p {
+  marginBottom 1.em
 }
-MC ^code {
+def codeStyles = styles {
+  backgroundColor '#f3f6fa'
+  borderRadius 0.3.rem
+}
+main_content code {
   padding '2px 4px'
   fontFamily monoFont
-  fontSize '0.9rem'
+  fontSize 0.9.rem
   color '#383e41'
-  backgroundColor '#f3f6fa'
-  borderRadius '0.3rem'
+  add codeStyles
 }
-MC ^pre {
-  padding '0.8rem'
+main_content pre {
+  padding 0.8.rem
   marginTop 0
-  marginBottom '1rem'
+  marginBottom 1.rem
   font "1rem $monoFont"
   color '#567482'
   wordWrap 'normal'
-  backgroundColor '#f3f6fa'
   border 'solid 1px #dce6f0'
-  borderRadius '0.3rem'
+  add codeStyles
 }
-MC ^pre >> code {
+main_content pre >> code {
   padding 0
   margin 0
   fontSize '0.9rem'
@@ -170,21 +182,21 @@ MC ^pre >> code {
   background 'transparent'
   border 0
 }
-MC ^ _.highlight {
+main_content  _.highlight {
   marginBottom '1rem'
 }
-MC ^ _.highlight ^ pre {
+main_content  _.highlight ^ pre {
   marginBottom 0
   wordBreak 'normal'
 }
-sg (MC ^ _.highlight ^pre | MC ^pre) {
+sg (MC ^ _.highlight ^pre | MC ^pre) { //xor style
   padding '0.8rem'
   overflow 'auto'
   fontSize '0.9rem'
   lineHeight 1.45
   borderRadius '0.3rem'
 }
-sg("$MC pre code, $MC pre tt") {
+sg("$MC pre code, $MC pre tt") { //gstring style
   display 'inline'
   maxWidth 'initial'
   padding 0
@@ -198,49 +210,52 @@ sg("$MC pre code, $MC pre tt") {
 sg "$MC pre code:before,$MC pre code:after,$MC pre tt:before,$MC pre tt:after",{
   content 'normal'
 }
-MC ^ ul | MC ^ ol {
+main_content ul {
   marginTop 0
 }
-MC ^ blockquote {
+main_content ol { extend(main_content(ul)) }
+
+main_content  blockquote {
   padding '0 1rem'
   marginLeft 0
   color '#819198'
   borderLeft '0.3rem solid #dce6f0'
 }
-MC ^ blockquote >> firstChild {
+main_content  blockquote >> firstChild {
   marginTop 0
 }
-MC ^ blockquote >> lastChild {
+main_content  blockquote >> lastChild {
   marginBottom 0
 }
-MC ^ table {
+main_content  table {
   display 'block'
   width '100%'
   overflow 'auto'
   wordBreak 'normal'
   wordBreak 'keep-all'
 }
-MC ^table ^th {
-  fontWeight 'bold'
-}
-MC ^table ^th | MC ^table ^td {
+main_content table ^td {
   padding '0.5rem 1rem'
   border '1px solid #e9ebec'
 }
-MC ^dl {
+main_content table ^th {
+  fontWeight 'bold'
+  extend(main_content(table ^td))
+}
+main_content dl {
   padding 0
 }
-MC ^dl ^dt {
+main_content dl ^dt {
   padding 0
   marginTop '1rem'
   fontSize '1rem'
   fontWeight 'bold'
 }
-MC ^dl ^dd {
+main_content dl ^dd {
   padding 0
   marginBottom '1rem'
 }
-MC ^hr {
+main_content hr {
   height '2px'
   padding 0
   margin '1rem 0'

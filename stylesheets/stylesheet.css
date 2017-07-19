@@ -89,8 +89,8 @@ a:hover {
     font: 1rem consolas, "liberation mono", menlo, courier, monospace;
     color: #567482;
     word-wrap: normal;
-    background-color: #f3f6fa;
     border: solid 1px #dce6f0;
+    background-color: #f3f6fa;
     border-radius: 0.3rem;
     -webkit-border-radius: 0.3rem;
     -moz-border-radius: 0.3rem;
@@ -157,12 +157,12 @@ a:hover {
     word-break: normal;
     word-break: keep-all;
 }
-.main-content table th {
-    font-weight: bold;
-}
-.main-content table th,.main-content table td {
+.main-content table td,.main-content table th {
     padding: 0.5rem 1rem;
     border: 1px solid #e9ebec;
+}
+.main-content table th {
+    font-weight: bold;
 }
 .main-content dl {
     padding: 0;

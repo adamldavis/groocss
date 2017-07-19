@@ -29,7 +29,7 @@ groocssfiles {
     }
 }
 
-task beforeCss << {
+task(beforeCss).doLast {
     file(cssDir).mkdirs()
 	println 'Processing groocss'
 }
