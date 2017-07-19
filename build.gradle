@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.5'
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 }
 
@@ -65,7 +65,7 @@ bintray {
     }
 }
 
-task prepareRelease(dependsOn: clean, description: 'Cleans build and removes -SNAPSHOT') << {
+task prepareRelease(dependsOn: clean, description: 'Cleans build and removes -SNAPSHOT') doLast {
     def props = file('gradle.properties')
     def text = props.text
     props.text = text.replace('-SNAPSHOT','')
@@ -73,12 +73,12 @@ task prepareRelease(dependsOn: clean, description: 'Cleans build and removes -SN
 
 task buildRelease(dependsOn: ['test', 'jars', 'pom'], description: 'Tests and builds artifacts') {}
 
-task release(dependsOn: bintrayUpload, description: 'Uploads artifacts to bintray maven repo (jcenter)') << {
+task release(dependsOn: bintrayUpload, description: 'Uploads artifacts to bintray maven repo (jcenter)') doLast {
     println "Uploaded $project.version to bintray"
     incrementVersion()
 }
 
-task inc(description: 'Increments the project version and appends -SNAPSHOT') << { incrementVersion() }
+task inc(description: 'Increments the project version and appends -SNAPSHOT') doLast { incrementVersion() }
 
 def incrementVersion() {
     def props = file('gradle.properties')
@@ -89,7 +89,7 @@ def incrementVersion() {
     props.text = "${text[0..i]}${nums.join('.')}-SNAPSHOT\n"
 }
 
-task pom << {
+task pom doFirst {
     pom {
         project {
             groupId 'org.groocss'
