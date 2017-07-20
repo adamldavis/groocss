@@ -51,9 +51,14 @@ class Selector extends Selectable {
     // ---> MethodMissing and PropertyMissing
     /** Creates a new StyleGroup using the missing methodName as the styleClass. */
     def methodMissing(String methodName, args) {
-        if (ELEMENTS.contains(methodName) && !owner.config.styleClasses.contains(methodName) &&
-                args[0] instanceof Closure) {
-            return owner.sg("$value $methodName", (Closure) args[0])
+        println "methodMissing $methodName( $args )"
+        if (ELEMENTS.contains(methodName) && !owner.config.styleClasses.contains(methodName)) {
+            if (args[0] instanceof Closure) {
+                return owner.sg("$value $methodName", (Closure) args[0])
+            } else if (args[0] instanceof Selectable) {
+                def sg = (Selectable) args[0]
+                return sg.resetSelector("$selector $methodName $sg.selector")
+            }
         }
         if (args[0] instanceof Closure) return withClass(methodName, (Closure) args[0])
         else if (args[0] instanceof Selectable) {

@@ -998,8 +998,11 @@ class GroocssSpec extends Specification {
         where:
         css | closure
         "div p.test a{text-decoration: none;}" | { div p.test a { textDecoration 'none' } }
-        "div.main p.test a{text-decoration: none;}" | { div.main p.test a { textDecoration 'none' } }
-        "div.main .test a{text-decoration: none;}" | { div.main get_().test a { textDecoration 'none' } }
+        "div.man p.test a{text-decoration: none;}" | { div.man p.test a { textDecoration 'none' } }
+        "div.man .test a{text-decoration: none;}" | { div.man get_().test a { textDecoration 'none' } }
+        "body div p a{text-decoration: none;}" | { body div p a { textDecoration 'none' } }
+        "body div.test p a{text-decoration: none;}" | { body div.test p a { textDecoration 'none' } }
+        "body div.test p li a{text-decoration: none;}" | { body div.test p li a { textDecoration 'none' } }
     }
 
     @Unroll
