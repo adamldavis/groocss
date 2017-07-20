@@ -1,5 +1,5 @@
 
-[![Build Status](https://snap-ci.com/adamldavis/groocss/branch/master/build_image)](https://snap-ci.com/adamldavis/groocss/branch/master)
+[Build Status](https://gitlab.com/adamldavis/groocss/pipelines)
 [ ![Download](https://api.bintray.com/packages/adamldavis/maven/GrooCSS/images/download.svg) ](https://bintray.com/adamldavis/maven/GrooCSS/_latestVersion)
 / [Gradle Plugin](https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin)
 
@@ -16,7 +16,7 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - DSL similar to CSS but with camel-case and some modifications to make it valid Groovy.
 - Keyframes, media, charset, and font-face support.
 - Automatically adds -webkit, -ms, -moz, -o extensions! (configurable)
-- Color support with rgb, rgba, hex, and named colors
+- Color support with rgb, rgba, hex, named colors, and several color changing methods (mix, tint, shade, saturate, etc.)
 - Minimization (compress)
 - Support for transforms directly (transformX, etc),
 - Math functions (sqrt, sin, cos, toRadians, etc.) and built-in Measurement math.
@@ -27,6 +27,8 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - Close to CSS syntax using getAt, putAt, operator-overloading, underscore, methodMissing, and propertyMissing
 - Translator to convert from existing CSS.
 - Available pretty print (using Config)
+- Ability to create and reuse groups of styles using styles{} syntax.
+- Methods for getting an image's width, height, or size.
 
 ## New in 0.7.x
 
@@ -41,6 +43,17 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - Added varieties of convert and process that take String, In/OutputStreams, and Reader/PrintWriter (re: issue #2)
 - Added limited support for using spaces and ~ syntax in Selector definition (limited to two elements)
 
+## New in 0.9 
+
+- Added mix, tint, shade, and greyscale methods.
+- Added saturate, desaturate, fadein, fadeout, fade, and hue, saturation and brightness methods.
+- Added many colors methods: rgba, hsl, hsla, lighten, darken, etc.
+
+## New in 0.10
+
+- Added option (convertUnderline) to convert all underlines in style-classes to dashes.
+- Added ability to use three or more element selectors without xor.
+- Added ability to configure to use some element names as style-classes just in case you need "main" for example to be used as a style-class.
 
 ## Using Gradle with Plugin
 
@@ -49,7 +62,7 @@ The plugin adds a `convertCss` task for converting your groocss files into css.
 For example:
 
     plugins {
-      id "org.groocss.groocss-gradle-plugin" version "0.8"
+      id "org.groocss.groocss-gradle-plugin" version "0.9"
     }
     def cssDir = "$parent.buildDir/../www/css"
 
