@@ -1061,4 +1061,16 @@ class GroocssSpec extends Specification {
         }
     }
 
+    @Unroll
+    def "should be able to convert underscores to dashes in classes"() {
+        expect:
+        assert "${GrooCSS.withConfig { convertUnderline() }.process closure}" == css
+        where:
+        css | closure
+        "div p.main-content{text-decoration: none;}"        | { div p.main_content { textDecoration 'none' } }
+        "div p.not-your-dads-css{text-decoration: none;}"   | { div p.not_your_dads_css { textDecoration 'none' } }
+        ".date-time{color: #123;}"      | { def dt = get_().date_time; sg(dt) {color '#123'} }
+        "div.date-time{color: #123;}"   | { def dt = div.date_time; sg(dt) {color '#123'} }
+    }
+
 }

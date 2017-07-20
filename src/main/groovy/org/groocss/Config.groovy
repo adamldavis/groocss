@@ -22,6 +22,10 @@ class Config {
     /** Element-names that you only want to use as CSS classes. */
     Set styleClasses = []
 
+    /** Whether or not convert under-scores in CSS classes into dashes (main_content becomes main-content).
+     * Default is false. */
+    boolean convertUnderline = false
+
     Config() {}
 
     Config(Map map) {
@@ -36,6 +40,12 @@ class Config {
     /** Add Element-names, like 'link', that you only want to use as CSS classes. */
     Config useAsClasses(Collection classes) {
         styleClasses.addAll classes
+        this
+    }
+
+    /** Set the convertUnderline flag to true. */
+    Config convertUnderline() {
+        convertUnderline = true
         this
     }
 

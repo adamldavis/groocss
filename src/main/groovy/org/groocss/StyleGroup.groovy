@@ -36,8 +36,8 @@ class StyleGroup extends Selectable {
     /** Synonymous to add. Adds all styles from given StyleGroup to this StyleGroup. */
     StyleGroup leftShift(StyleGroup sg) { add sg }
 
-    StyleGroup(String selector1, Config config1, MediaCSS owner1) {
-        selector = selector1
+    StyleGroup(String selector, Config config1, MediaCSS owner1) {
+        this.selector = (owner?.config?.convertUnderline) ? selector.replaceAll(/_/, '-') : selector
         config = config1
         owner = owner1
     }

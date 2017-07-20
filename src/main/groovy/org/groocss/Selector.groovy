@@ -21,7 +21,7 @@ class Selector extends Selectable {
     MediaCSS owner
 
     Selector(String selector, MediaCSS owner) {
-        this.selector = selector
+        this.selector = (owner?.config?.convertUnderline) ? selector.replaceAll(/_/, '-') : selector
         this.owner = owner
     }
 
@@ -51,19 +51,20 @@ class Selector extends Selectable {
     // ---> MethodMissing and PropertyMissing
     /** Creates a new StyleGroup using the missing methodName as the styleClass. */
     def methodMissing(String methodName, args) {
-        println "methodMissing $methodName( $args )"
-        if (ELEMENTS.contains(methodName) && !owner.config.styleClasses.contains(methodName)) {
+        def name = (owner?.config?.convertUnderline) ? methodName.replaceAll(/_/, '-') : methodName
+        
+        if (ELEMENTS.contains(name) && !owner.config.styleClasses.contains(name)) {
             if (args[0] instanceof Closure) {
-                return owner.sg("$value $methodName", (Closure) args[0])
+                return owner.sg("$value $name", (Closure) args[0])
             } else if (args[0] instanceof Selectable) {
                 def sg = (Selectable) args[0]
-                return sg.resetSelector("$selector $methodName $sg.selector")
+                return sg.resetSelector("$selector $name $sg.selector")
             }
         }
-        if (args[0] instanceof Closure) return withClass(methodName, (Closure) args[0])
+        if (args[0] instanceof Closure) return withClass(name, (Closure) args[0])
         else if (args[0] instanceof Selectable) {
             def sg = (Selectable) args[0]
-            return sg.resetSelector("${selector}.$methodName $sg.selector")
+            return sg.resetSelector("${selector}.$name $sg.selector")
         }
         else null
     }
