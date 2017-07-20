@@ -244,6 +244,9 @@ class GrooCSS extends Script {
     Color c(String colorStr) {
         new Color(colorStr)
     }
+    Color clr(Number num) {c(num)}
+    Color c(Number num) { new Color(num) }
+
     /** Creates a new {@link org.groocss.Color} object with a name. */
     Color c(String name, String colorStr) { new Color(name, colorStr) }
 

@@ -1073,4 +1073,15 @@ class GroocssSpec extends Specification {
         "div.date-time{color: #123;}"   | { def dt = div.date_time; sg(dt) {color '#123'} }
     }
 
+    def "should use 0x numbers as colors"() {
+        expect:
+        assert "${GrooCSS.withConfig { convertUnderline() }.process closure}" == css
+        where:
+        css | closure
+        "a{color: #cafeee;}"        | { a { color 0xcafeee} }
+        "a{color: #eeeeee;}"        | { a { color 0xEEEEEE} }
+        "a{color: #cafeee;}"        | { a { color c(0xcafeee)} }
+        "a{color: #eeeeee;}"        | { a { color c(0xEEEEEE)} }
+    }
+
 }

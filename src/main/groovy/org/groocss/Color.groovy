@@ -10,6 +10,12 @@ import java.math.MathContext
 @EqualsAndHashCode
 class Color {
 
+    Color(Number num) {
+        int r = (num / 0x10000).toInteger() % 256i
+        int g = (num / 0x100).toInteger() % 256i
+        int b = (num).toInteger() % 256i
+        color = new java.awt.Color(r, g, b)
+    }
     Color(String name, String colorStr) {
         this.name = name
         setColor(colorStr)

@@ -224,7 +224,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the background-color of an element */
     StyleGroup backgroundColor (value) {
-        styles << new Style(name: 'backgroundColor', value: "$value")
+        styles << new Style(name: 'backgroundColor', value: handleColor(value))
         this
     }
     /** Sets the background-image for an element */
@@ -274,7 +274,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the color of the bottom border */
     StyleGroup borderBottomColor (value) {
-        styles << new Style(name: 'borderBottomColor', value: "$value")
+        styles << new Style(name: 'borderBottomColor', value: handleColor(value))
         this
     }
     /** Sets the shape of the border of the bottom-left corner */
@@ -304,7 +304,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the color of an element's border (can have up to four values) */
     StyleGroup borderColor (value) {
-        styles << new Style(name: 'borderColor', value: "$value")
+        styles << new Style(name: 'borderColor', value: handleColor(value))
         this
     }
     /** A shorthand property for setting or returning all the borderImage* properties */
@@ -344,7 +344,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the color of the left border */
     StyleGroup borderLeftColor (value) {
-        styles << new Style(name: 'borderLeftColor', value: "$value")
+        styles << new Style(name: 'borderLeftColor', value: handleColor(value))
         this
     }
     /** Sets the style of the left border */
@@ -372,7 +372,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the color of the right border */
     StyleGroup borderRightColor (value) {
-        styles << new Style(name: 'borderRightColor', value: "$value")
+        styles << new Style(name: 'borderRightColor', value: handleColor(value))
         this
     }
     /** Sets the style of the right border */
@@ -402,7 +402,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the color of the top border */
     StyleGroup borderTopColor (value) {
-        styles << new Style(name: 'borderTopColor', value: "$value")
+        styles << new Style(name: 'borderTopColor', value: handleColor(value))
         this
     }
     /** Sets the shape of the border of the top-left corner */
@@ -470,7 +470,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the color of the text */
     StyleGroup color (value) {
-        styles << new Style(name: 'color', value: "$value")
+        styles << new Style(name: 'color', value: handleColor(value))
         this
     }
     /** Sets the number of columns an element should be divided into */
@@ -495,7 +495,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the color of the rule between columns */
     StyleGroup columnRuleColor (value) {
-        styles << new Style(name: 'columnRuleColor', value: "$value")
+        styles << new Style(name: 'columnRuleColor', value: handleColor(value))
         this
     }
     /** Sets the style of the rule between columns */
@@ -808,7 +808,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the color of the outline around a element */
     StyleGroup outlineColor (value) {
-        styles << new Style(name: 'outlineColor', value: "$value")
+        styles << new Style(name: 'outlineColor', value: handleColor(value))
         this
     }
     /** Offsets an outline, and draws it beyond the border edge */
@@ -938,7 +938,7 @@ class StyleGroup extends Selectable {
     }
     /** Sets the color of the text-decoration */
     StyleGroup textDecorationColor (value) {
-        styles << new Style(name: 'textDecorationColor', value: "$value")
+        styles << new Style(name: 'textDecorationColor', value: handleColor(value))
         this
     }
     /** Sets the type of line in a text-decoration */
@@ -1213,6 +1213,10 @@ class StyleGroup extends Selectable {
     def validateTime(x) {
         if (x instanceof Measurement) assert x.time
         x
+    }
+
+    private String handleColor(value) {
+        (value instanceof Number) ? "${new Color((Number) value)}" : "$value"
     }
 
 }
