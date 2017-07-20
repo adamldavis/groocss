@@ -1,6 +1,7 @@
 package org.groocss
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * Created by adavis on 7/25/16.
@@ -968,12 +969,56 @@ class GroocssSpec extends Specification {
 
     def "should use space to create Selector now"() {
         expect:
-        GrooCSS.process { assert div (p) instanceof Selector }
+        GrooCSS.process {
+            def divp = div p
+            assert divp instanceof Selector
+        }
+    }
+
+    def "should use space to create StyleGroup now"() {
+        expect:
+        def css = GrooCSS.process {
+            def divp = div p { color black }
+            assert divp instanceof StyleGroup
+        }
+        assert "$css" == "div p{color: Black;}"
+    }
+
+    def "should use multiple spaces with elements to create StyleGroup now"() {
+        expect:
+        def css = GrooCSS.process {
+            div p a { color black }
+        }
+        assert "$css" == "div p a{color: Black;}"
+    }
+
+    def "should use multiple spaces with elements and classes to create StyleGroup now"() {
+        expect:
+        assert "${GrooCSS.process closure}" == css
+        where:
+        css | closure
+        "div p.test a{text-decoration: none;}" | { div p.test a { textDecoration 'none' } }
+        "div.main p.test a{text-decoration: none;}" | { div.main p.test a { textDecoration 'none' } }
+        "div.main .test a{text-decoration: none;}" | { div.main get_().test a { textDecoration 'none' } }
+    }
+
+    @Unroll
+    def "should be able to configure using certain element names as classes"() {
+        expect:
+        assert "${GrooCSS.withConfig { useAsClasses(['main', 'link']) }.process closure}" == css
+        where:
+        css | closure
+        "div p.main{text-decoration: none;}" | { div p.main { textDecoration 'none' } }
+        "div p a.link{text-decoration: none;}" | { div p ^ a.link { textDecoration 'none' } }
+        "div .test a.link{text-decoration: none;}" | { div get_().test ^a.link { textDecoration 'none' } }
     }
 
     def "should use bitwiseNegate to create Selector with tilde"() {
         expect:
-        GrooCSS.process { assert div (~img) instanceof Selector }
+        GrooCSS.process {
+            def divimg = div ~ img
+            assert divimg instanceof Selector
+        }
     }
 
     def "should use .methodMissing and bitwiseNegate to create Selector with tilde"() {

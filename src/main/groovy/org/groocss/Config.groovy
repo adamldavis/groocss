@@ -19,10 +19,24 @@ class Config {
 
     String charset = null
 
+    /** Element-names that you only want to use as CSS classes. */
+    Set styleClasses = []
+
     Config() {}
 
     Config(Map map) {
         this.properties.keySet().each { if (it != 'class' && map.containsKey(it)) this[it] = map[it] }
+    }
+
+    /** Add one Element-name, like 'link', that you only want to use as CSS class. */
+    Config useAsClass(String name) {
+        styleClasses.add name
+        this
+    }
+    /** Add Element-names, like 'link', that you only want to use as CSS classes. */
+    Config useAsClasses(Collection classes) {
+        styleClasses.addAll classes
+        this
     }
 
     /** Sets the compress flag to true. */

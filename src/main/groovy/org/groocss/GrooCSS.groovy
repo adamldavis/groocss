@@ -190,7 +190,8 @@ class GrooCSS extends Script {
         currentCss.sel("$selector", clos)
     }
 
-    /** Creates an unattached StyleGroup object, useful for adding Styles to a StyleGroup conditionally. */
+    /** Creates an unattached StyleGroup object, useful for adding Styles to a StyleGroup conditionally
+     * or for reusing a group of styles several times. */
     StyleGroup styles(@DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
         currentCss.sel('', clos, false)
     }
@@ -212,6 +213,15 @@ class GrooCSS extends Script {
     /** Creates a new StyleGroup element and runs given closure on it. */
     StyleGroup sg(Selector selector, @DelegatesTo(StyleGroup) Closure clos) {
         sel(selector, clos)
+    }
+
+    /** Creates a new StyleGroup element, with all selectors in the given list joined with commas.
+     * If given list is empty, this method has the same behaviour as styles(closure). */
+    StyleGroup sg(List selectors, @DelegatesTo(StyleGroup) Closure clos) {
+        if (selectors.isEmpty()) {
+            return styles(clos)
+        }
+        sg(selectors.tail().inject(selectors[0]) {a,b -> a|b}, clos)
     }
 
     Style style(@DelegatesTo(Style) Closure clos) {
@@ -311,6 +321,9 @@ class GrooCSS extends Script {
 
     /** Remove all saturation from a color in the HSL color space; the same as calling desaturate(color, 1). */
     Color greyscale(Color c) { desaturate(c, 1) }
+
+    /** Remove all saturation from a color in the HSL color space; the same as calling desaturate(color, 1). */
+    Color grayscale(Color c) { desaturate(c, 1) }
 
     def run() {}
 
