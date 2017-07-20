@@ -21,8 +21,13 @@ class StyleGroup extends Selectable {
 
     MediaCSS owner
     StyleGroup current = this
-    
+
+    /** Adds given style to this StyleGroup.
+     * @return this StyleGroup. */
     StyleGroup add(Style style) { styles << style; this }
+
+    /** Synonym for add. Adds given style to this StyleGroup.
+     * @return this StyleGroup. */
     StyleGroup leftShift(Style style) { add style }
 
     /** Adds all styles from given StyleGroup to this StyleGroup. Returns this StyleGroup. */

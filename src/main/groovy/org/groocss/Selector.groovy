@@ -1,9 +1,10 @@
 package org.groocss
 
 /**
- * Class representing HTML5 element used by DSL. Used to allow syntax:
+ * Class representing HTML5 element used by DSL. Used to allow the following syntax and others:
  * <PRE>
  *     div.styleClass { color blue }
+ *     div % firstChild { color red }
  * </PRE>
  */
 class Selector extends Selectable {
@@ -49,6 +50,12 @@ class Selector extends Selectable {
         else null
     }
 
+    /** Creates a new Selector using the missing property name as the styleClass.
+     * Used to allow syntax:
+     * <PRE>
+     *     div.styleClass { color blue }
+     * </PRE>
+     */
     def propertyMissing(String name) {
         new Selector("${value}.$name", owner)
     }
@@ -67,30 +74,30 @@ class Selector extends Selectable {
 
     // ---> Operators:
 
-    def plus(StyleGroup sg) { sg.resetSelector "$value + ${sg.selector}" }
-    def rightShift(StyleGroup sg) { sg.resetSelector "$value > ${sg.selector}" }
-    def minus(StyleGroup sg) { sg.resetSelector "$value ~ ${sg.selector}" }
-    def multiply(StyleGroup sg) { sg.resetSelector "$value * ${sg.selector}" }
-    def xor(StyleGroup sg) { sg.resetSelector "$value ${sg.selector}" }
-    def or(StyleGroup sg) { sg.resetSelector "$value,${sg.selector}" }
-    def and(StyleGroup sg) { or(sg) }
+    StyleGroup plus(StyleGroup sg) { sg.resetSelector "$value + ${sg.selector}" }
+    StyleGroup rightShift(StyleGroup sg) { sg.resetSelector "$value > ${sg.selector}" }
+    StyleGroup minus(StyleGroup sg) { sg.resetSelector "$value ~ ${sg.selector}" }
+    StyleGroup multiply(StyleGroup sg) { sg.resetSelector "$value * ${sg.selector}" }
+    StyleGroup xor(StyleGroup sg) { sg.resetSelector "$value ${sg.selector}" }
+    StyleGroup or(StyleGroup sg) { sg.resetSelector "$value,${sg.selector}" }
+    StyleGroup and(StyleGroup sg) { or(sg) }
 
-    def plus(Selector e) { new Selector("$value + $e.value", owner) }
-    def rightShift(Selector e) { new Selector("$value > $e.value", owner) }
-    def minus(Selector e) { new Selector("$value ~ $e.value", owner) }
-    def multiply(Selector e) { new Selector("$value * $e.value", owner) }
-    def xor(Selector e) { new Selector("$value $e.value", owner) }
-    def or(Selector e) { new Selector("$value,$e.value", owner) }
-    def and(Selector e) { or(e) }
+    Selector plus(Selector e) { new Selector("$value + $e.value", owner) }
+    Selector rightShift(Selector e) { new Selector("$value > $e.value", owner) }
+    Selector minus(Selector e) { new Selector("$value ~ $e.value", owner) }
+    Selector multiply(Selector e) { new Selector("$value * $e.value", owner) }
+    Selector xor(Selector e) { new Selector("$value $e.value", owner) }
+    Selector or(Selector e) { new Selector("$value,$e.value", owner) }
+    Selector and(Selector e) { or(e) }
 
-    def plus(e) { if (e instanceof Selector) plus((Selector) e); if (e instanceof StyleGroup) plus((StyleGroup) e) }
-    def rightShift(e) { 
+    Selectable plus(e) { if (e instanceof Selector) plus((Selector) e); if (e instanceof StyleGroup) plus((StyleGroup) e) }
+    Selectable rightShift(e) {
         if (e instanceof Selector) rightShift((Selector) e); if (e instanceof StyleGroup) rightShift((StyleGroup) e)}
-    def minus(e) { if (e instanceof Selector) minus((Selector) e); if (e instanceof StyleGroup) minus((StyleGroup) e)}
-    def multiply(e) { if (e instanceof Selector) multiply((Selector) e); if (e instanceof StyleGroup) multiply((StyleGroup) e)}
-    def xor(e) { if (e instanceof Selector) xor((Selector) e); if (e instanceof StyleGroup) xor((StyleGroup) e)}
-    def or(e) { if (e instanceof Selector) or((Selector) e); if (e instanceof StyleGroup) or((StyleGroup) e)}
-    def and(e) { if (e instanceof Selector) and((Selector) e); if (e instanceof StyleGroup) and((StyleGroup) e)}
+    Selectable minus(e) { if (e instanceof Selector) minus((Selector) e); if (e instanceof StyleGroup) minus((StyleGroup) e)}
+    Selectable multiply(e) { if (e instanceof Selector) multiply((Selector) e); if (e instanceof StyleGroup) multiply((StyleGroup) e)}
+    Selectable xor(e) { if (e instanceof Selector) xor((Selector) e); if (e instanceof StyleGroup) xor((StyleGroup) e)}
+    Selectable or(e) { if (e instanceof Selector) or((Selector) e); if (e instanceof StyleGroup) or((StyleGroup) e)}
+    Selectable and(e) { if (e instanceof Selector) and((Selector) e); if (e instanceof StyleGroup) and((StyleGroup) e)}
 
     String toString() { value }
 
