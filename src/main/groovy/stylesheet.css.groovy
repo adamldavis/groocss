@@ -6,8 +6,8 @@ sg '*', {
 
 def defaultFont = '"open sans", "helvetica neue", helvetica, arial, sans-serif'
 def monoFont = 'consolas, "liberation mono", menlo, courier, monospace'
-def textColor = c('#606c71')
-def linkColor = c('#1e6bb8')
+def textColor = c(0x606c71)
+def linkColor = c(0x1e6bb8)
 
 body {
   padding 0
@@ -71,7 +71,7 @@ media 'screen and (max-width: 42em)', {
   }
 }
 
-def headerColor = c('#159957')
+def headerColor = 0x159957
 
 sg '.page-header', {
   color '#fff'
