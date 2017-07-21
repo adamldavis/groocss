@@ -12,4 +12,11 @@ class GroocssExtension {
 
     String charset = null
 
+    /** Element-names that you only want to use as CSS classes. */
+    Set styleClasses = []
+
+    /** Whether or not convert under-scores in CSS classes into dashes (main_content becomes main-content).
+     * Default is false. */
+    boolean convertUnderline = false
+    
 }
