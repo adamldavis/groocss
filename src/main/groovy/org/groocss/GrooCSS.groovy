@@ -1390,6 +1390,7 @@ class GrooCSS extends Script {
     }
 
     //------------------------------------------------------------------> Elements
+    Selector getMain() { newElement('main') }
     Selector getMath() { newElement('math') }
     Selector getSvg() { newElement('svg') }
     Selector getA() { newElement('a') }
