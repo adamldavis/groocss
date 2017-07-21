@@ -7,7 +7,7 @@
 
 Like [Less](http://lesscss.org/) but without inventing a new language.
 
-GrooCSS lets you code your CSS in Groovy, using a natural Groovy DSL with code completion if your IDE supports it.
+[GrooCSS](http://groocss.org) lets you code your CSS in Groovy, using a natural Groovy DSL.
 
 It was created by Adam L. Davis (@adamldavis) and inspired by the many other Groovy-based projects out there, like 
 [Gradle](gradle.org), [Grails](https://grails.org/), 
