@@ -17,7 +17,7 @@ class GroocssSpec extends Specification {
         css != null
     }
 
-    def "should create rules"() {
+    def "should create style groups"() {
         when:
         def css = GrooCSS.process {
             sel('.a') {}
@@ -35,13 +35,11 @@ class GroocssSpec extends Specification {
             sg '.a', {
                 color('black')
                 background('white')
-                transition('500ms')
             }
         }.css
         then:
         css.groups.size() == 1
-        "$css" == ".a{color: black;\n\tbackground: white;\n\ttransition: 500ms;" +
-                "\n\t-webkit-transition: 500ms;\n\t-moz-transition: 500ms;\n\t-o-transition: 500ms;}"
+        "$css" == ".a{color: black;\n\tbackground: white;}"
     }
 
     def "should set colors"() {
@@ -58,40 +56,6 @@ class GroocssSpec extends Specification {
         "$css" == ".sea{color: #3b0c77;\n\tbackground: #7919f4;}"
     }
 
-    def "should create keyframes"() {
-        when:
-        def css = GrooCSS.process(new Config(addWebkit: false, addMoz: false, addOpera: false)) {
-            keyframes('bounce') {
-                frame(40) {
-                    transform 'translateY(-30px)'
-                }
-                frame([0,20,50,80,100]) {
-                    transform 'translateY(0)'
-                }
-            }
-        }
-        then:
-        "$css" == """@keyframes bounce {
-40%{transform: translateY(-30px);\n\t-ms-transform: translateY(-30px);}
-0%, 20%, 50%, 80%, 100%{transform: translateY(0);\n\t-ms-transform: translateY(0);}
-}"""
-    }
-
-    def "should create keyframe using from to"() {
-        when:
-        def css = GrooCSS.process(new Config(addMoz: false, addOpera: false)) {
-            keyframes('mymove') {
-                from {
-                    top 0
-                }
-                to {
-                    top '100px'
-                }
-            }
-        }
-        then:
-        "$css" == "@keyframes mymove {\nfrom{top: 0;}\nto{top: 100px;}\n}@-webkit-keyframes mymove {\nfrom{top: 0;}\nto{top: 100px;}\n}"
-    }
 
     def "should create font face"() {
         when:
@@ -259,67 +223,6 @@ class GroocssSpec extends Specification {
         }
         then:
         "$css" == ".a a:hover{color: Blue;}\n.a{color: Black;\n\tbackground: White;}"
-    }
-
-    def "should extend StyleGroup"() {
-        when:
-        def css = GrooCSS.process {
-            sg '.a', {
-                color black
-                background white
-            }
-            sg '.b', {
-                extend '.a'
-                color blue
-            }
-        }
-        then:
-        "$css" == ".a,.b{color: Black;\n\tbackground: White;}\n.b{color: Blue;}"
-    }
-
-    def "should extend StyleGroup twice "() {
-        when:
-        def css = GrooCSS.process {
-            sg '.a', {
-                color black
-            }
-            sg '.b', { extend '.a' }
-            sg '.c', { extend '.a' }
-        }
-        then:
-        "$css" == ".a,.b,.c{color: Black;}"
-    }
-
-    def "should do multiple transforms "() {
-        when:
-        def css = GrooCSS.process(new Config(addMoz: false, addWebkit: false, addOpera: false, addMs: false)) {
-            sg '.a', {
-                translateX '1px'
-                translateY '1px'
-            }
-        }
-        then:
-        "$css" == ".a{transform: translateX(1px) translateY(1px);}"
-    }
-
-    def "should use Config builder "() {
-        when:
-        def css = GrooCSS.process(Config.builder().addMs(false).addOpera(false).compress(true).build()) {
-            sg '.a', {left 0}
-            sg '.b', {left 0}
-        }
-        then:
-        "$css" == ".a{left: 0;}.b{left: 0;}"
-    }
-
-    def "should use withConfig closure "() {
-        when:
-        def css = GrooCSS.withConfig { noExts().compress().utf8() }.process {
-            sg '.a', {boxShadow('0 0 5px')}
-            sg '.b', {boxShadow('0 0 5px')}
-        }
-        then:
-        "$css" == "@charset \"UTF-8\";.a{box-shadow: 0 0 5px;}.b{box-shadow: 0 0 5px;}"
     }
 
     def "should use html elements "() {
@@ -518,60 +421,6 @@ class GroocssSpec extends Specification {
         then:
         "${u1out.text}" == ".a{left: 0;}\n.b{left: 0;}\n.c{left: 0;}"
     }
-    
-    def "should prettyPrint styles"() {
-        when:
-        def css = GrooCSS.withConfig { prettyPrint().noExts() }.process {
-            sg '.a', {
-                color('black')
-                background('white')
-                transition('500ms')
-            }
-        }
-        then:
-        "$css" ==
-'''.a {
-    color: black;
-    background: white;
-    transition: 500ms;
-}'''
-    }
-
-    def "should prettyPrint colors"() {
-        when:
-        def css = GrooCSS.withConfig { prettyPrint().noExts() }.process {
-            def sea = c('5512ab')
-            sg '.sea', {
-                color(sea.darker())
-                background(sea.brighter())
-            }
-        }
-        then:
-        "$css" == ".sea {\n    color: #3b0c77;\n    background: #7919f4;\n}"
-    }
-
-    def "should prettyPrint keyframes"() {
-        when:
-        def css = GrooCSS.withConfig { prettyPrint().noExts() }.process {
-            keyframes('bounce') {
-                frame(40) {
-                    transform 'translateY(-30px)'
-                }
-                frame([0,20,50,80,100]) {
-                    transform 'translateY(0)'
-                }
-            }
-        }
-        then:
-        "$css" == """@keyframes bounce {
-    40% {
-        transform: translateY(-30px);
-    }
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-}"""
-    }
 
     def "should use operators"() {
         expect:
@@ -592,22 +441,6 @@ class GroocssSpec extends Specification {
         GrooCSS.process {div['class$="test"'] | svg { color blue }} | 'div[class$="test"],svg{color: Blue;}'
         GrooCSS.process {div + a.blue { color blue }} | 'div + a.blue{color: Blue;}'
         GrooCSS.process {a.blue + div { color blue }} | 'a.blue + div{color: Blue;}'
-    }
-
-    def "should extend using dsl"() {
-        when:
-        def css = GrooCSS.process {
-            input {
-                color black
-                background white
-            }
-            sg '.b', {
-                extend input
-                color blue
-            }
-        }
-        then:
-        "$css" == "input,.b{color: Black;\n\tbackground: White;}\n.b{color: Blue;}"
     }
 
     def "should add using dsl"() {
@@ -643,53 +476,6 @@ class GroocssSpec extends Specification {
         }
         then:
         "$css" == "td:nth-child(odd),td:first-child{color: #abc;}"
-    }
-
-    def "should use Integer mod to create keyframe"() {
-        when:
-        def css = GrooCSS.withConfig { noExts() }.process {
-            keyframes('bounce') {
-                40% {
-                    translateY('-30px')
-                }
-            }
-        }
-        then:
-        "$css" == """
-        @keyframes bounce {
-        40%{transform: translateY(-30px);}
-        }
-        """.stripIndent().trim()
-    }
-
-    def "should use Measurement conversions math"() {
-        when:
-        def css = GrooCSS.withConfig { noExts() }.process {
-            sg '*', {
-                animationDelay(100.ms + 1.s)
-                margin 10.pt / 2
-                padding 10.px * 2
-                top 11.in % 2
-            }
-        }
-        then:
-        "$css" == '*{animation-delay: 1100ms;\n\tmargin: 5pt;\n\tpadding: 20px;\n\ttop: 1in;}'
-    }
-
-    def "should determine type of Measurement"() {
-        expect:
-        GrooCSS.process {
-            assert 10.in.distance
-            assert 10.mm.distance
-            assert 10.pt.distance
-            assert 10.ms.time
-            assert 10.s.time
-            assert 10.rad.trig
-            assert !10.s.distance
-            assert !10.mm.time
-            assert !10.rad.time
-            assert !10.cm.trig
-        }
     }
 
     def "should use Selector object as parameter to sg"() {
@@ -731,20 +517,6 @@ class GroocssSpec extends Specification {
         thrown(AssertionError)
     }
 
-    def "animationDelay should throw AssertionError for non-time Measurements"() {
-        when:
-        GrooCSS.process {
-            p { animationDelay 1.em }
-        }
-        then:
-        thrown(AssertionError)
-    }
-
-    def "Config map constructor works" () {
-        expect:
-        new Config([compress: true]).compress
-    }
-
     def "odd and even should become nth-child(odd even)"() {
         when:
         def css = GrooCSS.process {
@@ -753,16 +525,6 @@ class GroocssSpec extends Specification {
         }
         then:
         "$css" == ':nth-child(odd){background-color: #eee;}\n:nth-child(even){background-color: #fff;}'
-    }
-
-    def "you should be able to extend a pseudo-class lazily"() {
-        when:
-        def css = GrooCSS.process {
-            odd { backgroundColor '#eee' }
-            li % even { extend(odd) }
-        }
-        then:
-        "$css" == ':nth-child(odd),li:nth-child(even){background-color: #eee;}'
     }
 
     def "convert should accept groocss string"() {
@@ -1005,17 +767,6 @@ class GroocssSpec extends Specification {
         "body div.test p li a{text-decoration: none;}" | { body div.test p li a { textDecoration 'none' } }
     }
 
-    @Unroll
-    def "should be able to configure using certain element names as classes"() {
-        expect:
-        assert "${GrooCSS.withConfig { useAsClasses(['main', 'link']) }.process closure}" == css
-        where:
-        css | closure
-        "div p.main{text-decoration: none;}" | { div p.main { textDecoration 'none' } }
-        "div p a.link{text-decoration: none;}" | { div p ^ a.link { textDecoration 'none' } }
-        "div .test a.link{text-decoration: none;}" | { div get_().test ^a.link { textDecoration 'none' } }
-    }
-
     def "should use bitwiseNegate to create Selector with tilde"() {
         expect:
         GrooCSS.process {
@@ -1059,18 +810,6 @@ class GroocssSpec extends Specification {
             assert mycolor(0).styleList[0] == new Style('color', '#123')
             assert mycolor(0.5).styleList[0]==new Style('color', 'rgba(0, 0, 0, 0.50)')
         }
-    }
-
-    @Unroll
-    def "should be able to convert underscores to dashes in classes"() {
-        expect:
-        assert "${GrooCSS.withConfig { convertUnderline() }.process closure}" == css
-        where:
-        css | closure
-        "div p.main-content{text-decoration: none;}"        | { div p.main_content { textDecoration 'none' } }
-        "div p.not-your-dads-css{text-decoration: none;}"   | { div p.not_your_dads_css { textDecoration 'none' } }
-        ".date-time{color: #123;}"      | { def dt = get_().date_time; sg(dt) {color '#123'} }
-        "div.date-time{color: #123;}"   | { def dt = div.date_time; sg(dt) {color '#123'} }
     }
 
     def "should use 0x numbers as colors"() {
