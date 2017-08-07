@@ -14,25 +14,67 @@
    limitations under the License.
 */
 plugins {
-    id "org.groocss.groocss-gradle-plugin" version "0.10"
+    id "org.groocss.groocss-gradle-plugin" version "0.10.1"
+    id "java"
+    id "groovy"
 }
 def cssDir = "stylesheets/"
 
 groocss {
     charset = 'UTF-8'
     prettyPrint = true
+    convertUnderline = true
 }
 groocssfiles {
-    index {
+    allfiles {
         inFile = file('src/main/groovy/')
         outFile = file("$cssDir")
     }
 }
 
-task(beforeCss).doLast {
+ext {
+    groocssVer = "0.10.1"
+}
+configurations {
+    sources
+}
+repositories {
+    mavenLocal()
+    jcenter()
+}
+dependencies {
+    compile "org.groocss:groocss:$groocssVer"
+    sources "org.groocss:groocss:$groocssVer:sources"
+}
+sourceSets {
+    main {
+        groovy {
+            srcDir(file("sources"))
+        }
+    }
+}
+
+task buildDocs(type: Groovydoc, dependsOn: 'unzipSources', description: 'Builds the groovy docs') {
+    destinationDir = file("docs/$groocssVer")
+    docTitle = "GrooCSS $groocssVer"
+    classpath = sourceSets.main.output + sourceSets.main.compileClasspath
+    link 'http://docs.oracle.com/javase/7/docs/api/', 'java.util', 'java.lang', 'java.awt', 'java.math', 'java.io'
+    link 'http://docs.groovy-lang.org/latest/html/api/', 'groovy.lang', 'groovy.transform', 'groovy.json'
+    source "sources"
+}
+
+task unzipSources(type: Copy, description: 'Unzips all the source files') {
+    def zipPath = project.configurations.sources.find { it.name.startsWith('groo') }
+    def zipFile = file(zipPath)
+    def outDir = file("sources")
+
+    from zipTree(zipFile)
+    into outDir
+}
+
+task beforeCss doLast {
     file(cssDir).mkdirs()
 	println 'Processing groocss'
 }
-
 tasks['convertCss'].dependsOn beforeCss
 
