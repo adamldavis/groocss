@@ -7,13 +7,13 @@
     background: #8fc045;
     color: #ffffff;
 }
-#links,#search,#posts,#disqus,#notes,#posts footer,.wrapper,.title,.post,.post h3,.post p,.post ul,.post ol,.post .caption,.post .description,.response,.page-title {
+#links,#search,#posts,#disqus,#notes,#posts footer,.wrapper,.title,.post,.post h3,.post p,.post ul,.post ol,.post .caption,.post .description,.response,div.page-title {
     width: 100%;
     max-width: 700px;
     margin: 0 auto;
     position: relative;
 }
-.page-title {
+div.page-title {
     max-width: 650px;
 }
 #disqus,#notes,#posts footer,.post h3,.post p,.post .caption,.post .description,.post blockquote,.post ul,.post ol,.chat ul,.response {

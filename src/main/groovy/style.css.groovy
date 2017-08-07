@@ -29,7 +29,7 @@ _.post ^ ol | _.post ^ _.caption | _.post ^ _.description | _.response {
     extend '#links,#search,#posts,#disqus,#notes,#posts footer'
     }
 
-sg '.page-title', {
+div.page_title {
     extend '#links,#search,#posts,#disqus,#notes,#posts footer'
     maxWidth '650px'
 }

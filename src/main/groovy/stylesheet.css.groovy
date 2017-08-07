@@ -73,7 +73,7 @@ media 'screen and (max-width: 42em)', {
 
 def headerColor = 0x159957
 
-sg '.page-header', {
+header.page_header {
   color '#fff'
   textAlign 'center'
   backgroundColor headerColor
@@ -81,15 +81,15 @@ sg '.page-header', {
 }
 
 media 'screen and (min-width: 64em)', {
-  sg '.page-header', {
+  header.page_header {
     padding '5rem 6rem' } }
 
 media 'screen and (min-width: 42em) and (max-width: 64em)', {
-  sg '.page-header', {
+  header.page_header {
     padding '3rem 4rem' } }
 
 media 'screen and (max-width: 42em)', {
-  sg '.page-header', {
+  header.page_header {
     padding '2rem 1rem' } }
 
 sg '.project-name', {
@@ -98,15 +98,15 @@ sg '.project-name', {
 }
 
 media 'screen and (min-width: 64em)', {
-  sg '.project-name', { fontSize 3.25.rem }
+  h1.project_name { fontSize 3.25.rem }
 }
 
 media 'screen and (min-width: 42em) and (max-width: 64em)', {
-  sg '.project-name', { fontSize 2.25.rem }
+  h1.project_name { fontSize 2.25.rem }
 }
 
 media 'screen and (max-width: 42em)', {
-  sg '.project-name', { fontSize 1.75.rem }
+  h1.project_name { fontSize 1.75.rem }
 }
 
 sg '.project-tagline', {
