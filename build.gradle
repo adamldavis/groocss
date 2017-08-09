@@ -22,7 +22,7 @@ dependencies {
 
 project.group = 'org.groocss'
 applicationName = "groocss"
-mainClassName= 'org.groocss.GrooCSS'
+mainClassName= 'org.groocss.Main'
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"

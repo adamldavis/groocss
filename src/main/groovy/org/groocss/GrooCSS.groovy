@@ -74,11 +74,6 @@ class GrooCSS extends Script {
     static String process(Config conf = new Config(), String groocss, String charset1 = "UTF-8") {
         convert conf, groocss, charset1
     }
-    
-    static void main(String ... args) {
-        if (args.length == 1)
-            convertFile(args[0], args[0].replace('.css.groovy', '.css').replace('.groocss', '.css'))
-    }
 
     static class Configurer extends Config {
 
