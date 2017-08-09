@@ -623,6 +623,9 @@ class GrooCSS extends Script {
     /** Defining instance. */
     StyleGroup dfn(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('dfn' + sel, clos) }
 
+    /** Defines a dialog box or window*/
+    StyleGroup dialog(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('dialog' + sel, clos) }
+
     /** Generic flow container. */
     StyleGroup div(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('div' + sel, clos) }
 
@@ -807,6 +810,9 @@ class GrooCSS extends Script {
 
     /** Inter-document relationship metadata. */
     StyleGroup link(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('link' + sel, clos) }
+
+    /** Main definition. */
+    StyleGroup main(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('main' + sel, clos) }
 
     /** Image-map definition. */
     StyleGroup map(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('map' + sel, clos) }
@@ -1034,6 +1040,9 @@ class GrooCSS extends Script {
     /** Defining instance. */
     Selectable dfn(Selectable sel) { sel.resetSelector("dfn $sel.selector") }
 
+    /** Defines a dialog box or window. */
+    Selectable dialog(Selectable sel) { sel.resetSelector("dialog $sel.selector") }
+
     /** Generic flow container. */
     Selectable div(Selectable sel) { sel.resetSelector("div $sel.selector") }
 
@@ -1129,6 +1138,9 @@ class GrooCSS extends Script {
 
     /** Inter-document relationship metadata. */
     Selectable link(Selectable sel) { sel.resetSelector("link $sel.selector") }
+
+    /** Main definition. */
+    Selectable main(Selectable sel) { sel.resetSelector("main $sel.selector") }
 
     /** Image-map definition. */
     Selectable map(Selectable sel) { sel.resetSelector("map $sel.selector") }

@@ -823,4 +823,27 @@ class GroocssSpec extends Specification {
         "a{color: #eeeeee;}"        | { a { color c(0xEEEEEE)} }
     }
 
+    @Unroll
+    def "should create a css with html5 element #element"() {
+        expect:
+        def css = GrooCSS.process closure
+        "${css}" == "${element}{background: #000;}"
+        where:
+        element | closure
+        "aside" | {aside{ background '#000' }}
+        "article" | {article{ background '#000' }}
+        "details" | {details{ background '#000' }}
+        "dialog" | {dialog{ background '#000' }}
+        "figure" | {figure{ background '#000' }}
+        "footer" | {footer{ background '#000' }}
+        "header" | {header{ background '#000' }}
+        "main" | {main{ background '#000' }}
+        "meter" | {meter{ background '#000' }}
+        "nav" | {nav{ background '#000' }}
+        "progress" | {progress{ background '#000' }}
+        "section" | {section{ background '#000' }}
+        "summary" | {summary{ background '#000' }}
+        "time" | {time{ background '#000' }}
+    }
+
 }
