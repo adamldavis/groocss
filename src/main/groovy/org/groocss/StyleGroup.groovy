@@ -97,7 +97,8 @@ class StyleGroup extends Selectable {
 
     /** Finds an existing StyleGroup with given selector and appends [comma selector] to its selector.*/
     StyleGroup extend(String otherSelector) {
-        StyleGroup other = owner.groups.find {it.selector == otherSelector}
+        StyleGroup other = owner.groups.findAll{it instanceof Selectable}.find{
+            ((Selectable) it).selector == otherSelector}
         if (other) other.extenders << this
         other
     }

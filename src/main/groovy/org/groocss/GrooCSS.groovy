@@ -1738,4 +1738,10 @@ class GrooCSS extends Script {
         new PseudoClass(value)
     }
 
+    Raw raw(String raw) {
+        def r = new Raw(raw)
+        currentCss << r
+        r
+    }
+
 }

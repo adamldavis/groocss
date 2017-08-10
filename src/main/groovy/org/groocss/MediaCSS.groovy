@@ -11,8 +11,8 @@ class MediaCSS {
     /** List of @font-face elements. */
     List<FontFace> fonts = []
 
-    /** List of style groups. */
-    List<StyleGroup> groups = []
+    /** List of style groups, comments, raws. */
+    List groups = []
 
     /** List of @keyframes. */
     List<KeyFrames> kfs = []
@@ -28,23 +28,17 @@ class MediaCSS {
         this.config = config1
     }
 
-    MediaCSS leftShift(StyleGroup sg) { add sg; this }
-    MediaCSS add(StyleGroup sg) { groups << sg; this }
-    MediaCSS leftShift(KeyFrames kf) { add kf; this }
-    MediaCSS add(KeyFrames kf) { kfs << kf; this }
-    MediaCSS leftShift(FontFace ff) { add ff; this }
-    MediaCSS add(FontFace ff) { fonts << ff; this }
-
-    MediaCSS leftShift(MediaCSS mediaCSS) { add mediaCSS; this }
-    MediaCSS add(MediaCSS mediaCSS) { otherCss << mediaCSS; this }
+    MediaCSS leftShift(sg) { add sg }
+    MediaCSS add(it) {
+        if (it instanceof KeyFrames) kfs << ((KeyFrames) it)
+        else if (it instanceof FontFace) fonts << ((FontFace) it)
+        else if (it instanceof MediaCSS) otherCss << ((MediaCSS) it)
+        else groups << it
+        this
+    }
 
     MediaCSS add(Collection coll) {
-        coll.each {
-            if (it instanceof StyleGroup) add((StyleGroup) it)
-            if (it instanceof KeyFrames) add((KeyFrames) it)
-            if (it instanceof FontFace) add((FontFace) it)
-            if (it instanceof MediaCSS) add((MediaCSS) it)
-        }
+        coll.each {add(it)}
         this
     }
     MediaCSS addAll(Collection coll) { add(coll) }
