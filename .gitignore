@@ -7,4 +7,5 @@ target/
 index.groocss
 *.bak
 *.cya
+sources/
 
