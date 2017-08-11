@@ -5,7 +5,7 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.TupleConstructor
 
 /**
- * Created by adavis on 8/9/17.
+ * Represents a comment to include in output. Created by adavis on 8/9/17.
  */
 @TupleConstructor
 @EqualsAndHashCode
@@ -13,5 +13,5 @@ import groovy.transform.TupleConstructor
 class Comment {
     String comment
     boolean isEmpty() { comment == '' }
-    String toString() { "/**$comment*/" }
+    String toString() { "/* $comment */" }
 }

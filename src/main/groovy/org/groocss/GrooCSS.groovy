@@ -1744,4 +1744,38 @@ class GrooCSS extends Script {
         r
     }
 
+    /** Adds a comment to be included in output. */
+    Comment comment(String comment) {
+        def com = new Comment(comment)
+        currentCss << com
+        com
+    }
+
+    /** Imports given Groocss file at filename. */
+    MediaCSS importFile(Map params = [:], String filename) { importReader params, new File(filename).newReader() }
+
+    /** Imports given Groocss file. */
+    MediaCSS importFile(Map params = [:], File file) { importReader params, file.newReader() }
+
+    /** Imports given Groocss. */
+    MediaCSS importString(Map params = [:], String groocss) { importReader(params, new StringReader(groocss)) }
+
+    /** Imports given Groocss input using given Reader. */
+    MediaCSS importReader(Map params = [:], Reader reader) {
+        def shell = makeShell()
+        def script = shell.parse(reader)
+        def binding = new Binding()
+        params.each { binding.setVariable(it.key, it.value) }
+        script.binding = binding
+        script.invokeMethod('setConfig', css.config)
+        script.run()
+        MediaCSS other = (MediaCSS) script.getProperty('css')
+        currentCss.add other
+    }
+
+    /** Imports given Groocss file using given InputStream. */
+    MediaCSS importStream(Map params = [:], InputStream stream) {
+        importReader params, new InputStreamReader(stream)
+    }
+
 }

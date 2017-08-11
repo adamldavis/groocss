@@ -15,4 +15,14 @@ class RawSpec extends Specification {
         expect:
         '::webkit-blaw { dostuff }' == "$css"
     }
+
+    def "raw should print in order"() {
+        given:
+        def css = GrooCSS.process {
+            raw 'raw1'
+            raw 'raw2'
+        }
+        expect:
+        'raw1\nraw2' == "$css"
+    }
 }

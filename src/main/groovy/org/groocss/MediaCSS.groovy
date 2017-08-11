@@ -60,11 +60,13 @@ class MediaCSS {
         else writer.append (groups.findAll{ !it.isEmpty() }.join(sn))
         if (kfs) writer.append((groups || fonts) ? sn : '').append (kfs.join(sn))
 
-        if (otherCss)
+        if (otherCss) {
+            if (groups || fonts || kfs) writer.append(sn)
             otherCss.each {
                 it.writeTo(writer)
                 writer.append(sn)
             }
+        }
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */

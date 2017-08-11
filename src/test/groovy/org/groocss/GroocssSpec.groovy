@@ -613,7 +613,7 @@ class GroocssSpec extends Specification {
             }
         }
         then:
-        "$css" == 'form{font-size: 2em;}@media mobile {\nform{font-size: 2em;\n\tline-height: 1.1em;}\n}\n'
+        "$css" == 'form{font-size: 2em;}\n@media mobile {\nform{font-size: 2em;\n\tline-height: 1.1em;}\n}\n'
     }
 
     def "should use minus to remove styles"() {
@@ -628,7 +628,7 @@ class GroocssSpec extends Specification {
             }
         }
         then:
-        "$css" == 'form{font-size: 2em;}@media mobile {\nform{line-height: 1.1em;}\n}\n'
+        "$css" == 'form{font-size: 2em;}\n@media mobile {\nform{line-height: 1.1em;}\n}\n'
     }
 
     def "removing empty styles has no effect"() {
@@ -643,7 +643,7 @@ class GroocssSpec extends Specification {
             }
         }
         then:
-        "$css" == 'form{font-size: 2em;}@media mobile {\nform{font-size: 2em;\n\tline-height: 1.1em;}\n}\n'
+        "$css" == 'form{font-size: 2em;}\n@media mobile {\nform{font-size: 2em;\n\tline-height: 1.1em;}\n}\n'
     }
 
     def "removing non-matching styles has no effect"() {
@@ -658,7 +658,7 @@ class GroocssSpec extends Specification {
             }
         }
         then:
-        "$css" == 'form{font-size: 2em;}@media mobile {\nform{font-size: 2em;\n\tline-height: 1.1em;}\n}\n'
+        "$css" == 'form{font-size: 2em;}\n@media mobile {\nform{font-size: 2em;\n\tline-height: 1.1em;}\n}\n'
     }
 
     def "styles math is idempotent"() {
@@ -673,7 +673,7 @@ class GroocssSpec extends Specification {
             }
         }
         then:
-        "$css" == 'form{font-size: 2em;}' +
+        "$css" == 'form{font-size: 2em;}\n' +
                 '@media mobile {\nform{line-height: 1.1em;}\n}\n' +
                 '@media only screen and (max-width: 960px) {\n' +
                 'form{font-size: 2em;\n\tline-height: 12pt;}\n' +
