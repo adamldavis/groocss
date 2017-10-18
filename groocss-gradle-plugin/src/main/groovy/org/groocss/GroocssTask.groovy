@@ -1,16 +1,20 @@
 package org.groocss
 
+import groovy.transform.TypeChecked
+import org.gradle.api.InvalidUserDataException
+import org.gradle.api.file.CopySpec
 import org.gradle.api.internal.file.CopyActionProcessingStreamAction
-import org.gradle.api.internal.file.FileResolver
 import org.gradle.api.internal.file.copy.CopyAction
 import org.gradle.api.internal.file.copy.CopyActionProcessingStream
 import org.gradle.api.internal.file.copy.FileCopyDetailsInternal
 import org.gradle.api.internal.tasks.SimpleWorkResult
-import org.gradle.api.tasks.AbstractCopyTask
+import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.WorkResult
+import org.gradle.internal.file.PathToFileResolver
 
 /** Converts GrooCSS files using the same features as the Copy task. */
-class GroocssTask extends AbstractCopyTask {
+@TypeChecked
+class GroocssTask extends Copy {
 
     Config conf
 
@@ -22,7 +26,10 @@ class GroocssTask extends AbstractCopyTask {
                 if (!conf) {
                     conf = new Config()
                 }
-                def action = new GroocssFileAction(fileResolver, conf)
+                if(destinationDir == null) {
+                    throw new InvalidUserDataException("No copy destination directory has been specified, use 'into' to specify a target directory.");
+                }
+                def action = new GroocssFileAction(fileLookup.getFileResolver(destinationDir), conf, rootSpec)
                 stream.process(action)
                 return new SimpleWorkResult(action.didWork)
             }
@@ -31,22 +38,31 @@ class GroocssTask extends AbstractCopyTask {
 
     /** Converts the given GrooCSS file with current config, and outputs to given file. */
     static class GroocssFileAction implements CopyActionProcessingStreamAction {
-        FileResolver fileResolver
+
+        private final PathToFileResolver fileResolver
         Config config
+        CopySpec copySpec
         boolean didWork
 
-        GroocssFileAction(FileResolver fileResolver, Config config) {
+        GroocssFileAction(PathToFileResolver fileResolver, Config config, CopySpec copySpec) {
             this.fileResolver = fileResolver
             this.config = config
+            this.copySpec = copySpec
         }
 
         @Override
         void processFile(FileCopyDetailsInternal details) {
-            File source = fileResolver.resolve(details.relativeSourcePath.pathString)
-            File target = fileResolver.resolve(details.relativePath.pathString)
+            def path = details.relativePath.pathString
+            File target = fileResolver.resolve(path)
+            println "relativePath=$path  target=$target.absolutePath"
 
-            if (source.isFile() || source.isDirectory()) {
-                GrooCSS.convert(config, source, target)
+            target.parentFile.mkdirs()
+            boolean copied = details.copyTo(target)
+
+            if (copied) {
+                File newTarget = new File(target.parentFile, GroocssPlugin.toCssName(target.name))
+                GrooCSS.convert config, target, newTarget
+                target.delete()
                 didWork = true
             }
         }

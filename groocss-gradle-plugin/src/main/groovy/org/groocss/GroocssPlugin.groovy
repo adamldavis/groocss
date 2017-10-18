@@ -59,7 +59,7 @@ class GroocssPlugin implements Plugin<Project> {
         processTask?.dependsOn convertCss
     }
 
-    String toCssName(String name) {
+    static String toCssName(String name) {
         name.replace('.css.groovy', '.css').replace('.groovy', '.css').replace('.groocss', '.css')
     }
 

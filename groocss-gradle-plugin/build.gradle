@@ -21,7 +21,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.9.5"
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.8"
     }
 }
 
@@ -29,6 +29,7 @@ description = "Build time GrooCSS support with the Gradle build tool - http://gr
 
 apply plugin: "maven"
 apply plugin: "groovy"
+apply plugin: "com.gradle.plugin-publish"
 
 repositories {
     mavenLocal()
@@ -43,8 +44,8 @@ dependencies {
     }
 }
 
-apply plugin: "com.gradle.plugin-publish"
 group = 'org.groocss'
+version = "${parent.project.version}"
 
 pluginBundle {
     website = 'http://www.groocss.org/'
@@ -58,5 +59,10 @@ pluginBundle {
             description = 'This plugin provides build time integration for converting GrooCSS DSL into CSS.'
             tags = ['groovy', 'css', 'web', 'html', 'groocss']
         }
+    }
+}
+install {
+    repositories.mavenInstaller {
+        pom.artifactId = 'groocss-gradle-plugin'
     }
 }

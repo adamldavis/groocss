@@ -41,7 +41,7 @@ class GrooCSS extends Script {
         compilerConfig.addCompilationCustomizers(imports)
         compilerConfig.scriptBaseClass = "${packg}.GrooCSS"
 
-        new GroovyShell(Thread.currentThread().contextClassLoader, binding, compilerConfig)
+        new GroovyShell(GrooCSS.class.classLoader, binding, compilerConfig)
     }
 
     /** Processes a given InputStream and outputs to given OutputStream. */
