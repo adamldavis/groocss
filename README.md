@@ -30,30 +30,22 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - Ability to create and reuse groups of styles using styles{} syntax.
 - Methods for getting an image's width, height, or size.
 
-## New in 0.7.x
+## New in 0.7.x-0.11.1
 
 - Better pseudo-class support with %
 - Measurements are now fully supported including math between different compatible types.
 - Added [Gradle Plugin](https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin)
 - Some measurement values are validated (for example, passing 10.deg to maxWidth will throw an AssertionError).
-
-## New in 0.8.x
-
 - New "styles" method for created unattached styles (re: issue #3)
 - Added varieties of convert and process that take String, In/OutputStreams, and Reader/PrintWriter (re: issue #2)
 - Added limited support for using spaces and ~ syntax in Selector definition (limited to two elements)
-
-## New in 0.9 
-
 - Added mix, tint, shade, and greyscale methods.
 - Added saturate, desaturate, fadein, fadeout, fade, and hue, saturation and brightness methods.
 - Added many colors methods: rgba, hsl, hsla, lighten, darken, etc.
-
-## New in 0.10
-
 - Added option (convertUnderline) to convert all underlines in style-classes to dashes.
 - Added ability to use three or more element selectors without xor.
 - Added ability to configure to use some element names as style-classes just in case you need "main" for example to be used as a style-class.
+- Gradle GroocssTask now extends Copy task and supports -t option.
 
 ## Using Gradle with Plugin
 
@@ -62,7 +54,7 @@ The plugin adds a `convertCss` task for converting your groocss files into css.
 For example:
 
     plugins {
-      id "org.groocss.groocss-gradle-plugin" version "0.9"
+      id "org.groocss.groocss-gradle-plugin" version "0.11.1"
     }
     def cssDir = "$parent.buildDir/../www/css"
 
@@ -81,11 +73,14 @@ If you have a lot of files, `inFile` and `outFile` can be directories (it will a
 
 There's also a `GroocssTask` available if you want to have finer-grained control. Here's an example using a task:
 
-    task css(type: org.groocss.GroocssTask, dependsOn: convertCss) {
+    task css(type: org.groocss.GroocssTask) {
         conf = new org.groocss.Config(compress: true, addOpera: false)
-        inFile = file('index.groocss')
-        outFile = file("$cssDir/index.css.min")
+        from "$rootDir/gcss"
+        from "styles"
+        into "$cssDir/min"
     }
+    
+This also allows the "-t" continuous build option to be used.
 
 ## Using Gradle without Plugin
 
@@ -93,7 +88,7 @@ There's also a `GroocssTask` available if you want to have finer-grained control
 
     buildscript {
         repositories { jcenter() }
-        dependencies { classpath 'org.groocss:groocss:0.8' }
+        dependencies { classpath 'org.groocss:groocss:0.11' }
     }
     task css << {
         def file = file('css/out.css')
