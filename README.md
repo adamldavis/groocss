@@ -30,7 +30,7 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - Ability to create and reuse groups of styles using styles{} syntax.
 - Methods for getting an image's width, height, or size.
 
-## New in 0.7.x-0.11.1
+## New in 0.7 - 0.11.1
 
 - Better pseudo-class support with %
 - Measurements are now fully supported including math between different compatible types.
@@ -45,7 +45,8 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - Added option (convertUnderline) to convert all underlines in style-classes to dashes.
 - Added ability to use three or more element selectors without xor.
 - Added ability to configure to use some element names as style-classes just in case you need "main" for example to be used as a style-class.
-- Gradle GroocssTask now extends Copy task and supports -t option.
+- Added imports, raw, and comment (ability to import file/reader/stream with parameters; and ability to include comments for output)
+- Gradle GroocssTask now extends Copy task and supports -t option (requires Gradle 4)
 
 ## Using Gradle with Plugin
 
@@ -80,7 +81,7 @@ There's also a `GroocssTask` available if you want to have finer-grained control
         into "$cssDir/min"
     }
     
-This also allows the "-t" continuous build option to be used.
+This also allows the "-t" continuous build option to be used (requires Gradle 4).
 
 ## Using Gradle without Plugin
 
@@ -98,6 +99,18 @@ This also allows the "-t" continuous build option to be used.
     }
 
 ## Examples
+
+### Imports, Raw, and Comment
+
+The ability to import other groocss files is supported by importFile, importStream, and importString methods which take
+a parameter map and input. For example:
+
+    importFile otherCss.absoluteFile, linkColor: '#456789'
+
+This would allow you to make a "template file" for example with variables replaced in multiple ways.
+
+There are also "raw" and "comment" commands, for including raw CSS and comments respectively.
+
 
 ### Using convert methods
 
