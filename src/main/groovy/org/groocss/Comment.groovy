@@ -10,7 +10,7 @@ import groovy.transform.TupleConstructor
 @TupleConstructor
 @EqualsAndHashCode
 @CompileStatic
-class Comment {
+class Comment implements CSSPart {
     String comment
     boolean isEmpty() { comment == '' }
     String toString() { "/* $comment */" }

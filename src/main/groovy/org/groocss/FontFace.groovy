@@ -3,7 +3,7 @@ package org.groocss
 /**
  * Represents an @font-face in CSS. Created by adavis on 8/8/16.
  */
-class FontFace {
+class FontFace implements CSSPart {
 
     List<Style> styles = []
 
@@ -48,4 +48,8 @@ class FontFace {
         this
     }
 
+    @Override
+    boolean isEmpty() {
+        styles.empty
+    }
 }

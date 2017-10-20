@@ -6,11 +6,12 @@ import groovy.transform.*
 import org.codehaus.groovy.control.customizers.ImportCustomizer
 
 import javax.imageio.ImageIO
+import java.lang.reflect.Type
 
 /**
  * Entrance to DSL for converting code into CSS.
  */
-class GrooCSS extends Script {
+class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     static void convertFile(Config conf = new Config(), String inf, String outf) {
         convert conf, new File(inf), new File(outf)
@@ -45,6 +46,7 @@ class GrooCSS extends Script {
     }
 
     /** Processes a given InputStream and outputs to given OutputStream. */
+    @TypeChecked
     static void convert(Config conf = new Config(), InputStream inf, OutputStream out, String charset1 = "UTF-8") {
         out.withPrintWriter { pw ->
             convert conf, new InputStreamReader(inf, charset1), pw
@@ -52,6 +54,7 @@ class GrooCSS extends Script {
     }
 
     /** Processes a given Reader and outputs to given PrintWriter. */
+    @TypeChecked
     static void convert(Config conf = new Config(), Reader reader, PrintWriter writer) {
         def shell = makeShell()
         def script = shell.parse(reader)
@@ -75,6 +78,7 @@ class GrooCSS extends Script {
         convert conf, groocss, charset1
     }
 
+    @CompileStatic
     static class Configurer extends Config {
 
         Configurer convert(File inf, File out) {
@@ -126,7 +130,7 @@ class GrooCSS extends Script {
     Config config = new Config()
 
     /** Main MediaCSS root.*/
-    MediaCSS css = new MediaCSS(config: config)
+    MediaCSS css = new MediaCSS(this, config)
 
     /** Makes sure that config passes through to root css. */
     void setConfig(Config config1) { config = css.config = config1 }
@@ -134,8 +138,6 @@ class GrooCSS extends Script {
     /** Current MediaCSS object used for processing. */
     MediaCSS currentCss = css
 
-    /** Used by mod method added to Integer class. */
-    KeyFrames currentKf
 
     public GrooCSS() {
         Number.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
@@ -145,7 +147,7 @@ class GrooCSS extends Script {
     public String toString() { css.toString() }
 
     MediaCSS media(String mediaRule, @DelegatesTo(GrooCSS) Closure clos) {
-        MediaCSS mcss = new MediaCSS(mediaRule, config)
+        MediaCSS mcss = new MediaCSS(this, mediaRule, config)
         MediaCSS oldCss = currentCss
         currentCss = mcss
         clos.delegate = this

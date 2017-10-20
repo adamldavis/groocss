@@ -4,7 +4,7 @@ import groovy.transform.*
 
 /** A group of styles as represented in a CSS file. */
 @CompileStatic
-class StyleGroup extends Selectable {
+class StyleGroup extends Selectable implements CSSPart {
 
     List<StyleGroup> extenders = []
 
@@ -97,8 +97,8 @@ class StyleGroup extends Selectable {
 
     /** Finds an existing StyleGroup with given selector and appends [comma selector] to its selector.*/
     StyleGroup extend(String otherSelector) {
-        StyleGroup other = owner.groups.findAll{it instanceof Selectable}.find{
-            ((Selectable) it).selector == otherSelector}
+        StyleGroup other = (StyleGroup) owner.groups.findAll{it instanceof StyleGroup}.find{
+            ((StyleGroup) it).selector == otherSelector}
         if (other) other.extenders << this
         other
     }
@@ -165,6 +165,21 @@ class StyleGroup extends Selectable {
         cloneTrio(styles[-1])
         this
     }
+
+    /** A shorthand property for all the animation properties below, plus a closure to define keyframes. */
+    StyleGroup animation (value, @DelegatesTo(value=KeyFrames, strategy=Closure.DELEGATE_FIRST) Closure closure) {
+        String strValue = "$value"
+        styles << new Style(name: 'animation', value: strValue)
+        cloneTrio(styles[-1])
+        String name = strValue =~ /\s/ ? strValue.split(/\s/)[0] : strValue
+        KeyFrames kf = owner.currentKeyFrames = new KeyFrames(config: owner.config, name: name)
+        closure.delegate = kf
+        closure.resolveStrategy = Closure.DELEGATE_FIRST
+        closure()
+        owner.add kf
+        this
+    }
+
     /** Sets when the animation will start */
     StyleGroup animationDelay (value) {
         styles << new Style(name: 'animationDelay', value: "${validateTime value}")

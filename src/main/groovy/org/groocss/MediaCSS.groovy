@@ -3,7 +3,7 @@ package org.groocss
 /**
  * Root node for CSS which might be characterized by a media type. Created by adavis on 8/10/16.
  */
-class MediaCSS {
+class MediaCSS implements CSSPart {
 
     /** Media rule for when to use this css. Optional- null for root node. */
     final String mediaRule
@@ -12,7 +12,7 @@ class MediaCSS {
     List<FontFace> fonts = []
 
     /** List of style groups, comments, raws. */
-    List groups = []
+    List<CSSPart> groups = []
 
     /** List of @keyframes. */
     List<KeyFrames> kfs = []
@@ -22,14 +22,23 @@ class MediaCSS {
 
     Config config
 
-    MediaCSS() { this.mediaRule = null }
-    MediaCSS(String mediaRule, Config config1) {
+    final CurrentKeyFrameHolder keyFrameHolder
+
+    MediaCSS(CurrentKeyFrameHolder keyFrameHolder) {
+        this.keyFrameHolder = keyFrameHolder
+        this.mediaRule = null
+    }
+    MediaCSS(CurrentKeyFrameHolder keyFrameHolder, String mediaRule = null, Config config1) {
+        this(keyFrameHolder)
         this.mediaRule = mediaRule
         this.config = config1
     }
 
-    MediaCSS leftShift(sg) { add sg }
-    MediaCSS add(it) {
+    KeyFrames getCurrentKeyFrames() { keyFrameHolder.currentKf }
+    void setCurrentKeyFrames(KeyFrames kf) { keyFrameHolder.currentKf = kf }
+
+    MediaCSS leftShift(CSSPart sg) { add sg }
+    MediaCSS add(CSSPart it) {
         if (it instanceof KeyFrames) kfs << ((KeyFrames) it)
         else if (it instanceof FontFace) fonts << ((FontFace) it)
         else if (it instanceof MediaCSS) otherCss << ((MediaCSS) it)
@@ -37,12 +46,12 @@ class MediaCSS {
         this
     }
 
-    MediaCSS add(Collection coll) {
+    MediaCSS add(Collection<? extends CSSPart> coll) {
         coll.each {add(it)}
         this
     }
-    MediaCSS addAll(Collection coll) { add(coll) }
-    MediaCSS leftShift(Collection coll) { add(coll) }
+    MediaCSS addAll(Collection<? extends CSSPart> coll) { add(coll) }
+    MediaCSS leftShift(Collection<? extends CSSPart> coll) { add(coll) }
 
     String toString() {
         StringBuilder sb = new StringBuilder()
@@ -84,11 +93,16 @@ class MediaCSS {
     }
 
     def methodMissing(String name, args) {
-        if (args[0] instanceof Closure) sg(".$name", (Closure) args[0])
+        if (args.length > 0 && args[0] instanceof Closure) sg(".$name", (Closure) args[0])
     }
 
     /** Allows _.styleClass syntax to be used anywhere selectors are used. */
     def propertyMissing(String name) {
         new Selector(".$name", this)
+    }
+
+    @Override
+    boolean isEmpty() {
+        fonts.empty && groups.empty && kfs.empty && otherCss.empty
     }
 }

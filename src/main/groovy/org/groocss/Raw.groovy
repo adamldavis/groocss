@@ -10,7 +10,7 @@ import groovy.transform.TupleConstructor
 @TupleConstructor
 @EqualsAndHashCode
 @CompileStatic
-class Raw {
+class Raw implements CSSPart {
     String rawCss
     boolean isEmpty() { rawCss == '' }
     String toString() {rawCss}

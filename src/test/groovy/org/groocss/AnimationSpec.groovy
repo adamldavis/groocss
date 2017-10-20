@@ -93,5 +93,25 @@ class AnimationSpec extends Specification {
         "$css" == ".a{transform: translateX(1px) translateY(1px);}"
     }
 
+    def "should allow creating keyframes within animation command"() {
+        when:
+        def css = GrooCSS.withConfig { noExts() } process {
+            get_().move {
+                animation('mymove') {
+                    from {
+                        top 0
+                    }
+                    50 % { top '50px' }
+                    to {
+                        top '100px'
+                    }
+                }
+            }
+        }
+        then:
+        "$css" == ".move{animation: mymove;}\n" +
+                "@keyframes mymove {\nfrom{top: 0;}\n50%{top: 50px;}\nto{top: 100px;}\n}"
+    }
+
 
 }

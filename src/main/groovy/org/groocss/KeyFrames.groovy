@@ -1,9 +1,12 @@
 package org.groocss
 
+import groovy.transform.TypeChecked
+
 /**
  * Represents a keyframes block in CSS. Created by adavis on 8/1/16.
  */
-class KeyFrames {
+@TypeChecked
+class KeyFrames implements CSSPart {
     String name
     List<StyleGroup> groups = []
     Config config
@@ -32,8 +35,7 @@ class KeyFrames {
     /** Adds a "frame" block for given percents. */
     KeyFrames frame(List<Integer> percents, @DelegatesTo(StyleGroup) Closure clos) {
         StyleGroup sg = new StyleGroup(percents.collect{"${it}%"}.join(", "), config, null)
-        clos.delegate = sg
-        clos()
+        callWithDelegate(clos, sg)
         this << sg
         this
     }
@@ -41,8 +43,7 @@ class KeyFrames {
     /** Adds a "from" block. */
     KeyFrames from(@DelegatesTo(StyleGroup) Closure clos) {
         StyleGroup sg = new StyleGroup("from", config, null)
-        clos.delegate = sg
-        clos()
+        callWithDelegate(clos, sg)
         this << sg
         this
     }
@@ -50,9 +51,18 @@ class KeyFrames {
     /** Adds a "to" block. */
     KeyFrames to(@DelegatesTo(StyleGroup) Closure clos) {
         StyleGroup sg = new StyleGroup("to", config, null)
-        clos.delegate = sg
-        clos()
+        callWithDelegate(clos, sg)
         this << sg
         this
+    }
+
+    private void callWithDelegate(@DelegatesTo(StyleGroup) Closure clos, StyleGroup sg) {
+        clos.delegate = sg
+        clos.resolveStrategy = Closure.DELEGATE_FIRST
+        clos()
+    }
+
+    boolean isEmpty() {
+        groups.empty
     }
 }
