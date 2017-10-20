@@ -34,76 +34,153 @@ class Translator {
 
     /** Converts from CSS to Groocss. */
     static void convertFromCSS(Reader inf, Printer pw) {
+        def state = [:]
         inf.eachLine { String originalLine ->
-            processLine originalLine, inf, pw
+            process originalLine, pw, state
         }
     }
 
-    static void processLine(String originalLine, Reader inf, Printer pw) {
+    private static void process(String originalLine, Printer pw, Map state = [:]) {
         def line = originalLine.toLowerCase().trim()
-        def styleRegex = /[-\w]+\s*:\s*[^\{\};]+;?\s*/
-        def frameRegex = /[0-9]+%\s*\{\s*/
-        def selector = /[- >\~\*#\[,:\]="\w\.]+\s*\{\s*/
 
-        if (line ==~ /(@[-\w]+)(\s+[\w\s]+)?\s*\{/) {
+        if (state.skipping) {
+            println "warning: skipping: $originalLine"
+            if (line =~ /}/) state.skipping = false
+        }
+        else if (state.inComment) {
+            if (originalLine ==~ /(.*)\*+\//) {
+                state.inComment = false
+                def matcher = originalLine =~ /(.*)\*+\//
+                if (matcher.find()) pw.println "${matcher.group(1)}''')"
+            } else {
+                pw.println originalLine // pass through
+            }
+        }
+        else {
+            processLineSwitch(originalLine, line, pw, state)
+        }
+    }
+
+    static final String STYLE_RE = /[-\w]+\s*:\s*[^\{\};]+;?\s*/
+    static final String FRAME_RE = /([0-9]+|from|to)%?\s*\{?\s*/
+    static final String FRAME_LIST_RE = /([0-9]+%,? *){2,}\s*\{?\s*/
+    static final String SELECTOR_RE = /[- >\~\+*#\[,:\]="\w\.\(\)]+\s*[\{,]\s*/
+    
+    private static void processLineSwitch(String originalLine, String line, Printer pw, Map state) {
+        switch (line) {
+        case ~ /@(-webkit-|-ms-|-o-|-moz-)[-\w\s]+\{\s*/: //skip browser-specific stuff
+            state.skipping = true
+            println "warning: skipping: $originalLine"
+            break
+        case ~(/(-webkit-|-ms-|-o-|-moz-)/ + STYLE_RE): //skip browser-specific stuff
+            println "warning: skipping: $originalLine"
+            break
+        case ~ /(@[-\w]+)(\s+[\w\s]+)?\s*\{/: // @media or @font-face
             Matcher m = line =~ /(@[-\w]+)(\s+[\w\s]+)?\s*\{/
             m.find()
             pw.println( nameToCamel(m.group(1)) + (m.group(2) ? " '${m.group(2).trim()}', {" : ' {') )
-        }
-        else if (line ==~ /\w+\s*\{/) pw.println line //just element name
-        else if (line ==~ /\.\w+\s*\{/) pw.println "_$originalLine" //just a class
-        else if (line ==~ /\w+\.\w+\s*\{/) pw.println line //just element.class
-        else if (line ==~ /\w*\.[-\w]+\s*\{/) // class with dashes
-            pw.println "sg '${line[0..-2].trim()}', {"
-        else if (line ==~ /\w+:[-+\w\.\(\)]+\s*\{/) { //pseudo-class
-            processPseudo(originalLine, pw)
-        }
-        else if (line ==~ /(-webkit-|-ms-|-o-|-moz-)/ + styleRegex) {
-            println "warning: skipping: $originalLine"
-        }
-        else if (line ==~ frameRegex) // frame
-            pw.println "frame ${line[0..-2].trim().replace('%','')}, {"
-        else if (line ==~ selector) // selector
-            processSelector(originalLine, pw)
-        else if (line ==~ /\}/) // close bracket
+            break
+        case ~ /\/\*+.*\*\//: // comment
+            def matcher = originalLine =~ /\/\*(.*)\*\//
+            if (matcher.find()) pw.println "comment '${matcher.group(1)}'"
+            break
+        case ~ /\/\*+.*/: // multiline comment
+            state.inComment = true
+            def matcher = originalLine =~ /\/\*+(.*)/
+            if (matcher.find()) pw.println "comment('''${matcher.group(1)}"
+            break
+        case ~ FRAME_LIST_RE: processFrame(line, FRAME_LIST_RE, pw, true); break
+        case ~ FRAME_RE: processFrame(line, FRAME_RE, pw); break
+        case ~ SELECTOR_RE: processSelector(originalLine.trim(), pw); break
+        case ~ /[}{]/: // close or open bracket
             pw.println originalLine
-        else if (line ==~ styleRegex) { // styles
+            break
+        case ~STYLE_RE: // styles
             def ci = line.indexOf ':'
             def name = nameToCamel line.substring(0, ci).trim()
             def value = line.substring(ci + 1).replace(';', '').trim()
             pw.println "  $name ${convertValue(value)}"
-        }
-        else if (line ==~ selector + / */ + styleRegex + / *}?/ || /* selector { stuff } */
-                line ==~ frameRegex + / */ + styleRegex + / *}?/) /* frame { stuff } */ {
+            break
+
+        case ~(FRAME_RE + / */ + STYLE_RE + / *}?/): /* frame { stuff } */
+        case ~(SELECTOR_RE + / */ + STYLE_RE + / *}?/): /* selector { stuff } */
             int i = line.indexOf('{'), end = line.indexOf('}')
             if (end == -1) end = 0
-            processLine line[0..i], inf, pw
-            processLine line[(i + 1)..(end-1)], inf, pw
-            if (end > 0) processLine line[end], inf, pw
+            process line[0..i], pw, state
+            process line[(i + 1)..(end-1)], pw, state
+            if (end > 0) process line[end], pw, state
+            break
+            
+        case ~(/\{? */ + STYLE_RE + / *}?/): // {? stuff }?
+            int i = line.indexOf('{'), end = line.indexOf('}')
+            if (end == -1) end = 0
+            if (i >= 0) process line[0..i], pw, state
+            process line[(i + 1)..(end - 1)], pw, state
+            if (end > 0) process line[end], pw, state
+            break
+        default:
+            println "warning: unmatched line (using raw): $originalLine"
+            pw.println "raw '$originalLine'"
         }
-        else if (line ==~ /\{? */ + styleRegex + / *}?/) { // {? stuff }?
-                int i = line.indexOf('{'), end = line.indexOf('}')
-                if (end == -1) end = 0
-                if (i >= 0) processLine line[0..i], inf, pw
-                processLine line[(i+1)..(end-1)], inf, pw
-                if (end > 0) processLine line[end], inf, pw
-        } else {
-            println "warning: unmatched line: $originalLine"
-            pw.println originalLine
+    }
+
+    private static void processFrame(String line, String regex, Printer pw, boolean multiple=false) {
+        def frames = line.replaceAll(/\s*\{\s*$/, '')
+        def matcher = line =~ regex
+        if (matcher.find()) {
+            String value = multiple ? "[$frames]" : matcher.group(1)
+
+            def rest = line.length() > frames.length() ? line[frames.length()..-1] : ''
+
+            if (multiple) pw.println "frame(${value.replace('%','').trim()})$rest"
+            else if (line =~ /%/) pw.println "$value %$rest"
+            else pw.println "$value $rest"
         }
     }
 
     static void processSelector(String original, Printer pw) {
-        def line = original.replace('{', '').trim()
-        if (line ==~ /[\w\.]+(\s+[\w\.]+)*/)  /* Matches just spaces separating elements. */
-            pw.println line.replaceAll(/\s+/, ' ^ ') + " {"
-        else if (!line.contains(':'))
-            pw.println line.replace('>', '>>').replace('~', '-').replace(',', ' |') + " {"
-        else
-            pw.println "sg '${line[0..-2].trim()}', {"
+        pw.println(processSelector(original))
+    }
+    
+    static String processSelector(String original) {
+        if (original == '') return original
+        def ending = original.find(/\s*[\{,]\s*$/)?.trim()?.replaceAll(/,/, '|') ?: ''
+        def line = original.replaceAll(/[\{,]$/, '').trim()
+
+        if (line ==~ /(\w*)(\.\w+)?/) { // element.class?
+            def element = line.find(/\w*/)?.toLowerCase() ?: '_'
+            def clazz = line.find(/\.[\w]+/) ?: ''
+            "${element}${clazz}${ending ? ' ' : ''}$ending"
+        }
+        else if (line ==~ /\w*\.[-\w]+\s*,?/) {// class with dashes
+            def selector = line.find(/\w*\.[-\w]+/) ?: ''
+            if (ending == '{') "sg '$selector', $ending"
+            else if (ending == '|') "sel('$selector') $ending"
+            else "sel('$selector')"
+        }
+        else if (line ==~ /\w+:[-+\w\.\(\)]+/) { //pseudo-class
+            processPseudo(original.replaceAll(/ *, */, ' |'))
+        }
+        else if (line ==~ /\w+(\.\w+)?(\s+\w+(\.\w+)?)*/) { /* Spaces separating simple elements. */
+            "$line $ending" // don't change a thing
+        }
+        else if (line.contains(',')) {
+            line.split(/\s*,\s*/).collect(this.&processSelector).join(' | ') + " $ending"
+        }
+        else if (line =~ /\s+/ && !line.contains(':') && !line.contains('-')) {
+            def phase1 = line.replaceAll(/\s*>\s*/, '>>').replaceAll(/\s*~\s*/, '-')
+                .replaceAll(/\s*(\+|\*)\s*/, '$1')
+            def array = phase1.split(/\s+/)
+            def phase2 = array.length > 1 ? array.collect(this.&processSelector).join(' ^ ') : phase1
+
+            phase2.replaceAll(/(>>|-|\+|\*)/, ' $1 ') + " $ending"
+        }
+        else if (ending == '{') "sg '${line.trim()}', {"
+        else if (ending)        "sel('${line.trim()}') $ending"
+        else                    "sel('$line')"
     }
 
-    static void processPseudo(String line, Printer pw) {
+    static String processPseudo(String line) {
         String result = line
         Matcher pseudo = line =~ /:([-\w]+)/
         Matcher parens = line =~ /\(([-+\w\.]+)\)/
@@ -115,7 +192,7 @@ class Translator {
         if (hasParens)
             result = result.replace(parens.group(1), '\'' + parens.group(1) + '\'')
 
-        pw.println result
+        result
     }
 
     private static String convertValue(String value) {
