@@ -1021,12 +1021,29 @@ class StyleGroup extends Selectable implements CSSPart {
         if (config.addMs) styles << cloneMs(style)
         this
     }
+
     /** A shorthand property for setting or returning the four transition properties */
-    StyleGroup transition (value) {
+    StyleGroup transition (String value) {
+        transitionInternal(value)
+    }
+    StyleGroup transition (CSSPart part) {
+        transitionInternal(part)
+    }
+    private StyleGroup transitionInternal (value) {
         styles << new Style(name: 'transition', value: "$value")
         cloneTrio(styles[-1])
         this
     }
+
+    /** A DSL for creating a Transition. */
+    StyleGroup transition(@DelegatesTo(value=Transition, strategy = Closure.DELEGATE_ONLY) Closure closure) {
+        Transition tran = Transition.newInstance()
+        closure.delegate = tran
+        closure.resolveStrategy = Closure.DELEGATE_ONLY
+        closure()
+        transitionInternal tran.value
+    }
+
     /** Sets the CSS property that the transition effect is for */
     StyleGroup transitionProperty (value) {
         styles << new Style(name: 'transitionProperty', value: "$value")
@@ -1216,17 +1233,17 @@ class StyleGroup extends Selectable implements CSSPart {
         this
     }
 
-    def validateAngle(angle) {
+    static def validateAngle(angle) {
         if (angle instanceof  Measurement) assert angle.trig
         angle
     }
 
-    def validateLength(x) {
+    static def validateLength(x) {
         if (x instanceof Measurement) assert x.distance || x.relative || x.percent || x.pixel
         x
     }
 
-    def validateTime(x) {
+    static def validateTime(x) {
         if (x instanceof Measurement) assert x.time
         x
     }

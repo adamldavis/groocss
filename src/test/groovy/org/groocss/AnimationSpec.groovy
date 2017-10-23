@@ -1,6 +1,10 @@
 package org.groocss
 
 import spock.lang.Specification
+import spock.lang.Unroll
+
+import static org.groocss.Transition.TransitionProperty.backgroundColor
+import static org.groocss.Transition.TransitionTimingFunction.easeIn
 
 class AnimationSpec extends Specification {
 
@@ -111,6 +115,20 @@ class AnimationSpec extends Specification {
         then:
         "$css" == ".move{animation: mymove;}\n" +
                 "@keyframes mymove {\nfrom{top: 0;}\n50%{top: 50px;}\nto{top: 100px;}\n}"
+    }
+
+    @Unroll
+    def "should create Transition using DSL with #name"() {
+        expect:
+        def gcss = GrooCSS.withConfig { noExts() } process { div { transition closure } }
+        "$gcss" == css
+        where:
+        name    | css                                            |  closure
+        'linear'|"div{transition: top 2s linear 500ms;}"         |  {top '2s' linear '500ms'}
+        'ease'  |"div{transition: border-color 1s ease 9ms;}"    |  {borderColor '1s' ease '9ms'}
+        'e-out' |"div{transition: border-color 1s ease-out 9ms;}"|  {borderColor '1s' easeOut '9ms'}
+        'cubic' |"div{transition: border-color 1s cubic-bezier(0, 0, 1, 1) 0;}"|{borderColor '1s' cubicBezier(0,0,1,1) delay '0'}
+        'enums' |"div{transition: background-color 1s ease-in ;}"|  {property backgroundColor duration '1s' timingFunction easeIn}
     }
 
 

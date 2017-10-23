@@ -18,8 +18,12 @@ class Style {
     String toString() { nameToDashed() + ": $value;" }
     
     private String nameToDashed() {
-        Matcher matcher = Pattern.compile('[A-Z]').matcher(name)
-        def result = name
+        toDashed(name)
+    }
+
+    static String toDashed(String camelCase) {
+        Matcher matcher = Pattern.compile('[A-Z]').matcher(camelCase)
+        def result = camelCase
         while (matcher.find()) {
             result = result.replace(matcher.group(), '-' + matcher.group().toLowerCase())
         }
