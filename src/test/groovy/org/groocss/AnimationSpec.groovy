@@ -128,8 +128,20 @@ class AnimationSpec extends Specification {
         'ease'  |"div{transition: border-color 1s ease 9ms;}"    |  {borderColor '1s' ease '9ms'}
         'e-out' |"div{transition: border-color 1s ease-out 9ms;}"|  {borderColor '1s' easeOut '9ms'}
         'cubic' |"div{transition: border-color 1s cubic-bezier(0, 0, 1, 1) 0;}"|{borderColor '1s' cubicBezier(0,0,1,1) delay '0'}
-        'enums' |"div{transition: background-color 1s ease-in ;}"|  {property backgroundColor duration '1s' timingFunction easeIn}
+        'enums' |"div{transition: background-color 1s ease-in;}" |  {property backgroundColor duration '1s' timingFunction easeIn}
+        'flex'  |"div{transition: flex 2s linear 500ms;}"        |  {flex '2s' linear '500ms'}
+        'flex2' |"div{transition: flex-basis 3s linear 200ms;}"  |  {flexBasis '3s' linear '200ms'}
     }
 
+    def "should allow creating Transitions with multiple values"() {
+        when:
+        def css = GrooCSS.withConfig { noExts() } process {
+            get_().highlight {
+                transition {flex '2s'} {borderColor '1s' ease '0'}
+            }
+        }
+        then:
+        "$css" == ".highlight{transition: flex 2s,border-color 1s ease 0;}"
+    }
 
 }

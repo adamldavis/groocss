@@ -31,7 +31,7 @@ class Transition implements CSSPart {
         "transition: $value"
     }
     String getValue() {
-        [toDashed(property), duration, toDashed(timing), delay].collect {"$it"}.join(' ')
+        [toDashed(property), duration, toDashed(timing), delay].findAll{it}.collect {"$it"}.join(' ')
     }
 
     @Override
@@ -120,48 +120,21 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the background-image for an element */
-    TransitionTimingDSL backgroundImage (durationVal) {
-        property = 'backgroundImage'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the starting position of a background-image */
     TransitionTimingDSL backgroundPosition (durationVal) {
         property = 'backgroundPosition'
         duration = durationVal
         timingDSL
     }
-    /** Sets how to repeat (tile) a background-image */
-    TransitionTimingDSL backgroundRepeat (durationVal) {
-        property = 'backgroundRepeat'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the painting area of the background */
-    TransitionTimingDSL backgroundClip (durationVal) {
-        property = 'backgroundClip'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the positioning area of the background images */
-    TransitionTimingDSL backgroundOrigin (durationVal) {
-        property = 'backgroundOrigin'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the size of the background image */
     TransitionTimingDSL backgroundSize (durationVal) {
         property = 'backgroundSize'
         duration = durationVal
         timingDSL
     }
-    /** Sets whether or not an element should be visible when not facing the screen */
-    TransitionTimingDSL backfaceVisibility (durationVal) {
-        property = 'backfaceVisibility'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets borderWidth, borderStyle, and borderColor in one declaration */
     TransitionTimingDSL border (durationVal) {
         property = 'border'
@@ -192,66 +165,21 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the style of the bottom border */
-    TransitionTimingDSL borderBottomStyle (durationVal) {
-        property = 'borderBottomStyle'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the width of the bottom border */
     TransitionTimingDSL borderBottomWidth (durationVal) {
         property = 'borderBottomWidth'
         duration = durationVal
         timingDSL
     }
-    /** Sets whether the table border should be collapsed into a single border, or not */
-    TransitionTimingDSL borderCollapse (durationVal) {
-        property = 'borderCollapse'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the color of an element's border (can have up to four durationVals) */
     TransitionTimingDSL borderColor (durationVal) {
         property = 'borderColor'
         duration = durationVal
         timingDSL
     }
-    /** A shorthand property for setting or returning all the borderImage* properties */
-    TransitionTimingDSL borderImage (durationVal) {
-        property = 'borderImage'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the amount by which the border image area extends beyond the border box */
-    TransitionTimingDSL borderImageOutset (durationVal) {
-        property = 'borderImageOutset'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets whether the image-border should be repeated, rounded or stretched */
-    TransitionTimingDSL borderImageRepeat (durationVal) {
-        property = 'borderImageRepeat'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the inward offsets of the image-border */
-    TransitionTimingDSL borderImageSlice (durationVal) {
-        property = 'borderImageSlice'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the image to be used as a border */
-    TransitionTimingDSL borderImageSource (durationVal) {
-        property = 'borderImageSource'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the widths of the image-border */
-    TransitionTimingDSL borderImageWidth (durationVal) {
-        property = 'borderImageWidth'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets all the borderLeft* properties in one declaration */
     TransitionTimingDSL borderLeft (durationVal) {
         property = 'borderLeft'
@@ -264,24 +192,14 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the style of the left border */
-    TransitionTimingDSL borderLeftStyle (durationVal) {
-        property = 'borderLeftStyle'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the width of the left border */
     TransitionTimingDSL borderLeftWidth (durationVal) {
         property = 'borderLeftWidth'
         duration = durationVal
         timingDSL
     }
-    /** A shorthand property for setting or returning all the four border*Radius properties */
-    TransitionTimingDSL borderRadius (durationVal) {
-        property = 'borderRadius'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets all the borderRight* properties in one declaration */
     TransitionTimingDSL borderRight (durationVal) {
         property = 'borderRight'
@@ -294,12 +212,7 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the style of the right border */
-    TransitionTimingDSL borderRightStyle (durationVal) {
-        property = 'borderRightStyle'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the width of the right border */
     TransitionTimingDSL borderRightWidth (durationVal) {
         property = 'borderRightWidth'
@@ -312,12 +225,7 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the style of an element's border (can have up to four durationVals) */
-    TransitionTimingDSL borderStyle (durationVal) {
-        property = 'borderStyle'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets all the borderTop* properties in one declaration */
     TransitionTimingDSL borderTop (durationVal) {
         property = 'borderTop'
@@ -342,36 +250,28 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the style of the top border */
-    TransitionTimingDSL borderTopStyle (durationVal) {
-        property = 'borderTopStyle'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the width of the top border */
     TransitionTimingDSL borderTopWidth (durationVal) {
         property = 'borderTopWidth'
         duration = durationVal
         timingDSL
     }
-    /** Sets the width of an element's border (can have up to four durationVals) */
+
+    /** Sets the width of the border. */
     TransitionTimingDSL borderWidth (durationVal) {
         property = 'borderWidth'
         duration = durationVal
         timingDSL
     }
+
     /** Sets the bottom position of a positioned element */
     TransitionTimingDSL bottom (durationVal) {
         property = 'bottom'
         duration = durationVal
         timingDSL
     }
-    /** Sets the behaviour of the background and border of an element at page-break, or, for in-line elements, at line-break. */
-    TransitionTimingDSL boxDecorationBreak (durationVal) {
-        property = 'boxDecorationBreak'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Attaches one or more drop-shadows to the box */
     TransitionTimingDSL boxShadow (durationVal) {
         property = 'boxShadow'
@@ -397,12 +297,7 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets how to fill columns */
-    TransitionTimingDSL columnFill (durationVal) {
-        property = 'columnFill'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the gap between the columns */
     TransitionTimingDSL columnGap (durationVal) {
         property = 'columnGap'
@@ -421,12 +316,7 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the style of the rule between columns */
-    TransitionTimingDSL columnRuleStyle (durationVal) {
-        property = 'columnRuleStyle'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the width of the rule between columns */
     TransitionTimingDSL columnRuleWidth (durationVal) {
         property = 'columnRuleWidth'
@@ -439,33 +329,44 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets how many columns an element should span across */
-    TransitionTimingDSL columnSpan (durationVal) {
-        property = 'columnSpan'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the width of the columns */
     TransitionTimingDSL columnWidth (durationVal) {
         property = 'columnWidth'
         duration = durationVal
         timingDSL
     }
-    /** Used with the :before and :after pseudo-elements, to insert generated content */
-    TransitionTimingDSL content (durationVal) {
-        property = 'content'
+
+    /** Sets image filters (visual effects, like blur and saturation) */
+    TransitionTimingDSL filter (durationVal) {
+        property = 'filter'
         duration = durationVal
         timingDSL
     }
-
-    /** Sets the type of cursor to display for the mouse pointer */
-    TransitionTimingDSL cursor (durationVal) {
-        property = 'cursor'
+    /** Sets the length of the item, relative to the rest */
+    TransitionTimingDSL flex (durationVal) {
+        property = 'flex'
         duration = durationVal
         timingDSL
     }
-
-    //TODO filter,flex,flexBasis,flexGrow,flexShrink
+    /** Sets the initial length of a flexible item */
+    TransitionTimingDSL flexBasis (durationVal) {
+        property = 'flexBasis'
+        duration = durationVal
+        timingDSL
+    }
+    /** Sets how much the item will grow relative to the rest */
+    TransitionTimingDSL flexGrow (durationVal) {
+        property = 'flexGrow'
+        duration = durationVal
+        timingDSL
+    }
+    /** Sets how the item will shrink relative to the rest */
+    TransitionTimingDSL flexShrink (durationVal) {
+        property = 'flexShrink'
+        duration = durationVal
+        timingDSL
+    }
 
     /** Sets fontStyle, fontVariant, fontWeight, fontSize, lineHeight, and fontFamily in one declaration */
     TransitionTimingDSL font (durationVal) {
@@ -498,18 +399,6 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Preserves the readability of text when font fallback occurs */
-    TransitionTimingDSL fontSizeAdjust (durationVal) {
-        property = 'fontSizeAdjust'
-        duration = durationVal
-        timingDSL
-    }
-    /** Selects a normal, condensed, or expanded face from a font family */
-    TransitionTimingDSL fontStretch (durationVal) {
-        property = 'fontStretch'
-        duration = durationVal
-        timingDSL
-    }
 
     /** Sets the height of an element */
     TransitionTimingDSL height (durationVal) {
@@ -517,30 +406,7 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets how to split words to improve the layout of paragraphs */
-    TransitionTimingDSL hyphens (durationVal) {
-        property = 'hyphens'
-        duration = durationVal
-        timingDSL
-    }
-    /** Provides the author the ability to style an element with an iconic equivalent */
-    TransitionTimingDSL icon (durationVal) {
-        property = 'icon'
-        duration = durationVal
-        timingDSL
-    }
-    /** Specifies a rotation in the right or clockwise direction that a user agent applies to an image */
-    TransitionTimingDSL imageOrientation (durationVal) {
-        property = 'imageOrientation'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the alignment between the items inside a flexible container when the items do not use all available space. */
-    TransitionTimingDSL justifyContent (durationVal) {
-        property = 'justifyContent'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the left position of a positioned element */
     TransitionTimingDSL left (durationVal) {
         property = 'left'
@@ -559,30 +425,7 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets listStyleImage, listStylePosition, and listStyleType in one declaration */
-    TransitionTimingDSL listStyle (durationVal) {
-        property = 'listStyle'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets an image as the list-item marker */
-    TransitionTimingDSL listStyleImage (durationVal) {
-        property = 'listStyleImage'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the position of the list-item marker */
-    TransitionTimingDSL listStylePosition (durationVal) {
-        property = 'listStylePosition'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the list-item marker type */
-    TransitionTimingDSL listStyleType (durationVal) {
-        property = 'listStyleType'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the margins of an element (can have up to four durationVals) */
     TransitionTimingDSL margin (durationVal) {
         property = 'margin'
@@ -669,36 +512,14 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the style of the outline around an element */
-    TransitionTimingDSL outlineStyle (durationVal) {
-        property = 'outlineStyle'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the width of the outline around an element */
     TransitionTimingDSL outlineWidth (durationVal) {
         property = 'outlineWidth'
         duration = durationVal
         timingDSL
     }
-    /** Sets what to do with content that renders outside the element box */
-    TransitionTimingDSL overflow (durationVal) {
-        property = 'overflow'
-        duration = durationVal
-        timingDSL
-    }
-    /** Specifies what to do with the left/right edges of the content, if it overflows the element's content area */
-    TransitionTimingDSL overflowX (durationVal) {
-        property = 'overflowX'
-        duration = durationVal
-        timingDSL
-    }
-    /** Specifies what to do with the top/bottom edges of the content, if it overflows the element's content area */
-    TransitionTimingDSL overflowY (durationVal) {
-        property = 'overflowY'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the padding of an element (can have up to four durationVals) */
     TransitionTimingDSL padding (durationVal) {
         property = 'padding'
@@ -742,46 +563,10 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the type of positioning method used for an element (static, relative, absolute or fixed) */
-    TransitionTimingDSL position (durationVal) {
-        property = 'position'
-        duration = durationVal
-        timingDSL
-    }
 
     /** Sets the right position of a positioned element */
     TransitionTimingDSL right (durationVal) {
         property = 'right'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the way to lay out table cells, rows, and columns */
-    TransitionTimingDSL tableLayout (durationVal) {
-        property = 'tableLayout'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the length of the tab-character */
-    TransitionTimingDSL tabSize (durationVal) {
-        property = 'tabSize'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the horizontal alignment of text */
-    TransitionTimingDSL textAlign (durationVal) {
-        property = 'textAlign'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets how the last line of a block or a line right before a forced line break is aligned when text-align is ""justify"" */
-    TransitionTimingDSL textAlignLast (durationVal) {
-        property = 'textAlignLast'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the decoration of a text */
-    TransitionTimingDSL textDecoration (durationVal) {
-        property = 'textDecoration'
         duration = durationVal
         timingDSL
     }
@@ -791,48 +576,20 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets the type of line in a text-decoration */
-    TransitionTimingDSL textDecorationLine (durationVal) {
-        property = 'textDecorationLine'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the style of the line in a text decoration */
-    TransitionTimingDSL textDecorationStyle (durationVal) {
-        property = 'textDecorationStyle'
-        duration = durationVal
-        timingDSL
-    }
     /** Sets the indentation of the first line of text */
     TransitionTimingDSL textIndent (durationVal) {
         property = 'textIndent'
         duration = durationVal
         timingDSL
     }
-    /** Sets the justification method used when text-align is ""justify"" */
-    TransitionTimingDSL textJustify (durationVal) {
-        property = 'textJustify'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets what should happen when text overflows the containing element */
-    TransitionTimingDSL textOverflow (durationVal) {
-        property = 'textOverflow'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the shadow effect of a text */
     TransitionTimingDSL textShadow (durationVal) {
         property = 'textShadow'
         duration = durationVal
         timingDSL
     }
-    /** Sets the capitalization of a text */
-    TransitionTimingDSL textTransform (durationVal) {
-        property = 'textTransform'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the top position of a positioned element */
     TransitionTimingDSL top (durationVal) {
         property = 'top'
@@ -852,12 +609,6 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets how nested elements are rendered in 3D space */
-    TransitionTimingDSL transformStyle (durationVal) {
-        property = 'transformStyle'
-        duration = durationVal
-        timingDSL
-    }
     
     /** Sets the vertical alignment of the content in an element */
     TransitionTimingDSL verticalAlign (durationVal) {
@@ -871,42 +622,21 @@ class Transition implements CSSPart {
         duration = durationVal
         timingDSL
     }
-    /** Sets how to handle tabs, line breaks and whitespace in a text */
-    TransitionTimingDSL whiteSpace (durationVal) {
-        property = 'whiteSpace'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the width of an element */
     TransitionTimingDSL width (durationVal) {
         property = 'width'
         duration = durationVal
         timingDSL
     }
-    /** Sets line breaking rules for non-CJK scripts */
-    TransitionTimingDSL wordBreak (durationVal) {
-        property = 'wordBreak'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the spacing between words in a text */
     TransitionTimingDSL wordSpacing (durationVal) {
         property = 'wordSpacing'
         duration = durationVal
         timingDSL
     }
-    /** Allows long, unbreakable words to be broken and wrap to the next line */
-    TransitionTimingDSL wordWrap (durationVal) {
-        property = 'wordWrap'
-        duration = durationVal
-        timingDSL
-    }
-    /** Sets the minimum number of lines for an element that must be visible at the top of a page */
-    TransitionTimingDSL widows (durationVal) {
-        property = 'widows'
-        duration = durationVal
-        timingDSL
-    }
+
     /** Sets the stack order of a positioned element */
     TransitionTimingDSL zIndex (durationVal) {
         property = 'zIndex'

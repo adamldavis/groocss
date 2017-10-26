@@ -1035,13 +1035,26 @@ class StyleGroup extends Selectable implements CSSPart {
         this
     }
 
-    /** A DSL for creating a Transition. */
+    /** A DSL for creating a Transition with a single closure defining a transition value. */
     StyleGroup transition(@DelegatesTo(value=Transition, strategy = Closure.DELEGATE_ONLY) Closure closure) {
         Transition tran = Transition.newInstance()
         closure.delegate = tran
         closure.resolveStrategy = Closure.DELEGATE_ONLY
         closure()
-        transitionInternal tran.value
+        transitionInternal(tran.value)
+    }
+
+    /** A DSL for creating a Transition with more than one closure. */
+    StyleGroup transition(@DelegatesTo(value=Transition, strategy = Closure.DELEGATE_ONLY) Closure ... closures) {
+        List<Transition> trans = []
+        for (closure in closures) {
+            Transition tran = Transition.newInstance()
+            closure.delegate = tran
+            closure.resolveStrategy = Closure.DELEGATE_ONLY
+            closure()
+            trans.add tran
+        }
+        transitionInternal(trans.collect{ it.value }.join(','))
     }
 
     /** Sets the CSS property that the transition effect is for */
