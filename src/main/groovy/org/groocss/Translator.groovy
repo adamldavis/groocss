@@ -202,7 +202,7 @@ class Translator {
         else if (value ==~ /([0-9\.]+)|(rgba?.*)/) {
             value
         }
-        else "'$value'"
+        else "'${value.replace('\'', '\\\'')}'"
     }
 
     static void convertFromGroocss(File inf, File out) {
