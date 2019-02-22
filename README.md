@@ -30,7 +30,7 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - Ability to create and reuse groups of styles using styles{} syntax.
 - Methods for getting an image's width, height, or size.
 
-## New in 0.7 - 0.11.1
+## New in 0.7 - 0.12
 
 - Better pseudo-class support with %
 - Measurements are now fully supported including math between different compatible types.
@@ -43,10 +43,10 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - Added saturate, desaturate, fadein, fadeout, fade, and hue, saturation and brightness methods.
 - Added many colors methods: rgba, hsl, hsla, lighten, darken, etc.
 - Added option (convertUnderline) to convert all underlines in style-classes to dashes.
-- Added ability to use three or more element selectors without xor.
-- Added ability to configure to use some element names as style-classes just in case you need "main" for example to be used as a style-class.
-- Added imports, raw, and comment (ability to import file/reader/stream with parameters; and ability to include comments for output)
-- Gradle GroocssTask now extends Copy task and supports -t option (requires Gradle 4)
+- 0.10 Added ability to use three or more element selectors without xor.
+- 0.10 Added ability to configure to use some element names as style-classes just in case you need "main" for example to be used as a style-class.
+- 0.10 Added imports, raw, and comment (ability to import file/reader/stream with parameters; and ability to include comments for output)
+- 0.12 Gradle GroocssTask now extends Copy task and supports -t option (requires Gradle 4)
 - 0.12 Support for transitions using closures.
 - 0.12 Improvements to the CSS Translator
 
@@ -132,7 +132,7 @@ There are also "raw" and "comment" commands, for including raw CSS and comments 
       color myColor
       borderColor '#fdcdea'
     }
-    _.box ^ div {
+    _.box ^div { // => .box div
       boxShadow '0 0 5px rgba(0, 0, 0, 0.3)'
     }
     table {
@@ -144,7 +144,7 @@ There are also "raw" and "comment" commands, for including raw CSS and comments 
     input['class$="test"'] = {
         background yellow
     }
-    sg '#formId', {     // sg useful for ID's
+    sg '#formId', {     // sg useful for ID's or complex selectors
         minWidth 100.px // resolves to 100px
     }
     p + div {
@@ -155,6 +155,17 @@ There are also "raw" and "comment" commands, for including raw CSS and comments 
     p * a { color blue }        // * => *
     p - a { color blue }        // - => ~(tilde)
     p ^ a { color blue }        // ^ =>  (space)
+
+### XOR Not always needed
+
+For many cases, XOR is not actually needed. For example (CSS on left):
+
+    "div p.test a{text-decoration: none;}" => { div p.test a { textDecoration 'none' } }
+    "div.man p.test a{text-decoration: none;}" => { div.man p.test a { textDecoration 'none' } }
+    "div.man .test a{text-decoration: none;}" => { div.man _.test a { textDecoration 'none' } }
+    "body div p a{text-decoration: none;}" => { body div p a { textDecoration 'none' } }
+    "body div.test p a{text-decoration: none;}" => { body div.test p a { textDecoration 'none' } }
+    "body div.test p li a{text-decoration: none;}" => { body div.test p li a { textDecoration 'none' } }
 
 ### Measurement Math
 
