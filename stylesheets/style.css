@@ -23,7 +23,7 @@ div.page-title {
     display: none !important;
 }
 body, .quote h3:before {
-    font-family: lora', georgia, 'times new roman', times, serif;
+    font-family: 'lora', georgia, 'times new roman', times, serif;
     font-size: 18px;
     line-height: 1.66666667em;
     font-weight: 400;
@@ -31,13 +31,13 @@ body, .quote h3:before {
     font-feature-settings: "kern" 1, "liga" 1;
 }
 .navigation a, #posts footer, #links li a, .post-date a, #notes .notes li, .copyright, .copyright a {
-    font-family: montserrat', arial, helvetica, sans-serif;
+    font-family: 'montserrat', arial, helvetica, sans-serif;
 }
 .menu .nav-button .close {
-    font-family: jura', 'montserrat', arial, helvetica, sans-serif;
+    font-family: 'jura', 'montserrat', arial, helvetica, sans-serif;
 }
 h1,h2,h3,h4,h5,h6,blockquote {
-    font-family: roboto slab', georgia, 'times new roman', times, serif;
+    font-family: 'roboto slab', georgia, 'times new roman', times, serif;
     font-feature-settings: "onum" 1;
 }
 h1 {
@@ -208,7 +208,7 @@ header {
     margin: 0;
     padding: 11px 0 11px 0;
 }
-.chat ul li:first-chil {
+.chat ul li:first-child {
     padding-top: 0;
 }
 .chat ul li .label {
@@ -605,7 +605,8 @@ pre:hover {
 a.github {
     position: absolute;
     z-index: 99;
-    top: 0, left: 2em;
+    top: 0;
+    left: 2em;
     text-transform: uppercase;
     text-decoration: none;
     font: georgia,arial;
@@ -767,7 +768,8 @@ p:hover,li:hover {
         -o-transform: rotate(180deg);
         -ms-transform: rotate(180deg);
     }
-}@media only screen and (max-width: 1280px) {
+}
+@media only screen and (max-width: 1280px) {
 #tumblr_controls {
     display: none !important;
 }

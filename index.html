@@ -107,7 +107,7 @@ The plugin adds a <code>convertCss</code> task for converting your groocss files
 For example:</p>
 
 <pre><code>plugins {
-  id "org.groocss.groocss-gradle-plugin" version "0.9"
+  id "org.groocss.groocss-gradle-plugin" version "0.12"
 }
 def cssDir = "$parent.buildDir/../www/css"
 
@@ -143,7 +143,7 @@ For example, files ending in <code>.css.groovy</code> will be converted to files
 
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath 'org.groocss:groocss:0.8' }
+    dependencies { classpath 'org.groocss:groocss:0.12' }
 }
 task css &lt;&lt; {
     def file = file('css/out.css')
@@ -174,7 +174,7 @@ _.box {
   color myColor
   borderColor '#fdcdea'
 }
-_.box ^ div {
+_.box div {
   boxShadow '0 0 5px rgba(0, 0, 0, 0.3)'
 }
 table {

@@ -13,7 +13,7 @@ sg '::selection', {
   background '#8fc045'
   color '#ffffff'
 }
-		
+
 html | body {}
 
 sg '#links,#search,#posts,#disqus,#notes,#posts footer', {
@@ -38,7 +38,7 @@ sg '#disqus,#notes,#posts footer', {
     maxWidth '650px'
 }
 
-_.post ^ h3 | _.post ^ p | _.post ^ _.caption | _.post ^ _.description | _.post ^ blockquote | 
+_.post ^ h3 | _.post ^ p | _.post ^ _.caption | _.post ^ _.description | _.post ^ blockquote |
 _.post ^ ul | _.post ^ ol | _.chat ^ ul | _.response {
     extend '#disqus,#notes,#posts footer'
 }
@@ -52,7 +52,7 @@ sg '.tmblr-iframe', {
 		********************/
 		
 sg 'body, .quote h3:before', {
-  fontFamily "lora', georgia, 'times new roman', times, serif"
+  fontFamily "'lora', georgia, 'times new roman', times, serif"
     fontSize 18.px; /* 18px */
     lineHeight 1.66666667.em; /* 30px */
   fontWeight 400
@@ -61,15 +61,15 @@ sg 'body, .quote h3:before', {
 }
 		
 sg '.navigation a, #posts footer, #links li a, .post-date a, #notes .notes li, .copyright, .copyright a', {
-  fontFamily "montserrat', arial, helvetica, sans-serif"
+  fontFamily "'montserrat', arial, helvetica, sans-serif"
     }
 		
 sg '.menu .nav-button .close', {
-  fontFamily "jura', 'montserrat', arial, helvetica, sans-serif"
+  fontFamily "'jura', 'montserrat', arial, helvetica, sans-serif"
 }
 		
 h1 | h2 | h3 | h4 | h5 | h6 | blockquote {
-  fontFamily "roboto slab', georgia, 'times new roman', times, serif"
+  fontFamily "'roboto slab', georgia, 'times new roman', times, serif"
   add style('font-feature-settings', '"onum" 1')
 }
 		
@@ -283,7 +283,7 @@ _.chat ^ ul ^ li {
   padding '11px 0 11px 0'
 }
 		
-sg '.chat ul li:first-chil', {
+_.chat ^ ul ^li % firstChild {
   paddingTop 0
 }
 		
@@ -892,7 +892,8 @@ keyframes 'phover', {
 a.github {
   position 'absolute'
   zIndex 99
-  top '0, left: 2em'
+  top 0
+  left 2.em
   textTransform 'uppercase'
   textDecoration 'none'
   font 'georgia,arial'

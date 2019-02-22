@@ -1,4 +1,4 @@
-@Grab('org.groocss:groocss:0.10.1')
+@Grab('org.groocss:groocss:0.12')
 import org.groocss.GrooCSS
 
 def css = GrooCSS.withConfig { prettyPrint() }.process {

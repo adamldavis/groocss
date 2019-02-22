@@ -195,7 +195,8 @@ header.page-header {
 }
 .site-footer-credits {
     color: #819198;
-}@media screen and (min-width: 64em) {
+}
+@media screen and (min-width: 64em) {
 .btn {
     padding: 0.75rem 1rem;
 }

@@ -1,10 +1,11 @@
 *~
 *.bak
+*.cya
 build/
 groocss-gradle-plugin/
 .idea
 .eclipse
 .gradle
 sources/
-
+main.css
 

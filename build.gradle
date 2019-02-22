@@ -1,5 +1,5 @@
 /**
-   Copyright 2016, Adam L. Davis
+   Copyright 2016-2019, Adam L. Davis
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
    limitations under the License.
 */
 plugins {
-    id "org.groocss.groocss-gradle-plugin" version "0.10.1"
+    id "org.groocss.groocss-gradle-plugin" version "0.12"
     id "java"
     id "groovy"
 }
@@ -33,7 +33,7 @@ groocssfiles {
 }
 
 ext {
-    groocssVer = "0.10.1"
+    groocssVer = "0.12"
 }
 configurations {
     sources
@@ -58,7 +58,7 @@ task buildDocs(type: Groovydoc, dependsOn: 'unzipSources', description: 'Builds 
     destinationDir = file("docs/$groocssVer")
     docTitle = "GrooCSS $groocssVer"
     classpath = sourceSets.main.output + sourceSets.main.compileClasspath
-    link 'http://docs.oracle.com/javase/7/docs/api/', 'java.util', 'java.lang', 'java.awt', 'java.math', 'java.io'
+    link 'https://docs.oracle.com/javase/8/docs/api/', 'java.util', 'java.lang', 'java.awt', 'java.math', 'java.io'
     link 'http://docs.groovy-lang.org/latest/html/api/', 'groovy.lang', 'groovy.transform', 'groovy.json'
     source "sources"
 }
