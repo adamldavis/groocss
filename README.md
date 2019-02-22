@@ -47,6 +47,10 @@ It was created by Adam L. Davis (@adamldavis) and inspired by the many other Gro
 - Added ability to configure to use some element names as style-classes just in case you need "main" for example to be used as a style-class.
 - Added imports, raw, and comment (ability to import file/reader/stream with parameters; and ability to include comments for output)
 - Gradle GroocssTask now extends Copy task and supports -t option (requires Gradle 4)
+- 0.12 Support for transitions using closures.
+- 0.12 Improvements to the CSS Translator
+
+*The best way to learn is to look at the tests.* 
 
 ## Using Gradle with Plugin
 
@@ -55,7 +59,7 @@ The plugin adds a `convertCss` task for converting your groocss files into css.
 For example:
 
     plugins {
-      id "org.groocss.groocss-gradle-plugin" version "0.11.1"
+      id "org.groocss.groocss-gradle-plugin" version "0.12"
     }
     def cssDir = "$parent.buildDir/../www/css"
 
@@ -308,3 +312,11 @@ You can use the Translator to convert existing CSS into GrooCSS syntax:
 
 This allows you to get started quickly with GrooCSS in existing projects.
 
+## Transitions
+
+Allows you to specify one or more transitions using closures. Example:
+
+    _.highlight {
+        transition {flex '2s'} {borderColor '1s' ease '0'}
+    }
+    
