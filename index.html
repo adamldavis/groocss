@@ -72,6 +72,14 @@
             <li>Follow me on <a href="https://twitter.com/groocss">Twitter</a>.</li>
         </ol>
 
+        <h2>New in 0.12</h2>
+
+        <p>Gradle GroocssTask now extends Copy task and supports -t option (requires Gradle 4)</p>
+        <p>Support for transitions using closures. Ex:
+        <code>transition {flex '2s'} {borderColor '1s' ease '0'}</code>
+        </p>
+        <p>Improvements to the CSS Translator</p>
+
         <h2><a id="new-in-11" class="anchor" href="#new-in-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.11</h2>
         <p>The ability to import other groocss files is supported by importFile, importStream, and importString methods which take
             a parameter map and input. For example:</p>
@@ -216,6 +224,17 @@ p &gt;&gt; a { color blue }       //&gt;&gt; =&gt; &gt;
 p * a { color blue }        // * =&gt; *
 p - a { color blue }        // - =&gt; ~(tilde)
 p ^ a { color blue }        // ^ =&gt;  (space)
+</code></pre>
+
+        <h3>XOR Not always needed</h3>
+        <p>For many cases, XOR is not actually needed. For example (CSS on left):</p>
+<pre><code>
+"div p.test a{text-decoration: none;}" => { div p.test a { textDecoration 'none' } }
+"div.man p.test a{text-decoration: none;}" => { div.man p.test a { textDecoration 'none' } }
+"div.man .test a{text-decoration: none;}" => { div.man _.test a { textDecoration 'none' } }
+"body div p a{text-decoration: none;}" => { body div p a { textDecoration 'none' } }
+"body div.test p a{text-decoration: none;}" => { body div.test p a { textDecoration 'none' } }
+"body div.test p li a{text-decoration: none;}" => { body div.test p li a { textDecoration 'none' } }
 </code></pre>
 
 <h3>
