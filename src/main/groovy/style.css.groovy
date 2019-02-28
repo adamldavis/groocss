@@ -919,7 +919,7 @@ a%hover {
   translateX(2.px)
 }
 body {
-  animation 'colorfade 5s 1'
+  animation 'colorfade 2s 1'
 }
 /** Padding around stuff */
 p | li { padding 0.3.em }

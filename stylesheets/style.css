@@ -643,10 +643,10 @@ a:hover {
     -ms-transform: translateX(2px);
 }
 body {
-    animation: colorfade 5s 1;
-    -webkit-animation: colorfade 5s 1;
-    -moz-animation: colorfade 5s 1;
-    -o-animation: colorfade 5s 1;
+    animation: colorfade 2s 1;
+    -webkit-animation: colorfade 2s 1;
+    -moz-animation: colorfade 2s 1;
+    -o-animation: colorfade 2s 1;
 }
 p,li {
     padding: 0.3em;

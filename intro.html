@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Getting Started</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" media="screen">
+</head>
+<body class="main-content">
+
+    <h1>Getting Started</h1>
+
+    <ol>
+        <li>See <a href="script.groovy">script.groovy</a> for a simple example using a groovy script.</li>
+        <li>Read about the <a href="gradle.html">Gradle Plugin</a>.</li>
+        <li>Read more about the features, such as <a href="math.html">math</a>,
+            <a href="config.html">Config</a> and <a href="other.html">other</a>.</li>
+        <li>Follow me on <a href="https://twitter.com/groocss">Twitter</a>.</li>
+    </ol>
+
+    <h2>
+        <a id="using-gradle-without-plugin" class="anchor" href="#using-gradle-without-plugin" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Gradle without Plugin</h2>
+
+    <p>I recommend you use GrooCSS with either the
+        <a href="gradle.html">Gradle plugin</a> or
+        <a href="https://github.com/bertramdev/asset-pipeline/tree/master/groocss-asset-pipeline">asset-pipeline</a>, but it can be used by itself.</p>
+
+    <pre><code>import org.groocss.GrooCSS
+
+    buildscript {
+        repositories { jcenter() }
+        dependencies { classpath 'org.groocss:groocss:0.12' }
+    }
+    task css &lt;&lt; {
+        def file = file('css/out.css')
+        GrooCSS.process {
+            // DSL goes here
+        }.writeTo(file)
+    }
+    </code></pre>
+
+
+    <h3>
+        <a id="using-convert-methods" class="anchor" href="#using-convert-methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using convert methods</h3>
+
+    <pre><code>GrooCSS.convertFile('infile.groocss', 'outfile.css')
+    //or
+    GrooCSS.convert(new File('in'), new File('out'))
+    </code></pre>
+
+
+    <footer>Back to <a href="index.html">home</a>. <a href="gradle.html" class="btn">Next</a></footer>
+</body>
+</html>

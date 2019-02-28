@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gradle Plugin</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" media="screen">
+</head>
+<body class="main-content">
+
+    <h1>Gradle Plugin</h1>
+
+    <p>There's a <code>GroocssTask</code>
+        <a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin">available</a>
+        that extends Gradle's CopyTask to give you finer-grained control
+        of how to convert your files.
+        Here's an example using a task:</p>
+
+    <pre><code>plugins {
+    id "org.groocss.groocss-gradle-plugin" version "0.12"
+}
+def cssDir = "$parent.buildDir/../www/css"
+
+task css(type: org.groocss.GroocssTask, dependsOn: convertCss) {
+    conf = new org.groocss.Config(compress: true, addOpera: false)
+    from 'index.groocss'
+    into "$cssDir/index.css.min"
+}
+    </code></pre>
+
+    <p>To process multiple files
+        <code>from</code> and <code>into</code> can be directories (it will assume groocss files end in <code>.groovy</code> or <code>.groocss</code>).
+        For example, files ending in <code>.css.groovy</code> will be converted to files ending in <code>.css</code>.
+    </p>
+
+    <a href="config.html">See this page for more about Config.</a>
+
+    <p>Using Gradle 4 or later you can use the "-t" command line option to continuously update your files.
+    In other words, every time you change a .css.groovy file it will be automatically converted to a css file.</p>
+
+    <p>See <a href="https://github.com/adamldavis/learning-groovy">learning-groovy</a> for a working example (subproject2).</p>
+
+    <footer>Back to <a href="index.html">home</a>. <a href="new.html" class="btn">Next</a></footer>
+</body>
+</html>
