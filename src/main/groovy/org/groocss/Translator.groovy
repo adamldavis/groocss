@@ -118,6 +118,9 @@ class Translator {
             process line[(i + 1)..(end - 1)], pw, state
             if (end > 0) process line[end], pw, state
             break
+        case '':
+            pw.println('')
+            break
         default:
             println "warning: unmatched line (using raw): $originalLine"
             pw.println "raw '$originalLine'"

@@ -22,6 +22,9 @@ class StyleGroup extends Selectable implements CSSPart {
     MediaCSS owner
     StyleGroup current = this
 
+    @Delegate
+    final ColorMethods colorMethods = new ColorMethods()
+
     /** Adds given style to this StyleGroup.
      * @return this StyleGroup. */
     StyleGroup add(Style style) { styles << style; this }

@@ -100,7 +100,7 @@ class AnimationSpec extends Specification {
     def "should allow creating keyframes within animation command"() {
         when:
         def css = GrooCSS.withConfig { noExts() } process {
-            get_().move {
+            sg('.move') {
                 animation('mymove') {
                     from {
                         top 0
