@@ -7,7 +7,7 @@ class StaticCompileSpec extends Specification {
 
     def "static css with sg"() {
         when:
-        def css = GrooCSS.process {
+        def css = 'test1'.groocss {
             sg('.a') { color whiteSmoke.mix(blue) }
             sg('.b') { color tint(olive) fontSize 2.cm }
             'html body a[id]:hover:active'.sg {
@@ -21,7 +21,7 @@ class StaticCompileSpec extends Specification {
 
     def "static css with \$"() {
         when:
-        def css = GrooCSS.process {
+        def css = 'test2'.groocss {
             $('.a') { color whiteSmoke.mix(blue) }
             $('.b') { color tint(olive) fontSize 2.cm }
             'html body a[id]:hover:active'.$ {

@@ -13,6 +13,16 @@ class StringExtensionSpec extends Specification {
         gcss = new GrooCSS() // need to do this to set the ThreadLocal value
     }
 
+    def "should create GrooCSS dsl from string"() {
+        expect:
+        'my css'.groocss { section { color red } } instanceof GrooCSS
+    }
+
+    def "should create GrooCSS dsl from string with config"() {
+        expect:
+        'main.css'.groocss(new Config(compress: true)) { body { color red } } instanceof GrooCSS
+    }
+
     def "should create color using .color"() {
         expect:
         '123456'.color instanceof Color

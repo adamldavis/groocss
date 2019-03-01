@@ -2,13 +2,26 @@ package org.groocss.ext
 
 import groovy.transform.CompileStatic
 import org.groocss.Color
+import org.groocss.Config
 import org.groocss.GrooCSS
 import org.groocss.KeyFrames
 import org.groocss.MediaCSS
 import org.groocss.StyleGroup
 
+/**
+ * Provides string extensions for GrooCSS to allow for static compilation and code completion.
+ */
 @CompileStatic
 class StringExtension {
+
+    /**
+     * Useful for starting a GrooCSS DSL without importing anything ('main.css'.groocss { CSS DSL }).
+     * To use config use: 'main.css'.groocss(new Config()) { CSS DSL }.
+     **/
+    static GrooCSS groocss(String string, Config config = new Config(), @DelegatesTo(GrooCSS) Closure closure) {
+        println "processing $string"
+        GrooCSS.process(config, closure)
+    }
 
     /** Useful for image urls: allows 'images/image.png'.url syntax. */
     static String getUrl(String str) { 'url(' + str + ')' }
