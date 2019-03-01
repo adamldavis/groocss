@@ -99,14 +99,14 @@ div &gt; p { color: #eee; }
     <pre><code>def css = GrooCSS.process {
     def sea = c('5512ab') //OR rgb(85, 18, 171)
     _.sea {
-        color sea.darker()
+        color darken(sea)
         background sea.brighter()
         border "5px solid ${sea.alpha(0.5)}"
     }
 }
 </code></pre>
 
-    <p class="strong">See the <a href="docs/0.10.1/org/groocss/Color.html">javadoc</a> for all available methods.</p>
+    <p class="strong">See the <a href="docs/1.0-M1/org/groocss/ColorMethods.html">javadoc</a> for all available methods.</p>
 
     <p>You can also use named colors:</p>
 

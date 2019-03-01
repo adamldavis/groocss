@@ -21,7 +21,7 @@
       <a href="https://bintray.com/adamldavis/maven/GrooCSS" class="btn" rel="me">Bintray</a>
       <a href="http://blag.groocss.org" class="btn">Blog</a>
       <a href="https://twitter.com/groocss" class="btn" rel="me">Twitter</a>
-        <a href="docs/0.12/index.html" class="btn">Docs</a>
+        <a href="docs/1.0-M1/index.html" class="btn">Docs</a>
         <a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin" class="btn">Gradle Plugin</a>
     </header>
 
@@ -77,26 +77,52 @@
         <a class="btn" href="config.html">Config</a>
         <a class="btn" href="other.html">Other</a>
 
-
         <h2>
-        <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
+            <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>
+            </a>Examples</h2>
+
+        <h3>Static DSL Code Completion</h3>
+
+      <p>From 1.0-M1 onwards, GrooCSS uses groovy extension modules to extend String, Integer, and Number
+          so the following syntax can be used fully with IDE code completion.</p>
+
+      <pre><code>def myColor = 'fe33ac'.color
+
+'.box'.sg {             //sg or $ can be used interchangeably whichever you prefer
+  color myColor
+  borderColor whiteSmoke // borderColor becomes border-color
+  padding 2.em          // resolves to 2em
+}
+table {
+    color myColor background black //fluent
+}
+'table.myClass'.$ {
+    color myColor.darker()
+}
+"input['class$=test']".$ {
+    background yellow
+}
+'formId'.id {       // resolves to #formId
+    minWidth 100.px // resolves to 100px
+}
+$('.box div') {
+  boxShadow '0 0 5px rgba(0, 0, 0, 0.3)'
+}</code></pre>
+
 
         <h3>
-        <a id="styles-dsl" class="anchor" href="#styles-dsl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Styles DSL</h3>
+        <a id="styles-dsl" class="anchor" href="#styles-dsl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dynamic Styles DSL</h3>
 
 <pre><code>def myColor = c('#fe33ac')
 
-_.box {
+_.box {           // _.box becomes .box
   color myColor
   borderColor '#fdcdea'
-}
-_.box div {
-  boxShadow '0 0 5px rgba(0, 0, 0, 0.3)'
 }
 table {
     color myColor
 }
-table.myClass {
+table.my_class {           //can be configured to replace _ with -
     color myColor.darker()
 }
 input['class$="test"'] = {
@@ -104,6 +130,9 @@ input['class$="test"'] = {
 }
 sg '#formId', {     // sg useful for ID's
     minWidth 100.px // resolves to 100px
+}
+_.box div {
+  boxShadow '0 0 5px rgba(0, 0, 0, 0.3)'
 }
 p + div {
     border '1px solid black'
@@ -131,7 +160,7 @@ p ^ a { color blue }        // ^ =&gt;  (space)
 <p>If you prefer having NO dynamic code (all static) use the <code>sg</code> method whenever a styleClass is needed.
 For example:</p>
 
-      <code>sg 'div p.test a', { /*DSL*/ }</code>
+      <code>sg 'div p.test a', { /*DSL*/ }</code> or <code>'div p.test a'.sg { /*DSL*/ }</code>
 
 
           <footer class="site-footer">
