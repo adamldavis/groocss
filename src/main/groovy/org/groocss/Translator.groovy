@@ -20,7 +20,7 @@ import groovy.transform.TypeChecked
 import java.util.regex.Matcher
 
 /**
- * Translates from/to CSS.
+ * Translates from/to CSS. WARNING: EXPERIMENTAL, DO NOT ASSUME IT WORKS.
  */
 @TypeChecked
 class Translator {
@@ -28,7 +28,7 @@ class Translator {
     interface Printer { void println(Object value) }
     interface Reader { void eachLine(Closure closure) }
 
-    /** Converts from CSS to Groocss. */
+    /** Converts files from CSS to GrooCSS (WARNING: EXPERIMENTAL, DO NOT ASSUME IT WORKS). */
     static void convertFromCSS(File inf, File out) {
         out.withPrintWriter { pw -> convertFromCSS(new Reader() {
             void eachLine(Closure closure) { inf.eachLine closure }
@@ -37,6 +37,7 @@ class Translator {
         }) }
     }
 
+    /** Converts files from CSS to GrooCSS (WARNING: EXPERIMENTAL, DO NOT ASSUME IT WORKS). */
     static String convertFromCSS(String text) {
         StringBuilder sb = new StringBuilder()
         convertFromCSS(new Reader() {
@@ -47,7 +48,7 @@ class Translator {
         sb.toString()
     }
 
-    /** Converts from CSS to Groocss. */
+    /** Converts files from CSS to GrooCSS (WARNING: EXPERIMENTAL, DO NOT ASSUME IT WORKS). */
     static void convertFromCSS(Reader inf, Printer pw) {
         def state = [:]
         inf.eachLine { String originalLine ->

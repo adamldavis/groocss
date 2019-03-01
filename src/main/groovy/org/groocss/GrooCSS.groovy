@@ -35,6 +35,8 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     }
     static void convertFile(Config conf = new Config(), File inf, File out) { convert conf, inf, out }
 
+    /** Converts files from CSS to GrooCSS (WARNING: EXPERIMENTAL, DO NOT ASSUME IT WORKS). */
+    @Deprecated
     static void convertFromCSS(File inf, File out) {
         Translator.convertFromCSS inf, out
     }
