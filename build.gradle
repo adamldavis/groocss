@@ -81,12 +81,15 @@ task release(dependsOn: bintrayUpload, description: 'Uploads artifacts to bintra
 task inc(description: 'Increments the project version and appends -SNAPSHOT') doLast { incrementVersion() }
 
 def incrementVersion() {
-    def props = file('gradle.properties')
-    def text = props.text
-    def i = text.indexOf('=')
-    def nums = text[(i+1)..-1].trim().split(/\./)
+    def props = new Properties()
+    def f = file('gradle.properties')
+    f.withInputStream { props.load(it) }
+    def version = props.getProperty('version')
+    def nums = version.trim().split(/\.|(-M)/)
     nums[-1] = (nums[-1] as int) + 1
-    props.text = "${text[0..i]}${nums.join('.')}-SNAPSHOT\n"
+    def newVersion = version.contains('M') ? "${nums[0..-2].join('.')}-M${nums[-1]}" : "${nums.join('.')}"
+    props.setProperty('version', newVersion + '-SNAPSHOT')
+    f.withOutputStream {props.store(it, 'gradle properties')}
 }
 
 task pom doFirst {
