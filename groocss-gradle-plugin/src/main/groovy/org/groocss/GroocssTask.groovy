@@ -7,9 +7,9 @@ import org.gradle.api.internal.file.CopyActionProcessingStreamAction
 import org.gradle.api.internal.file.copy.CopyAction
 import org.gradle.api.internal.file.copy.CopyActionProcessingStream
 import org.gradle.api.internal.file.copy.FileCopyDetailsInternal
-import org.gradle.api.internal.tasks.SimpleWorkResult
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.WorkResult
+import org.gradle.api.tasks.WorkResults
 import org.gradle.internal.file.PathToFileResolver
 
 /** Converts GrooCSS files using the same features as the Copy task. */
@@ -31,7 +31,7 @@ class GroocssTask extends Copy {
                 }
                 def action = new GroocssFileAction(fileLookup.getFileResolver(destinationDir), conf, rootSpec)
                 stream.process(action)
-                return new SimpleWorkResult(action.didWork)
+                return WorkResults.didWork(action.didWork)
             }
         }
     }
