@@ -22,13 +22,14 @@ import java.util.regex.*
 @CompileStatic
 @TupleConstructor
 @EqualsAndHashCode
-class Style {
+@MapConstructor
+class Style implements CSSPart {
 
     /** Name of the Style (in camel-case) .*/
     String name
 
-    /** Value for this style, as a String. */
-    String value
+    /** Value for this style, usually a String or Measurement. */
+    Object value
     
     String toString() { nameToDashed() + ": $value;" }
     
@@ -45,4 +46,8 @@ class Style {
         result
     }
 
+    @Override
+    boolean isEmpty() {
+        return value == ''
+    }
 }

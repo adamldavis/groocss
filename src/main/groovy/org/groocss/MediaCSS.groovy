@@ -15,6 +15,12 @@ limitations under the License.
  */
 package org.groocss
 
+import groovy.transform.CompileStatic
+import org.groocss.valid.DefaultValidator
+import org.groocss.valid.Processor
+
+import java.lang.reflect.ParameterizedType
+
 /**
  * Root node for CSS which might be characterized by a media type. Created by adavis on 8/10/16.
  */
@@ -74,7 +80,50 @@ class MediaCSS implements CSSPart {
         sb.toString()
     }
 
+    @CompileStatic
+    private void doProcessing() {
+        if (config.processors == null) config.processors = []
+        if (!(config.processors.any { it.class == DefaultValidator.class })) {
+            config.processors.add new DefaultValidator()
+        }
+        List<String> errors = []
+        errors.addAll doProcessing(Processor.Phase.PRE_VALIDATE)
+        if (errors) handleErrors(errors)
+        errors.addAll doProcessing(Processor.Phase.VALIDATE)
+        if (errors) handleErrors(errors)
+        errors.addAll doProcessing(Processor.Phase.POST_VALIDATE)
+        if (errors) handleErrors(errors)
+    }
+
+    def handleErrors(List<String> errors) {
+        throw new AssertionError("There were errors: $errors")
+    }
+
+    @CompileStatic
+    private List<String> doProcessing(Processor.Phase phase) {
+        List<String> errors = []
+        List<? extends CSSPart> parts = []
+        config.processors.each { proc ->
+            Class<CSSPart> type = ((ParameterizedType) proc.class.genericInterfaces[0]).actualTypeArguments[0]
+            switch (type) {
+                case Style: groups.findAll{it instanceof StyleGroup}.collect{(StyleGroup)it}.each { StyleGroup sg ->
+                    parts.addAll sg.styleList }
+                    break
+                case StyleGroup: parts.addAll groups.findAll{it instanceof StyleGroup}; break
+                case Raw: parts.addAll groups.findAll{it instanceof Raw}; break
+                case MediaCSS: parts.addAll otherCss; break
+                case FontFace: parts.addAll fonts; break
+                case KeyFrames: parts.addAll kfs; break
+                default: parts.addAll groups; break
+            }
+            parts.each { proc.process(it, phase).ifPresent(errors.&add) }
+        }
+        errors
+    }
+
+    @CompileStatic
     void writeTo(Appendable writer) {
+        doProcessing()
         def sn = config.compress ? '' : '\n'
         def charset = config.charset
 

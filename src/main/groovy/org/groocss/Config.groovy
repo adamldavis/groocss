@@ -16,13 +16,18 @@ limitations under the License.
 package org.groocss
 
 import groovy.transform.Canonical
+import groovy.transform.CompileStatic
+import groovy.transform.MapConstructor
 import groovy.transform.builder.Builder
+import org.groocss.valid.Processor
 
 /**
  * Configuration for GrooCSS conversions.
  */
+@MapConstructor
 @Canonical
 @Builder
+@CompileStatic
 class Config {
 
     boolean addWebkit = true,
@@ -41,10 +46,17 @@ class Config {
      * Default is false. */
     boolean convertUnderline = false
 
+    /** Custom processors/validators to use.
+     * @see Processor
+     * @see org.groocss.valid.DefaultValidator
+     */
+    Set<Processor> processors = []
+
     Config() {}
 
-    Config(Map map) {
-        this.properties.keySet().each { if (it != 'class' && map.containsKey(it)) this[it] = map[it] }
+    Config withProcessors(Collection<Processor> list) {
+        processors.addAll(list)
+        this
     }
 
     /** Add one Element-name, like 'link', that you only want to use as CSS class. */
