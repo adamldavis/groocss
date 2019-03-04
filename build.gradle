@@ -24,8 +24,8 @@ project.group = 'org.groocss'
 applicationName = "groocss"
 mainClassName= 'org.groocss.Main'
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 task zipDocs(type: Jar) {
     dependsOn 'groovydoc'
