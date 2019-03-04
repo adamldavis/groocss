@@ -33,5 +33,18 @@ class StaticCompileSpec extends Specification {
         css.groups.size() == 3
     }
 
+    def "converting a file should work with StringExtensions"() {
+        given:
+        def temp = new File('build/temp')
+        temp.mkdirs()
+        when:
+        def file = new File(temp,'test.groocss')
+        def file2 = new File(temp,'test.css')
+        file.text = '\'.a\'.sg { color blue }'
+        GrooCSS.process(file.newInputStream(), file2.newOutputStream())
+        then:
+        file2.text == '.a{color: Blue;}'
+    }
+
 }
 
