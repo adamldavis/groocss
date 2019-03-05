@@ -147,10 +147,10 @@ class StyleGroup extends Selectable implements CSSPart {
         styleList.empty && transform.empty
     }
 
-    Style cloneWebkit(Style s) { new Style(name: '-webkit-' + s.name, value: s.value) }
-    Style cloneMoz(Style s) { new Style(name: '-moz-' + s.name, value: s.value) }
-    Style cloneMs(Style s) { new Style(name: '-ms-' + s.name, value: s.value) }
-    Style cloneOpera(Style s) { new Style(name: '-o-' + s.name, value: s.value) }
+    Style cloneWebkit(Style s) { new Style('-webkit-' + s.name, s.value) }
+    Style cloneMoz(Style s) { new Style('-moz-' + s.name,  s.value) }
+    Style cloneMs(Style s) { new Style('-ms-' + s.name, s.value) }
+    Style cloneOpera(Style s) { new Style('-o-' + s.name,  s.value) }
     void cloneTrio(Style style) {
         styles.addAll createWebkitMozOpera(style)
     }
@@ -164,29 +164,29 @@ class StyleGroup extends Selectable implements CSSPart {
 
     /** Sets the alignment between the lines inside a flexible container when the items do not use all available space */
     StyleGroup alignContent (value) {
-        styles << new Style(name: 'alignContent', value: "$value")
+        styles << new Style('alignContent', value)
         this
     }
     /** Sets the alignment for items inside a flexible container */
     StyleGroup alignItems (value) {
-        styles << new Style(name: 'alignItems', value: "$value")
+        styles << new Style('alignItems', value)
         this
     }
     /** Sets the alignment for selected items inside a flexible container */
     StyleGroup alignSelf (value) {
-        styles << new Style(name: 'alignSelf', value: "$value")
+        styles << new Style('alignSelf', value)
         this
     }
     /** A shorthand property for all the animation properties below, except the animationPlayState property */
     StyleGroup animation (value) {
-        styles << new Style(name: 'animation', value: "$value")
+        styles << new Style('animation', value)
         cloneTrio(styles[-1])
         this
     }
 
     /** A shorthand property for all the animation properties below, plus a closure to define keyframes. */
     StyleGroup animation (value, @DelegatesTo(value=KeyFrames, strategy=Closure.DELEGATE_FIRST) Closure closure) {
-        String strValue = "$value"
+        String strValue = value
         styles << new Style(name: 'animation', value: strValue)
         cloneTrio(styles[-1])
         String name = strValue =~ /\s/ ? strValue.split(/\s/)[0] : strValue
@@ -200,60 +200,60 @@ class StyleGroup extends Selectable implements CSSPart {
 
     /** Sets when the animation will start */
     StyleGroup animationDelay (value) {
-        styles << new Style(name: 'animationDelay', value: "${validateTime value}")
+        styles << new Style(name: 'animationDelay', value: validateTime(value))
         cloneTrio(styles[-1])
         this
     }
     /** Sets whether or not the animation should play in reverse on alternate cycles */
     StyleGroup animationDirection (value) {
-        styles << new Style(name: 'animationDirection', value: "$value")
+        styles << new Style('animationDirection', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets how many seconds or milliseconds an animation takes to complete one cycle */
     StyleGroup animationDuration (value) {
-        styles << new Style(name: 'animationDuration', value: "${validateTime value}")
+        styles << new Style(name: 'animationDuration', value: validateTime(value))
         cloneTrio(styles[-1])
         this
     }
     /** Sets what values are applied by the animation outside the time it is executing */
     StyleGroup animationFillMode (value) {
-        styles << new Style(name: 'animationFillMode', value: "$value")
+        styles << new Style('animationFillMode', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets the number of times an animation should be played */
     StyleGroup animationIterationCount (value) {
-        styles << new Style(name: 'animationIterationCount', value: "$value")
+        styles << new Style('animationIterationCount', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets a name for the @keyframes animation */
     StyleGroup animationName (value) {
-        styles << new Style(name: 'animationName', value: "$value")
+        styles << new Style('animationName', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets the speed curve of the animation */
     StyleGroup animationTimingFunction (value) {
-        styles << new Style(name: 'animationTimingFunction', value: "$value")
+        styles << new Style('animationTimingFunction', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets whether the animation is running or paused */
     StyleGroup animationPlayState (value) {
-        styles << new Style(name: 'animationPlayState', value: "$value")
+        styles << new Style('animationPlayState', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets all the background properties in one declaration */
     StyleGroup background (value) {
-        styles << new Style(name: 'background', value: "$value")
+        styles << new Style('background', value)
         this
     }
     /** Sets whether a background-image is fixed or scrolls with the page */
     StyleGroup backgroundAttachment (value) {
-        styles << new Style(name: 'backgroundAttachment', value: "$value")
+        styles << new Style('backgroundAttachment', value)
         this
     }
     /** Sets the background-color of an element */
@@ -263,47 +263,47 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets the background-image for an element */
     StyleGroup backgroundImage (value) {
-        styles << new Style(name: 'backgroundImage', value: "$value")
+        styles << new Style('backgroundImage', value)
         this
     }
     /** Sets the starting position of a background-image */
     StyleGroup backgroundPosition (value) {
-        styles << new Style(name: 'backgroundPosition', value: "$value")
+        styles << new Style('backgroundPosition', value)
         this
     }
     /** Sets how to repeat (tile) a background-image */
     StyleGroup backgroundRepeat (value) {
-        styles << new Style(name: 'backgroundRepeat', value: "$value")
+        styles << new Style('backgroundRepeat', value)
         this
     }
     /** Sets the painting area of the background */
     StyleGroup backgroundClip (value) {
-        styles << new Style(name: 'backgroundClip', value: "$value")
+        styles << new Style('backgroundClip', value)
         this
     }
     /** Sets the positioning area of the background images */
     StyleGroup backgroundOrigin (value) {
-        styles << new Style(name: 'backgroundOrigin', value: "$value")
+        styles << new Style('backgroundOrigin', value)
         this
     }
     /** Sets the size of the background image */
     StyleGroup backgroundSize (value) {
-        styles << new Style(name: 'backgroundSize', value: "$value")
+        styles << new Style('backgroundSize', value)
         this
     }
     /** Sets whether or not an element should be visible when not facing the screen */
     StyleGroup backfaceVisibility (value) {
-        styles << new Style(name: 'backfaceVisibility', value: "$value")
+        styles << new Style('backfaceVisibility', value)
         this
     }
     /** Sets borderWidth, borderStyle, and borderColor in one declaration */
     StyleGroup border (value) {
-        styles << new Style(name: 'border', value: "$value")
+        styles << new Style('border', value)
         this
     }
     /** Sets all the borderBottom* properties in one declaration */
     StyleGroup borderBottom (value) {
-        styles << new Style(name: 'borderBottom', value: "$value")
+        styles << new Style('borderBottom', value)
         this
     }
     /** Sets the color of the bottom border */
@@ -313,27 +313,27 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets the shape of the border of the bottom-left corner */
     StyleGroup borderBottomLeftRadius (value) {
-        styles << new Style(name: 'borderBottomLeftRadius', value: "$value")
+        styles << new Style('borderBottomLeftRadius', value)
         this
     }
     /** Sets the shape of the border of the bottom-right corner */
     StyleGroup borderBottomRightRadius (value) {
-        styles << new Style(name: 'borderBottomRightRadius', value: "$value")
+        styles << new Style('borderBottomRightRadius', value)
         this
     }
     /** Sets the style of the bottom border */
     StyleGroup borderBottomStyle (value) {
-        styles << new Style(name: 'borderBottomStyle', value: "$value")
+        styles << new Style('borderBottomStyle', value)
         this
     }
     /** Sets the width of the bottom border */
     StyleGroup borderBottomWidth (value) {
-        styles << new Style(name: 'borderBottomWidth', value: "${validateLength(value)}")
+        styles << new Style(name: 'borderBottomWidth', value: validateLength(value))
         this
     }
     /** Sets whether the table border should be collapsed into a single border, or not */
     StyleGroup borderCollapse (value) {
-        styles << new Style(name: 'borderCollapse', value: "$value")
+        styles << new Style('borderCollapse', value)
         this
     }
     /** Sets the color of an element's border (can have up to four values) */
@@ -343,37 +343,37 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** A shorthand property for setting or returning all the borderImage* properties */
     StyleGroup borderImage (value) {
-        styles << new Style(name: 'borderImage', value: "$value")
+        styles << new Style('borderImage', value)
         this
     }
     /** Sets the amount by which the border image area extends beyond the border box */
     StyleGroup borderImageOutset (value) {
-        styles << new Style(name: 'borderImageOutset', value: "$value")
+        styles << new Style('borderImageOutset', value)
         this
     }
     /** Sets whether the image-border should be repeated, rounded or stretched */
     StyleGroup borderImageRepeat (value) {
-        styles << new Style(name: 'borderImageRepeat', value: "$value")
+        styles << new Style('borderImageRepeat', value)
         this
     }
     /** Sets the inward offsets of the image-border */
     StyleGroup borderImageSlice (value) {
-        styles << new Style(name: 'borderImageSlice', value: "$value")
+        styles << new Style('borderImageSlice', value)
         this
     }
     /** Sets the image to be used as a border */
     StyleGroup borderImageSource (value) {
-        styles << new Style(name: 'borderImageSource', value: "$value")
+        styles << new Style('borderImageSource', value)
         this
     }
     /** Sets the widths of the image-border */
     StyleGroup borderImageWidth (value) {
-        styles << new Style(name: 'borderImageWidth', value: "$value")
+        styles << new Style('borderImageWidth', value)
         this
     }
     /** Sets all the borderLeft* properties in one declaration */
     StyleGroup borderLeft (value) {
-        styles << new Style(name: 'borderLeft', value: "$value")
+        styles << new Style('borderLeft', value)
         this
     }
     /** Sets the color of the left border */
@@ -383,17 +383,17 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets the style of the left border */
     StyleGroup borderLeftStyle (value) {
-        styles << new Style(name: 'borderLeftStyle', value: "$value")
+        styles << new Style('borderLeftStyle', value)
         this
     }
     /** Sets the width of the left border */
     StyleGroup borderLeftWidth (value) {
-        styles << new Style(name: 'borderLeftWidth', value: "${validateLength(value)}")
+        styles << new Style(name: 'borderLeftWidth', value: validateLength(value))
         this
     }
     /** A shorthand property for setting or returning all the four border*Radius properties */
     StyleGroup borderRadius (value) {
-        Style style = new Style(name: 'borderRadius', value: "${validateLength(value)}")
+        Style style = new Style(name: 'borderRadius', value: validateLength(value))
         styles << style
         if (config.addWebkit) styles << cloneWebkit(style)
         if (config.addMoz) styles << cloneMoz(style)
@@ -401,7 +401,7 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets all the borderRight* properties in one declaration */
     StyleGroup borderRight (value) {
-        styles << new Style(name: 'borderRight', value: "$value")
+        styles << new Style('borderRight', value)
         this
     }
     /** Sets the color of the right border */
@@ -411,27 +411,27 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets the style of the right border */
     StyleGroup borderRightStyle (value) {
-        styles << new Style(name: 'borderRightStyle', value: "$value")
+        styles << new Style('borderRightStyle', value)
         this
     }
     /** Sets the width of the right border */
     StyleGroup borderRightWidth (value) {
-        styles << new Style(name: 'borderRightWidth', value: "${validateLength(value)}")
+        styles << new Style(name: 'borderRightWidth', value: validateLength(value))
         this
     }
     /** Sets the space between cells in a table */
     StyleGroup borderSpacing (value) {
-        styles << new Style(name: 'borderSpacing', value: "$value")
+        styles << new Style('borderSpacing', value)
         this
     }
     /** Sets the style of an element's border (can have up to four values) */
     StyleGroup borderStyle (value) {
-        styles << new Style(name: 'borderStyle', value: "$value")
+        styles << new Style('borderStyle', value)
         this
     }
     /** Sets all the borderTop* properties in one declaration */
     StyleGroup borderTop (value) {
-        styles << new Style(name: 'borderTop', value: "$value")
+        styles << new Style('borderTop', value)
         this
     }
     /** Sets the color of the top border */
@@ -441,42 +441,42 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets the shape of the border of the top-left corner */
     StyleGroup borderTopLeftRadius (value) {
-        styles << new Style(name: 'borderTopLeftRadius', value: "$value")
+        styles << new Style('borderTopLeftRadius', value)
         this
     }
     /** Sets the shape of the border of the top-right corner */
     StyleGroup borderTopRightRadius (value) {
-        styles << new Style(name: 'borderTopRightRadius', value: "$value")
+        styles << new Style('borderTopRightRadius', value)
         this
     }
     /** Sets the style of the top border */
     StyleGroup borderTopStyle (value) {
-        styles << new Style(name: 'borderTopStyle', value: "$value")
+        styles << new Style('borderTopStyle', value)
         this
     }
     /** Sets the width of the top border */
     StyleGroup borderTopWidth (value) {
-        styles << new Style(name: 'borderTopWidth', value: "${validateLength(value)}")
+        styles << new Style(name: 'borderTopWidth', value: validateLength(value))
         this
     }
     /** Sets the width of an element's border (can have up to four values) */
     StyleGroup borderWidth (value) {
-        styles << new Style(name: 'borderWidth', value: "$value")
+        styles << new Style('borderWidth', value)
         this
     }
     /** Sets the bottom position of a positioned element */
     StyleGroup bottom (value) {
-        styles << new Style(name: 'bottom', value: "$value")
+        styles << new Style('bottom', value)
         this
     }
     /** Sets the behaviour of the background and border of an element at page-break, or, for in-line elements, at line-break. */
     StyleGroup boxDecorationBreak (value) {
-        styles << new Style(name: 'boxDecorationBreak', value: "$value")
+        styles << new Style('boxDecorationBreak', value)
         this
     }
     /** Attaches one or more drop-shadows to the box */
     StyleGroup boxShadow (value) {
-        def style = new Style(name: 'boxShadow', value: "$value")
+        def style = new Style('boxShadow', value)
         styles << style
         if (config.addWebkit) styles << cloneWebkit(style)
         if (config.addMoz) styles << cloneMoz(style)
@@ -484,22 +484,22 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Allows you to define certain elements to fit an area in a certain way */
     StyleGroup boxSizing (value) {
-        styles << new Style(name: 'boxSizing', value: "$value")
+        styles << new Style('boxSizing', value)
         this
     }
     /** Sets the position of the table caption */
     StyleGroup captionSide (value) {
-        styles << new Style(name: 'captionSide', value: "$value")
+        styles << new Style('captionSide', value)
         this
     }
     /** Sets the position of the element relative to floating objects */
     StyleGroup clear (value) {
-        styles << new Style(name: 'clear', value: "$value")
+        styles << new Style('clear', value)
         this
     }
     /** Sets which part of a positioned element is visible */
     StyleGroup clip (value) {
-        styles << new Style(name: 'clip', value: "$value")
+        styles << new Style('clip', value)
         this
     }
     /** Sets the color of the text */
@@ -509,22 +509,22 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets the number of columns an element should be divided into */
     StyleGroup columnCount (value) {
-        styles << new Style(name: 'columnCount', value: "$value")
+        styles << new Style('columnCount', value)
         this
     }
     /** Sets how to fill columns */
     StyleGroup columnFill (value) {
-        styles << new Style(name: 'columnFill', value: "$value")
+        styles << new Style('columnFill', value)
         this
     }
     /** Sets the gap between the columns */
     StyleGroup columnGap (value) {
-        styles << new Style(name: 'columnGap', value: "$value")
+        styles << new Style('columnGap', value)
         this
     }
     /** A shorthand property for setting or returning all the columnRule* properties */
     StyleGroup columnRule (value) {
-        styles << new Style(name: 'columnRule', value: "$value")
+        styles << new Style('columnRule', value)
         this
     }
     /** Sets the color of the rule between columns */
@@ -534,310 +534,310 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets the style of the rule between columns */
     StyleGroup columnRuleStyle (value) {
-        styles << new Style(name: 'columnRuleStyle', value: "$value")
+        styles << new Style('columnRuleStyle', value)
         this
     }
     /** Sets the width of the rule between columns */
     StyleGroup columnRuleWidth (value) {
-        styles << new Style(name: 'columnRuleWidth', value: "$value")
+        styles << new Style('columnRuleWidth', value)
         this
     }
     /** A shorthand property for setting or returning columnWidth and columnCount */
     StyleGroup columns (value) {
-        styles << new Style(name: 'columns', value: "$value")
+        styles << new Style('columns', value)
         this
     }
     /** Sets how many columns an element should span across */
     StyleGroup columnSpan (value) {
-        styles << new Style(name: 'columnSpan', value: "$value")
+        styles << new Style('columnSpan', value)
         this
     }
     /** Sets the width of the columns */
     StyleGroup columnWidth (value) {
-        styles << new Style(name: 'columnWidth', value: "$value")
+        styles << new Style('columnWidth', value)
         this
     }
     /** Used with the :before and :after pseudo-elements, to insert generated content */
     StyleGroup content (value) {
-        styles << new Style(name: 'content', value: "$value")
+        styles << new Style('content', value)
         this
     }
     /** Increments one or more counters */
     StyleGroup counterIncrement (value) {
-        styles << new Style(name: 'counterIncrement', value: "$value")
+        styles << new Style('counterIncrement', value)
         this
     }
     /** Creates or resets one or more counters */
     StyleGroup counterReset (value) {
-        styles << new Style(name: 'counterReset', value: "$value")
+        styles << new Style('counterReset', value)
         this
     }
     /** Sets the type of cursor to display for the mouse pointer */
     StyleGroup cursor (value) {
-        styles << new Style(name: 'cursor', value: "$value")
+        styles << new Style('cursor', value)
         this
     }
     /** Sets the text direction */
     StyleGroup direction (value) {
-        styles << new Style(name: 'direction', value: "$value")
+        styles << new Style('direction', value)
         this
     }
     /** Sets an element's display type */
     StyleGroup display (value) {
-        styles << new Style(name: 'display', value: "$value")
+        styles << new Style('display', value)
         this
     }
     /** Sets whether to show the border and background of empty cells, or not */
     StyleGroup emptyCells (value) {
-        styles << new Style(name: 'emptyCells', value: "$value")
+        styles << new Style('emptyCells', value)
         this
     }
     /** Sets image filters (visual effects, like blur and saturation) */
     StyleGroup filter (value) {
-        styles << new Style(name: 'filter', value: "$value")
+        styles << new Style('filter', value)
         if (config.addMs) styles << cloneMs(styles[-1])
         this
     }
     /** Sets the length of the item, relative to the rest */
     StyleGroup flex (value) {
-        styles << new Style(name: 'flex', value: "$value")
+        styles << new Style('flex', value)
         if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /** Sets the initial length of a flexible item */
     StyleGroup flexBasis (value) {
-        styles << new Style(name: 'flexBasis', value: "$value")
+        styles << new Style('flexBasis', value)
         if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /** Sets the direction of the flexible items */
     StyleGroup flexDirection (value) {
-        styles << new Style(name: 'flexDirection', value: "$value")
+        styles << new Style('flexDirection', value)
         if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /** A shorthand property for the flexDirection and the flexWrap properties */
     StyleGroup flexFlow (value) {
-        styles << new Style(name: 'flexFlow', value: "$value")
+        styles << new Style('flexFlow', value)
         if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /** Sets how much the item will grow relative to the rest */
     StyleGroup flexGrow (value) {
-        styles << new Style(name: 'flexGrow', value: "$value")
+        styles << new Style('flexGrow', value)
         if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /** Sets how the item will shrink relative to the rest */
     StyleGroup flexShrink (value) {
-        styles << new Style(name: 'flexShrink', value: "$value")
+        styles << new Style('flexShrink', value)
         if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /** Sets whether the flexible items should wrap or not */
     StyleGroup flexWrap (value) {
-        styles << new Style(name: 'flexWrap', value: "$value")
+        styles << new Style('flexWrap', value)
         if (config.addWebkit) styles << cloneWebkit(styles[-1])
         this
     }
     /** Sets the horizontal alignment of an element */
     StyleGroup cssFloat (value) {
-        styles << new Style(name: 'float', value: "$value")
+        styles << new Style('float', value)
         this
     }
     /** Sets fontStyle, fontVariant, fontWeight, fontSize, lineHeight, and fontFamily in one declaration */
     StyleGroup font (value) {
-        styles << new Style(name: 'font', value: "$value")
+        styles << new Style('font', value)
         this
     }
     /** Sets the font family for text */
     StyleGroup fontFamily (value) {
-        styles << new Style(name: 'fontFamily', value: "$value")
+        styles << new Style('fontFamily', value)
         this
     }
     /** Sets the font size of the text */
     StyleGroup fontSize (value) {
-        styles << new Style(name: 'fontSize', value: "${validateLength value}")
+        styles << new Style(name: 'fontSize', value: value)
         this
     }
     /** Sets whether the style of the font is normal, italic or oblique */
     StyleGroup fontStyle (value) {
-        styles << new Style(name: 'fontStyle', value: "$value")
+        styles << new Style('fontStyle', value)
         this
     }
     /** Sets whether the font should be displayed in small capital letters */
     StyleGroup fontVariant (value) {
-        styles << new Style(name: 'fontVariant', value: "$value")
+        styles << new Style('fontVariant', value)
         this
     }
     /** Sets the boldness of the font */
     StyleGroup fontWeight (value) {
-        styles << new Style(name: 'fontWeight', value: "$value")
+        styles << new Style('fontWeight', value)
         this
     }
     /** Preserves the readability of text when font fallback occurs */
     StyleGroup fontSizeAdjust (value) {
-        styles << new Style(name: 'fontSizeAdjust', value: "$value")
+        styles << new Style('fontSizeAdjust', value)
         this
     }
     /** Selects a normal, condensed, or expanded face from a font family */
     StyleGroup fontStretch (value) {
-        styles << new Style(name: 'fontStretch', value: "$value")
+        styles << new Style('fontStretch', value)
         this
     }
     /** Specifies whether a punctuation character may be placed outside the line box */
     StyleGroup hangingPunctuation (value) {
-        styles << new Style(name: 'hangingPunctuation', value: "$value")
+        styles << new Style('hangingPunctuation', value)
         this
     }
     /** Sets the height of an element */
     StyleGroup height (value) {
-        styles << new Style(name: 'height', value: "$value")
+        styles << new Style('height', value)
         this
     }
     /** Sets how to split words to improve the layout of paragraphs */
     StyleGroup hyphens (value) {
-        styles << new Style(name: 'hyphens', value: "$value")
+        styles << new Style('hyphens', value)
         this
     }
     /** Provides the author the ability to style an element with an iconic equivalent */
     StyleGroup icon (value) {
-        styles << new Style(name: 'icon', value: "$value")
+        styles << new Style('icon', value)
         this
     }
     /** Specifies a rotation in the right or clockwise direction that a user agent applies to an image */
     StyleGroup imageOrientation (value) {
-        styles << new Style(name: 'imageOrientation', value: "$value")
+        styles << new Style('imageOrientation', value)
         this
     }
     /** Sets the alignment between the items inside a flexible container when the items do not use all available space. */
     StyleGroup justifyContent (value) {
-        styles << new Style(name: 'justifyContent', value: "$value")
+        styles << new Style('justifyContent', value)
         this
     }
     /** Sets the left position of a positioned element */
     StyleGroup left (value) {
-        styles << new Style(name: 'left', value: "$value")
+        styles << new Style('left', value)
         this
     }
     /** Sets the space between characters in a text */
     StyleGroup letterSpacing (value) {
-        styles << new Style(name: 'letterSpacing', value: "$value")
+        styles << new Style('letterSpacing', value)
         this
     }
     /** Sets the distance between lines in a text */
     StyleGroup lineHeight (value) {
-        styles << new Style(name: 'lineHeight', value: "$value")
+        styles << new Style('lineHeight', value)
         this
     }
     /** Sets listStyleImage, listStylePosition, and listStyleType in one declaration */
     StyleGroup listStyle (value) {
-        styles << new Style(name: 'listStyle', value: "$value")
+        styles << new Style('listStyle', value)
         this
     }
     /** Sets an image as the list-item marker */
     StyleGroup listStyleImage (value) {
-        styles << new Style(name: 'listStyleImage', value: "$value")
+        styles << new Style('listStyleImage', value)
         this
     }
     /** Sets the position of the list-item marker */
     StyleGroup listStylePosition (value) {
-        styles << new Style(name: 'listStylePosition', value: "$value")
+        styles << new Style('listStylePosition', value)
         this
     }
     /** Sets the list-item marker type */
     StyleGroup listStyleType (value) {
-        styles << new Style(name: 'listStyleType', value: "$value")
+        styles << new Style('listStyleType', value)
         this
     }
     /** Sets the margins of an element (can have up to four values) */
     StyleGroup margin (value) {
-        styles << new Style(name: 'margin', value: "$value")
+        styles << new Style('margin', value)
         this
     }
     /** Sets the bottom margin of an element */
     StyleGroup marginBottom (value) {
-        styles << new Style(name: 'marginBottom', value: "${validateLength value}")
+        styles << new Style(name: 'marginBottom', value: value)
         this
     }
     /** Sets the left margin of an element */
     StyleGroup marginLeft (value) {
-        styles << new Style(name: 'marginLeft', value: "${validateLength value}")
+        styles << new Style(name: 'marginLeft', value: value)
         this
     }
     /** Sets the right margin of an element */
     StyleGroup marginRight (value) {
-        styles << new Style(name: 'marginRight', value: "${validateLength value}")
+        styles << new Style(name: 'marginRight', value: value)
         this
     }
     /** Sets the top margin of an element */
     StyleGroup marginTop (value) {
-        styles << new Style(name: 'marginTop', value: "${validateLength value}")
+        styles << new Style(name: 'marginTop', value: value)
         this
     }
     /** Sets the maximum height of an element */
     StyleGroup maxHeight (value) {
-        styles << new Style(name: 'maxHeight', value: "${validateLength value}")
+        styles << new Style(name: 'maxHeight', value: value)
         this
     }
     /** Sets the maximum width of an element */
     StyleGroup maxWidth (value) {
-        styles << new Style(name: 'maxWidth', value: "${validateLength value}")
+        styles << new Style(name: 'maxWidth', value: value)
         this
     }
     /** Sets the minimum height of an element */
     StyleGroup minHeight (value) {
-        styles << new Style(name: 'minHeight', value: "${validateLength value}")
+        styles << new Style(name: 'minHeight', value: value)
         this
     }
     /** Sets the minimum width of an element */
     StyleGroup minWidth (value) {
-        styles << new Style(name: 'minWidth', value: "${validateLength value}")
+        styles << new Style(name: 'minWidth', value: value)
         this
     }
     /** Sets where to navigate when using the arrow-down navigation key */
     StyleGroup navDown (value) {
-        styles << new Style(name: 'navDown', value: "$value")
+        styles << new Style('navDown', value)
         this
     }
     /** Sets the tabbing order for an element */
     StyleGroup navIndex (value) {
-        styles << new Style(name: 'navIndex', value: "$value")
+        styles << new Style('navIndex', value)
         this
     }
     /** Sets where to navigate when using the arrow-left navigation key */
     StyleGroup navLeft (value) {
-        styles << new Style(name: 'navLeft', value: "$value")
+        styles << new Style('navLeft', value)
         this
     }
     /** Sets where to navigate when using the arrow-right navigation key */
     StyleGroup navRight (value) {
-        styles << new Style(name: 'navRight', value: "$value")
+        styles << new Style('navRight', value)
         this
     }
     /** Sets where to navigate when using the arrow-up navigation key */
     StyleGroup navUp (value) {
-        styles << new Style(name: 'navUp', value: "$value")
+        styles << new Style('navUp', value)
         this
     }
     /** Sets the opacity level for an element */
     StyleGroup opacity (value) {
-        styles << new Style(name: 'opacity', value: "$value")
+        styles << new Style('opacity', value)
         this
     }
     /** Sets the order of the flexible item, relative to the rest */
     StyleGroup order (value) {
-        styles << new Style(name: 'order', value: "$value")
+        styles << new Style('order', value)
         this
     }
     /** Sets the minimum number of lines for an element that must be left at the bottom of a page when a page break occurs inside an element */
     StyleGroup orphans (value) {
-        styles << new Style(name: 'orphans', value: "$value")
+        styles << new Style('orphans', value)
         this
     }
     /** Sets all the outline properties in one declaration */
     StyleGroup outline (value) {
-        styles << new Style(name: 'outline', value: "$value")
+        styles << new Style('outline', value)
         this
     }
     /** Sets the color of the outline around a element */
@@ -847,127 +847,127 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Offsets an outline, and draws it beyond the border edge */
     StyleGroup outlineOffset (value) {
-        styles << new Style(name: 'outlineOffset', value: "$value")
+        styles << new Style('outlineOffset', value)
         this
     }
     /** Sets the style of the outline around an element */
     StyleGroup outlineStyle (value) {
-        styles << new Style(name: 'outlineStyle', value: "$value")
+        styles << new Style('outlineStyle', value)
         this
     }
     /** Sets the width of the outline around an element */
     StyleGroup outlineWidth (value) {
-        styles << new Style(name: 'outlineWidth', value: "$value")
+        styles << new Style('outlineWidth', value)
         this
     }
     /** Sets what to do with content that renders outside the element box */
     StyleGroup overflow (value) {
-        styles << new Style(name: 'overflow', value: "$value")
+        styles << new Style('overflow', value)
         this
     }
     /** Specifies what to do with the left/right edges of the content, if it overflows the element's content area */
     StyleGroup overflowX (value) {
-        styles << new Style(name: 'overflowX', value: "$value")
+        styles << new Style('overflowX', value)
         this
     }
     /** Specifies what to do with the top/bottom edges of the content, if it overflows the element's content area */
     StyleGroup overflowY (value) {
-        styles << new Style(name: 'overflowY', value: "$value")
+        styles << new Style('overflowY', value)
         this
     }
     /** Sets the padding of an element (can have up to four values) */
     StyleGroup padding (value) {
-        styles << new Style(name: 'padding', value: "$value")
+        styles << new Style('padding', value)
         this
     }
     /** Sets the bottom padding of an element */
     StyleGroup paddingBottom (value) {
-        styles << new Style(name: 'paddingBottom', value: "$value")
+        styles << new Style('paddingBottom', value)
         this
     }
     /** Sets the left padding of an element */
     StyleGroup paddingLeft (value) {
-        styles << new Style(name: 'paddingLeft', value: "$value")
+        styles << new Style('paddingLeft', value)
         this
     }
     /** Sets the right padding of an element */
     StyleGroup paddingRight (value) {
-        styles << new Style(name: 'paddingRight', value: "$value")
+        styles << new Style('paddingRight', value)
         this
     }
     /** Sets the top padding of an element */
     StyleGroup paddingTop (value) {
-        styles << new Style(name: 'paddingTop', value: "$value")
+        styles << new Style('paddingTop', value)
         this
     }
     /** Sets the page-break behavior after an element */
     StyleGroup pageBreakAfter (value) {
-        styles << new Style(name: 'pageBreakAfter', value: "$value")
+        styles << new Style('pageBreakAfter', value)
         this
     }
     /** Sets the page-break behavior before an element */
     StyleGroup pageBreakBefore (value) {
-        styles << new Style(name: 'pageBreakBefore', value: "$value")
+        styles << new Style('pageBreakBefore', value)
         this
     }
     /** Sets the page-break behavior inside an element */
     StyleGroup pageBreakInside (value) {
-        styles << new Style(name: 'pageBreakInside', value: "$value")
+        styles << new Style('pageBreakInside', value)
         this
     }
     /** Sets the perspective on how 3D elements are viewed */
     StyleGroup perspective (value) {
-        styles << new Style(name: 'perspective', value: "$value")
+        styles << new Style('perspective', value)
         this
     }
     /** Sets the bottom position of 3D elements */
     StyleGroup perspectiveOrigin (value) {
-        styles << new Style(name: 'perspectiveOrigin', value: "$value")
+        styles << new Style('perspectiveOrigin', value)
         this
     }
     /** Sets the type of positioning method used for an element (static, relative, absolute or fixed) */
     StyleGroup position (value) {
-        styles << new Style(name: 'position', value: "$value")
+        styles << new Style('position', value)
         this
     }
     /** Sets the type of quotation marks for embedded quotations */
     StyleGroup quotes (value) {
-        styles << new Style(name: 'quotes', value: "$value")
+        styles << new Style('quotes', value)
         this
     }
     /** Sets whether or not an element is resizable by the user */
     StyleGroup resize (value) {
-        styles << new Style(name: 'resize', value: "$value")
+        styles << new Style('resize', value)
         this
     }
     /** Sets the right position of a positioned element */
     StyleGroup right (value) {
-        styles << new Style(name: 'right', value: "$value")
+        styles << new Style('right', value)
         this
     }
     /** Sets the way to lay out table cells, rows, and columns */
     StyleGroup tableLayout (value) {
-        styles << new Style(name: 'tableLayout', value: "$value")
+        styles << new Style('tableLayout', value)
         this
     }
     /** Sets the length of the tab-character */
     StyleGroup tabSize (value) {
-        styles << new Style(name: 'tabSize', value: "$value")
+        styles << new Style('tabSize', value)
         this
     }
     /** Sets the horizontal alignment of text */
     StyleGroup textAlign (value) {
-        styles << new Style(name: 'textAlign', value: "$value")
+        styles << new Style('textAlign', value)
         this
     }
     /** Sets how the last line of a block or a line right before a forced line break is aligned when text-align is ""justify"" */
     StyleGroup textAlignLast (value) {
-        styles << new Style(name: 'textAlignLast', value: "$value")
+        styles << new Style('textAlignLast', value)
         this
     }
     /** Sets the decoration of a text */
     StyleGroup textDecoration (value) {
-        styles << new Style(name: 'textDecoration', value: "$value")
+        styles << new Style('textDecoration', value)
         this
     }
     /** Sets the color of the text-decoration */
@@ -977,47 +977,47 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets the type of line in a text-decoration */
     StyleGroup textDecorationLine (value) {
-        styles << new Style(name: 'textDecorationLine', value: "$value")
+        styles << new Style('textDecorationLine', value)
         this
     }
     /** Sets the style of the line in a text decoration */
     StyleGroup textDecorationStyle (value) {
-        styles << new Style(name: 'textDecorationStyle', value: "$value")
+        styles << new Style('textDecorationStyle', value)
         this
     }
     /** Sets the indentation of the first line of text */
     StyleGroup textIndent (value) {
-        styles << new Style(name: 'textIndent', value: "$value")
+        styles << new Style('textIndent', value)
         this
     }
     /** Sets the justification method used when text-align is ""justify"" */
     StyleGroup textJustify (value) {
-        styles << new Style(name: 'textJustify', value: "$value")
+        styles << new Style('textJustify', value)
         this
     }
     /** Sets what should happen when text overflows the containing element */
     StyleGroup textOverflow (value) {
-        styles << new Style(name: 'textOverflow', value: "$value")
+        styles << new Style('textOverflow', value)
         this
     }
     /** Sets the shadow effect of a text */
     StyleGroup textShadow (value) {
-        styles << new Style(name: 'textShadow', value: "$value")
+        styles << new Style('textShadow', value)
         this
     }
     /** Sets the capitalization of a text */
     StyleGroup textTransform (value) {
-        styles << new Style(name: 'textTransform', value: "$value")
+        styles << new Style('textTransform', value)
         this
     }
     /** Sets the top position of a positioned element */
     StyleGroup top (value) {
-        styles << new Style(name: 'top', value: "$value")
+        styles << new Style('top', value)
         this
     }
     /** Applies a 2D or 3D transformation to an element */
     StyleGroup transform (value) {
-        def style = new Style(name: 'transform', value: "$value")
+        def style = new Style('transform', value)
         styles << style
         cloneTrio(style)
         if (config.addMs) styles << cloneMs(style)
@@ -1025,7 +1025,7 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets the position of transformed elements */
     StyleGroup transformOrigin (value) {
-        def style = new Style(name: 'transformOrigin', value: "$value")
+        def style = new Style('transformOrigin', value)
         styles << style
         cloneTrio(style)
         if (config.addMs) styles << cloneMs(style)
@@ -1033,7 +1033,7 @@ class StyleGroup extends Selectable implements CSSPart {
     }
     /** Sets how nested elements are rendered in 3D space */
     StyleGroup transformStyle (value) {
-        def style = new Style(name: 'transformStyle', value: "$value")
+        def style = new Style('transformStyle', value)
         styles << style
         cloneTrio(style)
         if (config.addMs) styles << cloneMs(style)
@@ -1048,7 +1048,7 @@ class StyleGroup extends Selectable implements CSSPart {
         transitionInternal(part)
     }
     private StyleGroup transitionInternal (value) {
-        styles << new Style(name: 'transition', value: "$value")
+        styles << new Style('transition', value)
         cloneTrio(styles[-1])
         this
     }
@@ -1077,76 +1077,76 @@ class StyleGroup extends Selectable implements CSSPart {
 
     /** Sets the CSS property that the transition effect is for */
     StyleGroup transitionProperty (value) {
-        styles << new Style(name: 'transitionProperty', value: "$value")
+        styles << new Style('transitionProperty', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets how many seconds or milliseconds a transition effect takes to complete */
     StyleGroup transitionDuration (value) {
-        styles << new Style(name: 'transitionDuration', value: "$value")
+        styles << new Style('transitionDuration', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets the speed curve of the transition effect */
     StyleGroup transitionTimingFunction (value) {
-        styles << new Style(name: 'transitionTimingFunction', value: "$value")
+        styles << new Style('transitionTimingFunction', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets when the transition effect will start */
     StyleGroup transitionDelay (value) {
-        styles << new Style(name: 'transitionDelay', value: "$value")
+        styles << new Style('transitionDelay', value)
         cloneTrio(styles[-1])
         this
     }
     /** Sets whether the text should be overridden to support multiple languages in the same document */
     StyleGroup unicodeBidi (value) {
-        styles << new Style(name: 'unicodeBidi', value: "$value")
+        styles << new Style('unicodeBidi', value)
         this
     }
     /** Sets the vertical alignment of the content in an element */
     StyleGroup verticalAlign (value) {
-        styles << new Style(name: 'verticalAlign', value: "$value")
+        styles << new Style('verticalAlign', value)
         this
     }
     /** Sets whether an element should be visible */
     StyleGroup visibility (value) {
-        styles << new Style(name: 'visibility', value: "$value")
+        styles << new Style('visibility', value)
         this
     }
     /** Sets how to handle tabs, line breaks and whitespace in a text */
     StyleGroup whiteSpace (value) {
-        styles << new Style(name: 'whiteSpace', value: "$value")
+        styles << new Style('whiteSpace', value)
         this
     }
     /** Sets the width of an element */
     StyleGroup width (value) {
-        styles << new Style(name: 'width', value: "${validateLength value}")
+        styles << new Style(name: 'width', value: value)
         this
     }
     /** Sets line breaking rules for non-CJK scripts */
     StyleGroup wordBreak (value) {
-        styles << new Style(name: 'wordBreak', value: "$value")
+        styles << new Style('wordBreak', value)
         this
     }
     /** Sets the spacing between words in a text */
     StyleGroup wordSpacing (value) {
-        styles << new Style(name: 'wordSpacing', value: "$value")
+        styles << new Style('wordSpacing', value)
         this
     }
     /** Allows long, unbreakable words to be broken and wrap to the next line */
     StyleGroup wordWrap (value) {
-        styles << new Style(name: 'wordWrap', value: "$value")
+        styles << new Style('wordWrap', value)
         this
     }
     /** Sets the minimum number of lines for an element that must be visible at the top of a page */
     StyleGroup widows (value) {
-        styles << new Style(name: 'widows', value: "$value")
+        styles << new Style('widows', value)
         this
     }
     /** Sets the stack order of a positioned element */
     StyleGroup zIndex (value) {
-        styles << new Style(name: 'zIndex', value: "$value")
+        styles << new Style('zIndex', value)
         this
     }
 
@@ -1280,7 +1280,7 @@ class StyleGroup extends Selectable implements CSSPart {
     }
 
     private String handleColor(value) {
-        (value instanceof Number) ? "${new Color((Number) value)}" : "$value"
+        (value instanceof Number) ? new Color((Number) value) : value
     }
 
 }

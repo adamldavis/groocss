@@ -278,6 +278,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         gcss.css.config = conf
         clos.delegate = gcss
         clos()
+        gcss.css.doProcessing()
         gcss
     }
 

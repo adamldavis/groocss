@@ -74,6 +74,7 @@ class MediaCSS implements CSSPart {
     MediaCSS addAll(Collection<? extends CSSPart> coll) { add(coll) }
     MediaCSS leftShift(Collection<? extends CSSPart> coll) { add(coll) }
 
+    @CompileStatic
     String toString() {
         StringBuilder sb = new StringBuilder()
         writeTo sb
@@ -81,26 +82,23 @@ class MediaCSS implements CSSPart {
     }
 
     @CompileStatic
-    private void doProcessing() {
+    void doProcessing() {
         if (config.processors == null) config.processors = []
         if (!(config.processors.any { it.class == DefaultValidator.class })) {
             config.processors.add new DefaultValidator()
         }
-        List<String> errors = []
-        errors.addAll doProcessing(Processor.Phase.PRE_VALIDATE)
-        if (errors) handleErrors(errors)
-        errors.addAll doProcessing(Processor.Phase.VALIDATE)
-        if (errors) handleErrors(errors)
-        errors.addAll doProcessing(Processor.Phase.POST_VALIDATE)
-        if (errors) handleErrors(errors)
+        doProcessingOf(Processor.Phase.PRE_VALIDATE)
+        doProcessingOf(Processor.Phase.VALIDATE)
+        doProcessingOf(Processor.Phase.POST_VALIDATE)
     }
 
+    @CompileStatic
     def handleErrors(List<String> errors) {
         throw new AssertionError("There were errors: $errors")
     }
 
     @CompileStatic
-    private List<String> doProcessing(Processor.Phase phase) {
+    private List<String> doProcessingOf(Processor.Phase phase) {
         List<String> errors = []
         List<? extends CSSPart> parts = []
         config.processors.each { proc ->
@@ -111,6 +109,7 @@ class MediaCSS implements CSSPart {
                     break
                 case StyleGroup: parts.addAll groups.findAll{it instanceof StyleGroup}; break
                 case Raw: parts.addAll groups.findAll{it instanceof Raw}; break
+                case Comment: parts.addAll groups.findAll{it instanceof Comment}; break
                 case MediaCSS: parts.addAll otherCss; break
                 case FontFace: parts.addAll fonts; break
                 case KeyFrames: parts.addAll kfs; break
@@ -118,12 +117,12 @@ class MediaCSS implements CSSPart {
             }
             parts.each { proc.process(it, phase).ifPresent(errors.&add) }
         }
+        if (errors) handleErrors(errors)
         errors
     }
 
     @CompileStatic
     void writeTo(Appendable writer) {
-        doProcessing()
         def sn = config.compress ? '' : '\n'
         def charset = config.charset
 
