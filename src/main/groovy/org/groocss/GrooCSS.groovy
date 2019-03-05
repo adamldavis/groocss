@@ -76,15 +76,17 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     @TypeChecked
     static void convert(Config conf = new Config(), Reader reader, PrintWriter writer) {
         def shell = makeShell()
-        def script = shell.parse(reader)
-        script.invokeMethod('setConfig', conf)
-        script.run()
-        MediaCSS css = (MediaCSS) script.getProperty('css')
-        css.doProcessing()
-        css.writeTo(writer)
-        writer.flush()
-        writer.close()
-        reader.close()
+        reader.withCloseable { input ->
+            def script = shell.parse(input)
+            script.invokeMethod('setConfig', conf)
+            script.run()
+            MediaCSS css = (MediaCSS) script.getProperty('css')
+            css.doProcessing()
+            writer.withCloseable { pw ->
+                css.writeTo pw
+                pw.flush()
+            }
+        }
     }
 
     /** Processes a given InputStream and outputs to given OutputStream. */
