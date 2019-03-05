@@ -58,4 +58,17 @@ class ValidationSpec extends Specification {
         name << DefaultValidator.sizeNames + DefaultValidator.timeNames
     }
 
+    def "converting a file should also validate using validator"() {
+        given:
+        def temp = new File('build/temp')
+        temp.mkdirs()
+        when:
+        def file = new File(temp,'test.groocss')
+        def file2 = new File(temp,'test.css')
+        file.text = '\'.a\'.sg { width 10.ms }'
+        GrooCSS.process(file.newInputStream(), file2.newOutputStream())
+        then:
+        thrown(AssertionError)
+    }
+
 }

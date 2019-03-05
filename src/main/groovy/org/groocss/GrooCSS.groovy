@@ -80,6 +80,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         script.invokeMethod('setConfig', conf)
         script.run()
         MediaCSS css = (MediaCSS) script.getProperty('css')
+        css.doProcessing()
         css.writeTo(writer)
         writer.flush()
         writer.close()
