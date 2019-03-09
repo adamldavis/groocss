@@ -142,7 +142,9 @@ class MediaCSS implements CSSPart {
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    StyleGroup sel(String selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure, boolean addIt = true) {
+    StyleGroup sel(String selector,
+                   @DelegatesTo(value=StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure<StyleGroup> closure,
+                   boolean addIt = true) {
         StyleGroup sg = new StyleGroup(selector, config, this)
         closure.delegate = sg
         closure(sg)
@@ -151,12 +153,27 @@ class MediaCSS implements CSSPart {
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    StyleGroup sg(String selector, @DelegatesTo(StyleGroup) Closure closure) {
+    StyleGroup sg(String selector, @DelegatesTo(value=StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         sel(selector, closure)
     }
 
     def methodMissing(String name, args) {
         if (args.length > 0 && args[0] instanceof Closure) sg(".$name", (Closure) args[0])
+        else if (args.length == 1 && args[0] instanceof Selector)
+            new Selector(".$name", this) ^ args[0]
+            // _.name(a)
+
+        else if (args.length > 1 && args.every {it instanceof Selector})
+            new Selector([".$name"] + (args as List), this)
+            // _.name(a, b)
+
+        else if (args.length == 2  && args[0] instanceof Selector && args[1] instanceof Closure)
+            (new Selector(".$name", this) ^ ((Selector) args[0])).sg((Closure) args[1])
+            // _.name(a) { css }
+
+        else if (args.length > 0 && args[-1] instanceof Closure && args[0..-1].every {it instanceof Selector})
+            sg([".$name"] + (args[0..-1] as List), (Closure) args[-1])
+            // _.name(a, b) { css }
     }
 
     /** Allows _.styleClass syntax to be used anywhere selectors are used. */

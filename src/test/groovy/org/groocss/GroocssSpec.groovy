@@ -820,4 +820,27 @@ class GroocssSpec extends Specification {
         "time" | {time{ background '#000' }}
     }
 
+    @Unroll
+    def "should create a selector using _.info #element"() {
+        expect:
+        def css = GrooCSS.process closure
+        "${css}" == ".info ${element}{background: #000;}"
+        where:
+        element | closure
+        "aside" | { sg(get_().info(aside)) { background '#000' }}
+        "article" | { sg(get_().info(article)) { background '#000' }}
+        "details" | { sg(get_().info(details)) { background '#000' }}
+        "dialog" | { sg(get_().info(dialog)) { background '#000' }}
+        "figure" | { sg(get_().info(figure)) { background '#000' }}
+        "footer" | { sg(get_().info(footer)) { background '#000' }}
+        "header" | { sg(get_().info(header)) { background '#000' }}
+        "main" | { sg(get_().info(main)){ background '#000' }}
+        "meter" | { sg(get_().info(meter)){ background '#000' }}
+        "nav" | { sg(get_().info(nav)){ background '#000' }}
+        "progress" | { sg(get_().info(progress)){ background '#000' }}
+        "section" | { sg(get_().info(section)){ background '#000' }}
+        "summary" | { sg(get_().info(summary)){ background '#000' }}
+        "time" | { sg(get_().info(time)){ background '#000' }}
+    }
+
 }

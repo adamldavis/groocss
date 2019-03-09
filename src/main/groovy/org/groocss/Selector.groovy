@@ -35,6 +35,12 @@ class Selector extends Selectable {
 
     MediaCSS owner
 
+    Selector(List selectors, MediaCSS owner) {
+        this.selector = selectors.collect{it.toString()}.join(',')
+        this.selector = (owner?.config?.convertUnderline) ? selector.replaceAll(/_/, '-') : selector
+        this.owner = owner
+    }
+
     Selector(String selector, MediaCSS owner) {
         this.selector = (owner?.config?.convertUnderline) ? selector.replaceAll(/_/, '-') : selector
         this.owner = owner
