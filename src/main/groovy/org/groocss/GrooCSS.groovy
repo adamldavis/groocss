@@ -200,7 +200,8 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    StyleGroup sel(String selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
+    StyleGroup sel(String selector, 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure<StyleGroup> clos) {
         currentCss.sel(selector, clos)
     }
 
@@ -210,13 +211,14 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    StyleGroup sel(Selector selector, @DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
+    StyleGroup sel(Selector selector,
+                   @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure<StyleGroup> clos) {
         currentCss.sel("$selector", clos)
     }
 
     /** Creates an unattached StyleGroup object, useful for adding Styles to a StyleGroup conditionally
      * or for reusing a group of styles several times. */
-    StyleGroup styles(@DelegatesTo(StyleGroup) Closure<StyleGroup> clos) {
+    StyleGroup styles(@DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure<StyleGroup> clos) {
         currentCss.sel('', clos, false)
     }
 
@@ -230,23 +232,23 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    StyleGroup sg(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup sg(String selector, @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sel(selector, clos)
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    StyleGroup $(String selector, @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup $(String selector, @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sel(selector, clos)
     }
 
     /** Creates a new StyleGroup element and runs given closure on it. */
-    StyleGroup sg(Selector selector, @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup sg(Selector selector, @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sel(selector, clos)
     }
 
     /** Creates a new StyleGroup element, with all selectors in the given list joined with commas.
      * If given list is empty, this method has the same behaviour as styles(closure). */
-    StyleGroup sg(List selectors, @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup sg(List selectors, @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         if (selectors.isEmpty()) {
             return styles(clos)
         }
@@ -271,12 +273,14 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     def run() {}
 
     /** Processes the given closure with given optional config. */
-    static GrooCSS process(Config config = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
+    static GrooCSS process(Config config = new Config(), 
+                           @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         runBlock(config, clos)
     }
 
     /** Processes the given closure with given optional config. */
-    static GrooCSS runBlock(Config conf = new Config(), @DelegatesTo(GrooCSS) Closure clos) {
+    static GrooCSS runBlock(Config conf = new Config(),
+                            @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         GrooCSS gcss = new GrooCSS(config: conf)
         gcss.css.config = conf
         clos.delegate = gcss
@@ -304,450 +308,592 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     //------------------------------------------------------------------> HTML5 elements
     /** Math element. */
-    StyleGroup math(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('math' + sel, clos) }
+    StyleGroup math(String sel='', 
+                    @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('math' + sel, clos) }
 
     /** Scalable vector graphics. */
-    StyleGroup svg(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('svg' + sel, clos) }
+    StyleGroup svg(String sel='', 
+                   @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('svg' + sel, clos) }
 
     /** Hyperlink. */
-    StyleGroup a(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('a' + sel, clos) }
+    StyleGroup a(String sel='', 
+                 @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('a' + sel, clos) }
 
     /** Hyperlink a:hover. */
-    StyleGroup a_hover(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('a:hover' + sel, clos) }
+    StyleGroup a_hover(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('a:hover' + sel, clos) }
 
     /** Hyperlink a:focus. */
-    StyleGroup a_focus(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('a:focus' + sel, clos) }
+    StyleGroup a_focus(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('a:focus' + sel, clos) }
 
     /** Hyperlink a:active. */
-    StyleGroup a_active(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('a:active' + sel, clos) }
+    StyleGroup a_active(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('a:active' + sel, clos) }
 
     /** Hyperlink a:visited. */
-    StyleGroup a_visited(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('a:visited' + sel, clos) }
-    
+    StyleGroup a_visited(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('a:visited' + sel, clos) }
+
     /** Abbreviation. */
-    StyleGroup abbr(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('abbr' + sel, clos) }
+    StyleGroup abbr(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('abbr' + sel, clos) }
 
     /** Contact information. */
-    StyleGroup address(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('address' + sel, clos) }
+    StyleGroup address(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('address' + sel, clos) }
 
     /** Image-map hyperlink. */
-    StyleGroup area(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('area' + sel, clos) }
+    StyleGroup area(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('area' + sel, clos) }
 
     /** Article. */
-    StyleGroup article(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('article' + sel, clos) }
+    StyleGroup article(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('article' + sel, clos) }
 
     /** Tangential content. */
-    StyleGroup aside(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('aside' + sel, clos) }
+    StyleGroup aside(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('aside' + sel, clos) }
 
     /** Audio stream. */
-    StyleGroup audio(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('audio' + sel, clos) }
+    StyleGroup audio(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('audio' + sel, clos) }
 
     /** Offset text conventionally styled in bold. */
-    StyleGroup b(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('b' + sel, clos) }
+    StyleGroup b(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('b' + sel, clos) }
 
     /** Base URL. */
-    StyleGroup base(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('base' + sel, clos) }
+    StyleGroup base(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('base' + sel, clos) }
 
     /** BiDi isolate. */
-    StyleGroup bdi(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('bdi' + sel, clos) }
+    StyleGroup bdi(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('bdi' + sel, clos) }
 
     /** BiDi override. */
-    StyleGroup bdo(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('bdo' + sel, clos) }
+    StyleGroup bdo(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('bdo' + sel, clos) }
 
     /** Block quotation. */
-    StyleGroup blockquote(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('blockquote' + sel, clos) }
+    StyleGroup blockquote(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('blockquote' + sel, clos) }
 
     /** Document body. */
-    StyleGroup body(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('body' + sel, clos) }
+    StyleGroup body(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('body' + sel, clos) }
 
     /** Line break. */
-    StyleGroup br(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('br' + sel, clos) }
+    StyleGroup br(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('br' + sel, clos) }
 
     /** Button. */
-    StyleGroup button(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('button' + sel, clos) }
+    StyleGroup button(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('button' + sel, clos) }
 
     /** Submit button. */
-    StyleGroup buttonSubmit(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('button [type="submit"]' + sel, clos) }
+    StyleGroup buttonSubmit(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('button [type="submit"]' + sel, clos) }
 
     /** Reset button. */
-    StyleGroup buttonReset(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('button [type="reset"]' + sel, clos) }
+    StyleGroup buttonReset(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('button [type="reset"]' + sel, clos) }
 
     /** Button with no additional semantics. */
-    StyleGroup buttonButton(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('button [type="button"]' + sel, clos) }
+    StyleGroup buttonButton(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('button [type="button"]' + sel, clos) }
 
     /** Canvas for dynamic graphics. */
-    StyleGroup canvas(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('canvas' + sel, clos) }
+    StyleGroup canvas(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('canvas' + sel, clos) }
 
     /** Table title. */
-    StyleGroup caption(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('caption' + sel, clos) }
+    StyleGroup caption(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('caption' + sel, clos) }
 
     /** Cited title of a work. */
-    StyleGroup cite(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('cite' + sel, clos) }
+    StyleGroup cite(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('cite' + sel, clos) }
 
     /** Code fragment. */
-    StyleGroup code(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('code' + sel, clos) }
+    StyleGroup code(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('code' + sel, clos) }
 
     /** Table column. */
-    StyleGroup col(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('col' + sel, clos) }
+    StyleGroup col(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('col' + sel, clos) }
 
     /** Table column group. */
-    StyleGroup colgroup(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('colgroup' + sel, clos) }
+    StyleGroup colgroup(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('colgroup' + sel, clos) }
 
     /** Command. */
-    StyleGroup command(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('command' + sel, clos) }
+    StyleGroup command(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('command' + sel, clos) }
 
     /** Command with an associated action. */
-    StyleGroup commandCommand(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('command [type="command"]' + sel, clos) }
+    StyleGroup commandCommand(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('command [type="command"]' + sel, clos) }
 
     /** Selection of one item from a list of items. */
-    StyleGroup commandRadio(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('command [type="radio"]' + sel, clos) }
+    StyleGroup commandRadio(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('command [type="radio"]' + sel, clos) }
 
     /** State or option that can be toggled. */
-    StyleGroup commandCheckbox(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('command [type="checkbox"]' + sel, clos) }
+    StyleGroup commandCheckbox(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('command [type="checkbox"]' + sel, clos) }
 
     /** Predefined options for other controls. */
-    StyleGroup datalist(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('datalist' + sel, clos) }
+    StyleGroup datalist(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('datalist' + sel, clos) }
 
     /** Description or value. */
-    StyleGroup dd(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('dd' + sel, clos) }
+    StyleGroup dd(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('dd' + sel, clos) }
 
     /** Deleted text. */
-    StyleGroup del(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('del' + sel, clos) }
+    StyleGroup del(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('del' + sel, clos) }
 
     /** Control for additional on-demand information. */
-    StyleGroup details(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('details' + sel, clos) }
+    StyleGroup details(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('details' + sel, clos) }
 
     /** Defining instance. */
-    StyleGroup dfn(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('dfn' + sel, clos) }
+    StyleGroup dfn(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('dfn' + sel, clos) }
 
     /** Defines a dialog box or window*/
-    StyleGroup dialog(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('dialog' + sel, clos) }
+    StyleGroup dialog(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('dialog' + sel, clos) }
 
     /** Generic flow container. */
-    StyleGroup div(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('div' + sel, clos) }
+    StyleGroup div(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('div' + sel, clos) }
 
     /** Description list. */
-    StyleGroup dl(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('dl' + sel, clos) }
+    StyleGroup dl(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('dl' + sel, clos) }
 
     /** Term or name. */
-    StyleGroup dt(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('dt' + sel, clos) }
+    StyleGroup dt(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('dt' + sel, clos) }
 
     /** Emphatic stress. */
-    StyleGroup em(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('em' + sel, clos) }
+    StyleGroup em(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('em' + sel, clos) }
 
     /** Integration point for plugins. */
-    StyleGroup embed(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('embed' + sel, clos) }
+    StyleGroup embed(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('embed' + sel, clos) }
 
     /** Set of related form controls. */
-    StyleGroup fieldset(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('fieldset' + sel, clos) }
+    StyleGroup fieldset(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('fieldset' + sel, clos) }
 
     /** Figure caption. */
-    StyleGroup figcaption(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('figcaption' + sel, clos) }
+    StyleGroup figcaption(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('figcaption' + sel, clos) }
 
     /** Figure with optional caption. */
-    StyleGroup figure(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('figure' + sel, clos) }
+    StyleGroup figure(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('figure' + sel, clos) }
 
     /** Footer. */
-    StyleGroup footer(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('footer' + sel, clos) }
+    StyleGroup footer(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('footer' + sel, clos) }
 
     /** User-submittable form. */
-    StyleGroup form(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('form' + sel, clos) }
+    StyleGroup form(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('form' + sel, clos) }
 
     /** Heading. */
-    StyleGroup h1(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('h1' + sel, clos) }
+    StyleGroup h1(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('h1' + sel, clos) }
 
     /** Heading. */
-    StyleGroup h2(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('h2' + sel, clos) }
+    StyleGroup h2(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('h2' + sel, clos) }
 
     /** Heading. */
-    StyleGroup h3(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('h3' + sel, clos) }
+    StyleGroup h3(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('h3' + sel, clos) }
 
     /** Heading. */
-    StyleGroup h4(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('h4' + sel, clos) }
+    StyleGroup h4(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('h4' + sel, clos) }
 
     /** Heading. */
-    StyleGroup h5(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('h5' + sel, clos) }
+    StyleGroup h5(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('h5' + sel, clos) }
 
     /** Heading. */
-    StyleGroup h6(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('h6' + sel, clos) }
+    StyleGroup h6(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('h6' + sel, clos) }
 
     /** Document metadata container. */
-    StyleGroup head(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('head' + sel, clos) }
+    StyleGroup head(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('head' + sel, clos) }
 
     /** Header. */
-    StyleGroup header(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('header' + sel, clos) }
+    StyleGroup header(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('header' + sel, clos) }
 
     /** Heading group. */
-    StyleGroup hgroup(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('hgroup' + sel, clos) }
+    StyleGroup hgroup(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('hgroup' + sel, clos) }
 
     /** Thematic break. */
-    StyleGroup hr(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('hr' + sel, clos) }
+    StyleGroup hr(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('hr' + sel, clos) }
 
     /** Root element. */
-    StyleGroup html(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('html' + sel, clos) }
+    StyleGroup html(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('html' + sel, clos) }
 
     /** Offset text conventionally styled in italic. */
-    StyleGroup i(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('i' + sel, clos) }
+    StyleGroup i(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('i' + sel, clos) }
 
     /** Nested browsing context (inline frame). */
-    StyleGroup iframe(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('iframe' + sel, clos) }
+    StyleGroup iframe(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('iframe' + sel, clos) }
 
     /** Image. */
-    StyleGroup img(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('img' + sel, clos) }
+    StyleGroup img(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('img' + sel, clos) }
 
     /** Input control. */
-    StyleGroup input(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('input' + sel, clos) }
+    StyleGroup input(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('input' + sel, clos) }
 
     /** Text-input field. */
-    StyleGroup inputText(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('input [type="text"]' + sel, clos) }
+    StyleGroup inputText(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('input [type="text"]' + sel, clos) }
 
     /** Password-input field. */
-    StyleGroup inputPassword(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputPassword(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="password"]' + sel, clos) }
 
     /** Checkbox. */
-    StyleGroup inputCheckbox(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputCheckbox(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="checkbox"]' + sel, clos) }
 
     /** Radio button. */
-    StyleGroup inputRadio(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputRadio(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="radio"]' + sel, clos) }
 
     /** Button. */
-    StyleGroup inputButton(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputButton(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="button"]' + sel, clos) }
 
     /** Submit button. */
-    StyleGroup inputSubmit(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputSubmit(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="submit"]' + sel, clos) }
 
     /** Reset button. */
-    StyleGroup inputReset(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputReset(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="reset"]' + sel, clos) }
 
     /** File upload control. */
-    StyleGroup inputFile(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputFile(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="file"]' + sel, clos) }
 
     /** Hidden input control. */
-    StyleGroup inputHidden(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputHidden(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="hidden"]' + sel, clos) }
 
     /** Image-coordinates input control. */
-    StyleGroup inputImage(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputImage(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="image"]' + sel, clos) }
 
     /** Global date-and-time input control. */
-    StyleGroup inputDatetime(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputDatetime(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="datetime"]' + sel, clos) }
 
     /** Local date-and-time input control. */
-    StyleGroup inputDatetimeLocal(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputDatetimeLocal(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="datetime-local"]' + sel, clos) }
 
     /** Date input control. */
-    StyleGroup inputDate(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputDate(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="date"]' + sel, clos) }
 
     /** Year-and-month input control. */
-    StyleGroup inputMonth(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputMonth(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="month"]' + sel, clos) }
 
     /** Time input control. */
-    StyleGroup inputTime(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputTime(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="time"]' + sel, clos) }
 
     /** Year-and-week input control. */
-    StyleGroup inputWeek(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputWeek(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="week"]' + sel, clos) }
 
     /** Number input control. */
-    StyleGroup inputNumber(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputNumber(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="number"]' + sel, clos) }
 
     /** Imprecise number-input control. */
-    StyleGroup inputRange(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputRange(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="range"]' + sel, clos) }
 
     /** E-mail address input control. */
-    StyleGroup inputEmail(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputEmail(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="email"]' + sel, clos) }
 
     /** URL input control. */
-    StyleGroup inputUrl(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputUrl(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="url"]' + sel, clos) }
 
     /** Search field. */
-    StyleGroup inputSearch(String sel='', @DelegatesTo(StyleGroup) Closure clos) {
+    StyleGroup inputSearch(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         sg('input [type="search"]' + sel, clos) }
 
     /** Telephone-number-input field. */
-    StyleGroup inputTel(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('input [type="tel"]' + sel, clos) }
+    StyleGroup inputTel(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('input [type="tel"]' + sel, clos) }
 
     /** Color-well control. */
-    StyleGroup inputColor(String sel='', @DelegatesTo(StyleGroup) Closure clos){ sg('input [type="color"]' + sel, clos)}
+    StyleGroup inputColor(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos){ sg('input [type="color"]' + sel, clos)}
 
     /** Inserted text. */
-    StyleGroup ins(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('ins' + sel, clos) }
+    StyleGroup ins(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('ins' + sel, clos) }
 
     /** User input. */
-    StyleGroup kbd(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('kbd' + sel, clos) }
+    StyleGroup kbd(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('kbd' + sel, clos) }
 
     /** Key-pair generator/input control. */
-    StyleGroup keygen(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('keygen' + sel, clos) }
+    StyleGroup keygen(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('keygen' + sel, clos) }
 
     /** Caption for a form control. */
-    StyleGroup label(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('label' + sel, clos) }
+    StyleGroup label(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('label' + sel, clos) }
 
     /** Title or explanatory caption. */
-    StyleGroup legend(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('legend' + sel, clos) }
+    StyleGroup legend(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('legend' + sel, clos) }
 
     /** List item. */
-    StyleGroup li(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('li' + sel, clos) }
+    StyleGroup li(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('li' + sel, clos) }
 
     /** Inter-document relationship metadata. */
-    StyleGroup link(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('link' + sel, clos) }
+    StyleGroup link(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('link' + sel, clos) }
 
     /** Main definition. */
-    StyleGroup main(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('main' + sel, clos) }
+    StyleGroup main(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('main' + sel, clos) }
 
     /** Image-map definition. */
-    StyleGroup map(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('map' + sel, clos) }
+    StyleGroup map(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('map' + sel, clos) }
 
     /** Marked (highlighted) text. */
-    StyleGroup mark(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('mark' + sel, clos) }
+    StyleGroup mark(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('mark' + sel, clos) }
 
     /** List of commands. */
-    StyleGroup menu(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('menu' + sel, clos) }
+    StyleGroup menu(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('menu' + sel, clos) }
 
     /** Scalar gauge. */
-    StyleGroup meter(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('meter' + sel, clos) }
+    StyleGroup meter(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('meter' + sel, clos) }
 
     /** Group of navigational links. */
-    StyleGroup nav(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('nav' + sel, clos) }
+    StyleGroup nav(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('nav' + sel, clos) }
 
     /** Fallback content for script. */
-    StyleGroup noscript(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('noscript' + sel, clos) }
+    StyleGroup noscript(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('noscript' + sel, clos) }
 
     /** Generic external content. */
-    StyleGroup object(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('object' + sel, clos) }
+    StyleGroup object(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('object' + sel, clos) }
 
     /** Ordered list. */
-    StyleGroup ol(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('ol' + sel, clos) }
+    StyleGroup ol(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('ol' + sel, clos) }
 
     /** Group of options. */
-    StyleGroup optgroup(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('optgroup' + sel, clos) }
+    StyleGroup optgroup(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('optgroup' + sel, clos) }
 
     /** Option. */
-    StyleGroup option(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('option' + sel, clos) }
+    StyleGroup option(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('option' + sel, clos) }
 
     /** Result of a calculation in a form. */
-    StyleGroup output(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('output' + sel, clos) }
+    StyleGroup output(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('output' + sel, clos) }
 
     /** Paragraph. */
-    StyleGroup p(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('p' + sel, clos) }
+    StyleGroup p(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('p' + sel, clos) }
 
     /** Initialization parameters for plugins. */
-    StyleGroup param(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('param' + sel, clos) }
+    StyleGroup param(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('param' + sel, clos) }
 
     /** Preformatted text. */
-    StyleGroup pre(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('pre' + sel, clos) }
+    StyleGroup pre(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('pre' + sel, clos) }
 
     /** Progress indicator. */
-    StyleGroup progress(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('progress' + sel, clos) }
+    StyleGroup progress(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('progress' + sel, clos) }
 
     /** Quoted text. */
-    StyleGroup q(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('q' + sel, clos) }
+    StyleGroup q(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('q' + sel, clos) }
 
     /** Ruby parenthesis. */
-    StyleGroup rp(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('rp' + sel, clos) }
+    StyleGroup rp(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('rp' + sel, clos) }
 
     /** Ruby text. */
-    StyleGroup rt(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('rt' + sel, clos) }
+    StyleGroup rt(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('rt' + sel, clos) }
 
     /** Ruby annotation. */
-    StyleGroup ruby(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('ruby' + sel, clos) }
+    StyleGroup ruby(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('ruby' + sel, clos) }
 
     /** Struck text. */
-    StyleGroup s(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('s' + sel, clos) }
+    StyleGroup s(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('s' + sel, clos) }
 
     /** (sample) output. */
-    StyleGroup samp(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('samp' + sel, clos) }
+    StyleGroup samp(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('samp' + sel, clos) }
 
     /** Section. */
-    StyleGroup section(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('section' + sel, clos) }
+    StyleGroup section(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('section' + sel, clos) }
 
     /** Option-selection form control. */
-    StyleGroup select(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('select' + sel, clos) }
+    StyleGroup select(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('select' + sel, clos) }
 
     /** Small print. */
-    StyleGroup small(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('small' + sel, clos) }
+    StyleGroup small(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('small' + sel, clos) }
 
     /** Media source. */
-    StyleGroup source(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('source' + sel, clos) }
+    StyleGroup source(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('source' + sel, clos) }
 
     /** Generic span. */
-    StyleGroup span(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('span' + sel, clos) }
+    StyleGroup span(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('span' + sel, clos) }
 
     /** Strong importance. */
-    StyleGroup strong(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('strong' + sel, clos) }
+    StyleGroup strong(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('strong' + sel, clos) }
 
     /** Subscript. */
-    StyleGroup sub(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('sub' + sel, clos) }
+    StyleGroup sub(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('sub' + sel, clos) }
 
     /** Summary, caption, or legend for a details control. */
-    StyleGroup summary(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('summary' + sel, clos) }
+    StyleGroup summary(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('summary' + sel, clos) }
 
     /** Superscript. */
-    StyleGroup sup(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('sup' + sel, clos) }
+    StyleGroup sup(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('sup' + sel, clos) }
 
     /** Table. */
-    StyleGroup table(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('table' + sel, clos) }
+    StyleGroup table(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('table' + sel, clos) }
 
     /** Table row group. */
-    StyleGroup tbody(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('tbody' + sel, clos) }
+    StyleGroup tbody(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('tbody' + sel, clos) }
 
     /** Table cell. */
-    StyleGroup td(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('td' + sel, clos) }
+    StyleGroup td(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('td' + sel, clos) }
 
     /** Text input area. */
-    StyleGroup textarea(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('textarea' + sel, clos) }
+    StyleGroup textarea(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('textarea' + sel, clos) }
 
     /** Table footer row group. */
-    StyleGroup tfoot(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('tfoot' + sel, clos) }
+    StyleGroup tfoot(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('tfoot' + sel, clos) }
 
     /** Table header cell. */
-    StyleGroup th(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('th' + sel, clos) }
+    StyleGroup th(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('th' + sel, clos) }
 
     /** Table heading group. */
-    StyleGroup thead(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('thead' + sel, clos) }
+    StyleGroup thead(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('thead' + sel, clos) }
 
     /** Date and/or time. */
-    StyleGroup time(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('time' + sel, clos) }
+    StyleGroup time(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('time' + sel, clos) }
 
     /** Document title. */
-    StyleGroup title(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('title' + sel, clos) }
+    StyleGroup title(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('title' + sel, clos) }
 
     /** Table row. */
-    StyleGroup tr(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('tr' + sel, clos) }
+    StyleGroup tr(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('tr' + sel, clos) }
 
     /** Supplementary media track. */
-    StyleGroup track(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('track' + sel, clos) }
+    StyleGroup track(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('track' + sel, clos) }
 
     /** Offset text conventionally styled with an underline. */
-    StyleGroup u(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('u' + sel, clos) }
+    StyleGroup u(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('u' + sel, clos) }
 
     /** Unordered list. */
-    StyleGroup ul(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('ul' + sel, clos) }
+    StyleGroup ul(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('ul' + sel, clos) }
 
     /** Variable or placeholder text. */
-    StyleGroup var(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('var' + sel, clos) }
+    StyleGroup var(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('var' + sel, clos) }
 
     /** Video. */
-    StyleGroup video(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('video' + sel, clos) }
+    StyleGroup video(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('video' + sel, clos) }
 
     /** Line-break opportunity. */
-    StyleGroup wbr(String sel='', @DelegatesTo(StyleGroup) Closure clos) { sg('wbr' + sel, clos) }
+    StyleGroup wbr(String sel='', 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('wbr' + sel, clos) }
 
     // --Just for space and tilde:
     /** Math element. */
@@ -1076,8 +1222,8 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     /** Line-break opportunity. */
     Selectable wbr(Selectable sel) { sel.resetSelector("wbr $sel.selector") }
-    
-    
+
+
     //------------------------------------------------------------------> Math
     /** Returns the absolute value of a value.*/
     double abs(Number n) { (n instanceof Integer) ? n.abs() : Math.abs(n.doubleValue()) }
@@ -1309,117 +1455,155 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     }
 
     //------------------------------------------------------------------> Underscore
-    MediaCSS get_() { currentCss }
+    final Underscore underscore = new Underscore(this)
+    Underscore get_() { underscore }
 
     //---> Pseudo-classes
 
     /** Pseudo-class: :active. */
-    PseudoClass.StyleGroup active(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('active', closure) }
+    PseudoClass.StyleGroup active(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('active', closure) }
 
     /** Pseudo-class: :checked. */
-    PseudoClass.StyleGroup checked(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('checked', closure) }
+    PseudoClass.StyleGroup checked(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('checked', closure) }
 
     /** Pseudo-class: :default. */
-    PseudoClass.StyleGroup defaultPC(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('default', closure) }
+    PseudoClass.StyleGroup defaultPC(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('default', closure) }
 
     /** Pseudo-class: :disabled. */
-    PseudoClass.StyleGroup disabled(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('disabled', closure) }
+    PseudoClass.StyleGroup disabled(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('disabled', closure) }
 
     /** Pseudo-class: :empty. */
-    PseudoClass.StyleGroup empty(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('empty', closure) }
+    PseudoClass.StyleGroup empty(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('empty', closure) }
 
     /** Pseudo-class: :enabled. */
-    PseudoClass.StyleGroup enabled(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('enabled', closure) }
+    PseudoClass.StyleGroup enabled(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('enabled', closure) }
 
     /** Pseudo-class: :first-child. */
-    PseudoClass.StyleGroup firstChild(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('first-child', closure) }
+    PseudoClass.StyleGroup firstChild(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('first-child', closure) }
 
     /** Pseudo-class: :first-of-type. */
-    PseudoClass.StyleGroup firstOfType(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('first-of-type', closure) }
+    PseudoClass.StyleGroup firstOfType(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('first-of-type', closure) }
 
     /** Pseudo-class: :focus. */
-    PseudoClass.StyleGroup focus(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('focus', closure) }
+    PseudoClass.StyleGroup focus(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('focus', closure) }
 
     /** Pseudo-class: :hover. */
-    PseudoClass.StyleGroup hover(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('hover', closure) }
+    PseudoClass.StyleGroup hover(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('hover', closure) }
 
     /** Pseudo-class: :indeterminate. */
-    PseudoClass.StyleGroup indeterminate(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('indeterminate', closure) }
+    PseudoClass.StyleGroup indeterminate(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('indeterminate', closure) }
 
     /** Pseudo-class: :in-range. */
-    PseudoClass.StyleGroup inRange(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('in-range', closure) }
+    PseudoClass.StyleGroup inRange(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('in-range', closure) }
 
     /** Pseudo-class: :invalid. */
-    PseudoClass.StyleGroup invalid(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('invalid', closure) }
+    PseudoClass.StyleGroup invalid(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('invalid', closure) }
 
     /** Pseudo-class: :lang. */
-    PseudoClass.StyleGroup lang(languageCode, @DelegatesTo(StyleGroup) Closure clos) { withPseudoClass "lang($languageCode)", clos }
+    PseudoClass.StyleGroup lang(languageCode, 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { withPseudoClass "lang($languageCode)", clos }
 
     /** Pseudo-class: :last-child. */
-    PseudoClass.StyleGroup lastChild(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('last-child', closure) }
+    PseudoClass.StyleGroup lastChild(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('last-child', closure) }
 
     /** Pseudo-class: :last-of-type. */
-    PseudoClass.StyleGroup lastOfType(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('last-of-type', closure) }
+    PseudoClass.StyleGroup lastOfType(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('last-of-type', closure) }
 
     /** Pseudo-class: :link. */
-    PseudoClass.StyleGroup linkPseudoClass(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('link', closure) }
+    PseudoClass.StyleGroup linkPseudoClass(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('link', closure) }
 
-    /** Pseudo-class: :not(@DelegatesTo(StyleGroup) Closure closure). */
-    PseudoClass.StyleGroup not(notStyleGroup, @DelegatesTo(StyleGroup) Closure clos) { withPseudoClass "not($notStyleGroup)", clos }
+    /** Pseudo-class: :not(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure). */
+    PseudoClass.StyleGroup not(notStyleGroup, 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { withPseudoClass "not($notStyleGroup)", clos }
 
     /** Pseudo-class: :nth-child. */
-    PseudoClass.StyleGroup nthChild(n, @DelegatesTo(StyleGroup) Closure closure) { withPseudoClass "nth-child($n)", closure }
+    PseudoClass.StyleGroup nthChild(n, 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass "nth-child($n)", closure }
 
     /** Pseudo-class: :nth-last-child. */
-    PseudoClass.StyleGroup nthLastChild(n, @DelegatesTo(StyleGroup) Closure clos) { withPseudoClass "nth-last-child($n)", clos }
+    PseudoClass.StyleGroup nthLastChild(n, 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { withPseudoClass "nth-last-child($n)", clos }
 
     /** Pseudo-class: :nth-last-of-type. */
-    PseudoClass.StyleGroup nthLastOfType(n, @DelegatesTo(StyleGroup) Closure clos) { withPseudoClass "nth-last-of-type($n)", clos }
+    PseudoClass.StyleGroup nthLastOfType(n, 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { withPseudoClass "nth-last-of-type($n)", clos }
 
     /** Pseudo-class: :nth-of-type. */
-    PseudoClass.StyleGroup nthOfType(n, @DelegatesTo(StyleGroup) Closure closure) { withPseudoClass "nth-of-type($n)", closure }
+    PseudoClass.StyleGroup nthOfType(n, 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass "nth-of-type($n)", closure }
 
     /** Pseudo-class: "nth-child(odd)". */
-    PseudoClass.StyleGroup odd(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass "nth-child(odd)", closure }
+    PseudoClass.StyleGroup odd(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass "nth-child(odd)", closure }
 
     /** Pseudo-class: "nth-child(even)". */
-    PseudoClass.StyleGroup even(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass "nth-child(even)", closure }
+    PseudoClass.StyleGroup even(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass "nth-child(even)", closure }
 
     /** Pseudo-class: :only-child. */
-    PseudoClass.StyleGroup onlyChild(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('only-child', closure) }
+    PseudoClass.StyleGroup onlyChild(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('only-child', closure) }
 
     /** Pseudo-class: :only-of-type. */
-    PseudoClass.StyleGroup onlyOfType(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('only-of-type', closure) }
+    PseudoClass.StyleGroup onlyOfType(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('only-of-type', closure) }
 
     /** Pseudo-class: :optional. */
-    PseudoClass.StyleGroup optional(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('optional', closure) }
+    PseudoClass.StyleGroup optional(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('optional', closure) }
 
     /** Pseudo-class: :out-of-range. */
-    PseudoClass.StyleGroup outOfRange(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('out-of-range', closure) }
+    PseudoClass.StyleGroup outOfRange(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('out-of-range', closure) }
 
     /** Pseudo-class: :read-only. */
-    PseudoClass.StyleGroup readOnly(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('read-only', closure) }
+    PseudoClass.StyleGroup readOnly(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('read-only', closure) }
 
     /** Pseudo-class: :read-write. */
-    PseudoClass.StyleGroup readWrite(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('read-write', closure) }
+    PseudoClass.StyleGroup readWrite(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('read-write', closure) }
 
     /** Pseudo-class: :required. */
-    PseudoClass.StyleGroup required(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('required', closure) }
+    PseudoClass.StyleGroup required(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('required', closure) }
 
     /** Pseudo-class: :root. */
-    PseudoClass.StyleGroup root(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('root', closure) }
+    PseudoClass.StyleGroup root(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('root', closure) }
 
     /** Pseudo-class: :target. */
-    PseudoClass.StyleGroup target(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('target', closure) }
+    PseudoClass.StyleGroup target(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('target', closure) }
 
     /** Pseudo-class: :valid. */
-    PseudoClass.StyleGroup valid(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('valid', closure) }
+    PseudoClass.StyleGroup valid(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('valid', closure) }
 
     /** Pseudo-class: :visited. */
-    PseudoClass.StyleGroup visited(@DelegatesTo(StyleGroup) Closure closure) { withPseudoClass('visited', closure) }
+    PseudoClass.StyleGroup visited(
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('visited', closure) }
 
     @TypeChecked
-    PseudoClass.StyleGroup withPseudoClass(String pseudoClass, @DelegatesTo(StyleGroup) Closure closure) {
+    PseudoClass.StyleGroup withPseudoClass(String pseudoClass, 
+        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         def sg = new PseudoClass.StyleGroup(":$pseudoClass", config, currentCss)
         closure.delegate = sg
         closure(sg)

@@ -33,7 +33,8 @@ class StringExtension {
      * Useful for starting a GrooCSS DSL without importing anything ('main.css'.groocss { CSS DSL }).
      * To use config use: 'main.css'.groocss(new Config()) { CSS DSL }.
      **/
-    static GrooCSS groocss(String string, Config config = new Config(), @DelegatesTo(GrooCSS) Closure closure) {
+    static GrooCSS groocss(String string, Config config = new Config(),
+                           @DelegatesTo(value=GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         println "processing $string"
         GrooCSS.process(config, closure)
     }
@@ -46,7 +47,8 @@ class StringExtension {
     static Color toColor(String str) { getColor(str) }
 
     /** Used for creating style-groups using selector: allows 'body div.style'.sg {} syntax. */
-    static StyleGroup sg(String selector, @DelegatesTo(StyleGroup) Closure closure) {
+    static StyleGroup sg(String selector,
+                         @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         GrooCSS main = GrooCSS.threadLocalInstance.get()
         StyleGroup sg = new StyleGroup(selector, main.currentCss.config, main.currentCss)
         closure.delegate = sg
@@ -56,26 +58,31 @@ class StringExtension {
     }
 
     /** Used for creating style-groups using id selector: allows 'your_id'.id {} syntax. */
-    static StyleGroup id(String selector, @DelegatesTo(StyleGroup) Closure closure) {
+    static StyleGroup id(String selector,
+                         @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         sg('#' + selector, closure)
     }
 
     /** Used for creating style-groups using id selector: allows 'a.selector'.$ {} syntax. */
-    static StyleGroup $(String selector, @DelegatesTo(StyleGroup) Closure closure) {
+    static StyleGroup $(String selector,
+                        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         sg(selector, closure)
     }
 
     /** Used for creating keyframes using name. */
-    static KeyFrames kf(String name, @DelegatesTo(StyleGroup) Closure closure) {
+    static KeyFrames kf(String name,
+                        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         keyframes(name, closure)
     }
 
     /** Used for creating keyframes using name. */
-    static KeyFrames keyframes(String name, @DelegatesTo(StyleGroup) Closure closure) {
+    static KeyFrames keyframes(String name,
+                               @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         GrooCSS.threadLocalInstance.get().keyframes(name, closure)
     }
 
-    static MediaCSS media(String mediaRule, @DelegatesTo(GrooCSS) Closure closure) {
+    static MediaCSS media(String mediaRule,
+                          @DelegatesTo(value=GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         GrooCSS.threadLocalInstance.get().media(mediaRule, closure)
     }
 

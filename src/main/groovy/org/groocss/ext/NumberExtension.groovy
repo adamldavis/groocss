@@ -20,6 +20,7 @@ import org.groocss.GrooCSS
 import org.groocss.KeyFrames
 import org.groocss.Measurement as M
 import org.groocss.StyleGroup
+import org.groocss.Underscore
 
 /**
  * Extends Number and Integer classes allowing creation of Measurements, Colors and Keyframes from numbers.
@@ -48,6 +49,9 @@ class NumberExtension {
     static M getVmin (Number n) { new M(n, 'vmin') }
     static M getVmax (Number n) { new M(n, 'vmax') }
 
+    static M getPercent (Number n) { new M(n, '%') }
+    static M mod(Number n, Underscore underscore) { new M(n, '%') }
+
     /** Useful for colors: allows 0xaabbcc.color syntax (color hex value). */
     static Color getColor(Integer n) { new Color(n) }
 
@@ -55,7 +59,8 @@ class NumberExtension {
     static Color toColor(Integer n) { new Color(n) }
 
     /** Used within keyframes block such as 50% { opacity: 1 }. */
-    static KeyFrames mod(Integer n, @DelegatesTo(StyleGroup) Closure frameCl) {
+    static KeyFrames mod(Integer n,
+                         @DelegatesTo(value=StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure frameCl) {
         def css = GrooCSS.threadLocalInstance.get()
         if (css) css.currentKf.frame(n, frameCl)
     }

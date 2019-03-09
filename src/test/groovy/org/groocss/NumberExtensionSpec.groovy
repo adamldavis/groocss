@@ -50,5 +50,17 @@ class NumberExtensionSpec extends  Specification {
         180.deg
     }
 
+    def "should create percentage using percent"() {
+        expect:
+        10.percent == new Measurement(10, '%')
+    }
+
+    def "should create percentage using % _"() {
+        given:
+        def a = new Underscore()
+        expect:
+        10 % a == new Measurement(10, '%')
+        ''.groocss { body { width 100%get_() } }.toString() == 'body{width: 100%;}'
+    }
 
 }

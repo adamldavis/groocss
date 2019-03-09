@@ -157,30 +157,6 @@ class MediaCSS implements CSSPart {
         sel(selector, closure)
     }
 
-    def methodMissing(String name, args) {
-        if (args.length > 0 && args[0] instanceof Closure) sg(".$name", (Closure) args[0])
-        else if (args.length == 1 && args[0] instanceof Selector)
-            new Selector(".$name", this) ^ args[0]
-            // _.name(a)
-
-        else if (args.length > 1 && args.every {it instanceof Selector})
-            new Selector([".$name"] + (args as List), this)
-            // _.name(a, b)
-
-        else if (args.length == 2  && args[0] instanceof Selector && args[1] instanceof Closure)
-            (new Selector(".$name", this) ^ ((Selector) args[0])).sg((Closure) args[1])
-            // _.name(a) { css }
-
-        else if (args.length > 0 && args[-1] instanceof Closure && args[0..-1].every {it instanceof Selector})
-            sg([".$name"] + (args[0..-1] as List), (Closure) args[-1])
-            // _.name(a, b) { css }
-    }
-
-    /** Allows _.styleClass syntax to be used anywhere selectors are used. */
-    def propertyMissing(String name) {
-        new Selector(".$name", this)
-    }
-
     @Override
     boolean isEmpty() {
         fonts.empty && groups.empty && kfs.empty && otherCss.empty
