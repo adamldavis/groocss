@@ -1223,6 +1223,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     Selector getDd() { newElement('dd') }
     Selector getDel() { newElement('del') }
     Selector getDetails() { newElement('details') }
+    Selector getDialog() { newElement('dialog') }
     Selector getDfn() { newElement('dfn') }
     Selector getDiv() { newElement('div') }
     Selector getDl() { newElement('dl') }
