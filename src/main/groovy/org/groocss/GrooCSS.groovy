@@ -210,6 +210,11 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         new Selector("$selector", currentCss)
     }
 
+    /** Creates a selector from any given argument. Same as {@link #sel(java.lang.Object)}. */
+    Selector $(selector) {
+        sel(selector)
+    }
+
     /** Creates a new StyleGroup element and runs given closure on it. */
     StyleGroup sel(Selector selector,
                    @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure<StyleGroup> clos) {
