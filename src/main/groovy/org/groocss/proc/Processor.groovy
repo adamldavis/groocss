@@ -1,4 +1,4 @@
-package org.groocss.valid
+package org.groocss.proc
 
 import groovy.transform.CompileStatic
 import org.groocss.CSSPart

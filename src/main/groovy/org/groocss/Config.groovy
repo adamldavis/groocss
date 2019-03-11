@@ -19,7 +19,7 @@ import groovy.transform.Canonical
 import groovy.transform.CompileStatic
 import groovy.transform.MapConstructor
 import groovy.transform.builder.Builder
-import org.groocss.valid.Processor
+import org.groocss.proc.Processor
 
 /**
  * Configuration for GrooCSS conversions. There are at least four different ways to configure GrooCSS:

@@ -2,6 +2,7 @@ package org.groocss.valid
 
 import groovy.transform.CompileStatic
 import org.groocss.CSSPart
+import org.groocss.proc.Processor
 
 /**
  * Convenient abstract class for extending and making Validators but not necessary to extend.

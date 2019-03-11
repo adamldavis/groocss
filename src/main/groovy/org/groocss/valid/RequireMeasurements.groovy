@@ -18,12 +18,15 @@ package org.groocss.valid
 import groovy.transform.CompileStatic
 import org.groocss.Measurement
 import org.groocss.Style
+import org.groocss.proc.Processor
 
 /**
  * Validates that every value that can be a Measurement is one. In conjunction with the
  * {@link DefaultValidator} this has the effect of making sure that many values are correct.
  * <p>
  * You can write your own custom validators and add them via {@link org.groocss.Config}.
+ * <p>
+ *     This is not included by default, you must add it using {@link org.groocss.Config#setProcessors(java.util.Set)}.
  *
  * @see Measurement
  * @see org.groocss.Config

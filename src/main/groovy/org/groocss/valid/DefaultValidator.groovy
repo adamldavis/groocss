@@ -18,6 +18,7 @@ package org.groocss.valid
 import groovy.transform.CompileStatic
 import org.groocss.Measurement
 import org.groocss.Style
+import org.groocss.proc.Processor
 
 /**
  * Does default GrooCSS validation of Measurements.

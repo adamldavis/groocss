@@ -17,7 +17,7 @@ package org.groocss
 
 import groovy.transform.CompileStatic
 import org.groocss.valid.DefaultValidator
-import org.groocss.valid.Processor
+import org.groocss.proc.Processor
 
 import java.lang.reflect.ParameterizedType
 
