@@ -19,6 +19,13 @@ import groovy.transform.*
 
 /**
  * Represents a CSS pseudo-class such as :active, :focus, or :nthChild(odd).
+ * <p>
+ * Pseudo classes are appended to selectors using the % operator. They are chainable as well meaning
+ * the following is possible: <code>a %active %hover</code> becomes a:active:hover.
+ * <p>
+ * Special abbreviations exist such as "odd" for ":nthChild(odd)" and "even" for :nthChild(even).
+ *
+ * @see GrooCSS
  */
 @TypeChecked
 @TupleConstructor

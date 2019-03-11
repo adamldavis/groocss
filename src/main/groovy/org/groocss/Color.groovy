@@ -21,6 +21,19 @@ import java.math.MathContext
 
 /**
  * Controls Color for CSS styles and has methods for brighter, darker, etc.
+ *
+ * <p>Colors can be created using many different methods:
+ * <li>{@link ColorMethods#rgb},
+ * <li>{@link ColorMethods#rgba}, <li>{@link ColorMethods#clr},
+ * <li>{@link ColorMethods#hsl}, <li>{@link ColorMethods#hsla},
+ * <li>or using {@link org.groocss.ext.StringExtension#getColor(java.lang.String)} or 'hex'.toColor(), among others.
+ *
+ * <p>The final CSS result from a Color depends on how it was created and what methods were called on it.
+ * For example, if {@link Color#alpha(double)} is used, the output color uses rgba.
+ *
+ * <p>Methods from {@link ColorMethods} are available to modify Colors.
+ *
+ * @see ColorMethods
  */
 @EqualsAndHashCode
 class Color {

@@ -1,6 +1,5 @@
 package org.groocss.valid
 
-import groovy.transform.AutoImplement
 import groovy.transform.CompileStatic
 import org.groocss.CSSPart
 
@@ -10,7 +9,6 @@ import org.groocss.CSSPart
  * @see Processor
  * @see DefaultValidator
  */
-@AutoImplement(exception = Processor.NotImplementedException)
 @CompileStatic
 abstract class AbstractValidator<T extends CSSPart> implements Processor<T> {
 

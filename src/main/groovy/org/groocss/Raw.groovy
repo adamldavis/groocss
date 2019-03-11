@@ -20,7 +20,7 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.TupleConstructor
 
 /**
- * Created by adavis on 8/9/17.
+ * Raw contains unescaped CSS that will be output in final CSS. Created by adavis on 8/9/17.
  */
 @TupleConstructor
 @EqualsAndHashCode

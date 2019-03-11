@@ -21,6 +21,11 @@ import org.groocss.Style
 
 /**
  * Does default GrooCSS validation of Measurements.
+ * <p>Makes sure that time values are time Measurements and size values (such as top, left, width, and fontSize)
+ * are size values such as 1.px or 1.em or 10%.
+ *
+ * @see org.groocss.Config
+ * @see RequireMeasurements
  */
 @CompileStatic
 class DefaultValidator extends AbstractValidator<Style> implements Processor<Style> {

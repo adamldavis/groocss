@@ -22,7 +22,15 @@ import groovy.transform.builder.Builder
 import org.groocss.valid.Processor
 
 /**
- * Configuration for GrooCSS conversions.
+ * Configuration for GrooCSS conversions. There are at least four different ways to configure GrooCSS:
+ *
+ * <li>Using the groovy constructor: new Config(compress: true)
+ * <li>Using the builder syntax: Config.builder().compress(true).build()
+ * <li>Using the DSL: GrooCSS.withConfig { noExts().compress().utf8() }...
+ * <li>Using StringExtension with config use: 'main.css'.groocss(new Config()) { ... }.
+ *
+ * @see GrooCSS
+ * @see org.groocss.ext.StringExtension
  */
 @MapConstructor
 @Canonical

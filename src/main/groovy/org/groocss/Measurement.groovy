@@ -20,11 +20,11 @@ import org.codehaus.groovy.util.HashCodeHelper
 
 /**
  * Represents some type of number value with a unit, such as 2 seconds or 20 pixels.
- *
+ * <p>
  * Measurements are created using the DSL syntax such as:
- * <code>2.s //== two seconds
+ * <PRE>2.s //== two seconds
  * 20.px //== 20 pixels
- * 20.deg //== 20 degrees</code>
+ * 20.deg //== 20 degrees</PRE>
  *
  * @see org.groocss.ext.NumberExtension
  * @see org.groocss.valid.DefaultValidator

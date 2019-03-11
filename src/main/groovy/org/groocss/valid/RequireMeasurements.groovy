@@ -19,8 +19,15 @@ import groovy.transform.CompileStatic
 import org.groocss.Measurement
 import org.groocss.Style
 
-/** Validates that every value that can be a Measurement is one.
+/**
+ * Validates that every value that can be a Measurement is one. In conjunction with the
+ * {@link DefaultValidator} this has the effect of making sure that many values are correct.
+ * <p>
+ * You can write your own custom validators and add them via {@link org.groocss.Config}.
+ *
  * @see Measurement
+ * @see org.groocss.Config
+ * @see DefaultValidator
  */
 @CompileStatic
 class RequireMeasurements extends AbstractValidator<Style> implements Processor<Style> {
