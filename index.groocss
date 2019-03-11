@@ -3,7 +3,7 @@
 body{
   backgroundColor white
   backgroundAttachment 'fixed'
-  fontFamily ''helveticaneue-light', 'helveticaneue', helvetica, arial, sans-serif'
+  fontFamily "'helveticaneue-light', 'helveticaneue', helvetica, arial, sans-serif"
   fontSize '1pc'
   height '100%'
   margin 0
@@ -27,7 +27,7 @@ li{
   borderRadius '8px'
   border '1px solid #333'
 }
-sg '#loginform,li:first-of-typ', {
+sg '#loginform,li:first-of-type', {
   marginTop '42px'
 }
 img{
@@ -144,17 +144,7 @@ to{
   opacity 1.0
 }
 }
-WebkitKeyframes 'fade', {
-from{
-  opacity 1.0
-}
-frame 50, {
-  opacity 0.4
-}
-to{
-  opacity 1.0
-}
-}
+
 keyframes 'bounce', {
   0%, 20%, 50%, 80%, 100%{transform: translateY(0);
 }
@@ -165,16 +155,7 @@ frame 60, {
   transform 'translatey(-15px)'
 }
 }
-WebkitKeyframes 'bounce', {
-0%, 20%, 50%, 80%, 100%{transform: translateY(0);
-}
-frame 40, {
-  transform 'translatey(-30px)'
-}
-frame 60, {
-  transform 'translatey(-15px)'
-}
-}
+
 keyframes 'fadeout', {
 frame 0, {
   opacity 1.0
@@ -183,23 +164,8 @@ frame 100, {
   opacity 0
 }
 }
-WebkitKeyframes 'fadeout', {
-frame 0, {
-  opacity 1.0
-}
-frame 100, {
-  opacity 0
-}
-}
+
 keyframes 'fadein', {
-frame 0, {
-  opacity 0
-}
-frame 100, {
-  opacity 1.0
-}
-}
-WebkitKeyframes 'fadein', {
 frame 0, {
   opacity 0
 }

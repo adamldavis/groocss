@@ -33,7 +33,7 @@ groocssfiles {
 }
 
 ext {
-    groocssVer = "1.0-M1"
+    groocssVer = "1.0-M2"
 }
 configurations {
     sources
