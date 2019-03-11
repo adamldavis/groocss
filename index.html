@@ -86,24 +86,28 @@
       <p>From 1.0-M1 onwards, GrooCSS uses groovy extension modules to extend String, Integer, and Number
           so the following syntax can be used fully with IDE code completion.</p>
 
-      <pre><code>def myColor = 'fe33ac'.color
+      <pre><code>def myColor = 'fe33ac'.color   // creates a Color object
+def mySize = 100.px
 
 '.box'.sg {             //sg or $ can be used interchangeably whichever you prefer
-  color myColor
-  borderColor whiteSmoke // borderColor becomes border-color
-  padding 2.em          // resolves to 2em
+  color myColor          // resolves to color: #fe33ac
+  borderColor whiteSmoke // borderColor becomes border-color; built-in named colors
+  padding 2.em           // resolves to 2em; validated
 }
 table {
     color myColor background black //fluent
 }
-'table.myClass'.$ {
-    color myColor.darker()
+'table.my-class'.$ {
+    color darken(myColor)  // tint, shade, lighten, mix, fade, and many other methods
 }
-"input['class$=test']".$ {
+input %odd {          // becomes input:nth-child(odd)
     background yellow
 }
 'formId'.id {       // resolves to #formId
-    minWidth 100.px // resolves to 100px
+    minWidth mySize      // resolves to 100px
+    maxWidth mySize*2    // resolves to 200px
+    fontSize 1.cm + 2.mm // you can add different types
+    extend(table)        // ability to extend previously defined styles
 }
 $('.box div') {      // can use jQuery-style as well
   boxShadow '0 0 5px rgba(0, 0, 0, 0.3)'
@@ -111,7 +115,8 @@ $('.box div') {      // can use jQuery-style as well
 
 
         <h3>
-        <a id="styles-dsl" class="anchor" href="#styles-dsl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dynamic Styles DSL</h3>
+        <a id="styles-dsl" class="anchor" href="#styles-dsl" aria-hidden="true">
+            <span aria-hidden="true" class="octicon octicon-link"></span></a>Dynamic Styles DSL/More Operators</h3>
 
 <pre><code>def myColor = c('#fe33ac')
 
@@ -125,7 +130,7 @@ table {
 table.my_class {           //can be configured to replace _ with -
     color myColor.darker()
 }
-input['class$="test"'] = {
+input['class$="test"'] = { //becomes input[class$="test"]
     background yellow
 }
 sg '#formId', {     // sg useful for ID's
