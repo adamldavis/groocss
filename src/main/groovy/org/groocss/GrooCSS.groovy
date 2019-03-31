@@ -21,7 +21,6 @@ import groovy.transform.*
 import org.codehaus.groovy.control.customizers.ImportCustomizer
 
 import javax.imageio.ImageIO
-import java.lang.reflect.Type
 
 /**
  * Entrance to DSL for converting code into CSS.
@@ -900,333 +899,347 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     StyleGroup wbr(String sel='', 
         @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) { sg('wbr' + sel, clos) }
 
-    // --Just for space and tilde:
+    /** The following 110 methods enable CSS-like selectors like body a, b {} or div ~ ul img {}
+     * or extend(body a) and many others. */
+
+    private Selectable handleHtmlElement(String element, Selectable... sels) {
+        if (sels.length == 0) {
+            new Selector(element, currentCss)
+        } else if (sels.length == 1) {
+            sels[0].resetSelector("$element ${sels[0].selector}")
+        } else if (sels[-1] instanceof StyleGroup) {
+            sels[-1].resetSelector("$element ${sels[0..-2].join(', ')}, ${sels[-1].selector}")
+        } else {
+            new Selector("$element ${sels.join(', ')}", currentCss)
+        }
+    }
+
     /** Math element. */
-    Selectable math(Selectable sel) { sel.resetSelector("math $sel.selector") }
+    Selectable math(Selectable... sel) { handleHtmlElement('math', sel) }
 
     /** Scalable vector graphics. */
-    Selectable svg(Selectable sel) { sel.resetSelector("svg $sel.selector") }
+    Selectable svg(Selectable... sel) { handleHtmlElement('svg', sel) }
 
     /** Hyperlink. */
-    Selectable a(Selectable sel) { sel.resetSelector("a $sel.selector") }
+    Selectable a(Selectable... sel) { handleHtmlElement('a', sel) }
 
     /** Abbreviation. */
-    Selectable abbr(Selectable sel) { sel.resetSelector("abbr $sel.selector") }
+    Selectable abbr(Selectable... sel) { handleHtmlElement('abbr', sel) }
 
     /** Contact information. */
-    Selectable address(Selectable sel) { sel.resetSelector("address $sel.selector") }
+    Selectable address(Selectable... sel) { handleHtmlElement('address', sel) }
 
     /** Image-map hyperlink. */
-    Selectable area(Selectable sel) { sel.resetSelector("area $sel.selector") }
+    Selectable area(Selectable... sel) { handleHtmlElement('area', sel) }
 
     /** Article. */
-    Selectable article(Selectable sel) { sel.resetSelector("article $sel.selector") }
+    Selectable article(Selectable... sel) { handleHtmlElement('article', sel) }
 
     /** Tangential content. */
-    Selectable aside(Selectable sel) { sel.resetSelector("aside $sel.selector") }
+    Selectable aside(Selectable... sel) { handleHtmlElement('aside', sel) }
 
     /** Audio stream. */
-    Selectable audio(Selectable sel) { sel.resetSelector("audio $sel.selector") }
+    Selectable audio(Selectable... sel) { handleHtmlElement('audio', sel) }
 
     /** Offset text conventionally styled in bold. */
-    Selectable b(Selectable sel) { sel.resetSelector("b $sel.selector") }
+    Selectable b(Selectable... sel) { handleHtmlElement('b', sel) }
 
     /** Base URL. */
-    Selectable base(Selectable sel) { sel.resetSelector("base $sel.selector") }
+    Selectable base(Selectable... sel) { handleHtmlElement('base', sel) }
 
     /** BiDi isolate. */
-    Selectable bdi(Selectable sel) { sel.resetSelector("bdi $sel.selector") }
+    Selectable bdi(Selectable... sel) { handleHtmlElement('bdi', sel) }
 
     /** BiDi override. */
-    Selectable bdo(Selectable sel) { sel.resetSelector("bdo $sel.selector") }
+    Selectable bdo(Selectable... sel) { handleHtmlElement('bdo', sel) }
 
     /** Block quotation. */
-    Selectable blockquote(Selectable sel) { sel.resetSelector("blockquote $sel.selector") }
+    Selectable blockquote(Selectable... sel) { handleHtmlElement('blockquote', sel) }
 
     /** Document body. */
-    Selectable body(Selectable sel) { sel.resetSelector("body $sel.selector") }
+    Selectable body(Selectable... sel) { handleHtmlElement('body', sel) }
 
     /** Line break. */
-    Selectable br(Selectable sel) { sel.resetSelector("br $sel.selector") }
+    Selectable br(Selectable... sel) { handleHtmlElement('br', sel) }
 
     /** Button. */
-    Selectable button(Selectable sel) { sel.resetSelector("button $sel.selector") }
+    Selectable button(Selectable... sel) { handleHtmlElement('button', sel) }
 
     /** Canvas for dynamic graphics. */
-    Selectable canvas(Selectable sel) { sel.resetSelector("canvas $sel.selector") }
+    Selectable canvas(Selectable... sel) { handleHtmlElement('canvas', sel) }
 
     /** Table title. */
-    Selectable caption(Selectable sel) { sel.resetSelector("caption $sel.selector") }
+    Selectable caption(Selectable... sel) { handleHtmlElement('caption', sel) }
 
     /** Cited title of a work. */
-    Selectable cite(Selectable sel) { sel.resetSelector("cite $sel.selector") }
+    Selectable cite(Selectable... sel) { handleHtmlElement('cite', sel) }
 
     /** Code fragment. */
-    Selectable code(Selectable sel) { sel.resetSelector("code $sel.selector") }
+    Selectable code(Selectable... sel) { handleHtmlElement('code', sel) }
 
     /** Table column. */
-    Selectable col(Selectable sel) { sel.resetSelector("col $sel.selector") }
+    Selectable col(Selectable... sel) { handleHtmlElement('col', sel) }
 
     /** Table column group. */
-    Selectable colgroup(Selectable sel) { sel.resetSelector("colgroup $sel.selector") }
+    Selectable colgroup(Selectable... sel) { handleHtmlElement('colgroup', sel) }
 
     /** Command. */
-    Selectable command(Selectable sel) { sel.resetSelector("command $sel.selector") }
+    Selectable command(Selectable... sel) { handleHtmlElement('command', sel) }
 
     /** Predefined options for other controls. */
-    Selectable datalist(Selectable sel) { sel.resetSelector("datalist $sel.selector") }
+    Selectable datalist(Selectable... sel) { handleHtmlElement('datalist', sel) }
 
     /** Description or value. */
-    Selectable dd(Selectable sel) { sel.resetSelector("dd $sel.selector") }
+    Selectable dd(Selectable... sel) { handleHtmlElement('dd', sel) }
 
     /** Deleted text. */
-    Selectable del(Selectable sel) { sel.resetSelector("del $sel.selector") }
+    Selectable del(Selectable... sel) { handleHtmlElement('del', sel) }
 
     /** Control for additional on-demand information. */
-    Selectable details(Selectable sel) { sel.resetSelector("details $sel.selector") }
+    Selectable details(Selectable... sel) { handleHtmlElement('details', sel) }
 
     /** Defining instance. */
-    Selectable dfn(Selectable sel) { sel.resetSelector("dfn $sel.selector") }
+    Selectable dfn(Selectable... sel) { handleHtmlElement('dfn', sel) }
 
     /** Defines a dialog box or window. */
-    Selectable dialog(Selectable sel) { sel.resetSelector("dialog $sel.selector") }
+    Selectable dialog(Selectable... sel) { handleHtmlElement('dialog', sel) }
 
     /** Generic flow container. */
-    Selectable div(Selectable sel) { sel.resetSelector("div $sel.selector") }
+    Selectable div(Selectable... sel) { handleHtmlElement('div', sel) }
 
     /** Description list. */
-    Selectable dl(Selectable sel) { sel.resetSelector("dl $sel.selector") }
+    Selectable dl(Selectable... sel) { handleHtmlElement('dl', sel) }
 
     /** Term or name. */
-    Selectable dt(Selectable sel) { sel.resetSelector("dt $sel.selector") }
+    Selectable dt(Selectable... sel) { handleHtmlElement('dt', sel) }
 
     /** Emphatic stress. */
-    Selectable em(Selectable sel) { sel.resetSelector("em $sel.selector") }
+    Selectable em(Selectable... sel) { handleHtmlElement('em', sel) }
 
     /** Integration point for plugins. */
-    Selectable embed(Selectable sel) { sel.resetSelector("embed $sel.selector") }
+    Selectable embed(Selectable... sel) { handleHtmlElement('embed', sel) }
 
     /** Set of related form controls. */
-    Selectable fieldset(Selectable sel) { sel.resetSelector("fieldset $sel.selector") }
+    Selectable fieldset(Selectable... sel) { handleHtmlElement('fieldset', sel) }
 
     /** Figure caption. */
-    Selectable figcaption(Selectable sel) { sel.resetSelector("figcaption $sel.selector") }
+    Selectable figcaption(Selectable... sel) { handleHtmlElement('figcaption', sel) }
 
     /** Figure with optional caption. */
-    Selectable figure(Selectable sel) { sel.resetSelector("figure $sel.selector") }
+    Selectable figure(Selectable... sel) { handleHtmlElement('figure', sel) }
 
     /** Footer. */
-    Selectable footer(Selectable sel) { sel.resetSelector("footer $sel.selector") }
+    Selectable footer(Selectable... sel) { handleHtmlElement('footer', sel) }
 
     /** User-submittable form. */
-    Selectable form(Selectable sel) { sel.resetSelector("form $sel.selector") }
+    Selectable form(Selectable... sel) { handleHtmlElement('form', sel) }
 
     /** Heading. */
-    Selectable h1(Selectable sel) { sel.resetSelector("h1 $sel.selector") }
+    Selectable h1(Selectable... sel) { handleHtmlElement('h1', sel) }
 
     /** Heading. */
-    Selectable h2(Selectable sel) { sel.resetSelector("h2 $sel.selector") }
+    Selectable h2(Selectable... sel) { handleHtmlElement('h2', sel) }
 
     /** Heading. */
-    Selectable h3(Selectable sel) { sel.resetSelector("h3 $sel.selector") }
+    Selectable h3(Selectable... sel) { handleHtmlElement('h3', sel) }
 
     /** Heading. */
-    Selectable h4(Selectable sel) { sel.resetSelector("h4 $sel.selector") }
+    Selectable h4(Selectable... sel) { handleHtmlElement('h4', sel) }
 
     /** Heading. */
-    Selectable h5(Selectable sel) { sel.resetSelector("h5 $sel.selector") }
+    Selectable h5(Selectable... sel) { handleHtmlElement('h5', sel) }
 
     /** Heading. */
-    Selectable h6(Selectable sel) { sel.resetSelector("h6 $sel.selector") }
+    Selectable h6(Selectable... sel) { handleHtmlElement('h6', sel) }
 
     /** Document metadata container. */
-    Selectable head(Selectable sel) { sel.resetSelector("head $sel.selector") }
+    Selectable head(Selectable... sel) { handleHtmlElement('head', sel) }
 
     /** Header. */
-    Selectable header(Selectable sel) { sel.resetSelector("header $sel.selector") }
+    Selectable header(Selectable... sel) { handleHtmlElement('header', sel) }
 
     /** Heading group. */
-    Selectable hgroup(Selectable sel) { sel.resetSelector("hgroup $sel.selector") }
+    Selectable hgroup(Selectable... sel) { handleHtmlElement('hgroup', sel) }
 
     /** Thematic break. */
-    Selectable hr(Selectable sel) { sel.resetSelector("hr $sel.selector") }
+    Selectable hr(Selectable... sel) { handleHtmlElement('hr', sel) }
 
     /** Root element. */
-    Selectable html(Selectable sel) { sel.resetSelector("html $sel.selector") }
+    Selectable html(Selectable... sel) { handleHtmlElement('html', sel) }
 
     /** Offset text conventionally styled in italic. */
-    Selectable i(Selectable sel) { sel.resetSelector("i $sel.selector") }
+    Selectable i(Selectable... sel) { handleHtmlElement('i', sel) }
 
     /** Nested browsing context (inline frame). */
-    Selectable iframe(Selectable sel) { sel.resetSelector("iframe $sel.selector") }
+    Selectable iframe(Selectable... sel) { handleHtmlElement('iframe', sel) }
 
     /** Image. */
-    Selectable img(Selectable sel) { sel.resetSelector("img $sel.selector") }
+    Selectable img(Selectable... sel) { handleHtmlElement('img', sel) }
 
     /** Input control. */
-    Selectable input(Selectable sel) { sel.resetSelector("input $sel.selector") }
+    Selectable input(Selectable... sel) { handleHtmlElement('input', sel) }
 
     /** Inserted text. */
-    Selectable ins(Selectable sel) { sel.resetSelector("ins $sel.selector") }
+    Selectable ins(Selectable... sel) { handleHtmlElement('ins', sel) }
 
     /** User input. */
-    Selectable kbd(Selectable sel) { sel.resetSelector("kbd $sel.selector") }
+    Selectable kbd(Selectable... sel) { handleHtmlElement('kbd', sel) }
 
     /** Key-pair generator/input control. */
-    Selectable keygen(Selectable sel) { sel.resetSelector("keygen $sel.selector") }
+    Selectable keygen(Selectable... sel) { handleHtmlElement('keygen', sel) }
 
     /** Caption for a form control. */
-    Selectable label(Selectable sel) { sel.resetSelector("label $sel.selector") }
+    Selectable label(Selectable... sel) { handleHtmlElement('label', sel) }
 
     /** Title or explanatory caption. */
-    Selectable legend(Selectable sel) { sel.resetSelector("legend $sel.selector") }
+    Selectable legend(Selectable... sel) { handleHtmlElement('legend', sel) }
 
     /** List item. */
-    Selectable li(Selectable sel) { sel.resetSelector("li $sel.selector") }
+    Selectable li(Selectable... sel) { handleHtmlElement('li', sel) }
 
     /** Inter-document relationship metadata. */
-    Selectable link(Selectable sel) { sel.resetSelector("link $sel.selector") }
+    Selectable link(Selectable... sel) { handleHtmlElement('link', sel) }
 
     /** Main definition. */
-    Selectable main(Selectable sel) { sel.resetSelector("main $sel.selector") }
+    Selectable main(Selectable... sel) { handleHtmlElement('main', sel) }
 
     /** Image-map definition. */
-    Selectable map(Selectable sel) { sel.resetSelector("map $sel.selector") }
+    Selectable map(Selectable... sel) { handleHtmlElement('map', sel) }
 
     /** Marked (highlighted) text. */
-    Selectable mark(Selectable sel) { sel.resetSelector("mark $sel.selector") }
+    Selectable mark(Selectable... sel) { handleHtmlElement('mark', sel) }
 
     /** List of commands. */
-    Selectable menu(Selectable sel) { sel.resetSelector("menu $sel.selector") }
+    Selectable menu(Selectable... sel) { handleHtmlElement('menu', sel) }
 
     /** Scalar gauge. */
-    Selectable meter(Selectable sel) { sel.resetSelector("meter $sel.selector") }
+    Selectable meter(Selectable... sel) { handleHtmlElement('meter', sel) }
 
     /** Group of navigational links. */
-    Selectable nav(Selectable sel) { sel.resetSelector("nav $sel.selector") }
+    Selectable nav(Selectable... sel) { handleHtmlElement('nav', sel) }
 
     /** Fallback content for script. */
-    Selectable noscript(Selectable sel) { sel.resetSelector("noscript $sel.selector") }
+    Selectable noscript(Selectable... sel) { handleHtmlElement('noscript', sel) }
 
     /** Generic external content. */
-    Selectable object(Selectable sel) { sel.resetSelector("object $sel.selector") }
+    Selectable object(Selectable... sel) { handleHtmlElement('object', sel) }
 
     /** Ordered list. */
-    Selectable ol(Selectable sel) { sel.resetSelector("ol $sel.selector") }
+    Selectable ol(Selectable... sel) { handleHtmlElement('ol', sel) }
 
     /** Group of options. */
-    Selectable optgroup(Selectable sel) { sel.resetSelector("optgroup $sel.selector") }
+    Selectable optgroup(Selectable... sel) { handleHtmlElement('optgroup', sel) }
 
     /** Option. */
-    Selectable option(Selectable sel) { sel.resetSelector("option $sel.selector") }
+    Selectable option(Selectable... sel) { handleHtmlElement('option', sel) }
 
     /** Result of a calculation in a form. */
-    Selectable output(Selectable sel) { sel.resetSelector("output $sel.selector") }
+    Selectable output(Selectable... sel) { handleHtmlElement('output', sel) }
 
     /** Paragraph. */
-    Selectable p(Selectable sel) { sel.resetSelector("p $sel.selector") }
+    Selectable p(Selectable... sel) { handleHtmlElement('p', sel) }
 
     /** Initialization parameters for plugins. */
-    Selectable param(Selectable sel) { sel.resetSelector("param $sel.selector") }
+    Selectable param(Selectable... sel) { handleHtmlElement('param', sel) }
 
     /** Preformatted text. */
-    Selectable pre(Selectable sel) { sel.resetSelector("pre $sel.selector") }
+    Selectable pre(Selectable... sel) { handleHtmlElement('pre', sel) }
 
     /** Progress indicator. */
-    Selectable progress(Selectable sel) { sel.resetSelector("progress $sel.selector") }
+    Selectable progress(Selectable... sel) { handleHtmlElement('progress', sel) }
 
     /** Quoted text. */
-    Selectable q(Selectable sel) { sel.resetSelector("q $sel.selector") }
+    Selectable q(Selectable... sel) { handleHtmlElement('q', sel) }
 
     /** Ruby parenthesis. */
-    Selectable rp(Selectable sel) { sel.resetSelector("rp $sel.selector") }
+    Selectable rp(Selectable... sel) { handleHtmlElement('rp', sel) }
 
     /** Ruby text. */
-    Selectable rt(Selectable sel) { sel.resetSelector("rt $sel.selector") }
+    Selectable rt(Selectable... sel) { handleHtmlElement('rt', sel) }
 
     /** Ruby annotation. */
-    Selectable ruby(Selectable sel) { sel.resetSelector("ruby $sel.selector") }
+    Selectable ruby(Selectable... sel) { handleHtmlElement('ruby', sel) }
 
     /** Struck text. */
-    Selectable s(Selectable sel) { sel.resetSelector("s $sel.selector") }
+    Selectable s(Selectable... sel) { handleHtmlElement('s', sel) }
 
     /** (sample) output. */
-    Selectable samp(Selectable sel) { sel.resetSelector("samp $sel.selector") }
+    Selectable samp(Selectable... sel) { handleHtmlElement('samp', sel) }
 
     /** Section. */
-    Selectable section(Selectable sel) { sel.resetSelector("section $sel.selector") }
+    Selectable section(Selectable... sel) { handleHtmlElement('section', sel) }
 
     /** Option-selection form control. */
-    Selectable select(Selectable sel) { sel.resetSelector("select $sel.selector") }
+    Selectable select(Selectable... sel) { handleHtmlElement('select', sel) }
 
     /** Small print. */
-    Selectable small(Selectable sel) { sel.resetSelector("small $sel.selector") }
+    Selectable small(Selectable... sel) { handleHtmlElement('small', sel) }
 
     /** Media source. */
-    Selectable source(Selectable sel) { sel.resetSelector("source $sel.selector") }
+    Selectable source(Selectable... sel) { handleHtmlElement('source', sel) }
 
     /** Generic span. */
-    Selectable span(Selectable sel) { sel.resetSelector("span $sel.selector") }
+    Selectable span(Selectable... sel) { handleHtmlElement('span', sel) }
 
     /** Strong importance. */
-    Selectable strong(Selectable sel) { sel.resetSelector("strong $sel.selector") }
+    Selectable strong(Selectable... sel) { handleHtmlElement('strong', sel) }
 
     /** Subscript. */
-    Selectable sub(Selectable sel) { sel.resetSelector("sub $sel.selector") }
+    Selectable sub(Selectable... sel) { handleHtmlElement('sub', sel) }
 
     /** Summary, caption, or legend for a details control. */
-    Selectable summary(Selectable sel) { sel.resetSelector("summary $sel.selector") }
+    Selectable summary(Selectable... sel) { handleHtmlElement('summary', sel) }
 
     /** Superscript. */
-    Selectable sup(Selectable sel) { sel.resetSelector("sup $sel.selector") }
+    Selectable sup(Selectable... sel) { handleHtmlElement('sup', sel) }
 
     /** Table. */
-    Selectable table(Selectable sel) { sel.resetSelector("table $sel.selector") }
+    Selectable table(Selectable... sel) { handleHtmlElement('table', sel) }
 
     /** Table row group. */
-    Selectable tbody(Selectable sel) { sel.resetSelector("tbody $sel.selector") }
+    Selectable tbody(Selectable... sel) { handleHtmlElement('tbody', sel) }
 
     /** Table cell. */
-    Selectable td(Selectable sel) { sel.resetSelector("td $sel.selector") }
+    Selectable td(Selectable... sel) { handleHtmlElement('td', sel) }
 
     /** Text input area. */
-    Selectable textarea(Selectable sel) { sel.resetSelector("textarea $sel.selector") }
+    Selectable textarea(Selectable... sel) { handleHtmlElement('textarea', sel) }
 
     /** Table footer row group. */
-    Selectable tfoot(Selectable sel) { sel.resetSelector("tfoot $sel.selector") }
+    Selectable tfoot(Selectable... sel) { handleHtmlElement('tfoot', sel) }
 
     /** Table header cell. */
-    Selectable th(Selectable sel) { sel.resetSelector("th $sel.selector") }
+    Selectable th(Selectable... sel) { handleHtmlElement('th', sel) }
 
     /** Table heading group. */
-    Selectable thead(Selectable sel) { sel.resetSelector("thead $sel.selector") }
+    Selectable thead(Selectable... sel) { handleHtmlElement('thead', sel) }
 
     /** Date and/or time. */
-    Selectable time(Selectable sel) { sel.resetSelector("time $sel.selector") }
+    Selectable time(Selectable... sel) { handleHtmlElement('time', sel) }
 
     /** Document title. */
-    Selectable title(Selectable sel) { sel.resetSelector("title $sel.selector") }
+    Selectable title(Selectable... sel) { handleHtmlElement('title', sel) }
 
     /** Table row. */
-    Selectable tr(Selectable sel) { sel.resetSelector("tr $sel.selector") }
+    Selectable tr(Selectable... sel) { handleHtmlElement('tr', sel) }
 
     /** Supplementary media track. */
-    Selectable track(Selectable sel) { sel.resetSelector("track $sel.selector") }
+    Selectable track(Selectable... sel) { handleHtmlElement('track', sel) }
 
     /** Offset text conventionally styled with an underline. */
-    Selectable u(Selectable sel) { sel.resetSelector("u $sel.selector") }
+    Selectable u(Selectable... sel) { handleHtmlElement('u', sel) }
 
     /** Unordered list. */
-    Selectable ul(Selectable sel) { sel.resetSelector("ul $sel.selector") }
+    Selectable ul(Selectable... sel) { handleHtmlElement('ul', sel) }
 
     /** Variable or placeholder text. */
-    Selectable var(Selectable sel) { sel.resetSelector("var $sel.selector") }
+    Selectable var(Selectable... sel) { handleHtmlElement('var', sel) }
 
     /** Video. */
-    Selectable video(Selectable sel) { sel.resetSelector("video $sel.selector") }
+    Selectable video(Selectable... sel) { handleHtmlElement('video', sel) }
 
     /** Line-break opportunity. */
-    Selectable wbr(Selectable sel) { sel.resetSelector("wbr $sel.selector") }
+    Selectable wbr(Selectable... sel) { handleHtmlElement('wbr', sel) }
 
 
     //------------------------------------------------------------------> Math

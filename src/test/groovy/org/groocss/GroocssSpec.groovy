@@ -843,4 +843,17 @@ class GroocssSpec extends Specification {
         "time" | { sg(get_().info(time)){ background '#000' }}
     }
 
+    @Unroll
+    def "should create style groups using commas: #css"() {
+        expect:
+        g.toString() == css
+        where:
+        g | css
+        GrooCSS.process { body a, b { fontWeight 'bold' } }.css |'body a, b{font-weight: bold;}'
+        GrooCSS.process { body a,b,i { fontWeight 'bold' } }.css |'body a, b, i{font-weight: bold;}'
+        GrooCSS.process { body a,b i { fontWeight 'bold' } }.css        |'body a, b i{font-weight: bold;}'
+        GrooCSS.process { body a,section h1 { fontWeight 'bold' } }.css |'body a, section h1{font-weight: bold;}'
+        GrooCSS.process { form li, tr { fontWeight 'bold' } }.css |'form li, tr{font-weight: bold;}'
+    }
+
 }
