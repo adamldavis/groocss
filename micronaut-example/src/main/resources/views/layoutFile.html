@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:replace="${title}">Layout Title</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <article>
+        <h1>Example</h1>
+        <div th:replace="${content}">
+            <p>Layout content</p>
+        </div>
+    </article>
+    <footer>
+        Copyright 2019, Adam L. Davis
+    </footer>
+</body>
+</html>
+
