@@ -3,7 +3,7 @@ html {
     fontFamily '"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif'
     textAlign 'justify'
 }
-pre, code {
+pre | code {
     fontFamily '"Courier New", monospace, serif'
     fontSize 1.em
 }
