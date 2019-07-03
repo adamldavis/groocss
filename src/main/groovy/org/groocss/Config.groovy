@@ -17,7 +17,6 @@ package org.groocss
 
 import groovy.transform.Canonical
 import groovy.transform.CompileStatic
-import groovy.transform.MapConstructor
 import groovy.transform.builder.Builder
 import org.groocss.proc.Processor
 
@@ -32,7 +31,6 @@ import org.groocss.proc.Processor
  * @see GrooCSS
  * @see org.groocss.ext.StringExtension
  */
-@MapConstructor
 @Canonical
 @Builder
 @CompileStatic
@@ -61,6 +59,18 @@ class Config {
     Set<Processor> processors = []
 
     Config() {}
+    
+    Config(Map map) {
+        if (map.processors) processors = map.processors as Set<Processor>
+        if (map.convertUnderline instanceof Boolean) convertUnderline = map.convertUnderline
+        if (map.addMs instanceof Boolean) addMs = map.addMs
+        if (map.addMoz instanceof Boolean) addMoz = map.addMoz
+        if (map.addWebkit instanceof Boolean) addWebkit = map.addWebkit
+        if (map.addOpera instanceof Boolean) addOpera = map.addOpera
+        if (map.prettyPrint instanceof Boolean) prettyPrint = map.prettyPrint
+        if (map.compress instanceof Boolean) compress = map.compress
+        if (map.charset instanceof String) charset = map.charset as String
+    }
 
     Config withProcessors(Collection<Processor> list) {
         processors.addAll(list)

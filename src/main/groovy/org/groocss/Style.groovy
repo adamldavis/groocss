@@ -22,7 +22,6 @@ import java.util.regex.*
 @CompileStatic
 @TupleConstructor
 @EqualsAndHashCode
-@MapConstructor
 class Style implements CSSPart {
 
     /** Name of the Style (in camel-case) .*/
