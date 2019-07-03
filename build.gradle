@@ -14,7 +14,7 @@
    limitations under the License.
 */
 plugins {
-    id "org.groocss.groocss-gradle-plugin" version "0.12"
+    id "org.groocss.groocss-gradle-plugin" version "1.0-M3"
     id "java"
     id "groovy"
 }
@@ -33,7 +33,7 @@ groocssfiles {
 }
 
 ext {
-    groocssVer = "1.0-M2"
+    groocssVer = "1.0-M3"
 }
 configurations {
     sources
