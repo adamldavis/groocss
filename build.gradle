@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.5.6'
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
 }
 
@@ -80,6 +80,10 @@ task release(dependsOn: bintrayUpload, description: 'Uploads artifacts to bintra
 
 task inc(description: 'Increments the project version and appends -SNAPSHOT') doLast { incrementVersion() }
 
+task g24(description: 'Sets the groovy version to 2.4') doLast { updateGroovy('2_4') }
+task g25(description: 'Sets the groovy version to 2.5') doLast { updateGroovy('2_5') }
+task g30(description: 'Sets the groovy version to 3.0') doLast { updateGroovy('3_0') }
+
 def incrementVersion() {
     def props = new Properties()
     def f = file('gradle.properties')
@@ -89,6 +93,13 @@ def incrementVersion() {
     nums[-1] = (nums[-1] as int) + 1
     def newVersion = version.contains('M') ? "${nums[0..-2].join('.')}-M${nums[-1]}" : "${nums.join('.')}"
     props.setProperty('version', newVersion + '-SNAPSHOT')
+    f.withOutputStream {props.store(it, 'gradle properties')}
+}
+def updateGroovy(version) {
+    def props = new Properties()
+    def f = file('gradle.properties')
+    f.withInputStream { props.load(it) }
+    props.setProperty('groovyVersion', props.getProperty("groovy$version"))
     f.withOutputStream {props.store(it, 'gradle properties')}
 }
 
