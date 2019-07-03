@@ -38,7 +38,7 @@ class GroocssPlugin implements Plugin<Project> {
 
         def convertFile = {File inFile, File out ->
             Config config = new Config(extension.properties)
-            GrooCSS.convert(config, inFile, out)
+            GrooCSS.convert(config, inFile, out, extension.charset ?: 'UTF-8', true)
         }
 
         def convertCss = project.task("convertCss")

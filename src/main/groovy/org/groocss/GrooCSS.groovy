@@ -54,9 +54,12 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
      * @param conf Optional Config object for configuration.
      * @param inf Input file with GrooCSS code.
      * @param out Output file of resulting CSS.
+     * @param charset Charset of file to read (UTF-8 by default).
+     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (false by default).
      */
-    static void convert(Config conf = new Config(), File inf, File out) {
-        convert(conf, inf.newInputStream(), out.newOutputStream())
+    static void convert(Config conf = new Config(), File inf, File out,
+                        String charset = "UTF-8", boolean addMeta = false) {
+        convert(conf, inf.newInputStream(), out.newOutputStream(), charset, addMeta)
     }
 
     /**
@@ -90,18 +93,20 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     /** Processes a given InputStream and outputs to given OutputStream. */
     @TypeChecked
-    static void convert(Config conf = new Config(), InputStream inf, OutputStream out, String charset1 = "UTF-8") {
+    static void convert(Config conf = new Config(), InputStream inf, OutputStream out, String charset1 = "UTF-8",
+                        boolean addMeta = false) {
         out.withPrintWriter { pw ->
-            convert conf, new InputStreamReader(inf, charset1), pw
+            convert conf, new InputStreamReader(inf, charset1), pw, addMeta
         }
     }
 
     /** Processes a given Reader and outputs to given PrintWriter. */
     @TypeChecked
-    static void convert(Config conf = new Config(), Reader reader, PrintWriter writer) {
+    static void convert(Config conf = new Config(), Reader reader, PrintWriter writer, boolean addMeta = false) {
         reader.withCloseable { input ->
             def shell = makeShell()
             def script = shell.parse(input)
+            if (addMeta) script.invokeMethod('initMetaClasses', true)
             script.invokeMethod('setConfig', conf)
             def result = script.run()
             MediaCSS css = (MediaCSS) script.getProperty('css')
@@ -218,9 +223,14 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
 
     GrooCSS() {
-        addNumberMetaStuff()
-        addStringMetaStuff()
         threadLocalInstance.set(this) // set this instance for the current Thread
+    }
+
+    /** Called when addMeta is true (parameter to "convert") which is used by Gradle plugin. */
+    void initMetaClasses(boolean addNumberMeta = true, boolean addStringMeta = true) {
+        if (addNumberMeta) addNumberMetaStuff()
+        if (addStringMeta) addStringMetaStuff()
+        Integer.metaClass.initMetaClassesCalled = {return true}
     }
 
     private void addStringMetaStuff() {

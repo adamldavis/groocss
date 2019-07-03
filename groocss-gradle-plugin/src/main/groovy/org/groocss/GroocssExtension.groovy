@@ -1,5 +1,7 @@
 package org.groocss
 
+import org.groocss.proc.Processor
+
 /** Extension to Gradle for configuring GrooCSS. */
 class GroocssExtension {
 
@@ -18,5 +20,10 @@ class GroocssExtension {
     /** Whether or not convert under-scores in CSS classes into dashes (main_content becomes main-content).
      * Default is false. */
     boolean convertUnderline = false
-    
+
+    /** Custom processors/validators to use.
+     * @see org.groocss.proc.Processor
+     * @see org.groocss.valid.DefaultValidator
+     */
+    Set<Processor> processors = []
 }

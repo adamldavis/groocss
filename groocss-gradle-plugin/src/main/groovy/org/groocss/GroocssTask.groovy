@@ -17,6 +17,7 @@ import org.gradle.internal.file.PathToFileResolver
 class GroocssTask extends Copy {
 
     Config conf
+    String charset = 'UTF-8'
 
     @Override
     protected CopyAction createCopyAction() {
@@ -30,6 +31,7 @@ class GroocssTask extends Copy {
                     throw new InvalidUserDataException("No copy destination directory has been specified, use 'into' to specify a target directory.");
                 }
                 def action = new GroocssFileAction(fileLookup.getFileResolver(destinationDir), conf, rootSpec)
+                action.charset = charset
                 stream.process(action)
                 return WorkResults.didWork(action.didWork)
             }
@@ -41,6 +43,7 @@ class GroocssTask extends Copy {
 
         private final PathToFileResolver fileResolver
         Config config
+        String charset = 'UTF-8'
         CopySpec copySpec
         boolean didWork
 
@@ -61,7 +64,8 @@ class GroocssTask extends Copy {
 
             if (copied) {
                 File newTarget = new File(target.parentFile, GroocssPlugin.toCssName(target.name))
-                GrooCSS.convert config, target, newTarget
+
+                GrooCSS.convert config, target, newTarget, charset, true
                 target.delete()
                 didWork = true
             }

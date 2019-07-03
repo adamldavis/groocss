@@ -42,6 +42,11 @@ dependencies {
     compile project(':'), {
         exclude module: "groovy-all", group: "org.codehaus.groovy"
     }
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4', {
+        exclude module: "groovy-all", group: "org.codehaus.groovy"
+    }
+    testRuntime "net.bytebuddy:byte-buddy:1.9.13"
+    testRuntime "org.objenesis:objenesis:3.0.1"
 }
 
 group = 'org.groocss'
