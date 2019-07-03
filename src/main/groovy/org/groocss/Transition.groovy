@@ -100,7 +100,7 @@ class Transition implements CSSPart {
         
         /** Lets you define your own values in a cubic-bezier function*/
         TransitionDelayDSL cubicBezier(n1,n2,n3,n4) {
-            validateCubics(n1,n2,n3,n4)
+            validateCubics(n1, n2, n3, n4)
             timing = "cubic-bezier($n1, $n2, $n3, $n4)"
             timingDSL
         }

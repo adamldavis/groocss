@@ -94,18 +94,17 @@ class MediaCSS implements CSSPart {
 
     @CompileStatic
     def handleErrors(List<String> errors) {
-        throw new AssertionError("There were errors: $errors")
+        throw new AssertionError((Object) "There were errors: $errors")
     }
 
     @CompileStatic
     private List<String> doProcessingOf(Processor.Phase phase) {
         List<String> errors = []
         List<? extends CSSPart> parts = []
-        config.processors.each { proc ->
+        config.processors.forEach { Processor proc ->
             Class<CSSPart> type = ((ParameterizedType) proc.class.genericInterfaces[0]).actualTypeArguments[0]
             switch (type) {
-                case Style: groups.findAll{it instanceof StyleGroup}.collect{(StyleGroup)it}.each { StyleGroup sg ->
-                    parts.addAll sg.styleList }
+                case Style: groups.findAll{it instanceof StyleGroup}.each { parts.addAll(((StyleGroup)it).styleList) }
                     break
                 case StyleGroup: parts.addAll groups.findAll{it instanceof StyleGroup}; break
                 case Raw: parts.addAll groups.findAll{it instanceof Raw}; break

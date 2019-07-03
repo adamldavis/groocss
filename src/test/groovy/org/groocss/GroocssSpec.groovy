@@ -8,6 +8,30 @@ import spock.lang.Unroll
  */
 class GroocssSpec extends Specification {
 
+    def "should process file using script that calls org.groocss.GrooCSS.process"() {
+        when:
+        def output = new File('build/test.css')
+        def input = new File('src/test/groovy/test.css.groovy')
+        println input.absolutePath
+        GrooCSS.convertFile(new Config().noExts().compress(), input, output)
+        def css = output.text
+        then:
+        css.toString() == 'body{font-size: 2em;color: Black;}article{padding: 2em;}#thing{font-size: 200%;}' +
+                '@keyframes test {from{color: Black;}to{color: Red;}}'
+    }
+
+    def "should process file using script using convertWithoutBase using given Config in file"() {
+        when:
+        def output = new File('build/test.css')
+        def input = new File('src/test/groovy/test.css.groovy')
+        println input.absolutePath
+        GrooCSS.convertWithoutBase(input, output)
+        def css = output.text
+        then:
+        css.toString() == 'body{font-size: 2em;color: Black;}article{padding: 2em;}#thing{font-size: 200%;}' +
+                '@keyframes test {from{color: Black;}to{color: Red;}}'
+    }
+
     def "should create a css"() {
         when:
         def css = GrooCSS.process {

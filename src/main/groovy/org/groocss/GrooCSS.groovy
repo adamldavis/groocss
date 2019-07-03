@@ -29,19 +29,44 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     static final ThreadLocal<GrooCSS> threadLocalInstance = new ThreadLocal<>()
 
-    static void convertFile(Config conf = new Config(), String inf, String outf) {
-        convert conf, new File(inf), new File(outf)
+    /**
+     * Converts from given filename containing GrooCSS DSL to given out filename as CSS.
+     * @param conf Optional Config object for configuration.
+     * @param inName In filename.
+     * @param outName Out filename of resulting CSS.
+     */
+    static void convertFile(Config conf = new Config(), String inName, String outName) {
+        convert conf, new File(inName), new File(outName)
     }
-    static void convertFile(Config conf = new Config(), File inf, File out) { convert conf, inf, out }
 
-    /** Converts files from CSS to GrooCSS (WARNING: EXPERIMENTAL, DO NOT ASSUME IT WORKS). */
-    @Deprecated
-    static void convertFromCSS(File inf, File out) {
-        Translator.convertFromCSS inf, out
+    /**
+     * Converts from given file containing GrooCSS DSL to given out file as CSS.
+     * @param conf Optional Config object for configuration.
+     * @param inf Input file with GrooCSS code.
+     * @param out Output file of resulting CSS.
+     */
+    static void convertFile(Config conf = new Config(), File inf, File out) {
+        convert conf, inf, out
     }
-    
+
+    /**
+     * Converts from given file containing GrooCSS DSL to given out file as CSS.
+     * @param conf Optional Config object for configuration.
+     * @param inf Input file with GrooCSS code.
+     * @param out Output file of resulting CSS.
+     */
     static void convert(Config conf = new Config(), File inf, File out) {
         convert(conf, inf.newInputStream(), out.newOutputStream())
+    }
+
+    /**
+     * Converts given file which must explicitly create a GrooCSS instance using {@link #process(Closure)} for example.
+     *
+     * @param inf Input file containing a GrooCSS.process{} block of code or ''.process{} or similar.
+     * @param out Output file of resulting CSS.
+     */
+    static void convertWithoutBase(File inf, File out) {
+        convertWithoutBase(inf.newInputStream(), out.newOutputStream())
     }
 
     /** Processes a given groocss string and outputs as CSS string. */
@@ -51,14 +76,14 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         out.toString()
     }
 
-    private static GroovyShell makeShell() {
+    private static GroovyShell makeShell(boolean addBase = true) {
         def binding = new Binding()
         def compilerConfig = new CompilerConfiguration()
         def imports = new ImportCustomizer()
         def packg = 'org.groocss'
         imports.addStarImports(packg)
         compilerConfig.addCompilationCustomizers(imports)
-        compilerConfig.scriptBaseClass = "${packg}.GrooCSS"
+        if (addBase) compilerConfig.scriptBaseClass = "${packg}.GrooCSS"
 
         new GroovyShell(GrooCSS.class.classLoader, binding, compilerConfig)
     }
@@ -74,15 +99,47 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     /** Processes a given Reader and outputs to given PrintWriter. */
     @TypeChecked
     static void convert(Config conf = new Config(), Reader reader, PrintWriter writer) {
-        def shell = makeShell()
         reader.withCloseable { input ->
+            def shell = makeShell()
             def script = shell.parse(input)
             script.invokeMethod('setConfig', conf)
-            script.run()
+            def result = script.run()
             MediaCSS css = (MediaCSS) script.getProperty('css')
             css.doProcessing()
+
+            if (result instanceof GrooCSS && ((GrooCSS) result).css.mediaRule == null) {
+                MediaCSS resultCss = ((GrooCSS) result).css
+
+                css << resultCss.fonts
+                css << resultCss.otherCss
+                css << resultCss.kfs
+                css << resultCss.groups
+            }
             writer.withCloseable { pw ->
                 css.writeTo pw
+                pw.flush()
+            }
+        }
+    }
+
+    /** Processes a given InputStream and outputs to given OutputStream assuming input script returns a GrooCSS. */
+    @TypeChecked
+    static void convertWithoutBase(InputStream inf, OutputStream out, String charset1 = "UTF-8") {
+        out.withPrintWriter { pw ->
+            convertWithoutBase new InputStreamReader(inf, charset1), pw
+        }
+    }
+
+    /** Processes a given Reader and outputs to given PrintWriter assuming input script returns a GrooCSS. */
+    @TypeChecked
+    static void convertWithoutBase(Reader reader, PrintWriter writer) {
+        def shell = makeShell(false)
+        reader.withCloseable { input ->
+            def script = shell.parse(input)
+            GrooCSS result = (GrooCSS) script.run()
+            assert result
+            writer.withCloseable { pw ->
+                result.css.writeTo pw
                 pw.flush()
             }
         }
@@ -161,8 +218,47 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
 
     GrooCSS() {
-        Number.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
+        addNumberMetaStuff()
+        addStringMetaStuff()
         threadLocalInstance.set(this) // set this instance for the current Thread
+    }
+
+    private void addStringMetaStuff() {
+        String.metaClass.groocss = { Config config, Closure closure ->
+            println "processing $delegate"; GrooCSS.process(config, closure)
+        }
+        String.metaClass.groocss = { Closure closure ->
+            println "processing $delegate"; GrooCSS.process(new Config(), closure)
+        }
+        String.metaClass.getUrl = { 'url(' + delegate + ')' }
+        String.metaClass.getColor = { new Color(delegate) }
+        String.metaClass.toColor = { new Color(delegate) }
+        String.metaClass.sg { Closure closure ->
+            GrooCSS main = GrooCSS.threadLocalInstance.get()
+            StyleGroup sg = new StyleGroup(delegate, main.currentCss.config, main.currentCss)
+            closure.delegate = sg
+            closure(sg)
+            main.currentCss.add sg
+            sg
+        }
+        String.metaClass.id = { Closure closure -> ('#' + delegate).sg(closure) }
+        String.metaClass.$ = { Closure closure -> (delegate).sg(closure) }
+        String.metaClass.kf = { Closure closure -> GrooCSS.threadLocalInstance.get().keyframes(delegate, closure) }
+        String.metaClass.keyframes = { Closure closure -> GrooCSS.threadLocalInstance.get().keyframes(delegate, closure) }
+        String.metaClass.media = { Closure closure -> GrooCSS.threadLocalInstance.get().media(delegate, closure) }
+    }
+
+    private void addNumberMetaStuff() {
+        Number.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
+        Number.metaClass.getPercent = { new Measurement((Number) delegate, '%') }
+        Number.metaClass.mod = { Underscore u -> new Measurement((Number) delegate, '%') }
+        Number.metaClass.getColor = { new Color((Number) delegate) }
+        Number.metaClass.toColor = { new Color((Number) delegate) }
+        /** Used within keyframes block such as 50% { opacity: 1 }. */
+        Integer.metaClass.mod = { Closure frameCl ->
+                def css = GrooCSS.threadLocalInstance.get()
+                if (css) css.currentKf.frame((Integer) delegate, frameCl)
+        }
     }
 
     GrooCSS(Config config) {
