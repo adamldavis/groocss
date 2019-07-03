@@ -72,10 +72,16 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         convertWithoutBase(inf.newInputStream(), out.newOutputStream())
     }
 
-    /** Processes a given groocss string and outputs as CSS string. */
-    static String convert(Config conf = new Config(), String groocss, String charset1 = "UTF-8") {
+    /** Processes a given groocss string and outputs as CSS string.
+     * @param conf Optional Config object for configuration.
+     * @param groocss Input file with GrooCSS code.
+     * @param charset1 Charset to use (UTF-8 by default).
+     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (true by default).
+     */
+    @TypeChecked
+    static String convert(Config conf = new Config(), String groocss, String charset1 = "UTF-8", boolean addMeta=true) {
         def out = new ByteArrayOutputStream()
-        convert conf, new ByteArrayInputStream(groocss.getBytes(charset1)), out
+        convert conf, new ByteArrayInputStream(groocss.getBytes(charset1)), out, charset1, addMeta
         out.toString()
     }
 
@@ -91,7 +97,13 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         new GroovyShell(GrooCSS.class.classLoader, binding, compilerConfig)
     }
 
-    /** Processes a given InputStream and outputs to given OutputStream. */
+    /** Processes a given InputStream and outputs to given OutputStream.
+     * @param conf Optional Config object for configuration.
+     * @param inf Input file stream with GrooCSS code.
+     * @param out Output file stream of resulting CSS.
+     * @param charset1 Charset of file to read (UTF-8 by default).
+     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (false by default).
+     * */
     @TypeChecked
     static void convert(Config conf = new Config(), InputStream inf, OutputStream out, String charset1 = "UTF-8",
                         boolean addMeta = false) {
@@ -100,7 +112,12 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         }
     }
 
-    /** Processes a given Reader and outputs to given PrintWriter. */
+    /** Processes a given Reader and outputs to given PrintWriter.
+     * @param conf Optional Config object for configuration.
+     * @param reader Input file with GrooCSS code.
+     * @param writer Output file of resulting CSS.
+     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (false by default).
+     */
     @TypeChecked
     static void convert(Config conf = new Config(), Reader reader, PrintWriter writer, boolean addMeta = false) {
         reader.withCloseable { input ->
@@ -156,9 +173,15 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     /** Processes a given Reader and outputs to given PrintWriter. */
     static void process(Config conf = new Config(), Reader reader, PrintWriter writer) { convert conf, reader, writer }
 
-    /** Processes a given groocss string and outputs as CSS string. */
-    static String process(Config conf = new Config(), String groocss, String charset1 = "UTF-8") {
-        convert conf, groocss, charset1
+    /** Processes a given groocss string and outputs as CSS string.
+     * @param conf Optional Config object for configuration.
+     * @param groocss Input String with GrooCSS code.
+     * @param charset1 Charset of file to read (UTF-8 by default).
+     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (true by default).
+     */
+    @TypeChecked
+    static String process(Config conf = new Config(), String groocss, String charset1 = "UTF-8", boolean addMeta=true) {
+        convert conf, groocss, charset1, addMeta
     }
 
     @CompileStatic
