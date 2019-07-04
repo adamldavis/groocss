@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Migrating</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" media="screen">
+</head>
+<body class="main-content">
+
+    <h1>Migrating from CSS in a Legacy Application</h1>
+
+    <p>
+
+
+        The first step is to make sure your CSS files are properly formatted.
+
+        1. Use a command line utitily like https://prefetch.net/blog/2017/12/02/formatting-css-from-the-linux-command-line/[cssbeatify] ($ npm install cssbeautify-cli) or
+        2. Use your IDE to format each CSS file (using Ctrl+Alt+Shift+L in IDEA for example)
+
+        <p>Once this is done, copy all your CSS files into one folder (in our example we'll use a directory named "toconvert")</p>
+
+
+    <h2>Translating</h2>
+
+        Then create a Groovy script for converting those files to GrooCSS using org.groocss.Translator:
+
+        <code>
+            @Grab('org.groocss:groocss:1.0-M3')
+            import org.groocss.*
+
+            File dir = new File("toconvert")
+
+            println dir.absolutePath
+
+            dir.listFiles().each { f ->
+            println f
+            Translator.convertFromCSS(f, new File(f.absolutePath + '.groovy'))
+            }
+        </code>
+
+        Keep track of the output from this process.
+        You should follow up with every line that uses "raw" and see if you can manually convert them.
+
+    <h2>Building</h2>
+
+    <a href="config.html">See this page for more about Config.</a>
+
+        Next, decide which way you want to build your GrooCSS into CSS.
+        Which way depends on if you're using Gralde, Maven, or something else, and how much control you want over the process.
+
+        If not using the plugin, you can create a script named "build.groovy" or something similar.
+        This script will convert you groocss files to CSS as part of your build process.
+        Here's an example:
+
+        <code>
+            @Grab('org.groocss:groocss:1.0-M3')
+            import org.groocss.*
+
+            File groocssDir = new File("src/groovycss")
+            def cssDir = "web/resources/css"
+
+            new File(cssDir).mkdirs()
+
+            groocssDir.listFiles().each { f ->
+            try {
+            def config = new Config(addOpera: false, prettyPrint: false, compress: true)
+            GrooCSS.convert config, f, new File(cssDir, f.name[0..-8])
+            } catch (e) {
+            println "ERROR in $f.name"
+            e.printStackTrace()
+            }
+            }
+        </code>
+
+
+        This example expects all of your GroovyCSS files to be in the "src/groovycss" directory and end with ".css.groovy".
+        Your CSS files will end up in "web/resources/css".
+
+    <h2>Verifying Conversion</h2>
+
+    <p>
+        Next you should make sure that all of your converted CSS files are identical to old CSS.
+        To do this simply on a Linux command line, use the following command (assuming old CSS files are in web/styles/):
+    </p>
+    <pre>ls web/styles/ | xargs -I{} diff -wiB web/resources/css/{} web/styles/{} > css.diff</pre>
+    <p>
+        This goes through every converted CSS file and compares it to the original while ignoring case, whitespace, and blank lines.
+        Look at the resulting "css.diff" file to see what changed.
+        There will probably be a lot of differences but just make sure they don't change the meaning of the CSS.
+    </p>
+
+    <footer>Back to <a href="index.html">home</a>. <a href="new.html" class="btn">Next</a></footer>
+</body>
+</html>
