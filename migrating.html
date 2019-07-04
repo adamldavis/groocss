@@ -20,7 +20,8 @@
 
         The first step is to make sure your CSS files are properly formatted.
 
-        1. Use a command line utitily like https://prefetch.net/blog/2017/12/02/formatting-css-from-the-linux-command-line/[cssbeatify] ($ npm install cssbeautify-cli) or
+        1. Use a command line utility like
+        <a href="https://prefetch.net/blog/2017/12/02/formatting-css-from-the-linux-command-line/">[cssbeatify]</a> ($ npm install cssbeautify-cli) or
         2. Use your IDE to format each CSS file (using Ctrl+Alt+Shift+L in IDEA for example)
 
         <p>Once this is done, copy all your CSS files into one folder (in our example we'll use a directory named "toconvert")</p>
@@ -30,54 +31,53 @@
 
         Then create a Groovy script for converting those files to GrooCSS using org.groocss.Translator:
 
-        <code>
-            @Grab('org.groocss:groocss:1.0-M3')
-            import org.groocss.*
+        <pre><code>
+    @Grab('org.groocss:groocss:1.0-M3')
+    import org.groocss.*
 
-            File dir = new File("toconvert")
+    File dir = new File("toconvert")
 
-            println dir.absolutePath
+    println dir.absolutePath
 
-            dir.listFiles().each { f ->
-            println f
-            Translator.convertFromCSS(f, new File(f.absolutePath + '.groovy'))
-            }
-        </code>
+    dir.listFiles().each { f ->
+        println f
+        Translator.convertFromCSS(f, new File(f.absolutePath + '.groovy'))
+    }
+        </code></pre>
 
         Keep track of the output from this process.
         You should follow up with every line that uses "raw" and see if you can manually convert them.
 
     <h2>Building</h2>
 
-    <a href="config.html">See this page for more about Config.</a>
-
         Next, decide which way you want to build your GrooCSS into CSS.
-        Which way depends on if you're using Gralde, Maven, or something else, and how much control you want over the process.
+        Which way depends on if you're using Gradle, Maven, or something else, and how much control you want over the process.
 
-        If not using the plugin, you can create a script named "build.groovy" or something similar.
+    If not using <a href="gradle.html">the Gradle plugin</a>, you can create a script named "build.groovy" or something similar.
         This script will convert you groocss files to CSS as part of your build process.
         Here's an example:
 
-        <code>
-            @Grab('org.groocss:groocss:1.0-M3')
-            import org.groocss.*
+        <pre><code>
+    @Grab('org.groocss:groocss:1.0-M3')
+    import org.groocss.*
 
-            File groocssDir = new File("src/groovycss")
-            def cssDir = "web/resources/css"
+    File groocssDir = new File("src/groovycss")
+    def cssDir = "web/resources/css"
 
-            new File(cssDir).mkdirs()
+    new File(cssDir).mkdirs()
 
-            groocssDir.listFiles().each { f ->
-            try {
+    groocssDir.listFiles().each { f ->
+        try {
             def config = new Config(addOpera: false, prettyPrint: false, compress: true)
             GrooCSS.convert config, f, new File(cssDir, f.name[0..-8])
-            } catch (e) {
+        } catch (e) {
             println "ERROR in $f.name"
             e.printStackTrace()
-            }
-            }
-        </code>
+        }
+    }
+        </code></pre>
 
+    <a href="config.html">See this page for more about Config.</a>
 
         This example expects all of your GroovyCSS files to be in the "src/groovycss" directory and end with ".css.groovy".
         Your CSS files will end up in "web/resources/css".
