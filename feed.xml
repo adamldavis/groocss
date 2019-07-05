@@ -6,8 +6,8 @@
     <atom:link href="http://groocss.org/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Fri, 5 Jul 2019 14:00:15 -0400</pubDate>
-    <lastBuildDate>Fri, 5 Jul 2019 14:00:15 -0400</lastBuildDate>
+    <pubDate>Fri, 5 Jul 2019 18:44:33 -0400</pubDate>
+    <lastBuildDate>Fri, 5 Jul 2019 18:44:33 -0400</lastBuildDate>
 
     <item>
       <title>Version 1.0-M3 Released!</title>
@@ -27,8 +27,9 @@ thus enabling IDE code completion in conjunction with using the Gradle Plugin or
 &lt;div class=&quot;content&quot;&gt;
 &lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;org.groocss.GrooCSS.process {
     /**  your code here, such as... */
-    table.myclass {
+    table {
         border 2.em
+        color black
     }
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -39,11 +40,11 @@ thus enabling IDE code completion in conjunction with using the Gradle Plugin or
 The only thing you would need to do is set up your project as a Groovy project with GrooCSS as a dependency.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;I&amp;#8217;ve also finished updating the website to use &lt;a href=&quot;http://jbake.org/&quot;&gt;JBake&lt;/a&gt; with code syntax highlighting, menu, and everything.
+&lt;p&gt;I&amp;#8217;ve also finished updating the website to use &lt;a href=&quot;http://jbake.org/&quot;&gt;JBake&lt;/a&gt; with code syntax highlighting, menu, and more.
 This is something I&amp;#8217;ve been meaning to do for a long time and I hope you like it!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;As always any feedback is welcome!&lt;/p&gt;
+&lt;p&gt;As always any feedback is welcome. Please try out M3 as it should be the last Milestone release before 1.0-GA.&lt;/p&gt;
 &lt;/div&gt;
 	</description>
     </item>
