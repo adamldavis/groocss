@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
+        <loc>http://groocss.org/gradle.html</loc>
+        <lastmod>2019-07-05</lastmod>
+    </url>
+    <url>
         <loc>http://groocss.org/new.html</loc>
         <lastmod>2019-07-05</lastmod>
     </url>
     <url>
         <loc>http://groocss.org/about.html</loc>
-        <lastmod>2019-07-05</lastmod>
-    </url>
-    <url>
-        <loc>http://groocss.org/gradle.html</loc>
         <lastmod>2019-07-05</lastmod>
     </url>
     <url>
@@ -31,5 +31,9 @@
     <url>
         <loc>http://groocss.org/migrating.html</loc>
         <lastmod>2019-07-04</lastmod>
+    </url>
+    <url>
+        <loc>http://groocss.org/blog/2019/1m3.html</loc>
+        <lastmod>2019-07-05</lastmod>
     </url>
 </urlset>

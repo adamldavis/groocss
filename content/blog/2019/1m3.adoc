@@ -1,0 +1,28 @@
+title=Version 1.0-M3 Released!
+date=2019-07-05
+type=post
+tags=css,gradle,release
+status=published
+~~~~~~
+This https://github.com/adamldavis/groocss/releases/tag/v1.0-M3[release] includes a fix for a bug reported by
+https://github.com/johndevs[John Ahlroos]. Thanks John! This bug was related to using the Gradle plugin.
+
+This release also includes a new feature which allows you to use the following syntax within your GrooCSS files,
+thus enabling IDE code completion in conjunction with using the Gradle Plugin or other method (eventually asset-pipeline).
+
+[source,groovy]
+org.groocss.GrooCSS.process {
+    /**  your code here, such as... */
+    table.myclass {
+        border 2.em
+    }
+}
+
+Once again, all with IDE code completion within your DSL without jumping through any fancy hoops
+(in https://www.jetbrains.com/idea/[IntelliJ IDEA] but theoretically other IDEs as well).
+The only thing you would need to do is set up your project as a Groovy project with GrooCSS as a dependency.
+
+I've also finished updating the website to use http://jbake.org/[JBake] with code syntax highlighting, menu, and everything.
+This is something I've been meaning to do for a long time and I hope you like it!
+
+As always any feedback is welcome!

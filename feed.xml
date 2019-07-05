@@ -6,9 +6,47 @@
     <atom:link href="http://groocss.org/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Fri, 5 Jul 2019 13:39:26 -0400</pubDate>
-    <lastBuildDate>Fri, 5 Jul 2019 13:39:26 -0400</lastBuildDate>
+    <pubDate>Fri, 5 Jul 2019 14:00:15 -0400</pubDate>
+    <lastBuildDate>Fri, 5 Jul 2019 14:00:15 -0400</lastBuildDate>
 
+    <item>
+      <title>Version 1.0-M3 Released!</title>
+      <link>http://groocss.org/blog/2019/1m3.html</link>
+      <pubDate>Fri, 5 Jul 2019 00:00:00 -0400</pubDate>
+      <guid isPermaLink="false">blog/2019/1m3.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This &lt;a href=&quot;https://github.com/adamldavis/groocss/releases/tag/v1.0-M3&quot;&gt;release&lt;/a&gt; includes a fix for a bug reported by
+&lt;a href=&quot;https://github.com/johndevs&quot;&gt;John Ahlroos&lt;/a&gt;. Thanks John! This bug was related to using the Gradle plugin.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This release also includes a new feature which allows you to use the following syntax within your GrooCSS files,
+thus enabling IDE code completion in conjunction with using the Gradle Plugin or other method (eventually asset-pipeline).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;org.groocss.GrooCSS.process {
+    /**  your code here, such as... */
+    table.myclass {
+        border 2.em
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Once again, all with IDE code completion within your DSL without jumping through any fancy hoops
+(in &lt;a href=&quot;https://www.jetbrains.com/idea/&quot;&gt;IntelliJ IDEA&lt;/a&gt; but theoretically other IDEs as well).
+The only thing you would need to do is set up your project as a Groovy project with GrooCSS as a dependency.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;ve also finished updating the website to use &lt;a href=&quot;http://jbake.org/&quot;&gt;JBake&lt;/a&gt; with code syntax highlighting, menu, and everything.
+This is something I&amp;#8217;ve been meaning to do for a long time and I hope you like it!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As always any feedback is welcome!&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
 
   </channel> 
 </rss>
