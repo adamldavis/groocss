@@ -29,8 +29,7 @@ a%hover {
 _.btn {
   display 'inline-block'
   marginBottom 1.rem
-  color white.alpha(0.7)
-  backgroundColor white.alpha(0.08)
+  backgroundColor blue.alpha(0.08)
   borderColor white.alpha(0.2)
   borderStyle 'solid'
   borderWidth 1.px

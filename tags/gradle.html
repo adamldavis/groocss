@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>GrooCSS - Getting Started</title>
+    <title>GrooCSS - Main</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Adam L Davis">
@@ -10,21 +10,21 @@
     <meta name="generator" content="JBake">
 
     <!-- Le styles -->
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/style.css" media="screen">
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/asciidoctor.css" rel="stylesheet">
-    <link href="css/base.css" rel="stylesheet">
-    <link href="css/prettify.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/asciidoctor.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/prettify.css" rel="stylesheet">
     <style>html { font-size: 20px }</style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="js/html5shiv.min.js"></script>
+      <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
 
     <!-- Fav and touch icons -->
@@ -32,13 +32,13 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="../favicon.ico">
   </head>
   <body onload="prettyPrint()">
     <div id="wrap">
 
       <header class="page-header">
-        <img src="images/groocss2_256.png" width="128" height="128">
+        <img src="../images/groocss2_256.png" width="128" height="128">
         <h1 class="project-name">GrooCSS</h1>
         <h2 class="project-tagline">Code CSS in Groovy</h2>
       </header>
@@ -57,9 +57,9 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="intro.html">Getting Started</a></li>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../intro.html">Getting Started</a></li>
             <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
             <li><a href="https://bintray.com/adamldavis/maven/GrooCSS"  rel="me">Bintray</a></li>
             <li><a href="docs/1.0-M3/index.html" >Docs</a></li>
@@ -72,77 +72,21 @@
                 <li class="divider"></li>
                 <li class="dropdown-header">Old stuff</li>
                 <li><a href="http://blag.groocss.org" >Old Blog</a></li>
-                <li><a href="feed.xml">Subscribe</a></li>
+                <li><a href="../feed.xml">Subscribe</a></li>
               </ul>
             </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <div class="container">
+    <div class="container">	
 	<div class="page-header">
-		<h1>Getting Started</h1>
+		<h1>Tag: gradle</h1>
 	</div>
-
-	<p><div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>See <a href="http://www.groocss.org/script.groovy">script.groovy</a> for a simple example using a groovy script.</p>
-</li>
-<li>
-<p>Read about the <a href="http://www.groocss.org/gradle.html#using-gradle-with-plugin">Gradle Plugin.</a></p>
-</li>
-<li>
-<p>Read more about the features, such as math, Config and other.</p>
-</li>
-<li>
-<p><a href="https://twitter.com/groocss">Follow me on Twitter.</a></p>
-</li>
-</ol>
-</div>
-<div class="sect1">
-<h2 id="_using_gradle_without_plugin">Using Gradle without Plugin</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>I recommend you use GrooCSS with either the Gradle plugin or
-<a href="https://github.com/bertramdev/asset-pipeline/tree/master/groocss-asset-pipeline">asset-pipeline</a>, but it can be used by itself.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    import org.groocss.GrooCSS
-    //
-    buildscript {
-        repositories { jcenter() }
-        dependencies { classpath 'org.groocss:groocss:1.0-M3' }
-    }
-    task css doLast {
-        def file = file('css/out.css')
-        GrooCSS.process {
-            // DSL goes here
-        }.writeTo(file)
-    }</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Using convert methods:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    GrooCSS.convertFile('infile.groocss', 'outfile.css')
-    //or
-    GrooCSS.convert(new File('in'), new File('out'))</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><a href="http://www.groocss.org/gradle.html">Next</a></p>
-</div>
-</div>
-</div></p>
-
-	<hr />
-
-	<p><em>05 July 2019</em></p>
-
+	
+	<!--<ul>-->
+	</ul>
+	
 		</div>
 		<div id="push"></div>
     </div>
@@ -159,9 +103,9 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.11.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/prettify.js"></script>
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/prettify.js"></script>
     
   </body>
 </html>

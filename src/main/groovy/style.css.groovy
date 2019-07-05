@@ -3,6 +3,8 @@
 /********************
 GENERAL
 ********************/
+def backColor = 'white'
+def textColor = 'black'
 
 sg '::-moz-selection', {
   background '#8fc045'
@@ -852,15 +854,11 @@ media 'only screen and (max-width: 480px)', {
 		
 		
 body {
-  background '#456'
-  color white
+  background backColor
+  color textColor
 }
 h1 |h2 |h3 {
   color '#eee'
-}
-
-a {
-  color '#abc'
 }
 
 sg '.post-date a', {
@@ -868,7 +866,7 @@ sg '.post-date a', {
 }
 
 sg 'p:hover,li:hover', {
-  background '#567'
+  background '#fcf8e3'
     boxShadow '0 0 5px rgba(0,0,0,0.5)'
 }
 pre {
@@ -927,10 +925,10 @@ p | li { padding 0.3.em }
 /** Animations */
 keyframes 'colorfade', {
     from {
-      backgroundColor white
+      backgroundColor '#456'
     }
     to {
-      backgroundColor '#456'
+      backgroundColor backColor
     }
 }
 p%hover | li % hover {

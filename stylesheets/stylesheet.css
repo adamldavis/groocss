@@ -20,8 +20,7 @@ a:hover {
 .btn {
     display: inline-block;
     margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.70);
-    background-color: rgba(255, 255, 255, 0.078);
+    background-color: rgba(0, 0, 255, 0.078);
     border-color: rgba(255, 255, 255, 0.2);
     border-style: solid;
     border-width: 1px;

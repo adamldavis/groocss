@@ -8,4 +8,6 @@ groocss-gradle-plugin/
 .gradle
 sources/
 main.css
+output/
+micronaut-example/
 

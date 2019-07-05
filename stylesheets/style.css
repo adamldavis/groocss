@@ -570,20 +570,17 @@ header {
     float: left;
 }
 body {
-    background: #456;
-    color: White;
+    background: white;
+    color: black;
 }
 h1,h2,h3 {
     color: #eee;
-}
-a {
-    color: #abc;
 }
 .post-date a {
     color: #abe;
 }
 p:hover,li:hover {
-    background: #567;
+    background: #fcf8e3;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
     -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
@@ -674,17 +671,17 @@ p:hover,li:hover {
 }
 @keyframes colorfade {
     from {
-        background-color: White;
+        background-color: #456;
     }
     to {
-        background-color: #456;
+        background-color: white;
     }
 }@-webkit-keyframes colorfade {
     from {
-        background-color: White;
+        background-color: #456;
     }
     to {
-        background-color: #456;
+        background-color: white;
     }
 }
 @keyframes hhover {
