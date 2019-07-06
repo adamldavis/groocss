@@ -246,6 +246,17 @@ class StyleGroup extends Selectable implements CSSPart {
         cloneTrio(styles[-1])
         this
     }
+
+    /** The -moz-appearance CSS property is used in Gecko (Firefox) to display an element using platform-native styling
+     * based on the operating system's theme.*/
+    StyleGroup appearance(value) {
+        def style = new Style('appearance', value)
+        styles << style
+        if (config.addWebkit) styles << cloneWebkit(style)
+        if (config.addMoz) styles << cloneMoz(style)
+        this
+    }
+
     /** Sets all the background properties in one declaration */
     StyleGroup background (value) {
         styles << new Style('background', value)
@@ -492,6 +503,13 @@ class StyleGroup extends Selectable implements CSSPart {
         styles << new Style('captionSide', value)
         this
     }
+
+    /** The caret-color CSS property sets the color of the insertion caret. */
+    StyleGroup caretColor (value) {
+        styles << new Style('caretColor', handleColor(value))
+        this
+    }
+
     /** Sets the position of the element relative to floating objects */
     StyleGroup clear (value) {
         styles << new Style('clear', value)
@@ -1102,6 +1120,15 @@ class StyleGroup extends Selectable implements CSSPart {
     /** Sets whether the text should be overridden to support multiple languages in the same document */
     StyleGroup unicodeBidi (value) {
         styles << new Style('unicodeBidi', value)
+        this
+    }
+    /** The user-select CSS property controls whether the user can select text. */
+    StyleGroup userSelect(value) {
+        def style = new Style('userSelect', value)
+        styles << style
+        if (config.addWebkit) styles << cloneWebkit(style)
+        if (config.addMoz) styles << cloneMoz(style)
+        if (config.addMs) styles << cloneMs(style)
         this
     }
     /** Sets the vertical alignment of the content in an element */
