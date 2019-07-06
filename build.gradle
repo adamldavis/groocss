@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile "org.spockframework:spock-core:${getSpockClassifier(groovyVersion)}"
 }
 
 project.group = 'org.groocss'
@@ -95,13 +95,16 @@ def incrementVersion() {
     props.setProperty('version', newVersion + '-SNAPSHOT')
     f.withOutputStream {props.store(it, 'gradle properties')}
 }
-def updateGroovy(version) {
+def updateGroovy(gversion) {
     def props = new Properties()
     def f = file('gradle.properties')
     f.withInputStream { props.load(it) }
-    props.setProperty('groovyVersion', props.getProperty("groovy$version"))
+    def version = props.getProperty('version')
+    props.setProperty('groovyVersion', props.getProperty("groovy$gversion"))
+    props.setProperty('version', version.substring(0, version.lastIndexOf('-')) + "-groovy${gversion.replace(/_/, /./)}")
     f.withOutputStream {props.store(it, 'gradle properties')}
 }
+println "Groovy version = ${GroovySystem.getVersion()}"
 
 task pom doFirst {
     pom {
@@ -132,4 +135,14 @@ task pom doFirst {
             }
         }
     }.writeTo("$buildDir/$applicationName-${version}.pom")
+}
+
+String getSpockClassifier(String groovyVersion) {
+    if (groovyVersion.startsWith('2.5')) {
+        return '1.3-groovy-2.5'
+    }
+    if (groovyVersion.startsWith('2.4')) {
+        return '1.3-groovy-2.4'
+    }
+    return '1.2-groovy-2.5'
 }
