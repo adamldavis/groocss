@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
-        <loc>http://groocss.org/gradle.html</loc>
-        <lastmod>2019-07-05</lastmod>
-    </url>
-    <url>
-        <loc>http://groocss.org/new.html</loc>
-        <lastmod>2019-07-05</lastmod>
+        <loc>http://groocss.org/processors.html</loc>
+        <lastmod>2019-07-06</lastmod>
     </url>
     <url>
         <loc>http://groocss.org/about.html</loc>
-        <lastmod>2019-07-05</lastmod>
+        <lastmod>2019-07-06</lastmod>
     </url>
     <url>
-        <loc>http://groocss.org/math.html</loc>
-        <lastmod>2019-07-05</lastmod>
+        <loc>http://groocss.org/micronaut.html</loc>
+        <lastmod>2019-07-06</lastmod>
     </url>
     <url>
         <loc>http://groocss.org/other.html</loc>
-        <lastmod>2019-07-05</lastmod>
+        <lastmod>2019-07-06</lastmod>
     </url>
     <url>
-        <loc>http://groocss.org/config.html</loc>
-        <lastmod>2019-07-05</lastmod>
+        <loc>http://groocss.org/new.html</loc>
+        <lastmod>2019-07-06</lastmod>
+    </url>
+    <url>
+        <loc>http://groocss.org/math.html</loc>
+        <lastmod>2019-07-06</lastmod>
     </url>
     <url>
         <loc>http://groocss.org/intro.html</loc>
-        <lastmod>2019-07-05</lastmod>
+        <lastmod>2019-07-06</lastmod>
+    </url>
+    <url>
+        <loc>http://groocss.org/gradle.html</loc>
+        <lastmod>2019-07-06</lastmod>
+    </url>
+    <url>
+        <loc>http://groocss.org/config.html</loc>
+        <lastmod>2019-07-06</lastmod>
     </url>
     <url>
         <loc>http://groocss.org/migrating.html</loc>

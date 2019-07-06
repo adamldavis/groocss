@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>GrooCSS - Measurements and Math</title>
+    <title>GrooCSS - Micronaut Example</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Adam L Davis">
@@ -81,27 +81,48 @@
     </div>
     <div class="container">
 	<div class="page-header">
-		<h1>Measurements and Math</h1>
+		<h1>Micronaut Example</h1>
 	</div>
 
-	<p>
-    <p>Built into GrooCSS is the ability to do math with any compatiable Measurement types.</p>
-
-    <p>A Measurement is created by a number "." type notation (see below).</p>
-
-    <h3>
-        <a id="measurement-math" class="anchor" href="#measurement-math" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Measurement Math</h3>
-
-    <pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">
-def myWidth = 100.pt + 1.in // converts to pt
-def myDelay = 100.ms + 1.s     // converts to ms
-def mySize = myWidth / 2    // you can multiply/divide with any number
-def doubleSize = myWidth * 2
-    </code></pre>
-
-
-    <footer>Back to <a href="index.html">home</a>. <a href="config.html" class="btn">Next</a></footer>
-</p>
+	<p><div class="paragraph">
+<p>The GrooCSS codebase includes a working
+<a href="https://github.com/adamldavis/groocss/tree/master/micronaut-example">Micronaut example</a>
+that uses Micronaut with asset-pipeline.</p>
+</div>
+<div class="paragraph">
+<p>Taking a look at the build file, you&#8217;ll see the asset-pipeline plugin is included
+among the plugins:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "com.github.johnrengelman.shadow" version "4.0.2"
+    id "com.bertramlabs.asset-pipeline" version "3.0.6"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Second, you&#8217;ll need to add asset-pipeline-micronaut as a runtime dependency
+and the groocss-asset-pipeline as a "assets" level depenedency (a custom asset-pipeline configuration).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    runtime 'com.bertramlabs.plugins:asset-pipeline-micronaut:3.0.7'
+    assets 'com.bertramlabs.plugins:groocss-asset-pipeline:3.0.7'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will allow you to put GrooCSS files in "src/assets/lib" and have
+them automatically converted to CSS available to your application.</p>
+</div>
+<div class="paragraph">
+<p>See the <a href="http://www.asset-pipeline.com/manual/#getting-started-4">asset-pipeline</a> docs for more.</p>
+</div>
+<div class="paragraph">
+<p>Or checkout the
+<a href="https://github.com/adamldavis/groocss/tree/master/micronaut-example">Micronaut example code</a>.</p>
+</div></p>
 
 	<hr />
 
