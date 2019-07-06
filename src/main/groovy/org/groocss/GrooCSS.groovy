@@ -19,6 +19,8 @@ import org.codehaus.groovy.control.CompilerConfiguration
 
 import groovy.transform.*
 import org.codehaus.groovy.control.customizers.ImportCustomizer
+import org.groocss.ext.NumberExtension
+import org.groocss.ext.StringExtension
 
 import javax.imageio.ImageIO
 
@@ -55,10 +57,10 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
      * @param inf Input file with GrooCSS code.
      * @param out Output file of resulting CSS.
      * @param charset Charset of file to read (UTF-8 by default).
-     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (false by default).
+     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (true by default).
      */
     static void convert(Config conf = new Config(), File inf, File out,
-                        String charset = "UTF-8", boolean addMeta = false) {
+                        String charset = "UTF-8", boolean addMeta = true) {
         convert(conf, inf.newInputStream(), out.newOutputStream(), charset, addMeta)
     }
 
@@ -102,11 +104,11 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
      * @param inf Input file stream with GrooCSS code.
      * @param out Output file stream of resulting CSS.
      * @param charset1 Charset of file to read (UTF-8 by default).
-     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (false by default).
+     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (true by default).
      * */
     @TypeChecked
     static void convert(Config conf = new Config(), InputStream inf, OutputStream out, String charset1 = "UTF-8",
-                        boolean addMeta = false) {
+                        boolean addMeta = true) {
         out.withPrintWriter { pw ->
             convert conf, new InputStreamReader(inf, charset1), pw, addMeta
         }
@@ -116,10 +118,10 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
      * @param conf Optional Config object for configuration.
      * @param reader Input file with GrooCSS code.
      * @param writer Output file of resulting CSS.
-     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (false by default).
+     * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (true by default).
      */
     @TypeChecked
-    static void convert(Config conf = new Config(), Reader reader, PrintWriter writer, boolean addMeta = false) {
+    static void convert(Config conf = new Config(), Reader reader, PrintWriter writer, boolean addMeta = true) {
         reader.withCloseable { input ->
             def shell = makeShell()
             def script = shell.parse(input)
@@ -244,19 +246,18 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     /** Current MediaCSS object used for processing. */
     MediaCSS currentCss = css
 
-
     GrooCSS() {
         threadLocalInstance.set(this) // set this instance for the current Thread
     }
 
     /** Called when addMeta is true (parameter to "convert") which is used by Gradle plugin. */
-    void initMetaClasses(boolean addNumberMeta = true, boolean addStringMeta = true) {
+    static void initMetaClasses(boolean addNumberMeta = true, boolean addStringMeta = true) {
         if (addNumberMeta) addNumberMetaStuff()
         if (addStringMeta) addStringMetaStuff()
         Integer.metaClass.initMetaClassesCalled = {return true}
     }
 
-    private void addStringMetaStuff() {
+    private static void addStringMetaStuff() {
         String.metaClass.groocss = { Config config, Closure closure ->
             println "processing $delegate"; GrooCSS.process(config, closure)
         }
@@ -266,32 +267,22 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         String.metaClass.getUrl = { 'url(' + delegate + ')' }
         String.metaClass.getColor = { new Color(delegate) }
         String.metaClass.toColor = { new Color(delegate) }
-        String.metaClass.sg { Closure closure ->
-            GrooCSS main = GrooCSS.threadLocalInstance.get()
-            StyleGroup sg = new StyleGroup(delegate, main.currentCss.config, main.currentCss)
-            closure.delegate = sg
-            closure(sg)
-            main.currentCss.add sg
-            sg
-        }
-        String.metaClass.id = { Closure closure -> ('#' + delegate).sg(closure) }
-        String.metaClass.$ = { Closure closure -> (delegate).sg(closure) }
-        String.metaClass.kf = { Closure closure -> GrooCSS.threadLocalInstance.get().keyframes(delegate, closure) }
-        String.metaClass.keyframes = { Closure closure -> GrooCSS.threadLocalInstance.get().keyframes(delegate, closure) }
-        String.metaClass.media = { Closure closure -> GrooCSS.threadLocalInstance.get().media(delegate, closure) }
+        String.metaClass.sg { Closure closure -> StringExtension.sg(delegate, closure) }
+        String.metaClass.id = { Closure closure -> StringExtension.id(delegate, closure) }
+        String.metaClass.$ = { Closure closure -> StringExtension.sg(delegate, closure) }
+        String.metaClass.kf = { Closure closure -> StringExtension.keyframes(delegate, closure) }
+        String.metaClass.keyframes = { Closure closure -> StringExtension.keyframes(delegate, closure) }
+        String.metaClass.media = { Closure closure -> StringExtension.media(delegate, closure) }
     }
 
-    private void addNumberMetaStuff() {
+    private static void addNumberMetaStuff() {
         Number.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
         Number.metaClass.getPercent = { new Measurement((Number) delegate, '%') }
         Number.metaClass.mod = { Underscore u -> new Measurement((Number) delegate, '%') }
         Number.metaClass.getColor = { new Color((Number) delegate) }
         Number.metaClass.toColor = { new Color((Number) delegate) }
         /** Used within keyframes block such as 50% { opacity: 1 }. */
-        Integer.metaClass.mod = { Closure frameCl ->
-                def css = GrooCSS.threadLocalInstance.get()
-                if (css) css.currentKf.frame((Integer) delegate, frameCl)
-        }
+        Integer.metaClass.mod = { Closure frameCl -> NumberExtension.mod((Integer) delegate, frameCl) }
     }
 
     GrooCSS(Config config) {
@@ -356,9 +347,10 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     }
 
     /** Creates a new @font-face element and runs given closure on it. */
-    FontFace fontFace(@DelegatesTo(FontFace) Closure clos) {
+    FontFace fontFace(@DelegatesTo(value = FontFace, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         FontFace ff = new FontFace()
         clos.delegate = ff
+        clos.resolveStrategy = Closure.DELEGATE_FIRST
         clos(ff)
         currentCss.add ff
         ff
@@ -407,15 +399,19 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     /** Processes the given closure with given optional config. */
     static GrooCSS process(Config config = new Config(), 
-                           @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure clos) {
-        runBlock(config, clos)
+                           @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure clos,
+                           boolean addMeta = true) {
+        runBlock(config, clos, addMeta)
     }
 
     /** Processes the given closure with given optional config. */
     static GrooCSS runBlock(Config conf = new Config(),
-                            @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure clos) {
+                            @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure clos,
+                            boolean addMeta = true) {
         GrooCSS gcss = new GrooCSS(config: conf)
+        if (addMeta) gcss.initMetaClasses()
         gcss.css.config = conf
+        clos.resolveStrategy = Closure.DELEGATE_FIRST
         clos.delegate = gcss
         clos()
         gcss.css.doProcessing()

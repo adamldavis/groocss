@@ -146,6 +146,7 @@ class MediaCSS implements CSSPart {
                    boolean addIt = true) {
         StyleGroup sg = new StyleGroup(selector, config, this)
         closure.delegate = sg
+        closure.resolveStrategy = Closure.DELEGATE_FIRST
         closure(sg)
         if (addIt) add sg
         sg

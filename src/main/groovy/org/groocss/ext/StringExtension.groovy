@@ -52,6 +52,7 @@ class StringExtension {
         GrooCSS main = GrooCSS.threadLocalInstance.get()
         StyleGroup sg = new StyleGroup(selector, main.currentCss.config, main.currentCss)
         closure.delegate = sg
+        closure.resolveStrategy = Closure.DELEGATE_FIRST
         closure(sg)
         main.currentCss.add sg
         sg
@@ -70,19 +71,16 @@ class StringExtension {
     }
 
     /** Used for creating keyframes using name. */
-    static KeyFrames kf(String name,
-                        @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+    static KeyFrames kf(String name, @DelegatesTo(KeyFrames) Closure closure) {
         keyframes(name, closure)
     }
 
     /** Used for creating keyframes using name. */
-    static KeyFrames keyframes(String name,
-                               @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+    static KeyFrames keyframes(String name, @DelegatesTo(KeyFrames) Closure closure) {
         GrooCSS.threadLocalInstance.get().keyframes(name, closure)
     }
 
-    static MediaCSS media(String mediaRule,
-                          @DelegatesTo(value=GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+    static MediaCSS media(String mediaRule, @DelegatesTo(GrooCSS) Closure closure) {
         GrooCSS.threadLocalInstance.get().media(mediaRule, closure)
     }
 
