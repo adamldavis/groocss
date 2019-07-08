@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>GrooCSS - Other Features</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Adam L Davis">
+    <meta name="keywords" content="groovy,css,css3,html,dsl,groocss">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/style.css" media="screen">
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <style>html { font-size: 20px }</style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+      <header class="page-header">
+        <img src="../../images/groocss2_256.png" width="128" height="128">
+        <h1 class="project-name">GrooCSS</h1>
+        <h2 class="project-tagline">Code CSS in Groovy</h2>
+      </header>
+
+
+	<!-- Fixed navbar -->
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://groocss.org">GrooCSS</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../manual/1.0-M3/intro.html">Getting Started</a></li>
+
+        <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
+
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/1.0-M3"  rel="me">Download</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            
+			  <li><a href="../../manual/1.0-M3/index.html">Manual 1.0-M3</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M2/index.html">Manual 1.0-M2</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M1/index.html">Manual 1.0-M1</a> </li>
+		    
+			  <li><a href="../../manual/0.12/index.html">Manual 0.12</a> </li>
+		    
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other links <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="https://twitter.com/groocss"  rel="me">Twitter</a></li>
+            <li><a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin" >Gradle Plugin</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Old stuff</li>
+            <li><a href="http://blag.groocss.org" >Old Blog</a></li>
+            <li><a href="../../feed.xml">Subscribe</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+<div class="container">
+	
+	<div class="page-header">
+		<h1>Other Features</h1>
+	</div>
+
+	<p>
+    <h2>
+        <a id="pseudo-classes" class="anchor" href="#pseudo-classes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pseudo-classes</h2>
+
+    <pre><code class="language-groovy" data-lang="groovy">input % hover { color blue }
+li % nthChild('3n') { color blue }
+</code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">input:hover { color: Blue; }
+li:nth-child(3n) { color: Blue; }
+</code></pre>
+
+
+    <h3>
+        <a id="extending" class="anchor" href="#extending" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extending</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">_.warn { color red }
+_.error {
+    extend(_.warn) // extend '.warn' also works
+    background black
+}
+</code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">.warn,.error {color: Red;}
+.error {background: Black;}
+</code></pre>
+
+    <h3>
+        <a id="nesting" class="anchor" href="#nesting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Nesting</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">a {
+    color '#000'
+    add ':hover', { color blue }
+}
+div {
+    add '&gt; p', { color '#eee' }
+}
+</code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">a { color: #000; }
+a:hover { color: Blue; }
+div &gt; p { color: #eee; }
+</code></pre>
+
+    <h3>
+        <a id="keyframes-and-transforms-dsl" class="anchor" href="#keyframes-and-transforms-dsl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Keyframes and Transforms DSL</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">def css = GrooCSS.process(new Config(addWebkit: false, addMoz: false, addOpera: false)) {
+
+        keyframes('bounce') {
+            40 % {
+                translateY(-30.px)
+            }
+            60 % {
+                translateY(-15.px)
+            }
+            frame([0,20,50,80,100]) {
+                translateY(0)
+            }
+        }
+    }
+    </code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">@keyframes bounce {
+    40%{transform: translateY(-30px);}
+    60%{transform: translateY(-15px);}
+    0%, 20%, 50%, 80%, 100%{transform: translateY(0);}
+}
+</code></pre>
+
+    <h3>
+        <a id="colors" class="anchor" href="#colors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Colors</h3>
+
+    <p>Use the "c", "clr", "rgb" or "rgba" methods to create a color. For example:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">def css = GrooCSS.process {
+    def sea = c('5512ab') //OR rgb(85, 18, 171)
+    _.sea {
+        color darken(sea)
+        background sea.brighter()
+        border "5px solid ${sea.alpha(0.5)}"
+    }
+}
+</code></pre>
+
+    <p class="strong">See the <a href="docs/1.0-M1/org/groocss/ColorMethods.html">javadoc</a> for all available methods.</p>
+
+    <p>You can also use named colors:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">_.blue {
+    color darkBlue
+    background aliceBlue
+}
+</code></pre>
+
+    <h3>
+        <a id="font-face" class="anchor" href="#font-face" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Font-face</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">fontFace {
+    fontFamily 'myFirstFont'
+    fontWeight 'normal'
+    src 'url(sensational.woff)'
+}
+</code></pre>
+
+    <p>Resolves to:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">@font-face { font-family: myFirstFont; font-weight: normal; src:url(sensational.woff); }
+    </code></pre>
+
+    <h3>
+        <a id="custom-styles" class="anchor" href="#custom-styles" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom styles</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">body {
+    add style('-webkit-touch-callout', 'none')
+    add style('-webkit-textSize-adjust', 'none')
+    add style('-webkit-user-select', 'none')
+}
+</code></pre>
+
+
+    <h2>
+        <a id="media" class="anchor" href="#media" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Media</h2>
+
+    <pre><code class="language-groovy" data-lang="groovy">media 'screen', {
+    body { width '100%' }
+}
+</code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">@media screen {
+    body { width: 100%; }
+}
+</code></pre>
+
+    <a id="importing" class="anchor" href="#importing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>
+    <h2>Importing</h2>
+
+    <p>The ability to import other groocss files is supported by importFile, importStream, and importString methods which take
+        a parameter map and input. Any number of variables can be passed. For example:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">def otherCss = new File('whatever file.groovy')
+importFile otherCss.absoluteFile, linkColor: '#456789', background: 'black'</code></pre>
+
+    <p>Within the imported groovy file, linkColor and background will be available with the given values.</p>
+
+
+    <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>
+    <h2>More Examples</h2>
+    <p>For more examples, see the code used to create this page's CSS:
+    <ol>
+        <li><a href="src/main/groovy/stylesheet.css.groovy">stylesheet.css.groovy</a></li>
+        <li><a href="src/main/groovy/style.css.groovy">style.css.groovy</a></li>
+        <li><a href="src/main/groovy/normalize.css.groovy">normalize.css.groovy</a></li>
+    </ol>
+    </p>
+
+    <a id="images" class="anchor" href="#images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>
+    <h2>Image Methods</h2>
+    <ul>
+        <li>Measurement getImageHeight(String filename): Gets the height of an image.</li>
+        <li>String getImageSize(String filename): Gets the size of an image.</li>
+        <li>Measurement getImageWidth(String filename): Gets the width of an image.</li>
+    </ul>
+
+    <h2>
+        <a id="converting-from-css" class="anchor" href="#converting-from-css" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Converting from CSS</h2>
+
+    <p>You can use the Translator to convert existing CSS into GrooCSS syntax:</p>
+
+    <code class="language-groovy" data-lang="groovy">org.groocss.Translator.convertFromCSS(File inFile, File outFile)</code>
+
+    <p>This allows you to get started quickly with GrooCSS in existing projects. See <a href="migrating.html">Migrating from CSS</a> for more.
+    <b>Warning: Experimental!  (might not always work)</b></p>
+
+
+    <footer>Back to <a href="index.html">home</a></footer>
+</p>
+
+	<hr />
+
+	<p><em>Last updated: 07 July 2019</em></p>
+
+		</div>
+		<div id="push"></div>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="muted credit">&copy; Adam L. Davis 2019 | GrooCSS is free to use, open source, and licensed under the
+                <a href="https://github.com/adamldavis/groocss/blob/master/LICENSE">Apache License, Version 2.0.</a>
+                | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a>
+                | Baked with <a href="http://jbake.org">JBake v2.6.4</a></p>
+        </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+    
+  </body>
+</html>

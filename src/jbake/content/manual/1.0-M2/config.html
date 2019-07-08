@@ -1,0 +1,41 @@
+title=Configuration
+type=page
+status=published
+~~~~~~
+
+
+    <h2>
+        <a id="config" class="anchor" href="#config" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Config</h2>
+
+    <p>There are three different ways to configure GrooCSS:</p>
+
+    <ul>
+        <li>Using the groovy constructor: new Config(compress: true)</li>
+        <li>Using the builder syntax: Config.builder().compress(true).build()</li>
+        <li>Using the DSL: GrooCSS.withConfig { noExts().compress().utf8() }.process {}</li>
+    </ul>
+
+    <p>Of these options, the third is most recommended.
+        With the DSL there are several chainable methods available to easily configure your CSS:</p>
+
+    <ul>
+        <li>noExts() - sets all extension flags to false (addOpera, etc.)</li>
+        <li>onlyMs(), onlyWebkit(), etc. - sets all extensions flags to false except one.</li>
+        <li>utf8() - sets the charset to UTF-8.</li>
+        <li>compress() - sets compress flag to true.</li>
+    </ul>
+
+
+
+    <h2>
+        <a id="compressing-minimization" class="anchor" href="#compressing-minimization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compressing (Minimization)</h2>
+
+    <p>To "compress" the output (no new-lines), just pass in a Config object:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">GrooCSS.process(new Config(compress: true))
+//OR
+GrooCSS.convert(new Config(compress: true), infile, outfile)
+//OR
+groocss { compress = true } // using Gradle plugin</code></pre>
+
+    <footer>Back to <a href="index.html">home</a>. <a href="other.html" class="btn">Next</a></footer>

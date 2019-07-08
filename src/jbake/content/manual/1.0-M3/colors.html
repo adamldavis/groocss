@@ -1,0 +1,40 @@
+title=Colors and Images
+type=page
+status=published
+~~~~~~
+
+    <h3>
+        <a id="colors" class="anchor" href="#colors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Colors</h3>
+
+    <p>Use the "c", "clr", "rgb" or "rgba" methods to create a color. For example:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">def css = GrooCSS.process {
+    def sea = c('5512ab') //OR rgb(85, 18, 171)
+    _.sea {
+        color darken(sea)
+        background sea.brighter()
+        border "5px solid ${sea.alpha(0.5)}"
+    }
+}
+</code></pre>
+
+    <p class="strong">See the <a href="//www.groocss.org/docs/1.0-M3/org/groocss/ColorMethods.html">javadoc</a> for all available methods.</p>
+
+    <p>You can also use named colors:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">_.blue {
+    color darkBlue
+    background aliceBlue
+}
+</code></pre>
+
+
+    <a id="images" class="anchor" href="#images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>
+    <h2>Image Methods</h2>
+    <ul>
+        <li>Measurement getImageHeight(String filename): Gets the height of an image.</li>
+        <li>String getImageSize(String filename): Gets the size of an image.</li>
+        <li>Measurement getImageWidth(String filename): Gets the width of an image.</li>
+    </ul>
+
+<a href="index.html">Index</a> | <a href="extending.html">Next</a>

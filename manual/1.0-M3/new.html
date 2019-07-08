@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>GrooCSS - New Features/Release Notes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Adam L Davis">
+    <meta name="keywords" content="groovy,css,css3,html,dsl,groocss">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/style.css" media="screen">
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <style>html { font-size: 20px }</style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+      <header class="page-header">
+        <img src="../../images/groocss2_256.png" width="128" height="128">
+        <h1 class="project-name">GrooCSS</h1>
+        <h2 class="project-tagline">Code CSS in Groovy</h2>
+      </header>
+
+
+	<!-- Fixed navbar -->
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://groocss.org">GrooCSS</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../manual/1.0-M3/intro.html">Getting Started</a></li>
+
+        <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
+
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/1.0-M3"  rel="me">Download</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            
+			  <li><a href="../../manual/1.0-M3/index.html">Manual 1.0-M3</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M2/index.html">Manual 1.0-M2</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M1/index.html">Manual 1.0-M1</a> </li>
+		    
+			  <li><a href="../../manual/0.12/index.html">Manual 0.12</a> </li>
+		    
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other links <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="https://twitter.com/groocss"  rel="me">Twitter</a></li>
+            <li><a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin" >Gradle Plugin</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Old stuff</li>
+            <li><a href="http://blag.groocss.org" >Old Blog</a></li>
+            <li><a href="../../feed.xml">Subscribe</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+<div class="container">
+	
+	<div class="page-header">
+		<h1>New Features/Release Notes</h1>
+	</div>
+
+	<p>    <h2>New in 1.0-M3</h2>
+
+    <p>This release fixed bugs in the Gradle plugin and added support for groovy scripts "without the base".</p>
+
+    <p>The "without the base" feature should allow you to define a groocss file that starts
+        with <code>org.groocss.GrooCSS.process {</code> and ends with <code>}</code> and if GrooCSS is defined
+        as a dependency to your project you should now have IDE code completion (in IntelliJ IDEA for example).</p>
+
+    <h2>New in 1.0-M2</h2>
+
+    <p>The ability to provide custom <a href="docs/1.0-M2/org/groocss/proc/Processor.html">Processors</a> and
+        validators as well as the inclusion of a DefaultValidator and optional validator.</p>
+
+    <p>The ability to use <code class="language-groovy" data-lang="groovy">10.percent</code> or <code class="language-groovy" data-lang="groovy">10 %_</code> to create percent measurements.</p>
+
+    <h2>New in 1.0-M1</h2>
+
+    <p>Used <a href="http://docs.groovy-lang.org/docs/next/html/documentation/core-metaprogramming.html#_extension_modules">extension modules</a>
+    to extend String, Integer, and Number classes to enhance code completion and add new features.</p>
+    <p>This allows for the following syntax for example:</p>
+    <code class="language-groovy" data-lang="groovy">'div p.test a'.$ { /*DSL*/ }</code> or <code class="language-groovy" data-lang="groovy">'div p.test a'.sg { /*DSL*/ }</code>
+    and <code class="language-groovy" data-lang="groovy">'aabbcc'.color //becomes a org.groocss.Color</code>
+
+    <h2>New in 0.12</h2>
+
+    <p>Gradle GroocssTask now extends Copy task and supports -t option (requires Gradle 4)</p>
+    <p>Support for transitions using closures. Ex:
+        <code class="language-groovy" data-lang="groovy">transition {flex '2s'} {borderColor '1s' ease '0'}</code>
+    </p>
+    <p>Improvements to the CSS Translator</p>
+
+    <h2><a id="new-in-11" class="anchor" href="#new-in-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.11</h2>
+    <p>The ability to import other groocss files is supported by importFile, importStream, and importString methods which take
+        a parameter map and input. For example:</p>
+
+    <code class="language-groovy" data-lang="groovy">importFile otherCss.absoluteFile, linkColor: '#456789'</code>
+
+    <p>This would allow you to make a "template file" for example with variables replaced in multiple ways.</p>
+
+    <p>There are also "raw" and "comment" commands, for including raw CSS and comments respectively.</p>
+
+    <h2><a id="new-in-10" class="anchor" href="#new-in-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.10</h2>
+
+    <ul>
+        <li>Added option (convertUnderline) to convert all underlines in style-classes to dashes.</li>
+        <li>Added ability to use three or more element selectors without xor.</li>
+        <li>Added ability to configure to use some element names as style-classes just in case you need "main" for example to be used as a style-class.</li>
+    </ul>
+
+
+    <h2><a id="new-in-09" class="anchor" href="#new-in-09" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.9</h2>
+
+    <ul>
+        <li>Added mix, tint, shade, and greyscale methods.</li>
+        <li>Added saturate, desaturate, fadein, fadeout, fade, and hue, saturation and brightness methods.</li>
+        <li>Added many colors methods: rgba, hsl, hsla, lighten, darken, etc.</li>
+    </ul>
+
+    <h2><a id="new-in-08" class="anchor" href="#new-in-08" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.8</h2>
+
+    <ul>
+        <li>New "styles" method for creating unattached styles (re: <a href="https://github.com/adamldavis/groocss/issues/3">issue #3</a>)</li>
+        <li>Added varieties of convert and process that take String, In/OutputStreams, and Reader/PrintWriter (re: <a href="https://github.com/adamldavis/groocss/issues/2">issue #2</a>)</li>
+        <li>Added limited support for using spaces and ~ syntax in Selector definition (limited to two elements)</li>
+    </ul>
+
+    <h2>
+        <a id="new-in-07" class="anchor" href="#new-in-07" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.7</h2>
+
+    <ul>
+        <li>Better pseudo-class support with %</li>
+        <li>Measurements are now fully supported including math between different compatible types.</li>
+        <li>Added <a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin">Gradle Plugin</a>
+        <li>Some measurement values are validated (for example, passing 10.deg to maxWidth will throw an AssertionError).</li>
+        </li>
+    </ul>
+
+    <footer>Back to <a href="index.html">home</a>. <a href="math.html" class="btn">Next</a></footer>
+</p>
+
+	<hr />
+
+	<p><em>Last updated: 07 July 2019</em></p>
+
+		</div>
+		<div id="push"></div>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="muted credit">&copy; Adam L. Davis 2019 | GrooCSS is free to use, open source, and licensed under the
+                <a href="https://github.com/adamldavis/groocss/blob/master/LICENSE">Apache License, Version 2.0.</a>
+                | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a>
+                | Baked with <a href="http://jbake.org">JBake v2.6.4</a></p>
+        </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+    
+  </body>
+</html>

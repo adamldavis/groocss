@@ -42,44 +42,64 @@
         <h1 class="project-name">GrooCSS</h1>
         <h2 class="project-tagline">Code CSS in Groovy</h2>
       </header>
+
 	
 	<!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="http://groocss.org">GrooCSS</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="intro.html">Getting Started</a></li>
-            <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
-            <li><a href="https://bintray.com/adamldavis/maven/GrooCSS"  rel="me">Bintray</a></li>
-            <li><a href="docs/1.0-M3/index.html" >Docs</a></li>
 
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other links <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="https://twitter.com/groocss"  rel="me">Twitter</a></li>
-                <li><a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin" >Gradle Plugin</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Old stuff</li>
-                <li><a href="http://blag.groocss.org" >Old Blog</a></li>
-                <li><a href="feed.xml">Subscribe</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://groocss.org">GrooCSS</a>
     </div>
-    <div class="container">
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="manual/1.0-M3/intro.html">Getting Started</a></li>
+
+        <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
+
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/1.0-M3"  rel="me">Download</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            
+			  <li><a href="manual/1.0-M3/index.html">Manual 1.0-M3</a> </li>
+		    
+			  <li><a href="manual/1.0-M2/index.html">Manual 1.0-M2</a> </li>
+		    
+			  <li><a href="manual/1.0-M1/index.html">Manual 1.0-M1</a> </li>
+		    
+			  <li><a href="manual/0.12/index.html">Manual 0.12</a> </li>
+		    
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other links <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="https://twitter.com/groocss"  rel="me">Twitter</a></li>
+            <li><a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin" >Gradle Plugin</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Old stuff</li>
+            <li><a href="http://blag.groocss.org" >Old Blog</a></li>
+            <li><a href="feed.xml">Subscribe</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+<div class="container">
+
 	<img src="images/code groocss small.png" alt="GrooCSS - code CSS in Groovy" style="float: left">
 
 	<p><a href="https://bintray.com/adamldavis/maven/GrooCSS/_latestVersion">
@@ -90,30 +110,84 @@
 
 	<p>It was created by Adam L. Davis (<a href="https://github.com/adamldavis" class="user-mention">@adamldavis</a>)
 		and inspired by the many other Groovy-based projects out there, like
-	Gradle, Grails, Spock, Ratpack, and grooscript.</p>
+		<a href="https://gradle.org/">Gradle</a>,
+		<a href="https://grails.org/">Grails</a>,
+		<a href="http://spockframework.org/">Spock</a>,
+		<a href="https://ratpack.io/">Ratpack</a>, and
+		<a href="https://www.grooscript.org/">grooscript.</a></p>
 
 	<p>Want to know more? Check out <a href="about.html">the about page.</a>
 
-	<h1>Blog</h1>
-  			<a href="blog/2019/1m3.html"><h2>Version 1.0-M3 Released!</h2></a>
-  			<p>05 July 2019</p>
-  			<!--<p>{post.body}</p>-->
+	<div class="container">
+		<div class="col-md-3">
+			<h2><span class="glyphicon glyphicon-ok-circle"></span>Open Source</h2>
+			GrooCSS is free to use, open source, and licensed under the
+			<a href="https://github.com/adamldavis/groocss/blob/master/LICENSE">Apache License, Version 2.0.</a>
+		</div>
+		<div class="col-md-3">
+			<h2><span class="glyphicon glyphicon-th"></span>Cross Platform</h2>
+			Runs on the <a href="https://www.java.com/en/">JVM</a> so it works on any platform; Linux, Windows, Mac, etc.
+		</div>
+		<div class="col-md-3">
+			<h2><span class="glyphicon glyphicon-fire"></span>Powerful</h2>
+			Tons of features included and anything you can do in <a href="http://groovy-lang.org/">Groovy</a> available.
+		</div>
+		<div class="col-md-3">
+			<h2><span class="glyphicon glyphicon-upload"></span>Extensible</h2>
+			Designed from the ground up to be extensible.
+			Includes the ability to programmatically modify styles and insert custom code for processing and validation.
+		</div>
+	</div>
 
+	<h2>Documentation</h2>
+
+	<div class="container">
+		
+
+		<div class="md-12">
+			<h3><span class="glyphicon glyphicon-star"></span> Latest: <a href="manual/1.0-M3/index.html">Manual 1.0-M3</a> |
+				<a href="docs/1.0-M3/index.html">API</a></h3>
+		</div>
+
+		<h3>Archive:</h3>
+		
+			<div class="col-md-2">
+				<a href="manual/1.0-M2/index.html">Manual 1.0-M2</a> |
+				<a href="docs/1.0-M2/index.html">API</a>
+			</div>
+		
+			<div class="col-md-2">
+				<a href="manual/1.0-M1/index.html">Manual 1.0-M1</a> |
+				<a href="docs/1.0-M1/index.html">API</a>
+			</div>
+		
+			<div class="col-md-2">
+				<a href="manual/0.12/index.html">Manual 0.12</a> |
+				<a href="docs/0.12/index.html">API</a>
+			</div>
+		
+	</div>
 	<hr />
+
+	<h1><a href="blog.html">Blog</a></h1>
+
 	
-	<p>Older posts are available in the <a href="archive.html">archive</a>.</p>
+	
+	<a href="blog/2019/1m3.html"><h4>Version 1.0-M3 Released!</h4></a>
+	<i>05 July 2019</i>
+	
 
 		</div>
 		<div id="push"></div>
     </div>
-    
+
     <div id="footer">
-      <div class="container">
-        <p class="muted credit">&copy; Adam L. Davis 2019 | GrooCSS is free to use, open source, and licensed under the
-            <a href="https://github.com/adamldavis/groocss/blob/master/LICENSE">Apache License, Version 2.0.</a>
-            | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a>
-            | Baked with <a href="http://jbake.org">JBake v2.6.4</a></p>
-      </div>
+        <div class="container">
+            <p class="muted credit">&copy; Adam L. Davis 2019 | GrooCSS is free to use, open source, and licensed under the
+                <a href="https://github.com/adamldavis/groocss/blob/master/LICENSE">Apache License, Version 2.0.</a>
+                | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a>
+                | Baked with <a href="http://jbake.org">JBake v2.6.4</a></p>
+        </div>
     </div>
     
     <!-- Le javascript

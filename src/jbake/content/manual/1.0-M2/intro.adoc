@@ -1,0 +1,38 @@
+title=Getting Started
+type=page
+tags=gradle
+status=published
+~~~~~~
+
+1. See http://www.groocss.org/script.groovy[script.groovy] for a simple example using a groovy script.
+2. Read about the http://www.groocss.org/gradle.html#using-gradle-with-plugin[Gradle Plugin.]
+3. Read more about the features, such as math, Config and other.
+4. https://twitter.com/groocss[Follow me on Twitter.]
+
+== Using Gradle without Plugin
+
+I recommend you use GrooCSS with either the Gradle plugin or
+https://github.com/bertramdev/asset-pipeline/tree/master/groocss-asset-pipeline[asset-pipeline], but it can be used by itself.
+
+[source,groovy]
+    import org.groocss.GrooCSS
+    //
+    buildscript {
+        repositories { jcenter() }
+        dependencies { classpath 'org.groocss:groocss:1.0-M2' }
+    }
+    task css doLast {
+        def file = file('css/out.css')
+        GrooCSS.process {
+            // DSL goes here
+        }.writeTo(file)
+    }
+
+Using convert methods:
+
+[source,groovy]
+    GrooCSS.convertFile('infile.groocss', 'outfile.css')
+    //or
+    GrooCSS.convert(new File('in'), new File('out'))
+
+link:gradle.html[Next]

@@ -1,0 +1,124 @@
+title=Processors
+type=page
+tags=validation,config,processor
+status=published
+~~~~~~
+
+http://www.groocss.org/docs/1.0-M3/org/groocss/proc/Processor.html[Processors]
+allow you to write custom code (in any JVM language such as Java or Groovy)
+to process or validate your CSS before and during its generation.
+With Processors you can enforce rules, modify certain inputs,
+and generate CSS from given GrooCSS values.
+GrooCSS is built from the ground up to easily allow modification.
+
+There are currently three phases:
+
+1. PRE_VALIDATE
+1. VALIDATE
+1. POST_VALIDATE
+
+During any phase if your Processor method returns a non-empty Optional value
+that will be considered a Validation failure and treated as an error.
+The given value will be printed out so that the user can
+then fix the problem.
+
+In this way, your Processors could modify input in phase 1, validate it
+in phase 2 and do post-processing in phase 3.
+
+You are only limited to what you can dream up, but here are some examples:
+
+== Conversion
+
+[source,groovy]
+ class ConvertAllIntsToPixels implements Processor< Style > {
+     Optional process(Style style, Phase phase) {
+         if (phase == Phase.PRE_VALIDATE && style.value instanceof Integer) {
+             style.value = new Measurement(style.value, 'px')
+         }
+         return Optional.empty();
+     }
+ }
+
+This Processor would convert any given int values into pixel measurement.
+So for example, "padding 2" would become "padding: 2px" in the CSS output.
+
+Note that we put it in the PRE_VALIDATION phase.
+This would allow us to validate Measurements are not numbers in the VALIDATION phase.
+
+== Validation
+
+[source,groovy]
+ import org.groocss.*
+ class PaddingValidator implements Processor< Style > {
+     Optional process(Style style, Phase phase) {
+         if (phase == Phase.VALIDATE &&
+                style.name == "padding" &&
+                !(style.value instanceof String &&
+                    style.value.endsWith("px"))) {
+             return Optional.of("padding with value $style.value is not a px".toString())
+         }
+         return Optional.empty();
+     }
+ }
+
+This PaddingValidator would validate that a padding value
+is always a String that ends with "px".
+
+GrooCSS comes with a built-in Processor that is not enabled by default,
+http://www.groocss.org/docs/1.0-M3/org/groocss/valid/RequireMeasurements.html[RequireMeasurements].
+It validates that every value that should be a Measurement is one.
+This means that "padding '2px'" would not be allowed, only "padding 2.px" for example.
+
+RequireMeasurement extends AbstractValidator, which is an abstract class that
+implements Processor and calls an abstract method "validate" only
+during the VALIDATE phase. You can also extend AbstractValidator if you want.
+
+== Extensions
+
+However, Processors need not be restricted to validating or simple conversions.
+Processors could also greatly expand from input.
+
+For example, the following Processor, named "Expander",
+would expand "mp" to generate both "margin" and "padding".
+
+[source,groovy]
+ import org.groocss.*
+ class Expander implements Processor< StyleGroup > {
+     Optional process(StyleGroup sg, Phase phase) {
+         if (phase == Phase.PRE_VALIDATE) {
+            def style = sg.styleList.find{ it.name == 'mp' }
+            if (style) {
+                style.name = "padding"
+                sg.add(new Style('margin', style.value))
+            }
+         }
+         return Optional.empty();
+     }
+ }
+
+-Note that the generic type (StyleGroup in this class) determines
+what type will be processed by your Processor.
+
+This allows the input to use those shortcuts in GrooCSS such as the following:
+
+[source,groovy]
+table {
+    add style('mp', 10.px)
+}
+
+Which will become the following CSS:
+[source,css]
+table {
+    margin: 10px;
+    padding: 10px;
+}
+
+This example demonstrates how Processors can modify and add to generated CSS.
+
+== Using Processors
+
+Using Processors is a simple matter of setting them in the Config object.
+
+See the http://www.groocss.org/docs/1.0-M3/org/groocss/Config.html[docs] for more details.
+
+link:index.html[Index] | link:micronaut.html[Next]

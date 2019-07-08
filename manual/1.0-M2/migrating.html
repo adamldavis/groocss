@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>GrooCSS - Migrating from CSS in a Legacy Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Adam L Davis">
+    <meta name="keywords" content="groovy,css,css3,html,dsl,groocss">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/style.css" media="screen">
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <style>html { font-size: 20px }</style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+      <header class="page-header">
+        <img src="../../images/groocss2_256.png" width="128" height="128">
+        <h1 class="project-name">GrooCSS</h1>
+        <h2 class="project-tagline">Code CSS in Groovy</h2>
+      </header>
+
+
+	<!-- Fixed navbar -->
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://groocss.org">GrooCSS</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../manual/1.0-M3/intro.html">Getting Started</a></li>
+
+        <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
+
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/1.0-M3"  rel="me">Download</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            
+			  <li><a href="../../manual/1.0-M3/index.html">Manual 1.0-M3</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M2/index.html">Manual 1.0-M2</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M1/index.html">Manual 1.0-M1</a> </li>
+		    
+			  <li><a href="../../manual/0.12/index.html">Manual 0.12</a> </li>
+		    
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other links <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="https://twitter.com/groocss"  rel="me">Twitter</a></li>
+            <li><a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin" >Gradle Plugin</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Old stuff</li>
+            <li><a href="http://blag.groocss.org" >Old Blog</a></li>
+            <li><a href="../../feed.xml">Subscribe</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+<div class="container">
+	
+	<div class="page-header">
+		<h1>Migrating from CSS in a Legacy Application</h1>
+	</div>
+
+	<p><div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The first step is to make sure your CSS files are properly formatted.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use a command line utility like <a href="https://prefetch.net/blog/2017/12/02/formatting-css-from-the-linux-command-line/">cssbeautify</a> ($ npm install cssbeautify-cli) or</p>
+</li>
+<li>
+<p>Use your IDE to format each CSS file (using Ctrl+Alt+Shift+L in IDEA for example)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Once this is done, copy all your CSS files into one folder (in our example we&#8217;ll use a directory named "toconvert")</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_translating">Translating</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Then create a Groovy script for converting those files to GrooCSS using org.groocss.Translator:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    @Grab('org.groocss:groocss:1.0-M3')
+    import org.groocss.*
+    File dir = new File("toconvert")
+    println dir.absolutePath
+    dir.listFiles().each { f -&gt;
+        println f
+        Translator.convertFromCSS(f, new File(f.absolutePath + '.groovy'))
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Keep track of the output from this process.
+You should follow up with every line that uses "raw" and see if you can manually convert them.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building">Building</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Next, decide which way you want to build your GrooCSS into CSS.
+Which way depends on if you&#8217;re using Gralde, Maven, or something else, and how much control you want over the process.</p>
+</div>
+<div class="paragraph">
+<p>If not using the plugin, you can create a script named "build.groovy" or something similar.
+This script will convert you groocss files to CSS as part of your build process.
+Here&#8217;s an example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    @Grab('org.groocss:groocss:1.0-M3')
+    import org.groocss.*
+    File groocssDir = new File("src/groovycss")
+    def cssDir = "web/resources/css"
+    new File(cssDir).mkdirs()
+    groocssDir.listFiles().each { f -&gt;
+        try {
+            def config = new Config(addOpera: false, prettyPrint: false, compress: true)
+            GrooCSS.convert config, f, new File(cssDir, f.name[0..-8])
+        } catch (e) {
+            println "ERROR in $f.name"
+            e.printStackTrace()
+        }
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This example expects all of your GroovyCSS files to be in the "src/groovycss" directory and end with ".css.groovy".
+Your CSS files will end up in "web/resources/css".</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_verifying_conversion">Verifying Conversion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Next you should make sure that all of your converted CSS files are identical to old CSS.
+To do this simply on a Linux command line, use the following command (assuming old CSS files are in web/styles/):</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>ls web/styles/ | xargs -I{} diff -wiB web/resources/css/{} web/styles/{} &gt; css.diff</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This goes through every converted CSS file and compares it to the original while ignoring case, whitespace, and blank lines.
+Look at the resulting "css.diff" file to see what changed.
+There will probably be a lot of differences but just make sure they don&#8217;t change the meaning of the CSS.</p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.groocss.org/">Back home</a></p>
+</div>
+<div class="paragraph">
+<p><a href="micronaut.html">Next</a></p>
+</div>
+</div>
+</div></p>
+
+	<hr />
+
+	<p><em>Last updated: 04 July 2019</em></p>
+
+		</div>
+		<div id="push"></div>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="muted credit">&copy; Adam L. Davis 2019 | GrooCSS is free to use, open source, and licensed under the
+                <a href="https://github.com/adamldavis/groocss/blob/master/LICENSE">Apache License, Version 2.0.</a>
+                | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a>
+                | Baked with <a href="http://jbake.org">JBake v2.6.4</a></p>
+        </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+    
+  </body>
+</html>

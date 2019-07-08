@@ -1,0 +1,190 @@
+title=Other Features
+type=page
+status=published
+~~~~~~
+
+    <h2>
+        <a id="pseudo-classes" class="anchor" href="#pseudo-classes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pseudo-classes</h2>
+
+    <pre><code class="language-groovy" data-lang="groovy">input % hover { color blue }
+li % nthChild('3n') { color blue }
+</code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">input:hover { color: Blue; }
+li:nth-child(3n) { color: Blue; }
+</code></pre>
+
+
+    <h3>
+        <a id="extending" class="anchor" href="#extending" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extending</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">_.warn { color red }
+_.error {
+    extend(_.warn) // extend '.warn' also works
+    background black
+}
+</code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">.warn,.error {color: Red;}
+.error {background: Black;}
+</code></pre>
+
+    <h3>
+        <a id="nesting" class="anchor" href="#nesting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Nesting</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">a {
+    color '#000'
+    add ':hover', { color blue }
+}
+div {
+    add '&gt; p', { color '#eee' }
+}
+</code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">a { color: #000; }
+a:hover { color: Blue; }
+div &gt; p { color: #eee; }
+</code></pre>
+
+    <h3>
+        <a id="keyframes-and-transforms-dsl" class="anchor" href="#keyframes-and-transforms-dsl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Keyframes and Transforms DSL</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">def css = GrooCSS.process(new Config(addWebkit: false, addMoz: false, addOpera: false)) {
+
+        keyframes('bounce') {
+            40 % {
+                translateY(-30.px)
+            }
+            60 % {
+                translateY(-15.px)
+            }
+            frame([0,20,50,80,100]) {
+                translateY(0)
+            }
+        }
+    }
+    </code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">@keyframes bounce {
+    40%{transform: translateY(-30px);}
+    60%{transform: translateY(-15px);}
+    0%, 20%, 50%, 80%, 100%{transform: translateY(0);}
+}
+</code></pre>
+
+    <h3>
+        <a id="colors" class="anchor" href="#colors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Colors</h3>
+
+    <p>Use the "c", "clr", "rgb" or "rgba" methods to create a color. For example:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">def css = GrooCSS.process {
+    def sea = c('5512ab') //OR rgb(85, 18, 171)
+    _.sea {
+        color darken(sea)
+        background sea.brighter()
+        border "5px solid ${sea.alpha(0.5)}"
+    }
+}
+</code></pre>
+
+    <p class="strong">See the <a href="docs/1.0-M1/org/groocss/ColorMethods.html">javadoc</a> for all available methods.</p>
+
+    <p>You can also use named colors:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">_.blue {
+    color darkBlue
+    background aliceBlue
+}
+</code></pre>
+
+    <h3>
+        <a id="font-face" class="anchor" href="#font-face" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Font-face</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">fontFace {
+    fontFamily 'myFirstFont'
+    fontWeight 'normal'
+    src 'url(sensational.woff)'
+}
+</code></pre>
+
+    <p>Resolves to:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">@font-face { font-family: myFirstFont; font-weight: normal; src:url(sensational.woff); }
+    </code></pre>
+
+    <h3>
+        <a id="custom-styles" class="anchor" href="#custom-styles" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom styles</h3>
+
+    <pre><code class="language-groovy" data-lang="groovy">body {
+    add style('-webkit-touch-callout', 'none')
+    add style('-webkit-textSize-adjust', 'none')
+    add style('-webkit-user-select', 'none')
+}
+</code></pre>
+
+
+    <h2>
+        <a id="media" class="anchor" href="#media" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Media</h2>
+
+    <pre><code class="language-groovy" data-lang="groovy">media 'screen', {
+    body { width '100%' }
+}
+</code></pre>
+
+    <p>Produces:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">@media screen {
+    body { width: 100%; }
+}
+</code></pre>
+
+    <a id="importing" class="anchor" href="#importing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>
+    <h2>Importing</h2>
+
+    <p>The ability to import other groocss files is supported by importFile, importStream, and importString methods which take
+        a parameter map and input. Any number of variables can be passed. For example:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">def otherCss = new File('whatever file.groovy')
+importFile otherCss.absoluteFile, linkColor: '#456789', background: 'black'</code></pre>
+
+    <p>Within the imported groovy file, linkColor and background will be available with the given values.</p>
+
+
+    <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>
+    <h2>More Examples</h2>
+    <p>For more examples, see the code used to create this page's CSS:
+    <ol>
+        <li><a href="src/main/groovy/stylesheet.css.groovy">stylesheet.css.groovy</a></li>
+        <li><a href="src/main/groovy/style.css.groovy">style.css.groovy</a></li>
+        <li><a href="src/main/groovy/normalize.css.groovy">normalize.css.groovy</a></li>
+    </ol>
+    </p>
+
+    <a id="images" class="anchor" href="#images" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>
+    <h2>Image Methods</h2>
+    <ul>
+        <li>Measurement getImageHeight(String filename): Gets the height of an image.</li>
+        <li>String getImageSize(String filename): Gets the size of an image.</li>
+        <li>Measurement getImageWidth(String filename): Gets the width of an image.</li>
+    </ul>
+
+    <h2>
+        <a id="converting-from-css" class="anchor" href="#converting-from-css" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Converting from CSS</h2>
+
+    <p>You can use the Translator to convert existing CSS into GrooCSS syntax:</p>
+
+    <code class="language-groovy" data-lang="groovy">org.groocss.Translator.convertFromCSS(File inFile, File outFile)</code>
+
+    <p>This allows you to get started quickly with GrooCSS in existing projects. See <a href="migrating.html">Migrating from CSS</a> for more.
+    <b>Warning: Experimental!  (might not always work)</b></p>
+
+
+    <footer>Back to <a href="index.html">home</a></footer>

@@ -1,0 +1,57 @@
+title=Font-face, Media, and Custom styles
+type=page
+status=published
+~~~~~~
+
+== Font-face
+
+[source,groovy]
+fontFace {
+    fontFamily 'myFirstFont'
+    fontWeight 'normal'
+    src 'url(sensational.woff)'
+}
+
+Resolves to:
+
+[source,css]
+@font-face {
+    font-family: myFirstFont;
+    font-weight: normal;
+    src:url(sensational.woff);
+}
+
+
+== Custom styles
+
+[source,groovy]
+body {
+    add style('-webkit-touch-callout', 'none')
+    add style('-webkit-textSize-adjust', 'none')
+    add style('-webkit-user-select', 'none')
+}
+
+Resolves to:
+
+[source,css]
+body {
+    -webkit-touch-callout: none
+    -webkit-textSize-adjust: none
+    -webkit-user-select: none
+}
+
+== Media
+
+[source,groovy]
+media 'screen', {
+    body { width '100%' }
+}
+
+Produces:
+
+[source,css]
+@media screen {
+    body { width: 100%; }
+}
+
+link:index.html[Index] | link:migrating.html[Next]

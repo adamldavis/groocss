@@ -1,0 +1,36 @@
+title=Importing
+type=page
+tags=import,templates
+status=published
+~~~~~~
+
+The ability to import other groocss files is supported by
+importFile, importStream, and importString methods which take
+a parameter map and input. Any number of variables can be passed. For example:
+
+[source,groovy]
+    def otherCss = new File('whatever/file.groovy')
+    importFile otherCss.absoluteFile, linkColor: '#456789', backColor: 'black'
+
+Within the imported groovy file, linkColor and background will be available with the given values.
+
+For example, given that "file.groovy" has the following contents:
+
+[source,groovy]
+    a { color linkColor backgroundColor backColor }
+
+The resulting CSS would be the following:
+
+[source,css]
+    a {
+        color #456789;
+        background-color: Black;
+    }
+
+== Variants
+
+* importFile - Takes in a java.io.File.
+* importStream - Takes an InputStream and reads it.
+* importString - Takes a String expected to be a GrooCSS DSL input.
+
+link:index.html[Index] | link:other.html[Next]

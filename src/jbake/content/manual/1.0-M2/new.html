@@ -1,0 +1,75 @@
+title=New Features/Release Notes
+type=page
+status=published
+~~~~~~
+
+    <h2>New in 1.0-M2</h2>
+
+    <p>The ability to provide custom <a href="docs/1.0-M2/org/groocss/proc/Processor.html">Processors</a> and
+        validators as well as the inclusion of a DefaultValidator and optional validator.</p>
+
+    <p>The ability to use <code class="language-groovy" data-lang="groovy">10.percent</code> or <code class="language-groovy" data-lang="groovy">10 %_</code> to create percent measurements.</p>
+
+    <h2>New in 1.0-M1</h2>
+
+    <p>Used <a href="http://docs.groovy-lang.org/docs/next/html/documentation/core-metaprogramming.html#_extension_modules">extension modules</a>
+    to extend String, Integer, and Number classes to enhance code completion and add new features.</p>
+    <p>This allows for the following syntax for example:</p>
+    <code class="language-groovy" data-lang="groovy">'div p.test a'.$ { /*DSL*/ }</code> or <code class="language-groovy" data-lang="groovy">'div p.test a'.sg { /*DSL*/ }</code>
+    and <code class="language-groovy" data-lang="groovy">'aabbcc'.color //becomes a org.groocss.Color</code>
+
+    <h2>New in 0.12</h2>
+
+    <p>Gradle GroocssTask now extends Copy task and supports -t option (requires Gradle 4)</p>
+    <p>Support for transitions using closures. Ex:
+        <code class="language-groovy" data-lang="groovy">transition {flex '2s'} {borderColor '1s' ease '0'}</code>
+    </p>
+    <p>Improvements to the CSS Translator</p>
+
+    <h2><a id="new-in-11" class="anchor" href="#new-in-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.11</h2>
+    <p>The ability to import other groocss files is supported by importFile, importStream, and importString methods which take
+        a parameter map and input. For example:</p>
+
+    <code class="language-groovy" data-lang="groovy">importFile otherCss.absoluteFile, linkColor: '#456789'</code>
+
+    <p>This would allow you to make a "template file" for example with variables replaced in multiple ways.</p>
+
+    <p>There are also "raw" and "comment" commands, for including raw CSS and comments respectively.</p>
+
+    <h2><a id="new-in-10" class="anchor" href="#new-in-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.10</h2>
+
+    <ul>
+        <li>Added option (convertUnderline) to convert all underlines in style-classes to dashes.</li>
+        <li>Added ability to use three or more element selectors without xor.</li>
+        <li>Added ability to configure to use some element names as style-classes just in case you need "main" for example to be used as a style-class.</li>
+    </ul>
+
+
+    <h2><a id="new-in-09" class="anchor" href="#new-in-09" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.9</h2>
+
+    <ul>
+        <li>Added mix, tint, shade, and greyscale methods.</li>
+        <li>Added saturate, desaturate, fadein, fadeout, fade, and hue, saturation and brightness methods.</li>
+        <li>Added many colors methods: rgba, hsl, hsla, lighten, darken, etc.</li>
+    </ul>
+
+    <h2><a id="new-in-08" class="anchor" href="#new-in-08" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.8</h2>
+
+    <ul>
+        <li>New "styles" method for creating unattached styles (re: <a href="https://github.com/adamldavis/groocss/issues/3">issue #3</a>)</li>
+        <li>Added varieties of convert and process that take String, In/OutputStreams, and Reader/PrintWriter (re: <a href="https://github.com/adamldavis/groocss/issues/2">issue #2</a>)</li>
+        <li>Added limited support for using spaces and ~ syntax in Selector definition (limited to two elements)</li>
+    </ul>
+
+    <h2>
+        <a id="new-in-07" class="anchor" href="#new-in-07" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New in 0.7</h2>
+
+    <ul>
+        <li>Better pseudo-class support with %</li>
+        <li>Measurements are now fully supported including math between different compatible types.</li>
+        <li>Added <a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin">Gradle Plugin</a>
+        <li>Some measurement values are validated (for example, passing 10.deg to maxWidth will throw an AssertionError).</li>
+        </li>
+    </ul>
+
+    <footer>Back to <a href="index.html">home</a>. <a href="math.html" class="btn">Next</a></footer>

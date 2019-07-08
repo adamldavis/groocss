@@ -1,0 +1,75 @@
+title=Migrating from CSS in a Legacy Application
+date=2019-07-04
+type=page
+tags=css, migration, legacy
+status=published
+~~~~~~
+= Migrating from CSS in a Legacy Application
+Adam L. Davis
+
+The first step is to make sure your CSS files are properly formatted.
+
+1. Use a command line utility like https://prefetch.net/blog/2017/12/02/formatting-css-from-the-linux-command-line/[cssbeautify] ($ npm install cssbeautify-cli) or
+2. Use your IDE to format each CSS file (using Ctrl+Alt+Shift+L in IDEA for example)
+
+Once this is done, copy all your CSS files into one folder (in our example we'll use a directory named "toconvert")
+
+== Translating
+
+Then create a Groovy script for converting those files to GrooCSS using org.groocss.Translator:
+
+[source,groovy]
+    @Grab('org.groocss:groocss:1.0-M3')
+    import org.groocss.*
+    File dir = new File("toconvert")
+    println dir.absolutePath
+    dir.listFiles().each { f ->
+        println f
+        Translator.convertFromCSS(f, new File(f.absolutePath + '.groovy'))
+    }
+
+Keep track of the output from this process.
+You should follow up with every line that uses "raw" and see if you can manually convert them.
+
+== Building
+
+Next, decide which way you want to build your GrooCSS into CSS.
+Which way depends on if you're using Gralde, Maven, or something else, and how much control you want over the process.
+
+If not using the plugin, you can create a script named "build.groovy" or something similar.
+This script will convert you groocss files to CSS as part of your build process.
+Here's an example:
+
+[source,groovy]
+    @Grab('org.groocss:groocss:1.0-M3')
+    import org.groocss.*
+    File groocssDir = new File("src/groovycss")
+    def cssDir = "web/resources/css"
+    new File(cssDir).mkdirs()
+    groocssDir.listFiles().each { f ->
+        try {
+            def config = new Config(addOpera: false, prettyPrint: false, compress: true)
+            GrooCSS.convert config, f, new File(cssDir, f.name[0..-8])
+        } catch (e) {
+            println "ERROR in $f.name"
+            e.printStackTrace()
+        }
+    }
+
+This example expects all of your GroovyCSS files to be in the "src/groovycss" directory and end with ".css.groovy".
+Your CSS files will end up in "web/resources/css".
+
+== Verifying Conversion
+
+Next you should make sure that all of your converted CSS files are identical to old CSS.
+To do this simply on a Linux command line, use the following command (assuming old CSS files are in web/styles/):
+
+    ls web/styles/ | xargs -I{} diff -wiB web/resources/css/{} web/styles/{} > css.diff
+
+This goes through every converted CSS file and compares it to the original while ignoring case, whitespace, and blank lines.
+Look at the resulting "css.diff" file to see what changed.
+There will probably be a lot of differences but just make sure they don't change the meaning of the CSS.
+
+http://www.groocss.org/[Back home]
+
+link:micronaut.html[Next]

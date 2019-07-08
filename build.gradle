@@ -13,8 +13,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+/** -------------------------> Build works using Gradle 5.4.1 and Java 8.0.202 */
 plugins {
     id "org.groocss.groocss-gradle-plugin" version "1.0-M3"
+    id 'org.jbake.site' version '5.0.0'
     id "java"
     id "groovy"
 }
@@ -24,6 +26,7 @@ groocss {
     charset = 'UTF-8'
     prettyPrint = true
     convertUnderline = true
+    processors = []
 }
 groocssfiles {
     allfiles {
@@ -52,6 +55,23 @@ sourceSets {
             srcDir(file("sources"))
         }
     }
+}
+jbake {
+    srcDirName = 'src/jbake/'
+    destDirName = '.'
+    version = '2.6.4'
+    groovyTemplatesVersion = '2.5.5'
+    clearCache = true
+}
+
+task copySite(type: Copy) {
+    from 'build/'
+    into './'
+    exclude '**/*.bak'
+}
+
+task site(dependsOn: ['convertCss', 'bake', 'copySite'], description: 'Builds the site') doLast {
+    println 'done'
 }
 
 task buildDocs(type: Groovydoc, dependsOn: 'unzipSources', description: 'Builds the groovy docs') {

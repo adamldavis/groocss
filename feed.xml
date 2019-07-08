@@ -2,20 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>JBake</title>
-    <link>http://groocss.org</link>
-    <atom:link href="http://groocss.org/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://www.groocss.org</link>
+    <atom:link href="http://www.groocss.org/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Sat, 6 Jul 2019 19:40:38 -0400</pubDate>
-    <lastBuildDate>Sat, 6 Jul 2019 19:40:38 -0400</lastBuildDate>
+    <pubDate>Mon, 8 Jul 2019 15:02:45 -0400</pubDate>
+    <lastBuildDate>Mon, 8 Jul 2019 15:02:45 -0400</lastBuildDate>
 
+    
     <item>
       <title>Version 1.0-M3 Released!</title>
-      <link>http://groocss.org/blog/2019/1m3.html</link>
+      <link>http://www.groocss.org/blog/2019/1m3.html</link>
       <pubDate>Fri, 5 Jul 2019 00:00:00 -0400</pubDate>
       <guid isPermaLink="false">blog/2019/1m3.html</guid>
-      	<description>
-	&lt;div class=&quot;paragraph&quot;&gt;
+      <description>
+      &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This &lt;a href=&quot;https://github.com/adamldavis/groocss/releases/tag/v1.0-M3&quot;&gt;release&lt;/a&gt; includes a fix for a bug reported by
 &lt;a href=&quot;https://github.com/johndevs&quot;&gt;John Ahlroos&lt;/a&gt;. Thanks John! This bug was related to using the Gradle plugin.&lt;/p&gt;
 &lt;/div&gt;
@@ -46,8 +47,9 @@ This is something I&amp;#8217;ve been meaning to do for a long time and I hope y
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;As always any feedback is welcome. Please try out M3 as it should be the last Milestone release before 1.0-GA.&lt;/p&gt;
 &lt;/div&gt;
-	</description>
+	  </description>
     </item>
+    
 
   </channel> 
 </rss>
