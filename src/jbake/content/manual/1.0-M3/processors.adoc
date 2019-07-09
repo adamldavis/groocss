@@ -64,7 +64,15 @@ This would allow us to validate Measurements are not numbers in the VALIDATION p
 This PaddingValidator would validate that a padding value
 is always a String that ends with "px".
 
-GrooCSS comes with a built-in Processor that is not enabled by default,
+== DefaultValidator and RequireMeasurements
+
+GrooCSS uses the Processor mechanism internally as well. It comes with
+http://www.groocss.org/docs/1.0-M3/org/groocss/valid/DefaultValidator.html[DefaultValidator]
+which is automatically added to the set of Processors before processing.
+It validates that if a value is a Measurement, it's of an allowed type.
+For example, "padding 2.deg" would cause an exception.
+
+GrooCSS also comes with a built-in Processor that is not enabled by default,
 http://www.groocss.org/docs/1.0-M3/org/groocss/valid/RequireMeasurements.html[RequireMeasurements].
 It validates that every value that should be a Measurement is one.
 This means that "padding '2px'" would not be allowed, only "padding 2.px" for example.
