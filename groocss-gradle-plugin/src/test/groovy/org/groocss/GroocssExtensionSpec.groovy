@@ -25,6 +25,6 @@ class GroocssExtensionSpec extends Specification {
         expect:
         def ext = new GroocssExtension()
         ext.processors.empty
-        ext.processors instanceof Set
+        ext.processors instanceof List
     }
 }

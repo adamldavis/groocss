@@ -56,12 +56,12 @@ class Config {
      * @see Processor
      * @see org.groocss.valid.DefaultValidator
      */
-    Set<Processor> processors = []
+    Collection<Processor> processors = []
 
     Config() {}
     
     Config(Map map) {
-        if (map.processors) processors = map.processors as Set<Processor>
+        if (map.processors) processors = map.processors as Collection<Processor>
         if (map.convertUnderline instanceof Boolean) convertUnderline = map.convertUnderline
         if (map.addMs instanceof Boolean) addMs = map.addMs
         if (map.addMoz instanceof Boolean) addMoz = map.addMoz

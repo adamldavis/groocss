@@ -25,5 +25,5 @@ class GroocssExtension {
      * @see org.groocss.proc.Processor
      * @see org.groocss.valid.DefaultValidator
      */
-    Set<Processor> processors = []
+    Collection<Processor> processors = []
 }
