@@ -19,6 +19,7 @@ import org.groocss.CSSPart
  *     }
  * }     </code></pre>
  * @see org.groocss.Config
+ * @since 1.0-M2
  * */
 @CompileStatic
 interface Processor<T extends CSSPart> {

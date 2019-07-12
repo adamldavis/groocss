@@ -9,6 +9,7 @@ import org.groocss.proc.Processor
  * Just checks that phase is VALIDATE Phase and if so calls validate method.
  * @see Processor
  * @see DefaultValidator
+ * @since 1.0-M2
  */
 @CompileStatic
 abstract class AbstractValidator<T extends CSSPart> implements Processor<T> {

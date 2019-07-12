@@ -27,6 +27,7 @@ import org.groocss.proc.Processor
  *
  * @see org.groocss.Config
  * @see RequireMeasurements
+ * @since 1.0-M2
  */
 @CompileStatic
 class DefaultValidator extends AbstractValidator<Style> implements Processor<Style> {
