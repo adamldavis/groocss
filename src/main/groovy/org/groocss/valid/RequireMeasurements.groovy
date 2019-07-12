@@ -31,6 +31,7 @@ import org.groocss.proc.Processor
  * @see Measurement
  * @see org.groocss.Config
  * @see DefaultValidator
+ * @since 1.0-M2
  */
 @CompileStatic
 class RequireMeasurements extends AbstractValidator<Style> implements Processor<Style> {

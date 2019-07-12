@@ -31,7 +31,7 @@ class ImportSpec extends Specification {
         'InputStream'   | { importStream otherCss.newInputStream() }
     }
 
-    def "import should be put last"() {
+    def "import should be put wherever its put"() {
         given:
         otherCss.text = "a {color blue}"
         expect:
@@ -39,7 +39,7 @@ class ImportSpec extends Specification {
             importFile otherCss.absoluteFile
             header { fontSize '15pt' }
         }
-        'header{font-size: 15pt;}\na{color: Blue;}' == "$css".trim()
+        'a{color: Blue;}\nheader{font-size: 15pt;}' == "$css".trim()
     }
 
     def "import should allow parameters"() {
@@ -50,6 +50,18 @@ class ImportSpec extends Specification {
             importFile otherCss.absoluteFile, linkColor: '#456789'
         }
         'a{color: #456789;}' == "$css".trim()
+    }
+
+    def "import should CSS before and after and keep original Config"() {
+        given:
+        otherCss.text = "a {color linkColor}"
+        expect:
+        def css = GrooCSS.process(new Config(compress: true)) {
+            table { padding 5.px }
+            importFile otherCss.absoluteFile, linkColor: '#456789'
+            div { padding 2.px margin 1.px }
+        }
+        'table{padding: 5px;}a{color: #456789;}div{padding: 2px;margin: 1px;}' == "$css".trim()
     }
 
     @Unroll

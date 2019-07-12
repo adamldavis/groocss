@@ -27,6 +27,7 @@ import javax.imageio.ImageIO
 /**
  * Entrance to DSL for converting code into CSS.
  */
+@CompileStatic
 class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     static final ThreadLocal<GrooCSS> threadLocalInstance = new ThreadLocal<>()
@@ -80,14 +81,13 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
      * @param charset1 Charset to use (UTF-8 by default).
      * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (true by default).
      */
-    @TypeChecked
     static String convert(Config conf = new Config(), String groocss, String charset1 = "UTF-8", boolean addMeta=true) {
         def out = new ByteArrayOutputStream()
         convert conf, new ByteArrayInputStream(groocss.getBytes(charset1)), out, charset1, addMeta
         out.toString()
     }
 
-    private static GroovyShell makeShell(boolean addBase = true) {
+    protected static GroovyShell makeShell(boolean addBase = true) {
         def binding = new Binding()
         def compilerConfig = new CompilerConfiguration()
         def imports = new ImportCustomizer()
@@ -106,7 +106,6 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
      * @param charset1 Charset of file to read (UTF-8 by default).
      * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (true by default).
      * */
-    @TypeChecked
     static void convert(Config conf = new Config(), InputStream inf, OutputStream out, String charset1 = "UTF-8",
                         boolean addMeta = true) {
         out.withPrintWriter { pw ->
@@ -120,29 +119,52 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
      * @param writer Output file of resulting CSS.
      * @param addMeta Tells GrooCSS to augment String and Integer classes using metaClass (true by default).
      */
-    @TypeChecked
     static void convert(Config conf = new Config(), Reader reader, PrintWriter writer, boolean addMeta = true) {
+
+        final GrooCSS previousGrooCssInstance = threadLocalInstance.get()
+
         reader.withCloseable { input ->
             def shell = makeShell()
             def script = shell.parse(input)
             if (addMeta) script.invokeMethod('initMetaClasses', true)
             script.invokeMethod('setConfig', conf)
-            def result = script.run()
-            MediaCSS css = (MediaCSS) script.getProperty('css')
-            css.doProcessing()
-
-            if (result instanceof GrooCSS && ((GrooCSS) result).css.mediaRule == null) {
-                MediaCSS resultCss = ((GrooCSS) result).css
-
-                css << resultCss.fonts
-                css << resultCss.otherCss
-                css << resultCss.kfs
-                css << resultCss.groups
-            }
+            MediaCSS css = runAndProcessScript(script)
             writer.withCloseable { pw ->
                 css.writeTo pw
                 pw.flush()
             }
+            resetThreadLocalInstance(previousGrooCssInstance)
+        }
+    }
+
+    /** Calls run method on given script, get the resulting css, calls doProcessing, the calls
+     * {@link #addIfResultIsGrooCSS(java.lang.Object, org.groocss.MediaCSS)} and returns the css.
+     * @param script Script to run.
+     * @return The root {@link MediaCSS} element.
+     */
+    protected static MediaCSS runAndProcessScript(Script script) {
+        def result = script.run()
+        MediaCSS css = (MediaCSS) script.getProperty('css')
+
+        css.doProcessing()
+        addIfResultIsGrooCSS(result, css)
+
+        css
+    }
+
+    /** If the given result is a GrooCSS object its inner stuff will be added to given css.
+     *
+     * @param result Object returned from a script (could be anything, even null).
+     * @param css The root {@link MediaCSS} element.
+     */
+    protected static void addIfResultIsGrooCSS(result, MediaCSS css) {
+        if (result instanceof GrooCSS && ((GrooCSS) result).css.mediaRule == null) {
+            MediaCSS resultCss = ((GrooCSS) result).css
+
+            css << resultCss.fonts
+            css << resultCss.otherCss
+            css << resultCss.kfs
+            css << resultCss.groups
         }
     }
 
@@ -238,10 +260,10 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     Config config = new Config()
 
     /** Main MediaCSS root.*/
-    MediaCSS css = new MediaCSS(this, config)
+    MediaCSS css = new MediaCSS(this, this.config)
 
     /** Makes sure that config passes through to root css. */
-    void setConfig(Config config1) { config = css.config = config1 }
+    void setConfig(Config config1) { this.config = css.config = config1 }
 
     /** Current MediaCSS object used for processing. */
     MediaCSS currentCss = css
@@ -251,18 +273,20 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     }
 
     /** Called when addMeta is true (parameter to "convert") which is used by Gradle plugin. */
+    @CompileDynamic
     static void initMetaClasses(boolean addNumberMeta = true, boolean addStringMeta = true) {
         if (addNumberMeta) addNumberMetaStuff()
         if (addStringMeta) addStringMetaStuff()
         Integer.metaClass.initMetaClassesCalled = {return true}
     }
 
+    @CompileDynamic
     private static void addStringMetaStuff() {
         String.metaClass.groocss = { Config config, Closure closure ->
             println "processing $delegate"; GrooCSS.process(config, closure)
         }
         String.metaClass.groocss = { Closure closure ->
-            println "processing $delegate"; GrooCSS.process(new Config(), closure)
+            println "processing $delegate"; GrooCSS.process(closure)
         }
         String.metaClass.getUrl = { 'url(' + delegate + ')' }
         String.metaClass.getColor = { new Color(delegate) }
@@ -275,6 +299,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         String.metaClass.media = { Closure closure -> StringExtension.media(delegate, closure) }
     }
 
+    @CompileDynamic
     private static void addNumberMetaStuff() {
         Number.metaClass.propertyMissing = { new Measurement(delegate, "$it") }
         Number.metaClass.getPercent = { new Measurement((Number) delegate, '%') }
@@ -293,7 +318,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     String toString() { css.toString() }
 
     MediaCSS media(String mediaRule, @DelegatesTo(GrooCSS) Closure clos) {
-        MediaCSS mcss = new MediaCSS(this, mediaRule, config)
+        MediaCSS mcss = new MediaCSS(this, mediaRule, this.config)
         MediaCSS oldCss = currentCss
         currentCss = mcss
         clos.delegate = this
@@ -373,6 +398,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     /** Creates a new StyleGroup element, with all selectors in the given list joined with commas.
      * If given list is empty, this method has the same behaviour as styles(closure). */
+    @CompileDynamic
     StyleGroup sg(List selectors, @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure clos) {
         if (selectors.isEmpty()) {
             return styles(clos)
@@ -397,25 +423,48 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     def run() {}
 
-    /** Processes the given closure with given optional config. */
-    static GrooCSS process(Config config = new Config(), 
-                           @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure clos,
+    /** Processes the given closure with given optional config. Calls runBlock.
+     * @see #runBlock(org.groocss.Config, groovy.lang.Closure, boolean)
+     */
+    static GrooCSS process(Config config = null,
+                           @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure closure,
                            boolean addMeta = true) {
-        runBlock(config, clos, addMeta)
+        runBlock(config, closure, addMeta)
     }
 
-    /** Processes the given closure with given optional config. */
-    static GrooCSS runBlock(Config conf = new Config(),
-                            @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure clos,
+    /**
+     * Processes the given closure with given optional config. If a GrooCSS instance
+     * is set to the threadLocalInstance (threadLocalInstance.get() != null) its Config will be used
+     * if the given config parameter is null. If no Config is found, the default Config is used.
+     *
+     * @param config Config to use (if null it uses Config from current ThreadLocal if any or default Config otherwise).
+     * @param closure The Closure containing the DSL to run.
+     * @param addMeta Whether to add metaClass methods to String and Integer classes (true by default).
+     */
+    static GrooCSS runBlock(Config config = null,
+                            @DelegatesTo(value = GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure closure,
                             boolean addMeta = true) {
-        GrooCSS gcss = new GrooCSS(config: conf)
-        if (addMeta) gcss.initMetaClasses()
-        gcss.css.config = conf
-        clos.resolveStrategy = Closure.DELEGATE_FIRST
-        clos.delegate = gcss
-        clos()
+        final Config config2
+        final GrooCSS previousGrooCssInstance = threadLocalInstance.get()
+
+        if (config == null && previousGrooCssInstance?.config != null) config2 = previousGrooCssInstance.config
+        else if (config) config2 = config
+        else config2 = new Config()
+
+        GrooCSS gcss = new GrooCSS(config: config2)
+        if (addMeta) GrooCSS.initMetaClasses()
+        gcss.css.config = config2
+        closure.resolveStrategy = Closure.DELEGATE_FIRST
+        closure.delegate = gcss
+        closure()
         gcss.css.doProcessing()
+        resetThreadLocalInstance(previousGrooCssInstance)
         gcss
+    }
+
+    /** Sets the threadLocalInstance to the given GrooCSS instance. */
+    protected static void resetThreadLocalInstance(final GrooCSS previousGrooCssInstance) {
+        threadLocalInstance.set(previousGrooCssInstance)
     }
 
     /** Writes the CSS to the given file. */
@@ -429,7 +478,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     }
 
     void charset(String charset) {
-        config.charset = charset
+        this.config.charset = charset
     }
     String getUtf8() { 'UTF-8' }
     String getUtf16() { 'UTF-16' }
@@ -1027,7 +1076,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     /** The following 110 methods enable CSS-like selectors like body a, b {} or div ~ ul img {}
      * or extend(body a) and many others. */
 
-    private Selectable handleHtmlElement(String element, Selectable... sels) {
+    protected Selectable handleHtmlElement(String element, Selectable... sels) {
         if (sels.length == 0) {
             new Selector(element, currentCss)
         } else if (sels.length == 1) {
@@ -1747,8 +1796,10 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     @TypeChecked
     PseudoClass.StyleGroup withPseudoClass(String pseudoClass, 
         @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
-        def sg = new PseudoClass.StyleGroup(":$pseudoClass", config, currentCss)
+
+        def sg = new PseudoClass.StyleGroup(":$pseudoClass", this.config, currentCss)
         closure.delegate = sg
+        closure.resolveStrategy = Closure.DELEGATE_FIRST
         closure(sg)
         currentCss.add sg
         sg
@@ -1890,11 +1941,12 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         def shell = makeShell()
         def script = shell.parse(reader)
         def binding = new Binding()
-        params.each { binding.setVariable(it.key, it.value) }
+        params.each { binding.setVariable((String) it.key, it.value) }
         script.binding = binding
         script.invokeMethod('setConfig', css.config)
-        script.run()
+        def result = script.run()
         MediaCSS other = (MediaCSS) script.getProperty('css')
+        addIfResultIsGrooCSS(result, other)
         currentCss.add other
     }
 

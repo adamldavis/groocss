@@ -25,6 +25,13 @@ class ValidationSpec extends Specification {
         closure << [{ p { minWidth 12.deg } }, { p { minWidth 12.rad } }, { p { minWidth 12.ms } }]
     }
 
+    def "height should not throw AssertionError for percent Measurements"() {
+        when:
+        GrooCSS.process { p { height 10%_ } }
+        then:
+        notThrown(AssertionError)
+    }
+
     @Unroll
     def "#name should throw AssertionError for non-length Measurements"() {
         when:

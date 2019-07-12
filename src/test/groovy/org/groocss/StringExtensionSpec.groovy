@@ -1,16 +1,13 @@
 package org.groocss
 
-
-import org.junit.BeforeClass
+import org.junit.After
 import spock.lang.Specification
 
 class StringExtensionSpec extends Specification {
 
-    def gcss
-
-    @BeforeClass
-    def initThreadLocal1() {
-        gcss = new GrooCSS() // need to do this to set the ThreadLocal value
+    @After
+    def nullifyThreadLocal() {
+        GrooCSS.threadLocalInstance.set(null) // so we don't pollute
     }
 
     def "should create GrooCSS dsl from string"() {
@@ -24,16 +21,22 @@ class StringExtensionSpec extends Specification {
     }
 
     def "should create color using .color"() {
+        given:
+        def gcss = new GrooCSS() // need to do this to set the ThreadLocal value
         expect:
         '123456'.color instanceof Color
     }
 
     def "should create color using .toColor()"() {
+        given:
+        def gcss = new GrooCSS() // need to do this to set the ThreadLocal value
         expect:
         '123456'.toColor() instanceof Color
     }
 
     def "should create SG using .sg {} syntax"() {
+        given:
+        def gcss = new GrooCSS() // need to do this to set the ThreadLocal value
         expect:
         def s = 'div.test a:hover'.sg { color 'white' }
         s instanceof StyleGroup
@@ -41,6 +44,8 @@ class StringExtensionSpec extends Specification {
     }
 
     def "should create SG using .\$ {} syntax"() {
+        given:
+        def gcss = new GrooCSS() // need to do this to set the ThreadLocal value
         expect:
         def s = 'div.test a:hover'.$ { color 'white' }
         s instanceof StyleGroup
@@ -48,6 +53,8 @@ class StringExtensionSpec extends Specification {
     }
 
     def "should create SG using .id {} syntax"() {
+        given:
+        def gcss = new GrooCSS() // need to do this to set the ThreadLocal value
         expect:
         def s = 'test'.id { color whiteSmoke }
         s instanceof StyleGroup
@@ -55,6 +62,8 @@ class StringExtensionSpec extends Specification {
     }
 
     def "should create KeyFrames using .keyframes {} syntax"() {
+        given:
+        def gcss = new GrooCSS() // need to do this to set the ThreadLocal value
         expect:
         def s = 'test'.keyframes { 10% { color white } }
         s instanceof KeyFrames
@@ -62,6 +71,8 @@ class StringExtensionSpec extends Specification {
     }
 
     def "should create Media using .media {} syntax"() {
+        given:
+        def gcss = new GrooCSS() // need to do this to set the ThreadLocal value
         expect:
         def s = 'test'.media { body { fontSize 15.px } }
         s instanceof MediaCSS

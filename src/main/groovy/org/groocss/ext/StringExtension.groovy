@@ -33,10 +33,10 @@ class StringExtension {
      * Useful for starting a GrooCSS DSL without importing anything ('main.css'.groocss { CSS DSL }).
      * To use config use: 'main.css'.groocss(new Config()) { CSS DSL }.
      **/
-    static GrooCSS groocss(String string, Config config = new Config(),
+    static GrooCSS groocss(String string, Config config = null,
                            @DelegatesTo(value=GrooCSS, strategy = Closure.DELEGATE_FIRST) Closure closure) {
         println "processing $string"
-        GrooCSS.process(config, closure)
+        config ? GrooCSS.process(config, closure) : GrooCSS.process(closure)
     }
 
     /** Useful for image urls: allows 'images/image.png'.url syntax. */

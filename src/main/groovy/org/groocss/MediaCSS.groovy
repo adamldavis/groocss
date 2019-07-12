@@ -24,6 +24,7 @@ import java.lang.reflect.ParameterizedType
 /**
  * Root node for CSS which might be characterized by a media type. Created by adavis on 8/10/16.
  */
+@CompileStatic
 class MediaCSS implements CSSPart {
 
     /** Media rule for when to use this css. Optional- null for root node. */
@@ -62,9 +63,20 @@ class MediaCSS implements CSSPart {
     MediaCSS add(CSSPart it) {
         if (it instanceof KeyFrames) kfs << ((KeyFrames) it)
         else if (it instanceof FontFace) fonts << ((FontFace) it)
-        else if (it instanceof MediaCSS) otherCss << ((MediaCSS) it)
+        else if (it instanceof MediaCSS) {
+            def mediaCSS = (MediaCSS) it
+            if (mediaCSS.mediaRule) otherCss << mediaCSS
+            else addInternalsFrom(mediaCSS)
+        }
         else groups << it
         this
+    }
+
+    void addInternalsFrom(MediaCSS mediaCSS) {
+        groups.addAll mediaCSS.groups
+        kfs.addAll mediaCSS.kfs
+        fonts.addAll mediaCSS.fonts
+        otherCss.addAll mediaCSS.otherCss
     }
 
     MediaCSS add(Collection<? extends CSSPart> coll) {

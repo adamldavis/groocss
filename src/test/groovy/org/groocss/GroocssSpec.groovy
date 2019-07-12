@@ -1,5 +1,6 @@
 package org.groocss
 
+import org.junit.BeforeClass
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -8,10 +9,28 @@ import spock.lang.Unroll
  */
 class GroocssSpec extends Specification {
 
+
+    @BeforeClass
+    def makeSureNoThreadLocalInstance() {
+        GrooCSS.threadLocalInstance.set(null) // TO STOP OTHER TESTS FROM POLLUTING THIS ONE
+    }
+
     def "should process file using script that calls org.groocss.GrooCSS.process"() {
         when:
-        def output = new File('build/test.css')
-        def input = new File('src/test/groovy/test.css.groovy')
+        def output = new File('build/test2.css')
+        def input = new File('src/test/groovy/test2.css.groovy')
+        println input.absolutePath
+        GrooCSS.convertFile(new Config().noExts().compress(), input, output)
+        def css = output.text
+        then:
+        css.toString() == 'body{font-size: 2em;color: Black;}article{padding: 2em;}#thing{font-size: 200%;}' +
+                '@keyframes test {from{color: Black;}to{color: Red;}}'
+    }
+
+    def "should process file using script that calls String method groocss"() {
+        when:
+        def output = new File('build/test3.css')
+        def input = new File('src/test/groovy/test3.css.groovy')
         println input.absolutePath
         GrooCSS.convertFile(new Config().noExts().compress(), input, output)
         def css = output.text

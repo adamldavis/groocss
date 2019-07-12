@@ -1,5 +1,6 @@
 package org.groocss
 
+import org.junit.After
 import org.junit.Before
 import spock.lang.Specification
 
@@ -11,6 +12,11 @@ class NumberExtensionSpec extends  Specification {
     @Before
     def initThreadLocal1() {
         gcss = new GrooCSS(new Config(addWebkit: false)) // need to do this to set the ThreadLocal value
+    }
+
+    @After
+    def nullifyThreadLocal() {
+        GrooCSS.threadLocalInstance.set(null) // so we don't pollute
     }
 
     def "should create color using .color"() {
