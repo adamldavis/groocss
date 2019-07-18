@@ -30,6 +30,16 @@ class Underscore {
         new Selector(".$name", grooCSS.currentCss)
     }
 
+    /** Allows _** syntax for pseudo-elements like ::before and ::after. */
+    StyleGroup power(PseudoElement.StyleGroup styleGroup) {
+        return styleGroup
+    }
+
+    /** Allows _% syntax for pseudo-classes like :active and :hover. */
+    StyleGroup mod(PseudoClass.StyleGroup styleGroup) {
+        return styleGroup
+    }
+
     def methodMissing(String name, args) {
         if (args.length > 0 && args[0] instanceof Closure)
             grooCSS.sg(".$name", (Closure) args[0])

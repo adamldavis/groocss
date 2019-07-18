@@ -15,6 +15,8 @@ limitations under the License.
  */
 package org.groocss
 
+import groovy.transform.stc.ClosureParams
+import groovy.transform.stc.SimpleType
 import org.codehaus.groovy.control.CompilerConfiguration
 
 import groovy.transform.*
@@ -1650,6 +1652,45 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     final Underscore underscore = new Underscore(this)
     Underscore get_() { underscore }
 
+    //---> Pseudo-elements
+    /** Pseudo-element ::placeholder. */
+    PseudoElement.StyleGroup placeholder(@DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        withPseudoElement('placeholder', closure)
+    }
+    /** Pseudo-element ::after. */
+    PseudoElement.StyleGroup after(@DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        withPseudoElement('after', closure)
+    }
+    /** Pseudo-element ::before. */
+    PseudoElement.StyleGroup before(@DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        withPseudoElement('before', closure)
+    }
+    /** Pseudo-element ::backdrop. */
+    PseudoElement.StyleGroup backdrop(@DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        withPseudoElement('backdrop', closure)
+    }
+    /** Pseudo-element ::cue. */
+    PseudoElement.StyleGroup cue(@DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        withPseudoElement('cue', closure)
+    }
+    /** Pseudo-element ::firstLetter. */
+    PseudoElement.StyleGroup firstLetter(@DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        withPseudoElement('first-letter', closure)
+    }
+    /** Pseudo-element ::firstLine. */
+    PseudoElement.StyleGroup firstLine(@DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        withPseudoElement('first-line', closure)
+    }
+    /** Pseudo-element ::selection. */
+    PseudoElement.StyleGroup selection(@DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        withPseudoElement('selection', closure)
+    }
+    /** Pseudo-element ::slotted. */
+    PseudoElement.StyleGroup slotted(String select,
+            @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+        withPseudoElement('slotted(' + select + ')', closure)
+    }
+
     //---> Pseudo-classes
 
     /** Pseudo-class: :active. */
@@ -1793,11 +1834,22 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     PseudoClass.StyleGroup visited(
         @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) { withPseudoClass('visited', closure) }
 
-    @TypeChecked
-    PseudoClass.StyleGroup withPseudoClass(String pseudoClass, 
+    PseudoClass.StyleGroup withPseudoClass(String pseudoClass,
         @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
 
         def sg = new PseudoClass.StyleGroup(":$pseudoClass", this.config, currentCss)
+        closure.delegate = sg
+        closure.resolveStrategy = Closure.DELEGATE_FIRST
+        closure(sg)
+        currentCss.add sg
+        sg
+    }
+
+    PseudoElement.StyleGroup withPseudoElement(String pseudoElement,
+            @ClosureParams(value = SimpleType, options = "org.groocss.StyleGroup")
+            @DelegatesTo(value = StyleGroup, strategy = Closure.DELEGATE_FIRST) Closure closure) {
+
+        def sg = new PseudoElement.StyleGroup("::$pseudoElement", this.config, currentCss)
         closure.delegate = sg
         closure.resolveStrategy = Closure.DELEGATE_FIRST
         closure(sg)
@@ -1913,6 +1965,34 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
     PseudoClass newPseudoClass(String value) {
         new PseudoClass(value)
     }
+
+    // -----> Pseudo-elements
+    /** Pseudo-element ::placeholder. */
+    PseudoElement getPlaceholder() { new PseudoElement('placeholder') }
+
+    /** Pseudo-element ::after. */
+    PseudoElement getAfter() { new PseudoElement('after') }
+
+    /** Pseudo-element ::before. */
+    PseudoElement getBefore() { new PseudoElement('before') }
+
+    /** Pseudo-element ::backdrop. */
+    PseudoElement getBackdrop() { new PseudoElement('backdrop') }
+
+    /** Pseudo-element ::cue. */
+    PseudoElement getCue() { new PseudoElement('cue') }
+
+    /** Pseudo-element ::firstLetter. */
+    PseudoElement getFirstLetter() { new PseudoElement('first-letter') }
+
+    /** Pseudo-element ::firstLine. */
+    PseudoElement getFirstLine() { new PseudoElement('first-line') }
+
+    /** Pseudo-element ::selection. */
+    PseudoElement getSelection() { new PseudoElement('selection') }
+
+    /** Pseudo-element ::slotted. */
+    PseudoElement slotted(String select) { new PseudoElement('slotted(' + select + ')') }
 
     Raw raw(String raw) {
         def r = new Raw(raw)

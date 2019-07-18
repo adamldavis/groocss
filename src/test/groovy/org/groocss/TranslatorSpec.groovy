@@ -121,6 +121,16 @@ class TranslatorSpec extends Specification {
         "body div.test p li a{text-decoration: none;}"  | "body div.test p li a {\n  textDecoration 'none'\n}"
     }
 
+
+    def "should replace :: with ** now"() {
+        expect:
+        groo == Translator.convertFromCSS(css).trim()
+        where:
+        css                                             | groo
+        "div::before{\ncontent: 'a';\n}"                | "div**before{\n  content '\\'a\\''\n}"
+        "p::after{\ncontent: 'a';\n}"                   | "p**after{\n  content '\\'a\\''\n}"
+    }
+
     def "should_translate_file"() {
         given:
         def inf = new File('index.css')

@@ -27,8 +27,9 @@ import groovy.transform.*
  *
  * @see GrooCSS
  */
-@TypeChecked
+@CompileStatic
 @TupleConstructor
+@EqualsAndHashCode
 class PseudoClass {
 
     /** Only here to restrict the DSL so that pseudo-class is used properly. */

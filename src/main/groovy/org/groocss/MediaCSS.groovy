@@ -112,16 +112,18 @@ class MediaCSS implements CSSPart {
     @CompileStatic
     private List<String> doProcessingOf(Processor.Phase phase) {
         List<String> errors = []
-        List<? extends CSSPart> parts = []
+
         config.processors.forEach { Processor proc ->
+            List<? extends CSSPart> parts = []
             Class<CSSPart> type = ((ParameterizedType) proc.class.genericInterfaces[0]).actualTypeArguments[0]
+
             switch (type) {
                 case Style: groups.findAll{it instanceof StyleGroup}.each { parts.addAll(((StyleGroup)it).styleList) }
                     break
                 case StyleGroup: parts.addAll groups.findAll{it instanceof StyleGroup}; break
                 case Raw: parts.addAll groups.findAll{it instanceof Raw}; break
                 case Comment: parts.addAll groups.findAll{it instanceof Comment}; break
-                case MediaCSS: parts.addAll otherCss; break
+                case MediaCSS: parts.add(this); parts.addAll otherCss; break
                 case FontFace: parts.addAll fonts; break
                 case KeyFrames: parts.addAll kfs; break
                 default: parts.addAll groups; break

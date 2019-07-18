@@ -80,7 +80,7 @@ class Translator {
     static final String STYLE_RE = /[-\w]+\s*:\s*[^\{\};]+;?\s*/
     static final String FRAME_RE = /([0-9]+|from|to)%?\s*\{?\s*/
     static final String FRAME_LIST_RE = /([0-9]+%,? *){2,}\s*\{?\s*/
-    static final String SELECTOR_RE = /[- >\~\+*#\[,:\]="\w\.\(\)]+\s*[\{,]\s*/
+    static final String SELECTOR_RE = /[- >\~\+*#\[,:\]{1,2}="\w\.\(\)]+\s*[\{,]\s*/
     
     private static void processLineSwitch(String originalLine, String line, Printer pw, Map state) {
         switch (line) {
@@ -180,6 +180,9 @@ class Translator {
         else if (line ==~ /\w+:[-+\w\.\(\)]+/) { //pseudo-class
             processPseudo(original.replaceAll(/ *, */, ' |'))
         }
+        else if (line ==~ /\w+::[-+\w\.\(\)]+/) { //pseudo-element
+            processPseudo(original.replaceAll(/ *, */, ' |'))
+        }
         else if (line ==~ /\w+(\.\w+)?(\s+\w+(\.\w+)?)*/) { /* Spaces separating simple elements. */
             "$line $ending" // don't change a thing
         }
@@ -201,9 +204,13 @@ class Translator {
 
     static String processPseudo(String line) {
         String result = line
+        Matcher pseudoElement = line =~ /::([-\w]+)/
         Matcher pseudo = line =~ /:([-\w]+)/
         Matcher parens = line =~ /\(([-+\w\.]+)\)/
         boolean hasParens = parens.find()
+
+        if (pseudoElement.find())
+            result = result.replace( '::'+ pseudoElement.group(1), '**' + nameToCamel(pseudoElement.group(1)) )
 
         if (pseudo.find())
             result = result.replace( ':'+ pseudo.group(1), '%' + nameToCamel(pseudo.group(1)) )
