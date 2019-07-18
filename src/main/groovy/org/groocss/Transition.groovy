@@ -123,6 +123,13 @@ class Transition implements CSSPart {
         new TransitionDSL()
     }
 
+    /** Transitions "all" properties. */
+    TransitionTimingDSL all (durationVal) {
+        property = 'all'
+        duration = durationVal
+        timingDSL
+    }
+
     /** Sets all the background properties in one declaration */
     TransitionTimingDSL background (durationVal) {
         property = 'background'
