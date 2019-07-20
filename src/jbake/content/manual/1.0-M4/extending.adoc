@@ -1,0 +1,43 @@
+title=Extending and Nesting
+type=page
+status=published
+~~~~~~
+
+== Extending
+
+[source,groovy]
+    _.warn { color red }
+    _.error {
+        extend(_.warn) // extend '.warn' also works
+        background black
+    }
+
+Produces:
+
+[source,css]
+    .warn,.error {color: Red;}
+    .error {background: Black;}
+
+== Nesting
+
+Nesting allows you to define modifications to a style
+ (such as pseudo-classes additions to a selector) within the
+same block. For example:
+
+[source,groovy]
+a {
+    color '#000'
+    add ':hover', { color blue }
+}
+div {
+    add '> p', { color '#eee' }
+}
+
+Produces:
+
+[source,css]
+a { color: #000; }
+a:hover { color: Blue; }
+div > p { color: #eee; }
+
+link:index.html[Index] | link:pseudo.html[Next]

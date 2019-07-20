@@ -1,0 +1,37 @@
+title=Micronaut Example/Asset-pipeline
+type=page
+tags=gradle,micronaut,asset-pipeline
+status=published
+~~~~~~
+
+The GrooCSS codebase includes a working
+https://github.com/adamldavis/groocss/tree/master/micronaut-example[Micronaut example]
+that uses Micronaut with asset-pipeline.
+
+Taking a look at the build file, you'll see the asset-pipeline plugin is included
+among the plugins:
+
+[source,groovy]
+plugins {
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "com.github.johnrengelman.shadow" version "4.0.2"
+    id "com.bertramlabs.asset-pipeline" version "3.0.6"
+}
+
+Second, you'll need to add asset-pipeline-micronaut as a runtime dependency
+and the groocss-asset-pipeline as a "assets" level depenedency (a custom asset-pipeline configuration).
+
+[source,groovy]
+    runtime 'com.bertramlabs.plugins:asset-pipeline-micronaut:3.0.7'
+    assets 'com.bertramlabs.plugins:groocss-asset-pipeline:3.0.7'
+
+This will allow you to put GrooCSS files in "src/assets/lib" and have
+them automatically converted to CSS available to your application.
+
+See the http://www.asset-pipeline.com/manual/#getting-started-4[asset-pipeline] docs for more.
+
+Or checkout the
+https://github.com/adamldavis/groocss/tree/master/micronaut-example[Micronaut example code].
+
+link:index.html[Index] | link:intro.html[Back to intro]
+

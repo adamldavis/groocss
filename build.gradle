@@ -36,7 +36,7 @@ groocssfiles {
 }
 
 ext {
-    groocssVer = "1.0-M3"
+    groocssVer = "1.0-M4-groovy2.5"
 }
 configurations {
     sources
