@@ -2,8 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
     <url>
+    	<loc>http://www.groocss.org/manual/1.0-M4/new.html</loc>
+    	<lastmod>2019-07-20</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M4/pseudo.html</loc>
+    	<lastmod>2019-07-20</lastmod>
+    </url>
+
+    <url>
     	<loc>http://www.groocss.org/manual/1.0-M4/keyframes.html</loc>
-    	<lastmod>2019-07-19</lastmod>
+    	<lastmod>2019-07-20</lastmod>
     </url>
 
     <url>
@@ -27,11 +37,6 @@
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M4/new.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
     	<loc>http://www.groocss.org/manual/1.0-M4/other.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
@@ -48,11 +53,6 @@
 
     <url>
     	<loc>http://www.groocss.org/manual/1.0-M4/config.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M4/pseudo.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
@@ -313,7 +313,7 @@
 
     <url>
     	<loc>http://www.groocss.org/manual/1.0-M4/index.html</loc>
-    	<lastmod>2019-07-19</lastmod>
+    	<lastmod>2019-07-20</lastmod>
     </url>
 
     <url>

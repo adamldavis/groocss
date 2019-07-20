@@ -3,6 +3,19 @@ type=page
 status=published
 ~~~~~~
 
+== Pseudo Elements
+
+Pseudo elements are things like ::before, ::after, ::first-line, etc.
+
+They can be added using the ** syntax. Eg:
+
+[source,groovy]
+input ** before { content '===' }
+p ** firstLine { fontSize 2.em }
+
+
+== Pseudo Classes
+
 CSS Pseudo-classes such as :hover, :active, :nth-child, etc.
 
 [source,groovy]

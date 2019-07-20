@@ -19,7 +19,7 @@ Once this is done, copy all your CSS files into one folder (in our example we'll
 Then create a Groovy script for converting those files to GrooCSS using org.groocss.Translator:
 
 [source,groovy]
-    @Grab('org.groocss:groocss:1.0-M3')
+    @Grab('org.groocss:groocss:1.0-M4-groovy2.5')
     import org.groocss.*
     File dir = new File("toconvert")
     println dir.absolutePath
@@ -41,7 +41,7 @@ This script will convert you groocss files to CSS as part of your build process.
 Here's an example:
 
 [source,groovy]
-    @Grab('org.groocss:groocss:1.0-M3')
+    @Grab('org.groocss:groocss:1.0-M4-groovy2.5')
     import org.groocss.*
     File groocssDir = new File("src/groovycss")
     def cssDir = "web/resources/css"
