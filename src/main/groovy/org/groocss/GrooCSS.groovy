@@ -72,9 +72,12 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
      *
      * @param inf Input file containing a GrooCSS.process{} block of code or ''.process{} or similar.
      * @param out Output file of resulting CSS.
+     * @param charset1 Charset to use (UTF-8 by default).
+     * @param variables Variables to make available to GrooCSS code.
      */
-    static void convertWithoutBase(File inf, File out) {
-        convertWithoutBase(inf.newInputStream(), out.newOutputStream())
+    static void convertWithoutBase(File inf, File out, String charset1 = "UTF-8",
+                                   Map<String, Object> variables = null) {
+        convertWithoutBase(inf.newInputStream(), out.newOutputStream(), charset1, variables)
     }
 
     /** Processes a given groocss string and outputs as CSS string.
@@ -89,7 +92,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         out.toString()
     }
 
-    protected static GroovyShell makeShell(boolean addBase = true) {
+    protected static GroovyShell makeShell(boolean addBase = true, Config config1 = null) {
         def binding = new Binding()
         def compilerConfig = new CompilerConfiguration()
         def imports = new ImportCustomizer()
@@ -97,6 +100,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         imports.addStarImports(packg)
         compilerConfig.addCompilationCustomizers(imports)
         if (addBase) compilerConfig.scriptBaseClass = "${packg}.GrooCSS"
+        if (config1?.variables) config1.variables.each { key, value -> binding.setVariable(key, value) }
 
         new GroovyShell(GrooCSS.class.classLoader, binding, compilerConfig)
     }
@@ -126,7 +130,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         final GrooCSS previousGrooCssInstance = threadLocalInstance.get()
 
         reader.withCloseable { input ->
-            def shell = makeShell()
+            def shell = makeShell(true, conf)
             def script = shell.parse(input)
             if (addMeta) script.invokeMethod('initMetaClasses', true)
             script.invokeMethod('setConfig', conf)
@@ -172,18 +176,20 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     /** Processes a given InputStream and outputs to given OutputStream assuming input script returns a GrooCSS. */
     @TypeChecked
-    static void convertWithoutBase(InputStream inf, OutputStream out, String charset1 = "UTF-8") {
+    static void convertWithoutBase(InputStream inf, OutputStream out, String charset1 = "UTF-8",
+                                   Map<String, Object> variables = null) {
         out.withPrintWriter { pw ->
-            convertWithoutBase new InputStreamReader(inf, charset1), pw
+            convertWithoutBase new InputStreamReader(inf, charset1), pw, variables
         }
     }
 
     /** Processes a given Reader and outputs to given PrintWriter assuming input script returns a GrooCSS. */
     @TypeChecked
-    static void convertWithoutBase(Reader reader, PrintWriter writer) {
-        def shell = makeShell(false)
+    static void convertWithoutBase(Reader reader, PrintWriter writer, Map<String, Object> variables = null) {
+        GroovyShell shell = makeShell(false)
         reader.withCloseable { input ->
             def script = shell.parse(input)
+            if (variables) variables.each { key, value -> script.binding.setVariable(key, value) }
             GrooCSS result = (GrooCSS) script.run()
             assert result
             writer.withCloseable { pw ->
@@ -2018,9 +2024,9 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     /** Imports given Groocss input using given Reader. */
     MediaCSS importReader(Map params = [:], Reader reader) {
-        def shell = makeShell()
+        def shell = makeShell(true, currentCss.config)
         def script = shell.parse(reader)
-        def binding = new Binding()
+        def binding = script.binding
         params.each { binding.setVariable((String) it.key, it.value) }
         script.binding = binding
         script.invokeMethod('setConfig', css.config)

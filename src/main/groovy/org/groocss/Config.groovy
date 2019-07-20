@@ -32,7 +32,7 @@ import org.groocss.proc.Processor
  * @see org.groocss.ext.StringExtension
  */
 @Canonical
-@Builder
+@Builder(useSetters = true)
 @CompileStatic
 class Config {
 
@@ -46,7 +46,7 @@ class Config {
     String charset = null
 
     /** Element-names that you only want to use as CSS classes. */
-    Set styleClasses = []
+    final Set<String> styleClasses = []
 
     /** Whether or not convert under-scores in CSS classes into dashes (main_content becomes main-content).
      * Default is false. */
@@ -56,12 +56,17 @@ class Config {
      * @see Processor
      * @see org.groocss.valid.DefaultValidator
      */
-    Collection<Processor> processors = []
+    final Collection<Processor> processors = []
+
+    /** Variables to make available in the processed GrooCSS files.*/
+    final Map<String, Object> variables = [:]
 
     Config() {}
     
     Config(Map map) {
-        if (map.processors) processors = map.processors as Collection<Processor>
+        if (map.variables) variables.putAll(map.variables as Map<String, Object>)
+        if (map.processors) processors.addAll(map.processors as Collection<Processor>)
+        if (map.styleClasses) styleClasses.addAll(map.styleClasses as Collection<String>)
         if (map.convertUnderline instanceof Boolean) convertUnderline = map.convertUnderline
         if (map.addMs instanceof Boolean) addMs = map.addMs
         if (map.addMoz instanceof Boolean) addMoz = map.addMoz
@@ -69,11 +74,41 @@ class Config {
         if (map.addOpera instanceof Boolean) addOpera = map.addOpera
         if (map.prettyPrint instanceof Boolean) prettyPrint = map.prettyPrint
         if (map.compress instanceof Boolean) compress = map.compress
-        if (map.charset instanceof String) charset = map.charset as String
+        if (map.charset) charset = map.charset as String
+    }
+
+    /** If given map is not empty, adds to variables. */
+    void setVariables(Map<String, Object> variables) {
+        if (variables) this.variables.putAll variables
+    }
+    /** If given collection is not empty, adds to processors. */
+    void setProcessors(Collection<Processor> list) {
+        if (list) processors.addAll(list)
+    }
+    /** If given Set is not empty, adds to styleClasses. */
+    void setStyleClasses(Set<String> set) {
+        if (set) styleClasses.addAll(set)
+    }
+
+    Config withVariables(Map<String, Object> variables) {
+        this.variables.putAll variables
+        this
     }
 
     Config withProcessors(Collection<Processor> list) {
         processors.addAll(list)
+        this
+    }
+
+    /** Takes a Collection of Classes which must extend Processor and have a public no-args constructor. */
+    Config withProcessorClasses(Collection<Class<? extends Processor>> classes) {
+        classes.collect { it.newInstance() }.each(processors.&add)
+        this
+    }
+
+    /** Element-names that you only want to use as CSS classes. */
+    Config withStyleClasses(Collection<String> list) {
+        styleClasses.addAll list
         this
     }
 
@@ -83,7 +118,7 @@ class Config {
         this
     }
     /** Add Element-names, like 'link', that you only want to use as CSS classes. */
-    Config useAsClasses(Collection classes) {
+    Config useAsClasses(Collection<String> classes) {
         styleClasses.addAll classes
         this
     }

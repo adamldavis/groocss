@@ -27,4 +27,12 @@ class GroocssExtensionSpec extends Specification {
         ext.processors.empty
         ext.processors instanceof List
     }
+
+
+    def "should have variables which is empty Map by default" () {
+        expect:
+        def ext = new GroocssExtension()
+        ext.variables.size() == 0
+        ext.variables instanceof Map
+    }
 }

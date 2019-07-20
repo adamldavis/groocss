@@ -26,4 +26,7 @@ class GroocssExtension {
      * @see org.groocss.valid.DefaultValidator
      */
     Collection<Processor> processors = []
+
+    /** Variables to make available in the processed GrooCSS files.*/
+    Map<String, Object> variables = [:]
 }
