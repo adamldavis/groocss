@@ -3,15 +3,25 @@
 /********************
 GENERAL
 ********************/
+
+def boxedStyles = { foreColor, timing ->
+  styles {
+    transition "all $timing ease"
+    color shade(foreColor, 0.1)
+    background tint(foreColor, 0.9)
+    boxShadow "10px 5px 5px ${shade(foreColor)}"
+  }
+}
+div.salmon %hover {
+  add boxedStyles(salmon, 1.s)
+  scale(1.3, 1.3)
+  zIndex 99
+}
+
 def backColor = 'white'
 def textColor = 'black'
 
-sg '::-moz-selection', {
-  background '#8fc045'
-  color '#ffffff'
-}
-		
-sg '::selection', {
+_ ** selection {
   background '#8fc045'
   color '#ffffff'
 }

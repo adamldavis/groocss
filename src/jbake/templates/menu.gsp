@@ -19,7 +19,7 @@
 
         <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
 
-        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/${latest}"  rel="me">Download</a></li>
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/"  rel="me">Download</a></li>
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>

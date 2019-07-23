@@ -15,9 +15,9 @@ status=published
 
 == Requirements
 
-1. https://adoptopenjdk.net/[JDK 8]
-2. http://groovy-lang.org/[Groovy 2.5+]
-3. https://gradle.org/[Gradle 5.x]
+1. https://adoptopenjdk.net/[JDK 8]+
+2. http://groovy-lang.org/[Groovy 2.5+] (or 2.4+ if using 1.0-M4-groovy2.4)
+3. https://gradle.org/[Gradle 5.x] (or 4.8+ if using 1.0-M4-groovy2.4)
 
 == Groovy Script
 
@@ -25,7 +25,7 @@ This example uses Groovy's @Grab annotation to import GrooCSS.
 Create a file named "makeCss.groovy" with the following code:
 
 [source,groovy]
-@Grab('org.groocss:groocss:1.0-M3')
+@Grab('org.groocss:groocss:1.0-M4-groovy2.5')
 import org.groocss.GrooCSS
 // demo
 def css = GrooCSS.withConfig { prettyPrint() }.process {
@@ -61,7 +61,7 @@ https://github.com/bertramdev/asset-pipeline/tree/master/groocss-asset-pipeline[
     //
     buildscript {
         repositories { jcenter() }
-        dependencies { classpath 'org.groocss:groocss:1.0-M3' }
+        dependencies { classpath 'org.groocss:groocss:1.0-M4-groovy2.5' }
     }
     task css doLast {
         def file = file('css/out.css')
@@ -79,4 +79,4 @@ Or using "convert" methods:
 
 == Next
 
-Go back to link:index.html[Index] | Go to link:gradle.html[Next]
+Go back to link:index.html[Index] | Go to link:gradle.html[Next] (Gradle)

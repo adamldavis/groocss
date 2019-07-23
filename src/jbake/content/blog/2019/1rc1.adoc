@@ -1,0 +1,16 @@
+title=1.0 Release Candidate 1 Released!
+date=2019-07-30
+type=post
+tags=css,gradle,release
+status=preview
+~~~~~~
+
+Version 1.0 RC1 has been release! The next release will be 1.0!
+
+Please get your feedback, comments, and suggestions in soon!
+
+
+== Version 1.0-RC1 Released!
+
+
+

@@ -2,6 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
     <url>
+    	<loc>http://www.groocss.org/manual/1.0-M4/static.html</loc>
+    	<lastmod>2019-07-22</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M4/import.html</loc>
+    	<lastmod>2019-07-22</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M4/micronaut.html</loc>
+    	<lastmod>2019-07-22</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M4/intro.html</loc>
+    	<lastmod>2019-07-22</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M4/other.html</loc>
+    	<lastmod>2019-07-22</lastmod>
+    </url>
+
+    <url>
     	<loc>http://www.groocss.org/manual/1.0-M4/new.html</loc>
     	<lastmod>2019-07-20</lastmod>
     </url>
@@ -22,22 +47,7 @@
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M4/import.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
     	<loc>http://www.groocss.org/manual/1.0-M4/math.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M4/micronaut.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M4/other.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
@@ -62,12 +72,92 @@
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M4/intro.html</loc>
+    	<loc>http://www.groocss.org/other.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/about.html</loc>
+    	<loc>http://www.groocss.org/manual/1.0-M3/new.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/other.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/processors.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/pseudo.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/math.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/new.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/micronaut.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M2/new.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M2/other.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/colors.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/config.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/extending.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/gradle.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/import.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/intro.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/keyframes.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/1.0-M3/math.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
@@ -82,22 +172,7 @@
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/micronaut.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/config.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
     	<loc>http://www.groocss.org/manual/1.0-M1/gradle.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/gradle.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
@@ -107,37 +182,7 @@
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M2/new.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/new.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/intro.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
     	<loc>http://www.groocss.org/manual/1.0-M1/math.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M2/other.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/other.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/0.12/config.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
@@ -147,47 +192,7 @@
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/colors.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/processors.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/0.12/gradle.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/config.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/pseudo.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/0.12/intro.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
     	<loc>http://www.groocss.org/manual/1.0-M1/new.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/extending.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/0.12/math.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
@@ -197,37 +202,12 @@
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/gradle.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/0.12/micronaut.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
     	<loc>http://www.groocss.org/manual/1.0-M2/config.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/import.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/math.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
     	<loc>http://www.groocss.org/manual/1.0-M2/gradle.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/intro.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
@@ -242,16 +222,6 @@
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/keyframes.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
-    	<loc>http://www.groocss.org/new.html</loc>
-    	<lastmod>2019-07-19</lastmod>
-    </url>
-
-    <url>
     	<loc>http://www.groocss.org/manual/0.12/other.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
@@ -262,12 +232,47 @@
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/manual/1.0-M3/math.html</loc>
+    	<loc>http://www.groocss.org/config.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
     <url>
-    	<loc>http://www.groocss.org/other.html</loc>
+    	<loc>http://www.groocss.org/gradle.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/intro.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/0.12/config.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/0.12/gradle.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/0.12/intro.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/0.12/math.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/manual/0.12/micronaut.html</loc>
+    	<lastmod>2019-07-19</lastmod>
+    </url>
+
+    <url>
+    	<loc>http://www.groocss.org/about.html</loc>
     	<lastmod>2019-07-19</lastmod>
     </url>
 
@@ -302,6 +307,11 @@
     </url>
 
     <url>
+    	<loc>http://www.groocss.org/blog/2019/1m4.html</loc>
+    	<lastmod>2019-07-22</lastmod>
+    </url>
+
+    <url>
     	<loc>http://www.groocss.org/blog/2019/1m3.html</loc>
     	<lastmod>2019-07-05</lastmod>
     </url>
@@ -313,7 +323,7 @@
 
     <url>
     	<loc>http://www.groocss.org/manual/1.0-M4/index.html</loc>
-    	<lastmod>2019-07-20</lastmod>
+    	<lastmod>2019-07-22</lastmod>
     </url>
 
     <url>

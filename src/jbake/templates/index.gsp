@@ -21,20 +21,20 @@
 	<p>Want to know more? Check out <a href="about.html">the about page.</a>
 
 	<div class="container">
-		<div class="col-md-3">
+		<div class="col-md-3 salmon">
 			<h2><span class="glyphicon glyphicon-ok-circle"></span>Open Source</h2>
 			GrooCSS is free to use, open source, and licensed under the
 			<a href="https://github.com/adamldavis/groocss/blob/master/LICENSE">Apache License, Version 2.0.</a>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-3 salmon">
 			<h2><span class="glyphicon glyphicon-th"></span>Cross Platform</h2>
 			Runs on the <a href="https://www.java.com/en/">JVM</a> so it works on any platform; Linux, Windows, Mac, etc.
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-3 salmon">
 			<h2><span class="glyphicon glyphicon-fire"></span>Powerful</h2>
 			Tons of features included and anything you can do in <a href="http://groovy-lang.org/">Groovy</a> available.
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-3 salmon">
 			<h2><span class="glyphicon glyphicon-upload"></span>Extensible</h2>
 			Designed from the ground up to be extensible.
 			Includes the ability to programmatically modify styles and insert custom code for processing and validation.

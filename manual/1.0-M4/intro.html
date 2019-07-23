@@ -65,7 +65,7 @@
 
         <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
 
-        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/1.0-M4"  rel="me">Download</a></li>
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/"  rel="me">Download</a></li>
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
@@ -139,13 +139,13 @@
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><a href="https://adoptopenjdk.net/">JDK 8</a></p>
+<p><a href="https://adoptopenjdk.net/">JDK 8</a>+</p>
 </li>
 <li>
-<p><a href="http://groovy-lang.org/">Groovy 2.5+</a></p>
+<p><a href="http://groovy-lang.org/">Groovy 2.5+</a> (or 2.4+ if using 1.0-M4-groovy2.4)</p>
 </li>
 <li>
-<p><a href="https://gradle.org/">Gradle 5.x</a></p>
+<p><a href="https://gradle.org/">Gradle 5.x</a> (or 4.8+ if using 1.0-M4-groovy2.4)</p>
 </li>
 </ol>
 </div>
@@ -160,7 +160,7 @@ Create a file named "makeCss.groovy" with the following code:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">@Grab('org.groocss:groocss:1.0-M3')
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">@Grab('org.groocss:groocss:1.0-M4-groovy2.5')
 import org.groocss.GrooCSS
 // demo
 def css = GrooCSS.withConfig { prettyPrint() }.process {
@@ -205,7 +205,7 @@ body .content {
     //
     buildscript {
         repositories { jcenter() }
-        dependencies { classpath 'org.groocss:groocss:1.0-M3' }
+        dependencies { classpath 'org.groocss:groocss:1.0-M4-groovy2.5' }
     }
     task css doLast {
         def file = file('css/out.css')
@@ -231,14 +231,14 @@ body .content {
 <h2 id="_next">Next</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Go back to <a href="index.html">Index</a> | Go to <a href="gradle.html">Next</a></p>
+<p>Go back to <a href="index.html">Index</a> | Go to <a href="gradle.html">Next</a> (Gradle)</p>
 </div>
 </div>
 </div></p>
 
 	<hr />
 
-	<p><em>Last updated: 19 July 2019</em></p>
+	<p><em>Last updated: 22 July 2019</em></p>
 
 		</div>
 		<div id="push"></div>

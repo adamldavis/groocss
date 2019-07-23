@@ -65,7 +65,7 @@
 
         <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
 
-        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/1.0-M4"  rel="me">Download</a></li>
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/"  rel="me">Download</a></li>
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
@@ -104,6 +104,217 @@
 
 	
 	
+		<a href="blog/2019/1m4.html"><h1>1.0 Milestone 4 Released!</h1></a>
+		<p>22 July 2019</p>
+		<p><div class="paragraph">
+<p>Version 1.0 Milestone 4 (1.0-M4) has been release! The next release will be RC1 (Release Candidate)
+with GA coming not far behind so please get your
+<a href="https://github.com/adamldavis/groocss/issues">feedback</a>, comments, and suggestions in soon!</p>
+</div>
+<div class="paragraph">
+<p>This release comes in two varieties based on which version of Groovy to use:
+1.0-M4-groovy2.4 and 1.0-M4-groovy2.5.</p>
+</div>
+<div class="sect1">
+<h2 id="_new_features_and_fixes">New Features and Fixes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This release includes the following new features and fixes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Added missing Pseudo-Elements and some missing properties (caret-color, appearance, and user-select).</p>
+</li>
+<li>
+<p><a href="http://www.groocss.org/manual/1.0-M4/pseudo.html">Pseudo-elements</a> can be added using ** syntax.</p>
+</li>
+<li>
+<p>Also updated Translator to handle pseudo-element conversion.</p>
+</li>
+<li>
+<p>Added PlaceholderProcessor (copies any ::placeholder to ::-webkit-input-placeholder) and fixed a bug in processing.
+You must add PlaceholderProcessor to your Processors manually - it&#8217;s not there by default.</p>
+</li>
+<li>
+<p>Also fixed a bug which made new extensions methods not working in custom Gradle builds.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_manual_improved">Manual Improved</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The manual for M4 has been improved with multiple sections added.
+Although these features have been included since version 0.12 or earlier,
+the documentation has been lacking up till now.</p>
+</div>
+<div class="paragraph">
+<p>For your convenience, these sections are included below&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_transitions">Transitions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Transitions are supported like any normal style property OR with a special DSL which takes a Closure (or multiple Closures).</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">a%hover {
+    transition { all 1.s }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This would transition all properties that are changed for a:hover over 1 second.</p>
+</div>
+<div class="paragraph">
+<p>If you want to supply the easing function, you can. Since command chains in Groovy require pairs to work (a method call and a value) you also need to provide the "delay" value (which can be zero).
+For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">a%hover {
+    transition { all 1.s ease 0 }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also supply multiple closure to support multiple transition values, eg:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">a%hover {
+    transition { color 1.s ease 0 } { background 2.s }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The correct CSS will be output.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_detached_styles">Detached Styles</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can also create <strong>Detached styles</strong>, using the <strong>styles</strong> method,
+which can be added conditionally to a concrete style group.</p>
+</div>
+<div class="paragraph">
+<p>For example, see the following simple Closure definition
+which defines "color #123" if alpha is zero, otherwise it yields
+color rgba(0,0,0,alpha) which is black with the given opacity:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">def mycolor = { alpha -&gt;
+    styles {
+        if (alpha == 0) color '#123'
+        else color rgba(0,0,0,alpha)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This would allow you to call this Closure later on within your GrooCSS
+multiple times with different results each time. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">table { add mycolor(0) }
+div { add mycolor(0.5) }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Would yield the following CSS:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-css" data-lang="css">table {
+    color: #123;
+}
+div {
+    color: rgba(0, 0, 0, 0.50)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However, you&#8217;re not limited to one parameter or one style.
+For example, you could have a more complicated scenario like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">def boxedStyles = { foreColor, timing -&gt;
+    styles {
+        transition "all $timing ease"
+        color shade(foreColor, 0.1)
+        background tint(foreColor, 0.9)
+        boxShadow "10px 5px 5px ${shade(foreColor)}"
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This would create styles which transition to a color, background,
+and box-shadow based on a given color.
+It would allow the following GrooCSS:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">div.salmon %hover {
+  add boxedStyles(salmon, 1.s)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And it would yield the following CSS (with default Config):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-css" data-lang="css">div.salmon:hover {
+    transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    color: #e17366;
+    background: #fef2f0;
+    box-shadow: 10px 5px 5px #7d4039;
+    -webkit-box-shadow: 10px 5px 5px #7d4039;
+    -moz-box-shadow: 10px 5px 5px #7d4039;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Remember, "boxedStyles" could be called multiple times, each time with different parameters.
+This allows code reuse so can greatly enhance your productivity.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_code_completion">Code Completion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A new section was added to the manual about <a href="../../manual/1.0-M4/static.html">code completion</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_importing_with_gradle">Importing with Gradle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <a href="../../manual/1.0-M4/import.html">import</a> section has been improved.</p>
+</div>
+</div>
+</div></p>
+  	
 		<a href="blog/2019/1m3.html"><h1>Version 1.0-M3 Released!</h1></a>
 		<p>05 July 2019</p>
 		<p><div class="paragraph">

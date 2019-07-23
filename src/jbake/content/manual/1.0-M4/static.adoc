@@ -1,0 +1,113 @@
+title=Static/Code Completion
+type=page
+tags=gradle
+status=published
+~~~~~~
+
+GrooCSS has always made static code compilation one of its priorities.
+However, for greatest similarity to CSS, it was necessary to use
+dynamic method calls (using methodMissing behind the scenes) to allow for the
+.styleClass syntax (and more) to work.
+
+To support fully static code (which enables code completion in your IDE),
+there are several ways to define CSS selectors without
+resorting to any dynamic method calls.
+
+== Set Up Your IDE
+
+First you need to setup your IDE.
+
+- https://www.jetbrains.com/idea/[IDEA]: Create a new Module of type Groovy.
+- https://www.eclipse.org/downloads/[Eclipse]: Create a new Project of type Groovy (make sure you have a https://github.com/groovy/groovy-eclipse/wiki[Groovy plugin] installed).
+
+Create a directory, "src/css/groocss" and tell your IDE this is a source folder.
+
+Make sure that you have a groocss JAR as a dependency in your Module or project's definition.
+
+
+== Root GrooCSS
+
+To begin a fully static GrooCSS file, you can start with 'foo'.groocss { and end with },
+where "foo" should be the name of the current file.
+
+For example, create a file under "src/css/groocss" named "root.css.groovy" and put in the following:
+
+[source,groovy]
+'root'.groocss {
+    html { color black }
+    body { width 100%_ }
+    'div.main-div'.sg { fontSize 2.em }
+    'button1'.id { width 20.em }
+    _ ** selection { color '#ffeefe' }
+    $('.list li') { appearance 'none' }
+}
+
+The above would yield the following CSS:
+
+[source,css]
+html { color: Black; }
+body { width: 100%; }
+div.main-div { font-size: 2em; }
+#button1 { width: 20em; }
+::selection { color: #ffeefe; }
+.list li { appearance: none; }
+
+Note that you can mix and match many different operators and methods as long
+as you don't call an undefined method.
+
+== Building
+
+Building is the same as already link:intro.html[discussed].
+
+
+== Importing
+
+You can always use link:import.html[importFile(filename)] or link:import.html[importFile(File)]
+to import another file.
+
+== Allowed Static Code
+
+=== Allowed
+
+To keep all of your GrooCSS code statically typed,
+the following is allowed/static/non-dynamic code:
+
+[source,groovy]
+def myColor = c('#fe33ac')
+table {
+    color myColor
+}
+input['class$="test"'] = { //becomes input[class$="test"]
+    background yellow
+}
+sg '#formId', {
+    minWidth 100.px // resolves to 100px
+}
+p + div {
+    border '1px solid black'
+}
+p | a { color red }         // | => ,
+p >> a { color blue }       //>> => >
+p * a { color blue }        // * => *
+p - a { color blue }        // - => ~(tilde)
+p ^ a { color blue }        // ^ =>  (space)
+
+=== Not Allowed
+
+The following is not-allowed/dynamic code:
+
+[source,groovy]
+table.my_class {         //<-- style-class
+}
+_.box {                  //<-- style-class
+}
+_.box div {              //<-- style-class
+}
+body p div {             //<-- No operators separating the elements
+}
+
+== Conclusion
+
+Since GrooCSS is just Groovy code,
+you should have IDE code completion (in IntelliJ IDEA for example click Ctrl+Space for code completion)
+when you stick to non-dynamic code.

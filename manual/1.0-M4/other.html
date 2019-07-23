@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>GrooCSS - Font-face, Media, and Custom styles</title>
+    <title>GrooCSS - Font-face, Media, and Custom and Detached styles</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Adam L Davis">
@@ -65,7 +65,7 @@
 
         <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
 
-        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/1.0-M4"  rel="me">Download</a></li>
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/"  rel="me">Download</a></li>
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
@@ -103,7 +103,7 @@
 <div class="container">
 	
 	<div class="page-header">
-		<h1>Font-face, Media, and Custom styles</h1>
+		<h1>Font-face, Media, and Custom and Detached styles</h1>
 	</div>
 
 	<p><div class="sect1">
@@ -127,6 +127,28 @@
     font-family: myFirstFont;
     font-weight: normal;
     src:url(sensational.woff);
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_media">Media</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">media 'screen', {
+    body { width '100%' }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Produces:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-css" data-lang="css">@media screen {
+    body { width: 100%; }
 }</code></pre>
 </div>
 </div>
@@ -159,24 +181,99 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="_media">Media</h2>
+<h2 id="_detached_styles">Detached Styles</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>You can also create <strong>Detached styles</strong>, using the <strong>styles</strong> method,
+which can be added conditionally to a concrete style group.</p>
+</div>
+<div class="paragraph">
+<p>For example, see the following simple Closure definition
+which defines "color #123" if alpha is zero, otherwise it yields
+color rgba(0,0,0,alpha) which is black with the given opacity:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">media 'screen', {
-    body { width '100%' }
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">def mycolor = { alpha -&gt;
+    styles {
+        if (alpha == 0) color '#123'
+        else color rgba(0,0,0,alpha)
+    }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Produces:</p>
+<p>This would allow you to call this Closure later on within your GrooCSS
+multiple times with different results each time. For example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">@media screen {
-    body { width: 100%; }
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">table { add mycolor(0) }
+div { add mycolor(0.5) }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Would yield the following CSS:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-css" data-lang="css">table {
+    color: #123;
+}
+div {
+    color: rgba(0, 0, 0, 0.50)
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>However, you&#8217;re not limited to one parameter or one style.
+For example, you could have a more complicated scenario like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">def boxedStyles = { foreColor, timing -&gt;
+    styles {
+        transition "all $timing ease"
+        color shade(foreColor, 0.1)
+        background tint(foreColor, 0.9)
+        boxShadow "10px 5px 5px ${shade(foreColor)}"
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This would create styles which transition to a color, background,
+and box-shadow based on a given color.
+It would allow the following GrooCSS:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">div.salmon %hover {
+  add boxedStyles(salmon, 1.s)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And it would yield the following CSS (with default Config):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-css" data-lang="css">div.salmon:hover {
+    transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    color: #e17366;
+    background: #fef2f0;
+    box-shadow: 10px 5px 5px #7d4039;
+    -webkit-box-shadow: 10px 5px 5px #7d4039;
+    -moz-box-shadow: 10px 5px 5px #7d4039;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Remember, "boxedStyles" could be called multiple times, each time with different parameters.
+This allows code reuse so can greatly enhance your productivity.</p>
 </div>
 <div class="paragraph">
 <p><a href="index.html">Index</a> | <a href="migrating.html">Next</a></p>
@@ -186,7 +283,7 @@
 
 	<hr />
 
-	<p><em>Last updated: 19 July 2019</em></p>
+	<p><em>Last updated: 22 July 2019</em></p>
 
 		</div>
 		<div id="push"></div>

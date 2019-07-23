@@ -33,5 +33,4 @@ See the http://www.asset-pipeline.com/manual/#getting-started-4[asset-pipeline] 
 Or checkout the
 https://github.com/adamldavis/groocss/tree/master/micronaut-example[Micronaut example code].
 
-link:index.html[Index] | link:intro.html[Back to intro]
-
+link:index.html[Index] | link:static.html[Next] (Static code)

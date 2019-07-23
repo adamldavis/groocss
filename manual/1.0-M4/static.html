@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>GrooCSS - Font-face, Media, and Custom styles</title>
+    <title>GrooCSS - Static/Code Completion</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Adam L Davis">
@@ -103,90 +103,168 @@
 <div class="container">
 	
 	<div class="page-header">
-		<h1>Font-face, Media, and Custom styles</h1>
+		<h1>Static/Code Completion</h1>
 	</div>
 
-	<p><div class="sect1">
-<h2 id="_font_face">Font-face</h2>
+	<p><div class="paragraph">
+<p>GrooCSS has always made static code compilation one of its priorities.
+However, for greatest similarity to CSS, it was necessary to use
+dynamic method calls (using methodMissing behind the scenes) to allow for the
+.styleClass syntax (and more) to work.</p>
+</div>
+<div class="paragraph">
+<p>To support fully static code (which enables code completion in your IDE),
+there are several ways to define CSS selectors without
+resorting to any dynamic method calls.</p>
+</div>
+<div class="sect1">
+<h2 id="_set_up_your_ide">Set Up Your IDE</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>First you need to setup your IDE.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.jetbrains.com/idea/">IDEA</a>: Create a new Module of type Groovy.</p>
+</li>
+<li>
+<p><a href="https://www.eclipse.org/downloads/">Eclipse</a>: Create a new Project of type Groovy (make sure you have a <a href="https://github.com/groovy/groovy-eclipse/wiki">Groovy plugin</a> installed).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Create a directory, "src/css/groocss" and tell your IDE this is a source folder.</p>
+</div>
+<div class="paragraph">
+<p>Make sure that you have a groocss JAR as a dependency in your Module or project&#8217;s definition.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_root_groocss">Root GrooCSS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To begin a fully static GrooCSS file, you can start with 'foo'.groocss { and end with },
+where "foo" should be the name of the current file.</p>
+</div>
+<div class="paragraph">
+<p>For example, create a file under "src/css/groocss" named "root.css.groovy" and put in the following:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">fontFace {
-    fontFamily 'myFirstFont'
-    fontWeight 'normal'
-    src 'url(sensational.woff)'
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">'root'.groocss {
+    html { color black }
+    body { width 100%_ }
+    'div.main-div'.sg { fontSize 2.em }
+    'button1'.id { width 20.em }
+    _ ** selection { color '#ffeefe' }
+    $('.list li') { appearance 'none' }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Resolves to:</p>
+<p>The above would yield the following CSS:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">@font-face {
-    font-family: myFirstFont;
-    font-weight: normal;
-    src:url(sensational.woff);
+<pre class="prettyprint highlight"><code class="language-css" data-lang="css">html { color: Black; }
+body { width: 100%; }
+div.main-div { font-size: 2em; }
+#button1 { width: 20em; }
+::selection { color: #ffeefe; }
+.list li { appearance: none; }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that you can mix and match many different operators and methods as long
+as you don&#8217;t call an undefined method.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building">Building</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Building is the same as already <a href="intro.html">discussed</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_importing">Importing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can always use <a href="import.html">importFile(filename)</a> or <a href="import.html">importFile(File)</a>
+to import another file.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_allowed_static_code">Allowed Static Code</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_allowed">Allowed</h3>
+<div class="paragraph">
+<p>To keep all of your GrooCSS code statically typed,
+the following is allowed/static/non-dynamic code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">def myColor = c('#fe33ac')
+table {
+    color myColor
+}
+input['class$="test"'] = { //becomes input[class$="test"]
+    background yellow
+}
+sg '#formId', {
+    minWidth 100.px // resolves to 100px
+}
+p + div {
+    border '1px solid black'
+}
+p | a { color red }         // | =&gt; ,
+p &gt;&gt; a { color blue }       //&gt;&gt; =&gt; &gt;
+p * a { color blue }        // * =&gt; *
+p - a { color blue }        // - =&gt; ~(tilde)
+p ^ a { color blue }        // ^ =&gt;  (space)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_not_allowed">Not Allowed</h3>
+<div class="paragraph">
+<p>The following is not-allowed/dynamic code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">table.my_class {         //&lt;-- style-class
+}
+_.box {                  //&lt;-- style-class
+}
+_.box div {              //&lt;-- style-class
+}
+body p div {             //&lt;-- No operators separating the elements
 }</code></pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_custom_styles">Custom styles</h2>
+<h2 id="_conclusion">Conclusion</h2>
 <div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">body {
-    add style('-webkit-touch-callout', 'none')
-    add style('-webkit-textSize-adjust', 'none')
-    add style('-webkit-user-select', 'none')
-}</code></pre>
-</div>
-</div>
 <div class="paragraph">
-<p>Resolves to:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">body {
-    -webkit-touch-callout: none
-    -webkit-textSize-adjust: none
-    -webkit-user-select: none
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_media">Media</h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">media 'screen', {
-    body { width '100%' }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Produces:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">@media screen {
-    body { width: 100%; }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><a href="index.html">Index</a> | <a href="migrating.html">Next</a></p>
+<p>Since GrooCSS is just Groovy code,
+you should have IDE code completion (in IntelliJ IDEA for example click Ctrl+Space for code completion)
+when you stick to non-dynamic code.</p>
 </div>
 </div>
 </div></p>
 
 	<hr />
 
-	<p><em>Last updated: 19 July 2019</em></p>
+	<p><em>Last updated: 22 July 2019</em></p>
 
 		</div>
 		<div id="push"></div>

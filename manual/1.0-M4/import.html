@@ -65,7 +65,7 @@
 
         <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
 
-        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/1.0-M4"  rel="me">Download</a></li>
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/"  rel="me">Download</a></li>
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
@@ -165,15 +165,153 @@ a parameter map and input. Any number of variables can be passed. For example:</
     linkColor: '#456789', backColor: 'black')</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_importing_with_gradle">Importing with Gradle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>However, you might not always know what directory to look in for files.
+If you want to import files using the classpath method, you should follow
+some additional steps (for a multi-module Gradle build):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a "src/css/groovy" and "imports/css/groocss" and tell your IDE these are
+also source folders.</p>
+</li>
+<li>
+<p>Create a Main.groovy under "src/css/groovy/groovycss"</p>
+</li>
+<li>
+<p>Create a "build.gradle" file in the current directory.</p>
+</li>
+<li>
+<p>Create a "settings.gradle" file in the current directory with the contents: <code>include 'imports'</code></p>
+</li>
+<li>
+<p>Create a "build.gradle" file in the "imports/" directory.</p>
+</li>
+<li>
+<p>Create a Groocss file at "imports/css/groocss/elements/a.css.groovy".</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_root_build">Root Build</h3>
+<div class="paragraph">
+<p>Put the following in /build.gradle:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+    id 'groovy'
+    id 'application'
+}
+mainClassName = 'groovycss.Main'
+repositories { jcenter() }
+sourceSets {
+    main {
+        groovy.srcDirs += ["$projectDir/src/css/groovy"]
+    }
+}
+dependencies {
+    compile "org.groocss:groocss:1.0-M4-groovy2.5"
+    runtime project(':imports')
+}
+task css(dependsOn: ['compileGroovy', ':imports:build', 'run'],
+                     description: "--&gt; Converts GrooCSS to CSS files",
+                     group: 'build') {
+    doFirst {
+        def outputDir = "${dir}/resources/css/"
+        file(outputDir).mkdirs()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_main">Main</h3>
+<div class="paragraph">
+<p>In "Main.groovy" put the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package groovycss
+import groovy.transform.CompileStatic
+import org.groocss.*
+@CompileStatic
+class Main {
+    static void main(String[] args) {
+        String dir = '.'
+        String outputDir = 'resources/css/'
+        def conf = new Config(prettyPrint: true, addOpera: false) // for dev
+        new File("${dir}/src/css/groocss")
+                .listFiles({ File f -&gt; f.isFile() } as FileFilter)
+                .each { File f -&gt; processFile(outputDir, f, conf) }
+    }
+    static void processFile(String outputDir, File f, Config conf) {
+        def outputFile = new File("${outputDir}${f.name.replace('.groovy', '')}")
+        GrooCSS.convert conf, f, outputFile
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will process all of your files under "src/css/groocss" and output the CSS in
+"resources/css/".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_imports_build">Imports Build</h3>
+<div class="paragraph">
+<p>Within the "imports/build.gradle" file put the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+    id 'java'
+}
+sourceSets {
+    main {
+        resources {srcDir 'css/groocss/'}
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_importing_from_classpath">Importing From Classpath</h3>
+<div class="paragraph">
+<p>Finally, create a file under "src/css/groocss" named "root.css.groovy" and put in the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">'root'.groocss {
+    importStream(getClass().getResourceAsStream('/elements/a.css.groovy'))
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This works since at runtime the files from the "imports" sub-project are included as dependencies.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_build">Run the Build</h3>
+<div class="paragraph">
+<p>Using Gradle (tested with Gradle 5.4.1) run <code>gradle css</code> from the command line.</p>
+</div>
 <div class="paragraph">
 <p><a href="index.html">Index</a> | <a href="other.html">Next</a></p>
+</div>
 </div>
 </div>
 </div></p>
 
 	<hr />
 
-	<p><em>Last updated: 19 July 2019</em></p>
+	<p><em>Last updated: 22 July 2019</em></p>
 
 		</div>
 		<div id="push"></div>

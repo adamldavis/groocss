@@ -6,9 +6,226 @@
     <atom:link href="http://www.groocss.org/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Sat, 20 Jul 2019 08:47:40 -0400</pubDate>
-    <lastBuildDate>Sat, 20 Jul 2019 08:47:40 -0400</lastBuildDate>
+    <pubDate>Mon, 22 Jul 2019 22:09:01 -0400</pubDate>
+    <lastBuildDate>Mon, 22 Jul 2019 22:09:01 -0400</lastBuildDate>
 
+    
+    <item>
+      <title>1.0 Milestone 4 Released!</title>
+      <link>http://www.groocss.org/blog/2019/1m4.html</link>
+      <pubDate>Mon, 22 Jul 2019 00:00:00 -0400</pubDate>
+      <guid isPermaLink="false">blog/2019/1m4.html</guid>
+      <description>
+      &lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Version 1.0 Milestone 4 (1.0-M4) has been release! The next release will be RC1 (Release Candidate)
+with GA coming not far behind so please get your
+&lt;a href=&quot;https://github.com/adamldavis/groocss/issues&quot;&gt;feedback&lt;/a&gt;, comments, and suggestions in soon!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This release comes in two varieties based on which version of Groovy to use:
+1.0-M4-groovy2.4 and 1.0-M4-groovy2.5.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;_new_features_and_fixes&quot;&gt;New Features and Fixes&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This release includes the following new features and fixes:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Added missing Pseudo-Elements and some missing properties (caret-color, appearance, and user-select).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.groocss.org/manual/1.0-M4/pseudo.html&quot;&gt;Pseudo-elements&lt;/a&gt; can be added using ** syntax.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Also updated Translator to handle pseudo-element conversion.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Added PlaceholderProcessor (copies any ::placeholder to ::-webkit-input-placeholder) and fixed a bug in processing.
+You must add PlaceholderProcessor to your Processors manually - it&amp;#8217;s not there by default.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Also fixed a bug which made new extensions methods not working in custom Gradle builds.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;_manual_improved&quot;&gt;Manual Improved&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The manual for M4 has been improved with multiple sections added.
+Although these features have been included since version 0.12 or earlier,
+the documentation has been lacking up till now.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For your convenience, these sections are included below&amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;_transitions&quot;&gt;Transitions&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Transitions are supported like any normal style property OR with a special DSL which takes a Closure (or multiple Closures).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;a%hover {
+    transition { all 1.s }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This would transition all properties that are changed for a:hover over 1 second.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you want to supply the easing function, you can. Since command chains in Groovy require pairs to work (a method call and a value) you also need to provide the &quot;delay&quot; value (which can be zero).
+For example:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;a%hover {
+    transition { all 1.s ease 0 }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can also supply multiple closure to support multiple transition values, eg:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;a%hover {
+    transition { color 1.s ease 0 } { background 2.s }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The correct CSS will be output.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;_detached_styles&quot;&gt;Detached Styles&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You can also create &lt;strong&gt;Detached styles&lt;/strong&gt;, using the &lt;strong&gt;styles&lt;/strong&gt; method,
+which can be added conditionally to a concrete style group.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For example, see the following simple Closure definition
+which defines &quot;color #123&quot; if alpha is zero, otherwise it yields
+color rgba(0,0,0,alpha) which is black with the given opacity:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;def mycolor = { alpha -&amp;gt;
+    styles {
+        if (alpha == 0) color &apos;#123&apos;
+        else color rgba(0,0,0,alpha)
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This would allow you to call this Closure later on within your GrooCSS
+multiple times with different results each time. For example:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;table { add mycolor(0) }
+div { add mycolor(0.5) }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Would yield the following CSS:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;table {
+    color: #123;
+}
+div {
+    color: rgba(0, 0, 0, 0.50)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;However, you&amp;#8217;re not limited to one parameter or one style.
+For example, you could have a more complicated scenario like the following:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;def boxedStyles = { foreColor, timing -&amp;gt;
+    styles {
+        transition &quot;all $timing ease&quot;
+        color shade(foreColor, 0.1)
+        background tint(foreColor, 0.9)
+        boxShadow &quot;10px 5px 5px ${shade(foreColor)}&quot;
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This would create styles which transition to a color, background,
+and box-shadow based on a given color.
+It would allow the following GrooCSS:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;div.salmon %hover {
+  add boxedStyles(salmon, 1.s)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And it would yield the following CSS (with default Config):&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;div.salmon:hover {
+    transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    color: #e17366;
+    background: #fef2f0;
+    box-shadow: 10px 5px 5px #7d4039;
+    -webkit-box-shadow: 10px 5px 5px #7d4039;
+    -moz-box-shadow: 10px 5px 5px #7d4039;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Remember, &quot;boxedStyles&quot; could be called multiple times, each time with different parameters.
+This allows code reuse so can greatly enhance your productivity.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;_code_completion&quot;&gt;Code Completion&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;A new section was added to the manual about &lt;a href=&quot;../../manual/1.0-M4/static.html&quot;&gt;code completion&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;_importing_with_gradle&quot;&gt;Importing with Gradle&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The &lt;a href=&quot;../../manual/1.0-M4/import.html&quot;&gt;import&lt;/a&gt; section has been improved.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	  </description>
+    </item>
     
     <item>
       <title>Version 1.0-M3 Released!</title>
