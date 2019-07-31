@@ -184,4 +184,20 @@ class ConfigSpec extends Specification {
         "$css" == '@keyframes test {\nfrom{width: 10em;}\nto{width: 20em;}\n}'
     }
 
+    @Unroll
+    def "should resolve true with Properties with #truth"() {
+        when:
+        def props = new Properties()
+        props.setProperty('compress', truth)
+        props.setProperty('addWebkit', 'no')
+        def css = GrooCSS.withProperties(props).process {
+            kf('test') {
+                from { width 10.em } to { width 20.em }
+            }
+        }
+        then:
+        "$css" == '@keyframes test {from{width: 10em;}to{width: 20em;}}'
+        where:
+        truth << ['t', 'T', 'yes', 'YES', 'TRUE', 'y']
+    }
 }

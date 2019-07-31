@@ -88,21 +88,19 @@ class Config {
 
     protected void loadFrom(Properties props) {
         props.propertyNames().findAll { ((String) it).startsWith('variable.') }.each { key ->
-            println "key=$key"
             def name = (key as String).substring('variable.'.length())
             variables.put(name, props.getProperty(key as String))
-            println "variables=$variables"
         }
         if (props.processors) withProcessorClasses(props.getProperty('processors')
                 .split(/,/).collect { Class.forName(it as String) } as List<Class<? extends Processor>>)
         if (props.styleClasses) withStyleClasses(props.getProperty('styleClasses').split(/,/).collect{ it } as List<String>)
-        if (props.convertUnderline != null) convertUnderline = 'true' == props.convertUnderline
-        if (props.addMs != null) addMs = 'true' == props.addMs
-        if (props.addMoz != null) addMoz = 'true' == props.addMoz
-        if (props.addWebkit != null) addWebkit = 'true' == props.addWebkit
-        if (props.addOpera != null) addOpera = 'true' == props.addOpera
-        if (props.prettyPrint != null) prettyPrint = 'true' == props.prettyPrint
-        if (props.compress != null) compress = 'true' == props.compress
+        if (props.convertUnderline != null) convertUnderline = truthy props.convertUnderline
+        if (props.addMs != null) addMs = truthy props.addMs
+        if (props.addMoz != null) addMoz = truthy props.addMoz
+        if (props.addWebkit != null) addWebkit = truthy props.addWebkit
+        if (props.addOpera != null) addOpera = truthy props.addOpera
+        if (props.prettyPrint != null) prettyPrint = truthy props.prettyPrint
+        if (props.compress != null) compress = truthy props.compress
         if (props.charset) charset = props.charset as String
     }
 
@@ -118,6 +116,10 @@ class Config {
     /** Loads the Config from the given Properties File with given path. */
     Config(String filePath) {
         this(new File(filePath))
+    }
+
+    private boolean truthy(value) {
+        true == value || (String.valueOf(value) ==~ /TRUE|true|t|T|Y|y|yes|YES/)
     }
 
     /** If given map is not empty, adds to variables. */
