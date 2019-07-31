@@ -135,11 +135,24 @@ class Config {
         if (set) styleClasses.addAll(set)
     }
 
+    /** Takes a variable name and value, adds it to variables Map. */
+    Config withVariable(String key, Object value) {
+        this.variables.put key, value
+        this
+    }
+
+    /** Takes a two variable names and values, adds them to variables Map. */
+    Config withVariables(String key, Object value, String key2, Object value2) {
+        return withVariables((key): value, (key2): value2)
+    }
+
+    /** Takes a map of variable name to value, adds them to variables Map. */
     Config withVariables(Map<String, Object> variables) {
         this.variables.putAll variables
         this
     }
 
+    /** Takes a Collection of objects which must extend Processor, and adds them to the list of processors. */
     Config withProcessors(Collection<Processor> list) {
         processors.addAll(list)
         this

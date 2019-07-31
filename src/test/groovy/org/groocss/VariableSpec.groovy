@@ -6,10 +6,22 @@ class VariableSpec extends Specification {
 
     def "should allow variables to be passed and resolved within DSL"() {
         expect:
-        GrooCSS.convert(new Config().withVariables([kolor: '#123']), "table { color kolor }").toString() ==
+        GrooCSS.convert(new Config().withVariables(kolor: '#123'), "table { color kolor }").toString() ==
                 "table{color: #123;}"
         GrooCSS.withConfig { withVariables([kolor: '#123']) }.convert("table { color kolor }").toString() ==
                 "table{color: #123;}"
+    }
+
+    def "should allow variables to be passed to withVariable and resolved within DSL"() {
+        expect:
+        GrooCSS.convert(new Config().withVariable('kolor', '#123'), "table { color kolor }").toString() ==
+                "table{color: #123;}"
+    }
+
+    def "should allow variables to be passed to withVariables2 and resolved within DSL"() {
+        expect:
+        GrooCSS.convert(new Config().withVariables('kolor', '#123', 'w', 200.px), "table { color kolor width w}")
+                .toString() == "table{color: #123;\n\twidth: 200px;}"
     }
 
 
