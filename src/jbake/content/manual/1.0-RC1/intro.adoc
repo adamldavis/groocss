@@ -1,0 +1,82 @@
+title=Getting Started
+type=page
+tags=gradle
+status=published
+~~~~~~
+
+== How to Learn GrooCSS
+
+1. Make sure you have the requirements installed.
+2. See below for a simple example using a Groovy script.
+3. Read about the link:gradle.html[Gradle Plugin].
+4. Read the whole manual to learn about all the features.
+5. https://twitter.com/groocss[Follow me on Twitter].
+6. https://github.com/adamldavis/groocss[Star me on github].
+
+== Requirements
+
+1. https://adoptopenjdk.net/[JDK 8]+
+2. http://groovy-lang.org/[Groovy 2.5+] (or 2.4+ if using 1.0-RC1-groovy2.4)
+3. https://gradle.org/[Gradle 5.x] (or 4.8+ if using 1.0-RC1-groovy2.4)
+
+== Groovy Script
+
+This example uses Groovy's @Grab annotation to import GrooCSS.
+Create a file named "makeCss.groovy" with the following code:
+
+[source,groovy]
+@Grab('org.groocss:groocss:1.0-RC1')
+import org.groocss.GrooCSS
+// demo
+def css = GrooCSS.withConfig { prettyPrint() }.process {
+    a { textDecoration 'none' }
+    body _.content {
+        fontSize 20.px
+        width 400.px
+        display 'flex'
+    }
+}.writeTo(new File('main.css'))
+
+Although not recommended, this code would create CSS from the given DSL.
+Invoke "groovy makeCss.groovy" at the command line to run it.
+It would output in "main.css" the following:
+
+[source,css]
+a {
+    text-decoration: none;
+}
+body .content {
+    font-size: 20px;
+    width: 400px;
+    display: flex;
+}
+
+== Using Gradle without Plugin
+
+I recommend you use GrooCSS with either the Gradle plugin or
+https://github.com/bertramdev/asset-pipeline/tree/master/groocss-asset-pipeline[asset-pipeline], but it can be used by itself.
+
+[source,groovy]
+    import org.groocss.GrooCSS
+    //
+    buildscript {
+        repositories { jcenter() }
+        dependencies { classpath 'org.groocss:groocss:1.0-RC1-groovy2.5' }
+    }
+    task css doLast {
+        def file = file('css/out.css')
+        GrooCSS.process {
+            // DSL goes here
+        }.writeTo(file)
+    }
+
+Or using "convert" methods:
+
+[source,groovy]
+    GrooCSS.convertFile('infile.groocss', 'outfile.css')
+    //or
+    GrooCSS.convert(new File('in'), new File('out'))
+
+== Next
+
+Go back to link:index.html[Index] | Go to link:gradle.html[Next] (Gradle)

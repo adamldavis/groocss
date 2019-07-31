@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>GrooCSS - Variables</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Adam L Davis">
+    <meta name="keywords" content="groovy,css,css3,html,dsl,groocss">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/style.css" media="screen">
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <style>html { font-size: 20px }</style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+      <header class="page-header">
+        <img src="../../images/groocss2_256.png" width="128" height="128">
+        <h1 class="project-name">GrooCSS</h1>
+        <h2 class="project-tagline">Code CSS in Groovy</h2>
+      </header>
+
+
+	<!-- Fixed navbar -->
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://groocss.org">GrooCSS</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../manual/1.0-RC1/intro.html">Getting Started</a></li>
+
+        <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
+
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/"  rel="me">Download</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            
+			  <li><a href="../../manual/1.0-RC1/index.html">Manual 1.0-RC1</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M4/index.html">Manual 1.0-M4</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M3/index.html">Manual 1.0-M3</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M2/index.html">Manual 1.0-M2</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M1/index.html">Manual 1.0-M1</a> </li>
+		    
+			  <li><a href="../../manual/0.12/index.html">Manual 0.12</a> </li>
+		    
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other links <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="https://twitter.com/groocss"  rel="me">Twitter</a></li>
+            <li><a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin" >Gradle Plugin</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Old stuff</li>
+            <li><a href="http://blag.groocss.org" >Old Blog</a></li>
+            <li><a href="../../feed.xml">Subscribe</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+<div class="container">
+	
+	<div class="page-header">
+		<h1>Variables</h1>
+	</div>
+
+	<p><div class="paragraph">
+<p>Variables allow you make values available to your GrooCSS at compile time
+through <a href="config.html">Config</a> (or through method parameters of convertWithoutBase).</p>
+</div>
+<div class="paragraph">
+<p>You can also use a Properties file to define variables with the <code>variable.</code> prefix.
+Or you can directly pass variable values through the <code>Config</code> object.</p>
+</div>
+<div class="sect1">
+<h2 id="_config_with_variables">Config with Variables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are three main methods on Config for setting variable values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>withVariable(String key, Object value)</code> Takes a variable name and value, adds it to <code>variables</code> Map.</p>
+</li>
+<li>
+<p><code>withVariables(String key, Object value, String key2, Object value2)</code> Takes a two variable names and values, adds them to <code>variables</code> Map.</p>
+</li>
+<li>
+<p><code>withVariables(Map&lt;String, Object&gt; variables)</code> Takes a map of variable name to value, adds them to <code>variables</code> Map.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Each of these methods returns the Config object so they can be chained.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Groovy allows map parameters to be passed easily using the map-parameter syntax. Eg:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">def config = new Config().withVariables(foreGround: '#123', backGround: '#abc')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This allows you to reference these variables within your GrooCSS files.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gradle_with_variables">Gradle with Variables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With the Gradle plugin, it might be useful to pass the <code>buildDir</code> to your GrooCSS files.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">task css(type: org.groocss.GroocssTask, dependsOn: convertCss) {
+    conf = new org.groocss.Config().withVariables(buildDir: project.buildDir)
+    from 'groocss/'
+    into "css/"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or when using the built-in task (convertCss):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">groocss {
+    processors = []
+    variables = [buildDir: project.buildDir]
+}
+groocssfiles {
+    allfiles {
+        inFile = file('src/main/groovy/')
+        outFile = file("css/")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This can enable you to use <code>importFile</code> using the <code>buildDir</code> variable. Eg:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">'main.css'.groocss {
+    importFile("$buildDir/../groocss/myfile1.css.groovy")
+    importFile("$buildDir/../groocss/myfile2.css.groovy")
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="index.html">Index</a> | End</p>
+</div>
+</div>
+</div></p>
+
+	<hr />
+
+	<p><em>Last updated: 31 July 2019</em></p>
+
+		</div>
+		<div id="push"></div>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="muted credit">&copy; Adam L. Davis 2019 | GrooCSS is free to use, open source, and licensed under the
+                <a href="https://github.com/adamldavis/groocss/blob/master/LICENSE">Apache License, Version 2.0.</a>
+                | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a>
+                | Baked with <a href="http://jbake.org">JBake v2.6.4</a></p>
+        </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+    
+  </body>
+</html>

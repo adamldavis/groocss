@@ -1,0 +1,145 @@
+title=Importing
+type=page
+tags=import,templates
+status=published
+~~~~~~
+
+The ability to import other groocss files is supported by
+importFile, importStream, and importString methods which take
+a parameter map and input. Any number of variables can be passed. For example:
+
+[source,groovy]
+    def otherCss = new File('whatever/file.groovy')
+    importFile otherCss.absoluteFile, linkColor: '#456789', backColor: 'black'
+
+Within the imported groovy file, linkColor and background will be available with the given values.
+
+For example, given that "file.groovy" has the following contents:
+
+[source,groovy]
+    a { color linkColor backgroundColor backColor }
+
+The resulting CSS would be the following:
+
+[source,css]
+    a {
+        color #456789;
+        background-color: Black;
+    }
+
+== Variants
+
+* importFile - Takes in a java.io.File.
+* importStream - Takes an InputStream and reads it.
+* importString - Takes a String expected to be a GrooCSS DSL input.
+
+For example, to read a file named "other.css.groovy" on the classpath
+(under /groocss/) do the following:
+
+[source,groovy]
+importStream(getClass().getResourceAsStream("/groocss/other.css.groovy"),
+    linkColor: '#456789', backColor: 'black')
+
+
+== Importing with Gradle
+
+However, you might not always know what directory to look in for files.
+If you want to import files using the classpath method, you should follow
+some additional steps (for a multi-module Gradle build):
+
+- Create a "src/css/groovy" and "imports/css/groocss" and tell your IDE these are
+also source folders.
+- Create a Main.groovy under "src/css/groovy/groovycss"
+- Create a "build.gradle" file in the current directory.
+- Create a "settings.gradle" file in the current directory with the contents: `include 'imports'`
+- Create a "build.gradle" file in the "imports/" directory.
+- Create a Groocss file at "imports/css/groocss/elements/a.css.groovy".
+
+=== Root Build
+
+Put the following in /build.gradle:
+
+[source,groovy]
+plugins {
+    id 'groovy'
+    id 'application'
+}
+mainClassName = 'groovycss.Main'
+repositories { jcenter() }
+sourceSets {
+    main {
+        groovy.srcDirs += ["$projectDir/src/css/groovy"]
+    }
+}
+dependencies {
+    compile "org.groocss:groocss:1.0-RC1-groovy2.5"
+    runtime project(':imports')
+}
+task css(dependsOn: ['compileGroovy', ':imports:build', 'run'],
+                     description: "--> Converts GrooCSS to CSS files",
+                     group: 'build') {
+    doFirst {
+        def outputDir = "${dir}/resources/css/"
+        file(outputDir).mkdirs()
+    }
+}
+
+=== Main
+
+In "Main.groovy" put the following:
+
+[source,groovy]
+package groovycss
+import groovy.transform.CompileStatic
+import org.groocss.*
+@CompileStatic
+class Main {
+    static void main(String[] args) {
+        String dir = '.'
+        String outputDir = 'resources/css/'
+        def conf = new Config(prettyPrint: true, addOpera: false) // for dev
+        new File("${dir}/src/css/groocss")
+                .listFiles({ File f -> f.isFile() } as FileFilter)
+                .each { File f -> processFile(outputDir, f, conf) }
+    }
+    static void processFile(String outputDir, File f, Config conf) {
+        def outputFile = new File("${outputDir}${f.name.replace('.groovy', '')}")
+        GrooCSS.convert conf, f, outputFile
+    }
+}
+
+This will process all of your files under "src/css/groocss" and output the CSS in
+"resources/css/".
+
+=== Imports Build
+
+Within the "imports/build.gradle" file put the following:
+
+[source,groovy]
+plugins {
+    id 'java'
+}
+sourceSets {
+    main {
+        resources {srcDir 'css/groocss/'}
+    }
+}
+
+
+=== Importing From Classpath
+
+Finally, create a file under "src/css/groocss" named "root.css.groovy" and put in the following:
+
+[source,groovy]
+'root'.groocss {
+    importStream(getClass().getResourceAsStream('/elements/a.css.groovy'))
+}
+
+This works since at runtime the files from the "imports" sub-project are included as dependencies.
+
+=== Run the Build
+
+Using Gradle (tested with Gradle 5.4.1) run `gradle css` from the command line.
+
+
+link:index.html[Index] | link:other.html[Next]

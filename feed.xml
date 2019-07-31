@@ -6,9 +6,64 @@
     <atom:link href="http://www.groocss.org/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Mon, 22 Jul 2019 22:09:01 -0400</pubDate>
-    <lastBuildDate>Mon, 22 Jul 2019 22:09:01 -0400</lastBuildDate>
+    <pubDate>Wed, 31 Jul 2019 11:36:11 -0400</pubDate>
+    <lastBuildDate>Wed, 31 Jul 2019 11:36:11 -0400</lastBuildDate>
 
+    
+    <item>
+      <title>1.0 Release Candidate 1 Released!</title>
+      <link>http://www.groocss.org/blog/2019/1rc1.html</link>
+      <pubDate>Wed, 31 Jul 2019 00:00:00 -0400</pubDate>
+      <guid isPermaLink="false">blog/2019/1rc1.html</guid>
+      <description>
+      &lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Version 1.0-RC1 has been released! The next release will be 1.0!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Please get your feedback, comments, and suggestions in soon!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;_new_features&quot;&gt;New Features&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This release has two great new features: &lt;strong&gt;Variables&lt;/strong&gt;, and Config through &lt;strong&gt;Properties&lt;/strong&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;From the manual:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;strong&gt;&amp;#8220;Enabled the use of Properties file. For example: new Config(props) or GrooCSS.withPropertiesFile(filename) or with the Gradle plugin you can use propertiesFile = file(&quot;groocss.properties&quot;) within the task definition. Allows the property &quot;processorClasses&quot; to be a list of class-names separated by commas for Processors to use.&amp;#8221;&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;strong&gt;&amp;#8220;Added the ability to add variables to Config and have them available in scripts.&amp;#8221;&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock tip&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Tip&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+See the &lt;a href=&quot;http://www.groocss.org/manual/1.0-RC1/index.html&quot;&gt;new manual for more&lt;/a&gt; about these features.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;_flavors&quot;&gt;Flavors&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;1.0-RC1 works with Groovy 2.5 but you can specify 1.0-RC1-groovy2.5 or  1.0-RC1-groovy2.4 if you want to use Groovy 2.4.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Future releases might only work with Groovy 2.5 and up.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+	  </description>
+    </item>
     
     <item>
       <title>1.0 Milestone 4 Released!</title>

@@ -1,0 +1,41 @@
+title=Pseudo-classes
+type=page
+status=published
+~~~~~~
+
+== Pseudo Elements
+
+Pseudo elements are things like ::before, ::after, ::first-line, etc.
+
+They can be added using the ** syntax. Eg:
+
+[source,groovy]
+input ** before { content '===' }
+p ** firstLine { fontSize 2.em }
+
+
+== Pseudo Classes
+
+CSS Pseudo-classes such as :hover, :active, :nth-child, etc.
+
+[source,groovy]
+input % hover { color blue }
+li % nthChild('3n') { color blue }
+
+Produces:
+
+[source,groovy]
+input:hover { color: Blue; }
+li:nth-child(3n) { color: Blue; }
+
+There are also shorthands like 'odd' and 'even':
+
+[source,groovy]
+li % odd { color blue }
+
+Produces:
+
+[source,groovy]
+li:nth-child(odd) { color: Blue; }
+
+link:index.html[Index] | link:keyframes.html[Next]

@@ -1,0 +1,67 @@
+title=Configuration
+type=page
+status=published
+~~~~~~
+
+
+    <h2>
+        <a id="config" class="anchor" href="#config" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Config</h2>
+
+    <p>There are several different ways to configure GrooCSS:</p>
+
+    <ul>
+        <li>Using the groovy constructor: new Config(compress: true)</li>
+        <li>Using the builder syntax: Config.builder().compress(true).build()</li>
+        <li>Using the DSL: GrooCSS.withConfig { noExts().compress().utf8() }.process {}</li>
+        <li>Properties</li>
+    </ul>
+
+    <p>Of these options, the third is most recommended.
+        With the DSL there are several chainable methods available to easily configure your CSS:</p>
+
+    <ul>
+        <li>noExts() - sets all extension flags to false (addOpera, etc.)</li>
+        <li>onlyMs(), onlyWebkit(), etc. - sets all extensions flags to false except one.</li>
+        <li>utf8() - sets the charset to UTF-8.</li>
+        <li>compress() - sets compress flag to true.</li>
+    </ul>
+
+<h2>
+    <a id="props" class="anchor" href="#props"
+       aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Properties</h2>
+
+    <p>You can also use a Properties file to define Config. For example create a file named "groocss.properties"
+        with the following content (true/TRUE/yes/t are all considered true):</p>
+
+    <pre><code>
+addMoz=false
+compress=true
+variable.baseUrl=http://mywebsite.com/assets/
+    </code></pre>
+
+    <p>Anything that starts with "variable." will use the rest of the key ("baseUrl" above) as the name of variable and
+        set the given value to it. See <a href="variables.html">more about variables here.</a></p>
+
+    <p>
+        It allows the property "processorClasses" to be a list of class-names separated by commas for Processors to use
+        and "styleClasses" can be a comma separated list of styleClasses.
+    </p>
+
+    <p>
+        Or with the Gradle plugin you can use <code>propertiesFile = file("groocss.properties")</code> within the task definition.
+    </p>
+
+    <h2>
+        <a id="compressing-minimization" class="anchor" href="#compressing-minimization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compressing (Minimization)</h2>
+
+    <p>To "compress" the output (no new-lines), just pass in a Config object:</p>
+
+    <pre><code class="language-groovy" data-lang="groovy">GrooCSS.process(new Config(compress: true))
+//OR
+GrooCSS.convert(new Config(compress: true), infile, outfile)
+//OR
+groocss { compress = true } // using Gradle plugin</code></pre>
+
+    <p>See the <a href="//www.groocss.org/docs/1.0-RC1/org/groocss/Config.html">Config API</a> for more.</p>
+
+    <footer>Back to <a href="index.html">index</a>. <a href="colors.html" class="btn">Next</a></footer>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>GrooCSS - Importing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Adam L Davis">
+    <meta name="keywords" content="groovy,css,css3,html,dsl,groocss">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../../stylesheets/style.css" media="screen">
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/asciidoctor.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/prettify.css" rel="stylesheet">
+    <style>html { font-size: 20px }</style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../favicon.ico">
+  </head>
+  <body onload="prettyPrint()">
+    <div id="wrap">
+
+      <header class="page-header">
+        <img src="../../images/groocss2_256.png" width="128" height="128">
+        <h1 class="project-name">GrooCSS</h1>
+        <h2 class="project-tagline">Code CSS in Groovy</h2>
+      </header>
+
+
+	<!-- Fixed navbar -->
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://groocss.org">GrooCSS</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../manual/1.0-RC1/intro.html">Getting Started</a></li>
+
+        <li><a href="https://github.com/adamldavis/groocss"  rel="me">GitHub</a></li>
+
+        <li><a href="https://bintray.com/adamldavis/maven/GrooCSS/"  rel="me">Download</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            
+			  <li><a href="../../manual/1.0-RC1/index.html">Manual 1.0-RC1</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M4/index.html">Manual 1.0-M4</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M3/index.html">Manual 1.0-M3</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M2/index.html">Manual 1.0-M2</a> </li>
+		    
+			  <li><a href="../../manual/1.0-M1/index.html">Manual 1.0-M1</a> </li>
+		    
+			  <li><a href="../../manual/0.12/index.html">Manual 0.12</a> </li>
+		    
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other links <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="https://twitter.com/groocss"  rel="me">Twitter</a></li>
+            <li><a href="https://plugins.gradle.org/plugin/org.groocss.groocss-gradle-plugin" >Gradle Plugin</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Old stuff</li>
+            <li><a href="http://blag.groocss.org" >Old Blog</a></li>
+            <li><a href="../../feed.xml">Subscribe</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+<div class="container">
+	
+	<div class="page-header">
+		<h1>Importing</h1>
+	</div>
+
+	<p><div class="paragraph">
+<p>The ability to import other groocss files is supported by
+importFile, importStream, and importString methods which take
+a parameter map and input. Any number of variables can be passed. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    def otherCss = new File('whatever/file.groovy')
+    importFile otherCss.absoluteFile, linkColor: '#456789', backColor: 'black'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Within the imported groovy file, linkColor and background will be available with the given values.</p>
+</div>
+<div class="paragraph">
+<p>For example, given that "file.groovy" has the following contents:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    a { color linkColor backgroundColor backColor }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The resulting CSS would be the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-css" data-lang="css">    a {
+        color #456789;
+        background-color: Black;
+    }</code></pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_variants">Variants</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>importFile - Takes in a java.io.File.</p>
+</li>
+<li>
+<p>importStream - Takes an InputStream and reads it.</p>
+</li>
+<li>
+<p>importString - Takes a String expected to be a GrooCSS DSL input.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, to read a file named "other.css.groovy" on the classpath
+(under /groocss/) do the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">importStream(getClass().getResourceAsStream("/groocss/other.css.groovy"),
+    linkColor: '#456789', backColor: 'black')</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_importing_with_gradle">Importing with Gradle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>However, you might not always know what directory to look in for files.
+If you want to import files using the classpath method, you should follow
+some additional steps (for a multi-module Gradle build):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a "src/css/groovy" and "imports/css/groocss" and tell your IDE these are
+also source folders.</p>
+</li>
+<li>
+<p>Create a Main.groovy under "src/css/groovy/groovycss"</p>
+</li>
+<li>
+<p>Create a "build.gradle" file in the current directory.</p>
+</li>
+<li>
+<p>Create a "settings.gradle" file in the current directory with the contents: <code>include 'imports'</code></p>
+</li>
+<li>
+<p>Create a "build.gradle" file in the "imports/" directory.</p>
+</li>
+<li>
+<p>Create a Groocss file at "imports/css/groocss/elements/a.css.groovy".</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_root_build">Root Build</h3>
+<div class="paragraph">
+<p>Put the following in /build.gradle:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+    id 'groovy'
+    id 'application'
+}
+mainClassName = 'groovycss.Main'
+repositories { jcenter() }
+sourceSets {
+    main {
+        groovy.srcDirs += ["$projectDir/src/css/groovy"]
+    }
+}
+dependencies {
+    compile "org.groocss:groocss:1.0-RC1-groovy2.5"
+    runtime project(':imports')
+}
+task css(dependsOn: ['compileGroovy', ':imports:build', 'run'],
+                     description: "--&gt; Converts GrooCSS to CSS files",
+                     group: 'build') {
+    doFirst {
+        def outputDir = "${dir}/resources/css/"
+        file(outputDir).mkdirs()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_main">Main</h3>
+<div class="paragraph">
+<p>In "Main.groovy" put the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package groovycss
+import groovy.transform.CompileStatic
+import org.groocss.*
+@CompileStatic
+class Main {
+    static void main(String[] args) {
+        String dir = '.'
+        String outputDir = 'resources/css/'
+        def conf = new Config(prettyPrint: true, addOpera: false) // for dev
+        new File("${dir}/src/css/groocss")
+                .listFiles({ File f -&gt; f.isFile() } as FileFilter)
+                .each { File f -&gt; processFile(outputDir, f, conf) }
+    }
+    static void processFile(String outputDir, File f, Config conf) {
+        def outputFile = new File("${outputDir}${f.name.replace('.groovy', '')}")
+        GrooCSS.convert conf, f, outputFile
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will process all of your files under "src/css/groocss" and output the CSS in
+"resources/css/".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_imports_build">Imports Build</h3>
+<div class="paragraph">
+<p>Within the "imports/build.gradle" file put the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+    id 'java'
+}
+sourceSets {
+    main {
+        resources {srcDir 'css/groocss/'}
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_importing_from_classpath">Importing From Classpath</h3>
+<div class="paragraph">
+<p>Finally, create a file under "src/css/groocss" named "root.css.groovy" and put in the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">'root'.groocss {
+    importStream(getClass().getResourceAsStream('/elements/a.css.groovy'))
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This works since at runtime the files from the "imports" sub-project are included as dependencies.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_build">Run the Build</h3>
+<div class="paragraph">
+<p>Using Gradle (tested with Gradle 5.4.1) run <code>gradle css</code> from the command line.</p>
+</div>
+<div class="paragraph">
+<p><a href="index.html">Index</a> | <a href="other.html">Next</a></p>
+</div>
+</div>
+</div>
+</div></p>
+
+	<hr />
+
+	<p><em>Last updated: 31 July 2019</em></p>
+
+		</div>
+		<div id="push"></div>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p class="muted credit">&copy; Adam L. Davis 2019 | GrooCSS is free to use, open source, and licensed under the
+                <a href="https://github.com/adamldavis/groocss/blob/master/LICENSE">Apache License, Version 2.0.</a>
+                | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a>
+                | Baked with <a href="http://jbake.org">JBake v2.6.4</a></p>
+        </div>
+    </div>
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../js/jquery-1.11.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/prettify.js"></script>
+    
+  </body>
+</html>

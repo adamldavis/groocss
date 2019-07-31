@@ -1,0 +1,132 @@
+title=Font-face, Media, and Custom and Detached styles
+type=page
+status=published
+~~~~~~
+
+== Font-face
+
+[source,groovy]
+fontFace {
+    fontFamily 'myFirstFont'
+    fontWeight 'normal'
+    src 'url(sensational.woff)'
+}
+
+Resolves to:
+
+[source,css]
+@font-face {
+    font-family: myFirstFont;
+    font-weight: normal;
+    src:url(sensational.woff);
+}
+
+== Media
+
+[source,groovy]
+media 'screen', {
+    body { width '100%' }
+}
+
+Produces:
+
+[source,css]
+@media screen {
+    body { width: 100%; }
+}
+
+
+== Custom styles
+
+[source,groovy]
+body {
+    add style('-webkit-touch-callout', 'none')
+    add style('-webkit-textSize-adjust', 'none')
+    add style('-webkit-user-select', 'none')
+}
+
+Resolves to:
+
+[source,css]
+body {
+    -webkit-touch-callout: none
+    -webkit-textSize-adjust: none
+    -webkit-user-select: none
+}
+
+== Detached Styles
+
+You can also create *Detached styles*, using the *styles* method,
+which can be added conditionally to a concrete style group.
+
+For example, see the following simple Closure definition
+which defines "color #123" if alpha is zero, otherwise it yields
+color rgba(0,0,0,alpha) which is black with the given opacity:
+
+[source,groovy]
+def mycolor = { alpha ->
+    styles {
+        if (alpha == 0) color '#123'
+        else color rgba(0,0,0,alpha)
+    }
+}
+
+This would allow you to call this Closure later on within your GrooCSS
+multiple times with different results each time. For example:
+
+[source,groovy]
+table { add mycolor(0) }
+div { add mycolor(0.5) }
+
+Would yield the following CSS:
+
+[source,css]
+table {
+    color: #123;
+}
+div {
+    color: rgba(0, 0, 0, 0.50)
+}
+
+However, you're not limited to one parameter or one style.
+For example, you could have a more complicated scenario like the following:
+
+[source,groovy]
+def boxedStyles = { foreColor, timing ->
+    styles {
+        transition "all $timing ease"
+        color shade(foreColor, 0.1)
+        background tint(foreColor, 0.9)
+        boxShadow "10px 5px 5px ${shade(foreColor)}"
+    }
+}
+
+This would create styles which transition to a color, background,
+and box-shadow based on a given color.
+It would allow the following GrooCSS:
+
+[source,groovy]
+div.salmon %hover {
+  add boxedStyles(salmon, 1.s)
+}
+
+And it would yield the following CSS (with default Config):
+
+[source,css]
+div.salmon:hover {
+    transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    color: #e17366;
+    background: #fef2f0;
+    box-shadow: 10px 5px 5px #7d4039;
+    -webkit-box-shadow: 10px 5px 5px #7d4039;
+    -moz-box-shadow: 10px 5px 5px #7d4039;
+}
+
+Remember, "boxedStyles" could be called multiple times, each time with different parameters.
+This allows code reuse so can greatly enhance your productivity.
+
+
+link:index.html[Index] | link:migrating.html[Next]

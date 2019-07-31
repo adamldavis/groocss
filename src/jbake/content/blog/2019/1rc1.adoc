@@ -1,16 +1,28 @@
 title=1.0 Release Candidate 1 Released!
-date=2019-07-30
+date=2019-07-31
 type=post
-tags=css,gradle,release
-status=preview
+tags=css,groovy,release
+status=published
 ~~~~~~
 
-Version 1.0 RC1 has been release! The next release will be 1.0!
+Version 1.0-RC1 has been released! The next release will be 1.0!
 
 Please get your feedback, comments, and suggestions in soon!
 
+== New Features
 
-== Version 1.0-RC1 Released!
+This release has two great new features: *Variables*, and Config through *Properties*.
 
+From the manual:
 
+*"`Enabled the use of Properties file. For example: new Config(props) or GrooCSS.withPropertiesFile(filename) or with the Gradle plugin you can use propertiesFile = file("groocss.properties") within the task definition. Allows the property "processorClasses" to be a list of class-names separated by commas for Processors to use.`"*
 
+*"`Added the ability to add variables to Config and have them available in scripts.`"*
+
+TIP: See the http://www.groocss.org/manual/1.0-RC1/index.html[new manual for more] about these features.
+
+== Flavors
+
+1.0-RC1 works with Groovy 2.5 but you can specify 1.0-RC1-groovy2.5 or  1.0-RC1-groovy2.4 if you want to use Groovy 2.4.
+
+Future releases might only work with Groovy 2.5 and up.

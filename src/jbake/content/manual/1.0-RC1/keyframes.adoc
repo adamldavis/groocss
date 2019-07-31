@@ -1,0 +1,67 @@
+title=Keyframes, Transitions, and Transforms DSL
+type=page
+status=published
+~~~~~~
+
+GrooCSS includes support for @Keyframes, Transitions, and transforms (like translateX).
+
+== Keyframes
+
+You create keyframes in GrooCSS using the keyframes(selector, Closure) method (there's also a "kf" alias).
+
+[source,groovy]
+def css = GrooCSS.process(new Config(addWebkit: false, addMoz: false, addOpera: false)) {
+        keyframes('bounce') {
+            40 % {
+                translateY(-30.px)
+            }
+            60 % {
+                translateY(-15.px)
+            }
+            frame([0,20,50,80,100]) {
+                translateY(0)
+            }
+        }
+    }
+
+Produces:
+
+[source,css]
+@keyframes bounce {
+    40%{transform: translateY(-30px);}
+    60%{transform: translateY(-15px);}
+    0%, 20%, 50%, 80%, 100%{transform: translateY(0);}
+}
+
+== Transitions
+
+Transitions are supported like any normal style property OR with a special DSL which takes a Closure (or multiple Closures).
+
+For example:
+
+[source,groovy]
+a%hover {
+    transition { all 1.s }
+}
+
+This would transition all properties that are changed for a:hover over 1 second.
+
+If you want to supply the easing function, you can. Since command chains in Groovy require pairs to work (a method call and a value) you also need to provide the "delay" value (which can be zero).
+For example:
+
+[source,groovy]
+a%hover {
+    transition { all 1.s ease 0 }
+}
+
+You can also supply multiple closure to support multiple transition values, eg:
+
+[source,groovy]
+a%hover {
+    transition { color 1.s ease 0 } { background 2.s }
+}
+
+The correct CSS will be output.
+
+link:index.html[Index] | link:import.html[Next]
+

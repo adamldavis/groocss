@@ -1,0 +1,4 @@
+moduleName=groocss-module
+moduleVersion=1.0-beta2
+extensionClasses=org.groocss.ext.NumberExtension,org.groocss.ext.StringExtension
+staticExtensionClasses=

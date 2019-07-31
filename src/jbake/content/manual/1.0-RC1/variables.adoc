@@ -1,0 +1,64 @@
+title=Variables
+type=page
+tags=config,variables
+status=published
+~~~~~~
+
+Variables allow you make values available to your GrooCSS at compile time
+through link:config.html[Config] (or through method parameters of convertWithoutBase).
+
+You can also use a Properties file to define variables with the `variable.` prefix.
+Or you can directly pass variable values through the `Config` object.
+
+== Config with Variables
+
+There are three main methods on Config for setting variable values:
+
+- `withVariable(String key, Object value)` Takes a variable name and value, adds it to `variables` Map.
+- `withVariables(String key, Object value, String key2, Object value2)` Takes a two variable names and values, adds them to `variables` Map.
+- `withVariables(Map<String, Object> variables)` Takes a map of variable name to value, adds them to `variables` Map.
+
+TIP: Each of these methods returns the Config object so they can be chained.
+
+Groovy allows map parameters to be passed easily using the map-parameter syntax. Eg:
+
+[source,groovy]
+def config = new Config().withVariables(foreGround: '#123', backGround: '#abc')
+
+This allows you to reference these variables within your GrooCSS files.
+
+== Gradle with Variables
+
+With the Gradle plugin, it might be useful to pass the `buildDir` to your GrooCSS files.
+
+[source,groovy]
+task css(type: org.groocss.GroocssTask, dependsOn: convertCss) {
+    conf = new org.groocss.Config().withVariables(buildDir: project.buildDir)
+    from 'groocss/'
+    into "css/"
+}
+
+Or when using the built-in task (convertCss):
+
+[source,groovy]
+groocss {
+    processors = []
+    variables = [buildDir: project.buildDir]
+}
+groocssfiles {
+    allfiles {
+        inFile = file('src/main/groovy/')
+        outFile = file("css/")
+    }
+}
+
+This can enable you to use `importFile` using the `buildDir` variable. Eg:
+
+[source,groovy]
+'main.css'.groocss {
+    importFile("$buildDir/../groocss/myfile1.css.groovy")
+    importFile("$buildDir/../groocss/myfile2.css.groovy")
+}
+
+link:index.html[Index] | End
+
