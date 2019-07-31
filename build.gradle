@@ -17,7 +17,9 @@ repositories {
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-    testCompile "org.spockframework:spock-core:${getSpockClassifier(groovyVersion)}"
+    testCompile "org.spockframework:spock-core:${getSpockClassifier(groovyVersion)}", {
+        exclude module: "groovy-all", group: "org.codehaus.groovy"
+    }
 }
 
 project.group = 'org.groocss'
@@ -26,6 +28,10 @@ mainClassName= 'org.groocss.Main'
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
+
+tasks.withType(GroovyCompile) {
+    groovyOptions.optimizationOptions.indy = true
+}
 
 task zipDocs(type: Jar) {
     dependsOn 'groovydoc'
