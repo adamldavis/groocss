@@ -18,6 +18,7 @@ class GroocssTask extends Copy {
 
     Config conf
     String charset = 'UTF-8'
+    File propertiesFile
 
     @Override
     protected CopyAction createCopyAction() {
@@ -25,7 +26,8 @@ class GroocssTask extends Copy {
             @Override
             WorkResult execute(CopyActionProcessingStream stream) {
                 if (!conf) {
-                    conf = new Config()
+                    if (propertiesFile) conf = new Config(propertiesFile)
+                    else conf = new Config()
                 }
                 if(destinationDir == null) {
                     throw new InvalidUserDataException("No copy destination directory has been specified, use 'into' to specify a target directory.");

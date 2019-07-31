@@ -1,5 +1,6 @@
 package org.groocss
 
+import org.groocss.proc.PlaceholderProcessor
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -107,6 +108,80 @@ class ConfigSpec extends Specification {
         "div p.not-your-dads-css{text-decoration: none;}"   | { div p.not_your_dads_css { textDecoration 'none' } }
         ".date-time{color: #123;}"      | { def dt = get_().date_time; sg(dt) {color '#123'} }
         "div.date-time{color: #123;}"   | { def dt = div.date_time; sg(dt) {color '#123'} }
+    }
+
+    def "should work with withProcessorClasses with PlaceholderProcessor"() {
+        when:
+        def css = GrooCSS.process(new Config().withProcessorClasses([PlaceholderProcessor])) {
+
+            input**placeholder { color red }
+        }
+        then:
+        "$css" == "input::placeholder{color: Red;}\ninput::-webkit-input-placeholder{color: Red;}"
+    }
+
+    def "should work with Properties"() {
+        when:
+        def props = new Properties()
+        props.setProperty('compress', 'true')
+        props.setProperty('convertUnderline', 'true')
+        def css = GrooCSS.withProperties(props).process {
+            p.test_me { color red }
+        }
+        then:
+        "$css" == "p.test-me{color: Red;}"
+    }
+
+    def "should work with Properties and processors"() {
+        when:
+        def props = new Properties()
+        props.setProperty('processors', 'org.groocss.proc.PlaceholderProcessor')
+        def css = GrooCSS.process(new Config(props)) {
+
+            input**placeholder { color red }
+        }
+        then:
+        "$css" == "input::placeholder{color: Red;}\ninput::-webkit-input-placeholder{color: Red;}"
+    }
+
+    def "should work with Properties and false"() {
+        when:
+        def props = new Properties()
+        props.setProperty('addWebkit', 'false')
+        props.setProperty('addMoz', 'false')
+        props.setProperty('convertUnderline', 'false')
+        def css = GrooCSS.withProperties(props).process {
+            kf('test') {
+                from { width 10.em } to { width 20.em }
+            }
+        }
+        then:
+        "$css" == '@keyframes test {\nfrom{width: 10em;}\nto{width: 20em;}\n}'
+    }
+
+    def "should work with variables"() {
+        when:
+        def css = GrooCSS.withConfig { withVariables([testWidth: '20em']).noExts() }.process {
+            kf('test') {
+                from { width 10.em } to { width testWidth }
+            }
+        }
+        then:
+        "$css" == '@keyframes test {\nfrom{width: 10em;}\nto{width: 20em;}\n}'
+    }
+
+    def "should work with Properties and variables"() {
+        when:
+        def props = new Properties()
+        props.setProperty('addWebkit', 'false')
+        props.setProperty('variable.testWidth', '20em')
+        def css = GrooCSS.withProperties(props).process {
+            kf('test') {
+                from { width 10.em } to { width testWidth }
+            }
+        }
+        then:
+        "$css" == '@keyframes test {\nfrom{width: 10em;}\nto{width: 20em;}\n}'
     }
 
 }

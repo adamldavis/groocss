@@ -216,6 +216,7 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         convert conf, groocss, charset1, addMeta
     }
 
+    @InheritConstructors
     @CompileStatic
     static class Configurer extends Config {
 
@@ -264,6 +265,18 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
         c
     }
 
+    static Configurer withProperties(Properties properties) {
+        new Configurer(properties)
+    }
+
+    static Configurer withPropertiesFile(String filePath) {
+        withPropertiesFile(new File(filePath))
+    }
+
+    static Configurer withPropertiesFile(File file) {
+        new Configurer(file)
+    }
+
     /** Main config. */
     Config config = new Config()
 
@@ -278,6 +291,13 @@ class GrooCSS extends Script implements CurrentKeyFrameHolder {
 
     GrooCSS() {
         threadLocalInstance.set(this) // set this instance for the current Thread
+    }
+
+    /** Implements getting variables for process or runBlock type invocations. */
+    def propertyMissing(String name) {
+        def value = config.variables?.get(name)
+        if (value == null) throw new MissingPropertyException(name)
+        else value
     }
 
     /** Called when addMeta is true (parameter to "convert") which is used by Gradle plugin. */

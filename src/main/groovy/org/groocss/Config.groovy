@@ -32,7 +32,7 @@ import org.groocss.proc.Processor
  * @see org.groocss.ext.StringExtension
  */
 @Canonical
-@Builder(useSetters = true)
+@Builder
 @CompileStatic
 class Config {
 
@@ -75,6 +75,49 @@ class Config {
         if (map.prettyPrint instanceof Boolean) prettyPrint = map.prettyPrint
         if (map.compress instanceof Boolean) compress = map.compress
         if (map.charset) charset = map.charset as String
+    }
+
+    /** Loads the Config from the given Properties. Lists use comma separated values and boolean
+     * values consider "true" true and everything else is false. Variables can be defined with the "variable." prefix.
+     * The "processors" property should be a comma-separated list of full class names.
+     * For example: processors=org.groocss.valid.RequireMeasurements.
+     **/
+    Config(Properties props) {
+        loadFrom(props)
+    }
+
+    protected void loadFrom(Properties props) {
+        props.propertyNames().findAll { ((String) it).startsWith('variable.') }.each { key ->
+            println "key=$key"
+            def name = (key as String).substring('variable.'.length())
+            variables.put(name, props.getProperty(key as String))
+            println "variables=$variables"
+        }
+        if (props.processors) withProcessorClasses(props.getProperty('processors')
+                .split(/,/).collect { Class.forName(it as String) } as List<Class<? extends Processor>>)
+        if (props.styleClasses) withStyleClasses(props.getProperty('styleClasses').split(/,/).collect{ it } as List<String>)
+        if (props.convertUnderline != null) convertUnderline = 'true' == props.convertUnderline
+        if (props.addMs != null) addMs = 'true' == props.addMs
+        if (props.addMoz != null) addMoz = 'true' == props.addMoz
+        if (props.addWebkit != null) addWebkit = 'true' == props.addWebkit
+        if (props.addOpera != null) addOpera = 'true' == props.addOpera
+        if (props.prettyPrint != null) prettyPrint = 'true' == props.prettyPrint
+        if (props.compress != null) compress = 'true' == props.compress
+        if (props.charset) charset = props.charset as String
+    }
+
+    /** Loads the Config from the given Properties File. */
+    Config(File file) {
+        file.withInputStream { stream ->
+            Properties props = new Properties()
+            props.load stream
+            loadFrom(props)
+        }
+    }
+
+    /** Loads the Config from the given Properties File with given path. */
+    Config(String filePath) {
+        this(new File(filePath))
     }
 
     /** If given map is not empty, adds to variables. */
