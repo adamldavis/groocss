@@ -86,12 +86,13 @@ class StyleGroup extends Selectable implements CSSPart {
 
     /** Appends to selector with additional subselector, adds a new StyleGroup element, and runs given closure on it.
      * If subselector is a psuedo-class of style-class (starts with : or .) it is appended without space. */
-    StyleGroup add(String subselector, @DelegatesTo(StyleGroup) Closure<StyleGroup> closure) {
+    StyleGroup add(String subselector, @DelegatesTo(value = StyleGroup, strategy=Closure.DELEGATE_FIRST) Closure<StyleGroup> closure) {
         boolean mod = subselector.startsWith(':') || subselector.startsWith('.')
         StyleGroup sg = new StyleGroup(selector + (mod?'':' ') + subselector, config, owner)
         StyleGroup old = this
         current = sg
         closure.delegate = sg
+        closure.resolveStrategy = Closure.DELEGATE_FIRST
         closure(sg)
         owner << sg
         current = old
