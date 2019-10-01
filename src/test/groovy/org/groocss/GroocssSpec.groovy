@@ -268,6 +268,47 @@ class GroocssSpec extends Specification {
         "$css" == ".a a:hover{color: Blue;}\n.a{color: Black;\n\tbackground: White;}"
     }
 
+
+    def "should add nested StyleGroups"() {
+        when:
+        def css = GrooCSS.process {
+            sg '.a', {
+                color black
+                background white
+                add('.b') {
+                    color blue
+                    add('.c') {
+                        color red
+                    }
+                }
+            }
+        }
+        then:
+        "$css" == ".a.b.c{color: Red;}\n.a.b{color: Blue;}\n.a{color: Black;\n\tbackground: White;}"
+    }
+
+
+    def "should respect intermediate StyleGroups with no declarations of their own."() {
+        when:
+        def css = GrooCSS.process {
+            sg '.a', {
+                color black
+                background white
+                add('.b') {
+                    def myColor = red
+                    add('.c') {
+                        color myColor
+                    }
+                    add('.d') {
+                        color green
+                    }
+                }
+            }
+        }
+        then:
+        "$css" == ".a.b.c{color: Red;}\n.a.b.d{color: Green;}\n.a{color: Black;\n\tbackground: White;}"
+    }
+
     def "should use html elements "() {
         when:
         def css = GrooCSS.withConfig { noExts() }.process {
