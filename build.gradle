@@ -29,6 +29,11 @@ mainClassName= 'org.groocss.Main'
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
+test {
+  def projectDir = "$project.projectDir"
+  inputs.files("$projectDir/index.css", "$projectDir/black.png")
+}
+
 tasks.withType(GroovyCompile) {
     groovyOptions.optimizationOptions.indy = true
 }
